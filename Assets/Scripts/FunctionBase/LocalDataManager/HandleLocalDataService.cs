@@ -2,9 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Reflection;
     using FunctionBase.Extensions;
-    using LocalData;
+    using ModestTree;
     using Newtonsoft.Json;
     using UnityEngine;
     using Zenject;
@@ -19,22 +18,26 @@
             this.diContainer = diContainer;
         }
 
+        public ILocalData GetDataFromCached(Type type) => this.localDataCached[type];
+
         public void LoadData(Type type)
         {
             if (!type.IsClass || type.IsAbstract) return;
             if (this.localDataCached.TryGetValue(type, out var localData)) return;
 
             var localDataKey = PlayerPrefs.GetString(nameof(type));
-            if (localDataKey == null)
+            if (localDataKey == null || localDataKey.IsEmpty())
             {
                 if (Activator.CreateInstance(type) is ILocalData newData)
                 {
                     newData.Init();
                     this.localDataCached.Add(type, newData);
+
+                    return;
                 }
             }
-            var savedData = JsonConvert.DeserializeObject(PlayerPrefs.GetString(nameof(type)));
-            this.localDataCached.Add(type, Convert.ChangeType(savedData, type) as ILocalData);
+            var savedData = JsonConvert.DeserializeObject(PlayerPrefs.GetString(nameof(type)),type);
+            this.localDataCached.Add(type, (ILocalData)savedData);
         }
 
         public T LoadData<T>() where T : ILocalData
@@ -75,10 +78,8 @@
 
         public void LoadAllData()
         {
-            var x = ReflectionExtension.GetAllDerivedTypes<ILocalData>();
             ReflectionExtension.GetAllDerivedTypes<ILocalData>().ForEach(type =>
             {
-                Debug.Log("a"+typeof(TestLocalData).FullName);
                 this.LoadData(type);
                 this.diContainer.Bind(type).FromInstance(this.localDataCached[type]).AsCached();
             });

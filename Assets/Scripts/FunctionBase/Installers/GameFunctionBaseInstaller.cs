@@ -9,7 +9,6 @@
         public override void InstallBindings()
         {
             LocalDataInstaller.Install(this.Container);
-            this.Container.Bind<AppService>().FromNewComponentOnNewGameObject().AsSingle();
         }
     }
 }

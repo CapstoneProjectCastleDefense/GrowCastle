@@ -18,6 +18,7 @@
         {
             if (Input.GetKey(KeyCode.A))
             {
+                var a = this.GetCurrentContainer().Resolve<TestLocalData>();
                 this.testLocalData.check++;
                 Debug.Log("Update local data "+ this.testLocalData.check);
             }
