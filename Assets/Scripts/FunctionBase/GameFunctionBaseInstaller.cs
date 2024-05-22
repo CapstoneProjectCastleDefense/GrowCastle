@@ -1,6 +1,5 @@
-﻿namespace FunctionBase.Installers
+﻿namespace FunctionBase
 {
-    using FunctionBase.Extensions;
     using FunctionBase.LocalDataManager;
     using Zenject;
 
