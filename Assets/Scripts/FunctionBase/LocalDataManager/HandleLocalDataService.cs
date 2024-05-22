@@ -13,6 +13,12 @@
         private readonly DiContainer                  diContainer;
         private readonly Dictionary<Type, ILocalData> localDataCached = new();
 
+        private readonly JsonSerializerSettings jsonSetting = new()
+        {
+            TypeNameHandling      = TypeNameHandling.Auto,
+            ReferenceLoopHandling = ReferenceLoopHandling.Ignore,
+        };
+
         public HandleLocalDataService(DiContainer diContainer)
         {
             this.diContainer = diContainer;
@@ -36,7 +42,7 @@
                     return;
                 }
             }
-            var savedData = JsonConvert.DeserializeObject(PlayerPrefs.GetString(nameof(type)),type);
+            var savedData = JsonConvert.DeserializeObject(PlayerPrefs.GetString(nameof(type)),type,this.jsonSetting);
             this.localDataCached.Add(type, (ILocalData)savedData);
         }
 
@@ -78,11 +84,8 @@
 
         public void LoadAllData()
         {
-            ReflectionExtension.GetAllDerivedTypes<ILocalData>().ForEach(type =>
-            {
-                this.LoadData(type);
-                this.diContainer.Bind(type).FromInstance(this.localDataCached[type]).AsCached();
-            });
+            ReflectionExtension.GetAllDerivedTypes<ILocalData>().ForEach(this.LoadData);
         }
     }
+
 }

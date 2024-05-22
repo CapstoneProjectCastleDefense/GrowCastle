@@ -7,7 +7,7 @@
 
     public class Test : MonoBehaviour
     {
-        [Inject] private TestLocalData testLocalData;
+        [Inject] private TestLocalDataController testLocalDataController;
         private void Awake()
         {
             this.GetCurrentContainer().Inject(this);
@@ -18,9 +18,8 @@
         {
             if (Input.GetKey(KeyCode.A))
             {
-                var a = this.GetCurrentContainer().Resolve<TestLocalData>();
-                this.testLocalData.check++;
-                Debug.Log("Update local data "+ this.testLocalData.check);
+                this.testLocalDataController.Add();
+                Debug.Log("Update local data "+ this.testLocalDataController.Get());
             }
         }
     }

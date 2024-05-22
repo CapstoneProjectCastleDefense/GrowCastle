@@ -8,13 +8,29 @@
     {
         public override void InstallBindings()
         {
+            this.BindLocalData();
+            this.Container.Bind<AppService>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
+        }
+
+        public void BindLocalData()
+        {
+            ReflectionExtension.GetAllDerivedTypes<ILocalDataController>().ForEach(type =>
+            {
+                this.Container.Bind(type).AsCached();
+            });
+
             ReflectionExtension.GetAllDerivedTypes<ILocalData>().ForEach(type =>
             {
                 var cachedData = this.Container.Resolve<HandleLocalDataService>().GetDataFromCached(type);
-                this.Container.Rebind(type).FromInstance(cachedData).AsCached();
+                if ((cachedData as IDataHaveController)?.ControllerType is { } controllerType)
+                {
+                    this.Container.Bind(type).FromInstance(cachedData).WhenInjectedInto(controllerType);
+                }
+                else
+                {
+                    this.Container.Bind(type).FromInstance(cachedData).AsCached();
+                }
             });
-            this.Container.Bind<AppService>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
-
         }
     }
 }
