@@ -1,6 +1,6 @@
 ﻿namespace Installers
 {
-    using FunctionBase.Installers;
+    using FunctionBase;
     using Zenject;
 
     public class GrowCastleInstaller : MonoInstaller<GrowCastleInstaller>
