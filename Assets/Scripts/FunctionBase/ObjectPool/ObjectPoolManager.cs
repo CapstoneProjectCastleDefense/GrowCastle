@@ -3,19 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Cysharp.Threading.Tasks;
+using FunctionBase.AssetsManager;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace FunctionBase.Utilities.ObjectPool {
     public class ObjectPoolManager {
+
+        private readonly GameAssetsManager gameAssetsManager;
         public static ObjectPoolManager Instance { get; private set; }
 
         private readonly List<GameObject> tempList = new();
         private readonly Dictionary<GameObject, ObjectPool> prefabToObjectPool = new();
         private readonly Dictionary<GameObject, ObjectPool> spawnedObjToObjectPool = new();
 
+        private readonly Dictionary<string, GameObject> cachedLoadedPrefab = new Dictionary<string, GameObject>();
+        private readonly Dictionary<GameObject, string> mapPrefabToKey = new Dictionary<GameObject, string>();
+
         private GameObject defaultRoot;
-        public ObjectPoolManager() {
+        public ObjectPoolManager(GameAssetsManager gameAssetsManager) {
+            this.gameAssetsManager = gameAssetsManager;
             Instance = this;
         }
 
@@ -39,7 +46,7 @@ namespace FunctionBase.Utilities.ObjectPool {
             {
                 while (list.Count < initialPoolSize)
                 {
-                    var obj = UnityEngine.Object.Instantiate(prefab, pool.transform);
+                    var obj = Object.Instantiate(prefab, pool.transform);
                     obj.SetActive(false);
                     list.Add(obj);
                 }
@@ -130,6 +137,40 @@ namespace FunctionBase.Utilities.ObjectPool {
 
         #endregion
 
+        #region Load prefab in bundle
+
+        public async Task<ObjectPool> CreatePool(string prefabName, int initialPoolSize, GameObject root)
+        {
+            string targetScene = "";
+            bool isAutoUnload = true;
+            var prefab = await this.gameAssetsManager.LoadAssetAsync<GameObject>(prefabName, targetScene, isAutoUnload);
+
+            if (!this.cachedLoadedPrefab.ContainsKey(prefabName))
+            {
+                this.cachedLoadedPrefab.Add(prefabName, prefab);
+                this.mapPrefabToKey.Add(prefab, prefabName);
+            }
+
+            return this.CreatePool(prefab, initialPoolSize, root);
+        }
+
+        public async Task<GameObject> Spawn(string prefabName, Transform parent, Vector3 position, Quaternion rotation)
+        {
+            string targetScene = "";
+            bool isAutoUnload = true;
+            var prefab = await this.gameAssetsManager.LoadAssetAsync<GameObject>(prefabName, targetScene, isAutoUnload);
+
+            if (!this.cachedLoadedPrefab.ContainsKey(prefabName))
+            {
+                this.cachedLoadedPrefab.Add(prefabName, prefab);
+                this.mapPrefabToKey.Add(prefab, prefabName);
+            }
+
+            return this.Spawn(prefab, parent, position, rotation);
+        }
+
+        #endregion
+        
         #region Spawn
 
         public GameObject Spawn(GameObject prefab, Transform parent, Vector3 position, Quaternion rotation) {
@@ -231,6 +272,11 @@ namespace FunctionBase.Utilities.ObjectPool {
             this.RecycleAll(prefab);
             this.CleanUpPool(prefab);
 
+            if (this.mapPrefabToKey.Remove(prefab, out var prefabName))
+            {
+                this.gameAssetsManager.ReleaseAsset(prefabName);
+                this.cachedLoadedPrefab.Remove(prefabName);
+            }
 
             this.prefabToObjectPool.Remove(prefab);
         }
