@@ -13,12 +13,8 @@ namespace FunctionBase.Utilities.ObjectPool {
         private readonly GameAssetsManager gameAssetsManager;
         public static ObjectPoolManager Instance { get; private set; }
 
-        private readonly List<GameObject> tempList = new();
         private readonly Dictionary<GameObject, ObjectPool> prefabToObjectPool = new();
         private readonly Dictionary<GameObject, ObjectPool> spawnedObjToObjectPool = new();
-
-        private readonly Dictionary<string, GameObject> cachedLoadedPrefab = new Dictionary<string, GameObject>();
-        private readonly Dictionary<GameObject, string> mapPrefabToKey = new Dictionary<GameObject, string>();
 
         private GameObject defaultRoot;
         public ObjectPoolManager(GameAssetsManager gameAssetsManager) {
@@ -139,38 +135,24 @@ namespace FunctionBase.Utilities.ObjectPool {
 
         #region Load prefab in bundle
 
-        public async Task<ObjectPool> CreatePool(string prefabName, int initialPoolSize, GameObject root)
-        {
+        public async Task<ObjectPool> CreatePool(string prefabName, int initialPoolSize, GameObject root) {
             string targetScene = "";
             bool isAutoUnload = true;
             var prefab = await this.gameAssetsManager.LoadAssetAsync<GameObject>(prefabName, targetScene, isAutoUnload);
-
-            if (!this.cachedLoadedPrefab.ContainsKey(prefabName))
-            {
-                this.cachedLoadedPrefab.Add(prefabName, prefab);
-                this.mapPrefabToKey.Add(prefab, prefabName);
-            }
 
             return this.CreatePool(prefab, initialPoolSize, root);
         }
 
-        public async Task<GameObject> Spawn(string prefabName, Transform parent, Vector3 position, Quaternion rotation)
-        {
+        public async Task<GameObject> Spawn(string prefabName, Transform parent, Vector3 position, Quaternion rotation) {
             string targetScene = "";
             bool isAutoUnload = true;
             var prefab = await this.gameAssetsManager.LoadAssetAsync<GameObject>(prefabName, targetScene, isAutoUnload);
-
-            if (!this.cachedLoadedPrefab.ContainsKey(prefabName))
-            {
-                this.cachedLoadedPrefab.Add(prefabName, prefab);
-                this.mapPrefabToKey.Add(prefab, prefabName);
-            }
 
             return this.Spawn(prefab, parent, position, rotation);
         }
 
         #endregion
-        
+
         #region Spawn
 
         public GameObject Spawn(GameObject prefab, Transform parent, Vector3 position, Quaternion rotation) {
@@ -239,18 +221,19 @@ namespace FunctionBase.Utilities.ObjectPool {
         public void RecycleAll(GameObject prefab) {
             if (this.prefabToObjectPool.TryGetValue(prefab, out var pool) && pool.SpawnedObjects.Count > 0)
             {
-                this.tempList.AddRange(pool.SpawnedObjects);
-                for (int i = 0; i < this.tempList.Count; ++i)
-                    this.Recycle(this.tempList[i]);
-                this.tempList.Clear();
+                for (int i = 0; i < pool.SpawnedObjects.Count; ++i)
+                {
+                    this.Recycle(pool.SpawnedObjects[i]);
+                }
             }
         }
 
         public void RecycleAll() {
-            this.tempList.AddRange(this.spawnedObjToObjectPool.Keys);
-            for (int i = 0; i < this.tempList.Count; ++i)
-                this.Recycle(this.tempList[i]);
-            this.tempList.Clear();
+            List<GameObject> tempList = new List<GameObject>();
+            tempList.AddRange(this.spawnedObjToObjectPool.Keys);
+            for (int i = 0; i < tempList.Count; ++i)
+                this.Recycle(tempList[i]);
+            tempList.Clear();
         }
 
         public void RecycleAll<T>(T prefab) where T : Component { this.RecycleAll(prefab.gameObject); }
@@ -272,11 +255,6 @@ namespace FunctionBase.Utilities.ObjectPool {
             this.RecycleAll(prefab);
             this.CleanUpPool(prefab);
 
-            if (this.mapPrefabToKey.Remove(prefab, out var prefabName))
-            {
-                this.gameAssetsManager.ReleaseAsset(prefabName);
-                this.cachedLoadedPrefab.Remove(prefabName);
-            }
 
             this.prefabToObjectPool.Remove(prefab);
         }
