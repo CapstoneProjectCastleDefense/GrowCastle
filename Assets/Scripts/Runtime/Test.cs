@@ -1,5 +1,6 @@
 ﻿namespace Runtime
 {
+    using Blueprints;
     using FunctionBase.Extensions;
     using LocalData;
     using UnityEngine;
@@ -8,6 +9,7 @@
     public class Test : MonoBehaviour
     {
         [Inject] private TestLocalDataController testLocalDataController;
+        [Inject] private TestBlueprint           testBlueprint;
         private void Awake()
         {
             this.GetCurrentContainer().Inject(this);
@@ -20,6 +22,14 @@
             {
                 this.testLocalDataController.Add();
                 Debug.Log("Update local data "+ this.testLocalDataController.Get());
+            }
+
+            if (Input.GetKey(KeyCode.B))
+            {
+                foreach (var keyValuePair in this.testBlueprint.Data[1].LevelRecords)
+                {
+                    Debug.Log("Dm: "+keyValuePair.Value.Damage);
+                }
             }
         }
     }
