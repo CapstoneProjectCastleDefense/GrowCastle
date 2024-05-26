@@ -36,11 +36,6 @@
             #endif
         }
         
-        public static T GetCustomAttribute<T>(this object instance) where T : Attribute
-        {
-            return (T)Attribute.GetCustomAttribute(instance.GetType(), typeof(T));
-        }
-        
         public static List<FieldInfo> GetFieldInfoWithAttribute<T>(this object instance) where T : Attribute
         {
             var fieldInfos = instance.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
