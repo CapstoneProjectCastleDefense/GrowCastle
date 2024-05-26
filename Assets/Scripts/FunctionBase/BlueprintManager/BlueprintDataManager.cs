@@ -28,7 +28,7 @@
         
         private async Task<string> GetRawData(IBlueprintData blueprint)
         {
-            var dataPath = blueprint.GetCustomAttribute<DataInfoAttribute>().DataPath;
+            var dataPath = blueprint.GetCustomAttribute<DataInfoAttribute>().DataPath; 
             var rawData  = (await Addressables.LoadAssetAsync<TextAsset>(dataPath).ToUniTask(Progress.CreateOnlyValueChanged<float>(progress =>
             {
                 this.CurrentLoadedProgress += progress;

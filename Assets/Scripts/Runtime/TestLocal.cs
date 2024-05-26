@@ -1,10 +1,10 @@
 ﻿namespace Runtime
 {
     using System;
+    using FunctionBase.BlueprintManager;
     using FunctionBase.LocalDataManager;
     using UnityEngine;
     using UnityEngine.SceneManagement;
-    using UnityFoundation.Scripts.BlueprintManager;
     using Zenject;
 
     public class TestLocal : MonoBehaviour
@@ -19,6 +19,5 @@
             Debug.Log("Load all data");
             SceneManager.LoadScene("Scenes/MainScene");
         }
-
     }
 }
