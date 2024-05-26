@@ -1,4 +1,4 @@
-﻿namespace UnityFoundation.Scripts.BlueprintManager.BlueprintBase
+﻿namespace FunctionBase.BlueprintManager.BlueprintBase
 {
     public interface IDataRecord
     {

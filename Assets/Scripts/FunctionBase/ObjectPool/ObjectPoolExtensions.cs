@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿namespace FunctionBase.ObjectPool {
+    using System.Collections.Generic;
+    using UnityEngine;
 
-namespace FunctionBase.Utilities.ObjectPool {
     public static class ObjectPoolExtensions {
         public static ObjectPool CreatePool<T>(this T prefab, GameObject root = null) where T : Component {
             return ObjectPoolManager.Instance.CreatePool(prefab, 0, root);

@@ -1,7 +1,6 @@
-namespace UnityFoundation.Scripts.Converter.BaseConvert
+namespace FunctionBase.Converter.BaseConvert
 {
     using System;
-    using global::Converter.Base;
 
     public abstract class BaseConverter : IConverter
     {

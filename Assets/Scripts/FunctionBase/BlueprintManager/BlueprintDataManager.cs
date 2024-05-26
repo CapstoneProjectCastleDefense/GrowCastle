@@ -1,4 +1,4 @@
-﻿namespace UnityFoundation.Scripts.BlueprintManager
+﻿namespace FunctionBase.BlueprintManager
 {
     using System.Linq;
     using System.Threading.Tasks;

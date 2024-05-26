@@ -1,8 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
-
-namespace FunctionBase.Utilities.ObjectPool 
+﻿namespace FunctionBase.ObjectPool 
 {
+    using System.Collections.Generic;
+    using UnityEngine;
 
 
     public class ObjectPool : MonoBehaviour {
@@ -16,55 +15,55 @@ namespace FunctionBase.Utilities.ObjectPool
 
         #region Properties
 
-        public GameObject Prefab { get => _prefab; set => _prefab = value; }
-        public List<GameObject> PooledObjects { get => _pooledObjects; set => _pooledObjects = value; }
-        public List<GameObject> SpawnedObjects { get => _spawnedObjects; set => _spawnedObjects = value; }
-        public bool IsDestroying { get => isDestroying; set => isDestroying = value; }
+        public GameObject       Prefab         { get => this._prefab;         set => this._prefab = value; }
+        public List<GameObject> PooledObjects  { get => this._pooledObjects;  set => this._pooledObjects = value; }
+        public List<GameObject> SpawnedObjects { get => this._spawnedObjects; set => this._spawnedObjects = value; }
+        public bool             IsDestroying   { get => this.isDestroying;    set => this.isDestroying = value; }
 
         #endregion
 
         public GameObject Spawn(Transform parent, Vector3 position, Quaternion rotation) {
             GameObject pooledObject = null;
-            var pooledObjectsCount = _pooledObjects.Count;
+            var pooledObjectsCount = this._pooledObjects.Count;
 
             while (pooledObject == null && pooledObjectsCount > 0)
             {
-                pooledObject = _pooledObjects[pooledObjectsCount - 1];
-                _pooledObjects.RemoveAt(pooledObjectsCount - 1);
+                pooledObject = this._pooledObjects[pooledObjectsCount - 1];
+                this._pooledObjects.RemoveAt(pooledObjectsCount - 1);
             }
             if (!pooledObject)
             {
-                pooledObject = Instantiate(_prefab);
+                pooledObject = Instantiate(this._prefab);
             }
             pooledObject.transform.SetLocalPositionAndRotation(position, rotation);
             pooledObject.transform.parent = parent ? parent : this.transform;
             pooledObject.SetActive(true);
-            _spawnedObjects.Add(pooledObject);
+            this._spawnedObjects.Add(pooledObject);
             return pooledObject;
         }
 
         public void Recycle(GameObject spawnObject) {
             if (!spawnObject) return;
-            _pooledObjects.Add(spawnObject);
-            _spawnedObjects.Remove(spawnObject);
+            this._pooledObjects.Add(spawnObject);
+            this._spawnedObjects.Remove(spawnObject);
             spawnObject.SetActive(false);
-            if (!IsDestroying)
+            if (!this.IsDestroying)
             {
                 spawnObject.transform.SetParent(this.transform);
             }
         }
 
         public void CleanUpPool() {
-            foreach (GameObject obj in _pooledObjects)
+            foreach (GameObject obj in this._pooledObjects)
             {
                 Destroy(obj);
             }
-            _pooledObjects.Clear();
+            this._pooledObjects.Clear();
         }
 
         private void OnDestroy() {
-            IsDestroying = true;
-            _prefab.CleanUpAll();
+            this.IsDestroying = true;
+            this._prefab.CleanUpAll();
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace UnityFoundation.Scripts.BlueprintManager
+﻿namespace FunctionBase.BlueprintManager
 {
     using FunctionBase.BlueprintManager.BlueprintBase;
     using FunctionBase.Extensions;
