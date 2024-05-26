@@ -1,4 +1,4 @@
-namespace TheOneStudio.HyperCasual.Extensions
+namespace FunctionBase.Extensions
 {
     public static class StringExtensions
     {

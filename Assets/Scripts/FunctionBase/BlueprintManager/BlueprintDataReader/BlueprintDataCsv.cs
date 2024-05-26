@@ -1,10 +1,9 @@
-﻿namespace UnityFoundation.Scripts.BlueprintManager
+﻿namespace FunctionBase.BlueprintManager.BlueprintDataReader
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
     using FunctionBase.BlueprintManager.BlueprintBase;
-    using FunctionBase.BlueprintManager.BlueprintDataReader;
     using FunctionBase.Extensions;
 
     public abstract class BlueprintDataCsv<TKey, TData> : IBlueprintData

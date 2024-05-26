@@ -1,10 +1,10 @@
-namespace Converter.Implement
+namespace FunctionBase.Converter.Implement
 {
     using System;
     using System.Collections;
     using System.Collections.Generic;
     using System.Linq;
-    using Converter.Base;
+    using FunctionBase.Converter.BaseConvert;
 
     public class DictionaryGenericConverter : ListGenericConverter
     {

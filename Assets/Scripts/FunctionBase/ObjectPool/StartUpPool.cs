@@ -1,4 +1,4 @@
-﻿namespace FunctionBase.Utilities.ObjectPool 
+﻿namespace FunctionBase.ObjectPool 
 {
     using System;
     using UnityEngine;

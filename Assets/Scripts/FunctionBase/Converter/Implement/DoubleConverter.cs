@@ -1,9 +1,8 @@
-namespace Converter.Implement
+namespace FunctionBase.Converter.Implement
 {
     using System;
-    using Converter.Base;
-    using TheOneStudio.HyperCasual.Extensions;
-    using UnityFoundation.Scripts.Converter.BaseConvert;
+    using FunctionBase.Converter.BaseConvert;
+    using FunctionBase.Extensions;
 
     public class DoubleConverter : BaseConverter
     {

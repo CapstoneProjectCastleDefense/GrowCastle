@@ -1,7 +1,7 @@
 ﻿namespace Blueprints
 {
     using FunctionBase.BlueprintManager.BlueprintBase;
-    using UnityFoundation.Scripts.BlueprintManager;
+    using FunctionBase.BlueprintManager.BlueprintDataReader;
 
     [DataInfo("Test")] public class TestBlueprint : BlueprintDataCsv<int, TestRecord>
     {

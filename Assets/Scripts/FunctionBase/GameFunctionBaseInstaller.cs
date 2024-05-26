@@ -1,8 +1,8 @@
 ﻿namespace FunctionBase
 {
     using FunctionBase.AssetsManager;
+    using FunctionBase.BlueprintManager;
     using FunctionBase.LocalDataManager;
-    using UnityFoundation.Scripts.BlueprintManager;
     using Zenject;
 
     public class GameFunctionBaseInstaller :  Installer<GameFunctionBaseInstaller>

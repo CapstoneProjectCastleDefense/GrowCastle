@@ -1,13 +1,13 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using Cysharp.Threading.Tasks;
-using FunctionBase.AssetsManager;
-using UnityEngine;
-using Object = UnityEngine.Object;
+﻿namespace FunctionBase.ObjectPool {
+    using System;
+    using System.Collections;
+    using System.Collections.Generic;
+    using System.Threading.Tasks;
+    using Cysharp.Threading.Tasks;
+    using FunctionBase.AssetsManager;
+    using UnityEngine;
+    using Object = UnityEngine.Object;
 
-namespace FunctionBase.Utilities.ObjectPool {
     public class ObjectPoolManager {
 
         private readonly GameAssetsManager gameAssetsManager;

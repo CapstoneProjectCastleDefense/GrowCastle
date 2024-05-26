@@ -1,10 +1,9 @@
-namespace Converter.Base
+namespace FunctionBase.Converter.BaseConvert
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Converter.Base;
-    using Converter.Implement;
+    using FunctionBase.Converter.Implement;
 
     public class ConverterManager
     {
