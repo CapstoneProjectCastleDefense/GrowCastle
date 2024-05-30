@@ -16,7 +16,7 @@
                 .SelectMany(GetTypesSafely)
                 .Where(type => type.IsClass && !type.IsAbstract && baseType.IsAssignableFrom(type)).ToList();
         }
-
+        
         public static IEnumerable<Type> GetTypesSafely(Assembly assembly)
         {
             #if UNITY_EDITOR
@@ -34,6 +34,20 @@
             #else
                     return assembly.GetTypes();
             #endif
+        }
+        
+        public static List<FieldInfo> GetFieldInfoWithAttribute<T>(this object instance) where T : Attribute
+        {
+            var fieldInfos = instance.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+            
+            return fieldInfos.Where(field => field.CustomAttributes.Any()).Where(field => field.CustomAttributes.FirstOrDefault()?.AttributeType == typeof(T)).ToList();
+        }
+        
+        public static List<FieldInfo> GetFieldInfo(this object instance) 
+        {
+            var fieldInfos = instance.GetType().GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public);
+
+            return fieldInfos.ToList();
         }
     }
 }

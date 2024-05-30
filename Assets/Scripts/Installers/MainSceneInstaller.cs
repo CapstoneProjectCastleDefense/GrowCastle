@@ -12,7 +12,7 @@
             this.Container.Bind<AppService>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
         }
 
-        public void BindLocalData()
+        private void BindLocalData()
         {
             ReflectionExtension.GetAllDerivedTypes<ILocalDataController>().ForEach(type =>
             {
