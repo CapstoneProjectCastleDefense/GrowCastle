@@ -17,7 +17,7 @@ namespace Zenject.SpaceFighter
     //    object composition root separately at runtime
     //
     // Uncomment if you want to add alternative game settings
-    //[CreateAssetMenu(menuName = "Space Fighter/Game Settings")]
+    //[CreateAssetMenu(menuName = "Space Fighter/GameStateMachine Settings")]
     public class GameSettingsInstaller : ScriptableObjectInstaller<GameSettingsInstaller>
     {
         public EnemySpawner.Settings EnemySpawner;
