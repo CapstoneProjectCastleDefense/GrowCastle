@@ -12,6 +12,7 @@
         UniTask      Open();
         UniTask      Close();
         void         Hide();
+        void         Show();
     }
 
     public class ScreenView : MonoBehaviour, IScreenView
@@ -36,11 +37,17 @@
             this.ScreenStatus = ScreenStatus.Closed;
             await this.PlayOutro();
         }
-        
+
         public void Hide()
         {
-            this.ScreenStatus = ScreenStatus.Hide;
-            throw new NotImplementedException();
+            this.ScreenStatus                      = ScreenStatus.Hide;
+            this.GetComponent<CanvasGroup>().alpha = 0;
+        }
+
+        public void Show()
+        {
+            this.ScreenStatus                      = ScreenStatus.Opened;
+            this.GetComponent<CanvasGroup>().alpha = 1;
         }
 
         private UniTask PlayIntro() { return this.PlayTransition(this.IntroPlayableDirector); }

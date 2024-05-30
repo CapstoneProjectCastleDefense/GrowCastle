@@ -17,7 +17,6 @@
     {
         UniTask<T> OpenScreen<T>() where T : IScreenPresenter;
         UniTask<T> CloseScreen<T>() where T : IScreenPresenter;
-        UniTask<T> OpenScreenOverlay<T>();
 
         UniTask CloseAllScreens();
         UniTask CloseCurrentScreen();
@@ -27,15 +26,14 @@
 
     public class ScreenManager : MonoBehaviour, IScreenManager
     {
-        private List<IScreenPresenter>                      activeScreenPresenters;
         private Dictionary<Type, IScreenPresenter>          typeToLoadedScreenPresenters;
         private Dictionary<Type, UniTask<IScreenPresenter>> typeToPendingScreenPresenters;
+        private List<IScreenPresenter>                      activeScreenPresenters;
 
-        public Transform                          CurrentRootScreen   { get; set; }
-        public Transform                          CurrentHiddenRoot   { get; set; }
-        public Transform                          CurrentOverlayRoot  { get; set; }
-        public RootUICanvas                       RootUICanvas        { get; set; }
-        public ReactiveProperty<IScreenPresenter> CurrentActiveScreen { get; private set; }
+        public Transform    CurrentRootScreen  { get; set; }
+        public Transform    CurrentHiddenRoot  { get; set; }
+        public Transform    CurrentOverlayRoot { get; set; }
+        public RootUICanvas RootUICanvas       { get; set; }
 
         private GameAssetsManager gameAssets;
 
@@ -49,6 +47,7 @@
             if (nextScreen != null)
             {
                 await nextScreen.OpenViewAsync();
+                this.activeScreenPresenters.Add(nextScreen);
 
                 return nextScreen;
             }
@@ -94,17 +93,14 @@
         private bool CheckScreenIsPopup(IScreenPresenter screenPresenter)  { return screenPresenter.GetType().IsSubclassOfRawGeneric(typeof(PopupPresenter<>)); }
         private bool CheckPopupIsOverlay(IScreenPresenter screenPresenter) { return this.CheckScreenIsPopup(screenPresenter) && screenPresenter.GetCustomAttribute<PopupInfoAttribute>().IsOverlay; }
 
-        public UniTask<T> CloseScreen<T>() where T : IScreenPresenter
+        public async UniTask<T> CloseScreen<T>() where T : IScreenPresenter
         {
-            var screenType = typeof(T);
-            if (this.typeToLoadedScreenPresenters.Remove(screenType, out var screenPresenter))
-            {
-                screenPresenter.CloseViewAsync();
-            }
+            var screenType      = typeof(T);
+            var screenPresenter = this.typeToLoadedScreenPresenters.GetValueOrDefault(screenType);
+            if (screenPresenter != null) await screenPresenter.CloseViewAsync();
 
             return default;
         }
-        public UniTask<T> OpenScreenOverlay<T>() { throw new NotImplementedException(); }
         public UniTask CloseAllScreens()
         {
             var cacheActiveScreens = this.activeScreenPresenters.ToList();
@@ -115,13 +111,16 @@
                 screen.CloseViewAsync();
             }
 
-            this.CurrentActiveScreen.Value = null;
             return UniTask.CompletedTask;
         }
         public async UniTask CloseCurrentScreen()
         {
-            if (this.activeScreenPresenters.Count > 0)
-                await this.activeScreenPresenters.Last().CloseViewAsync();
+            if (this.activeScreenPresenters.Count == 0) return;
+
+            var currentScreen = this.activeScreenPresenters.Last();
+            await currentScreen.CloseViewAsync();
+            this.activeScreenPresenters.Remove(currentScreen);
+            await this.activeScreenPresenters.Last().OpenViewAsync();
         }
     }
 }
