@@ -1,6 +1,7 @@
-﻿namespace TheOneStudio.HyperCasual.StateMachines.Game.States
+﻿namespace Runtime.StateMachines.GameStateMachine.States
 {
-    using TheOneStudio.HyperCasual.StateMachines.Game.Interfaces;
+    using Runtime.StateMachines.GameStateMachine;
+    using Runtime.StateMachines.GameStateMachine.Interfaces;
 
     public abstract class BaseGameState : IGameState
     {

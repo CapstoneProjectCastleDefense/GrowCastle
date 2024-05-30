@@ -1,6 +1,6 @@
-namespace TheOneStudio.HyperCasual.StateMachines.Game.Interfaces
+namespace Runtime.StateMachines.GameStateMachine.Interfaces
 {
-    using TheOneStudio.HyperCasual.Others.StateMachine.Interface;
+    using Runtime.StateMachines.StateMachineBase.Interface;
 
     public interface IGameState : IState
     {

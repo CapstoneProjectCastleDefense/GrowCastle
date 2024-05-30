@@ -1,11 +1,11 @@
-namespace TheOneStudio.HyperCasual.StateMachines.Game
+namespace Runtime.StateMachines.GameStateMachine
 {
     using System.Collections.Generic;
     using System.Linq;
-    using TheOneStudio.HyperCasual.Others.StateMachine.Interface;
-    using TheOneStudio.HyperCasual.StateMachines.Game.Interfaces;
-    using TheOneStudio.HyperCasual.StateMachines.Game.States;
-    using TheOneStudio.UITemplate.UITemplate.Others.StateMachine.Controller;
+    using Runtime.StateMachines.GameStateMachine.Interfaces;
+    using Runtime.StateMachines.GameStateMachine.States;
+    using Runtime.StateMachines.StateMachineBase.Controller;
+    using Runtime.StateMachines.StateMachineBase.Interface;
     using Zenject;
 
     public class GameStateMachine : StateMachine, IInitializable

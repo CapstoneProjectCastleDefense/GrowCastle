@@ -10,7 +10,6 @@
     using FunctionBase.BaseScreen.View;
     using FunctionBase.Extensions;
     using R3;
-    using Unity.VisualScripting;
     using UnityEngine;
     using Zenject;
 
@@ -105,7 +104,7 @@
 
             return default;
         }
-        public UniTask<T> OpenScreenOverlay<T>() { throw new System.NotImplementedException(); }
+        public UniTask<T> OpenScreenOverlay<T>() { throw new NotImplementedException(); }
         public UniTask CloseAllScreens()
         {
             var cacheActiveScreens = this.activeScreenPresenters.ToList();

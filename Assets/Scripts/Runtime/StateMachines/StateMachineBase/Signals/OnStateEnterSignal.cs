@@ -1,6 +1,6 @@
-﻿namespace TheOneStudio.UITemplate.UITemplate.Others.StateMachine.Signals
+﻿namespace Runtime.StateMachines.StateMachineBase.Signals
 {
-    using TheOneStudio.HyperCasual.Others.StateMachine.Interface;
+    using Runtime.StateMachines.StateMachineBase.Interface;
 
     public class OnStateEnterSignal
     {

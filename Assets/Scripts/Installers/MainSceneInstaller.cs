@@ -2,6 +2,7 @@
 {
     using FunctionBase.Extensions;
     using FunctionBase.LocalDataManager;
+    using Runtime.StateMachines.GameStateMachine;
     using Zenject;
 
     public class MainSceneInstaller : MonoInstaller<MainSceneInstaller>
@@ -9,6 +10,7 @@
         public override void InstallBindings()
         {
             this.BindLocalData();
+            GameStateMachineInstaller.Install(this.Container);
             this.Container.Bind<AppService>().FromNewComponentOnNewGameObject().AsSingle().NonLazy();
         }
 

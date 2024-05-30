@@ -1,6 +1,6 @@
-namespace TheOneStudio.HyperCasual.StateMachines.Game
+namespace Runtime.StateMachines.GameStateMachine
 {
-    using TheOneStudio.HyperCasual.StateMachines.Game.Interfaces;
+    using Runtime.StateMachines.GameStateMachine.Interfaces;
     using Zenject;
 
     public class GameStateMachineInstaller : Installer<GameStateMachineInstaller>

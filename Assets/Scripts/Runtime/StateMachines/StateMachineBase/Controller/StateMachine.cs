@@ -1,11 +1,10 @@
-namespace TheOneStudio.UITemplate.UITemplate.Others.StateMachine.Controller
+namespace Runtime.StateMachines.StateMachineBase.Controller
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using TheOneStudio.HyperCasual.Others.StateMachine.Interface;
-    using TheOneStudio.UITemplate.UITemplate.Others.StateMachine.Interface;
-    using TheOneStudio.UITemplate.UITemplate.Others.StateMachine.Signals;
+    using Runtime.StateMachines.StateMachineBase.Interface;
+    using Runtime.StateMachines.StateMachineBase.Signals;
     using UnityEngine;
     using Zenject;
 

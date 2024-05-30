@@ -1,4 +1,4 @@
-﻿namespace TheOneStudio.HyperCasual.StateMachines.Game.States
+﻿namespace Runtime.StateMachines.GameStateMachine.States
 {
     public class GameStartWaveState : BaseGameState
     {
