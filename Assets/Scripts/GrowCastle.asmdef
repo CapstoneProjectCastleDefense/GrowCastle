@@ -1,0 +1,10 @@
+﻿{
+  "name": "GrowCastle",
+  "references": [
+    "GameFoundation.Script",
+    "GameFoundation.Utilities",
+    "Zenject",
+    "Zenject-Signals",
+    "UniTask"
+  ]
+}

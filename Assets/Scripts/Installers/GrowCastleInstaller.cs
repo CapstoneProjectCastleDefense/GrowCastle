@@ -1,13 +1,13 @@
 ﻿namespace Installers
 {
-    using FunctionBase;
+    using GameFoundation.Scripts;
     using Zenject;
 
     public class GrowCastleInstaller : MonoInstaller<GrowCastleInstaller>
     {
         public override void InstallBindings()
         {
-            GameFunctionBaseInstaller.Install(this.Container);
+            GameFoundationInstaller.Install(this.Container);
         }
     }
 }
