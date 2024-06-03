@@ -1,0 +1,10 @@
+﻿{
+  "name": "GrowCastle.Base",
+  "references": [
+    "Zenject",
+    "UniTask",
+    "UniTask.Addressables",
+    "Unity.ResourceManager",
+    "Unity.Addressables"
+  ]
+}
