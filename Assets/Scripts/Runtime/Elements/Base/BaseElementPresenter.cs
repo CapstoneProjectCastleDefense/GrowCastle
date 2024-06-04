@@ -3,7 +3,6 @@
     using System;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
-    using TheOneStudio.HyperCasual.Runtime.Elements.Base;
     using UnityEngine;
     using Zenject;
 

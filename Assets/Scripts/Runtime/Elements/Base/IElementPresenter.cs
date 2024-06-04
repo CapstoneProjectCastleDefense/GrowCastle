@@ -1,4 +1,4 @@
-﻿namespace TheOneStudio.HyperCasual.Runtime.Elements.Base
+﻿namespace Runtime.Elements.Base
 {
     using UnityEngine;
 
