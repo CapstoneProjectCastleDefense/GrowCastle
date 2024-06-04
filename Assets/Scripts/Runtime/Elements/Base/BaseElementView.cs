@@ -1,7 +1,6 @@
 ﻿namespace Runtime.Elements.Base
 {
     using System;
-    using TheOneStudio.HyperCasual.Runtime.Elements.Base;
     using UnityEngine;
 
     public abstract class BaseElementView : MonoBehaviour
