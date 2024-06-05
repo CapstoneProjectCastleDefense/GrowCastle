@@ -6,13 +6,13 @@
     using UnityEngine;
     using Zenject;
 
-    public abstract class BaseElementPresenter<TModel, TView, TPresenter> : IInitializable,IElementPresenter, IDisposable where TView : BaseElementView where TPresenter : BaseElementPresenter<TModel, TView, TPresenter>
+    public abstract class BaseElementPresenter<TModel, TView, TPresenter> : IInitializable,IElementPresenter, IDisposable where TView : BaseElementView where TPresenter : BaseElementPresenter<TModel, TView, TPresenter> where TModel : IElementModel
     {
-        protected ObjectPoolManager                             objectPoolManager;
+        protected ObjectPoolManager                             ObjectPoolManager;
         protected BaseElementPresenter(TModel model, ObjectPoolManager objectPoolManager)
         {
             this.Model             = model;
-            this.objectPoolManager = objectPoolManager;
+            this.ObjectPoolManager = objectPoolManager;
         }
         public TModel Model { get; }
         public TView  View  { get; set; }
@@ -34,8 +34,6 @@
         }
 
         protected abstract UniTask<GameObject> CreateView();
-
-        protected abstract void HandleCollisionEnter(Collision collision);
 
         public class Factory : PlaceholderFactory<TModel, TPresenter>
         {

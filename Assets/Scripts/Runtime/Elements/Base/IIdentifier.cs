@@ -1,11 +1,11 @@
-﻿namespace Runtime.BasePoolAbleItem
+﻿namespace Runtime.Elements.Base
 {
     public interface IIdentifier
     {
         public string Id { get; set; }
     }
 
-    public interface IPoolAbleItemModel : IIdentifier
+    public interface IElementModel : IIdentifier
     {
         public string AddressableName { get; set; }
     }

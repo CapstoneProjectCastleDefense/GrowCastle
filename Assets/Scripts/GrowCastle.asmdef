@@ -6,6 +6,7 @@
     "GameFoundation.Utilities",
     "Zenject",
     "Zenject-Signals",
-    "UniTask"
+    "UniTask",
+    "DOTween.Modules"
   ]
 }

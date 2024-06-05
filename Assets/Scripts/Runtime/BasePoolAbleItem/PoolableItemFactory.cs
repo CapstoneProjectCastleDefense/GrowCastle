@@ -11,7 +11,7 @@
 
         public TController Create<TController, TModel>(TModel model)
             where TController : IPoolableItemPresenter
-            where TModel : IPoolAbleItemModel
+            where TModel : IElementModel
         {
             var controller = this.diContainer.Instantiate<TController>(new object[] { model });
             controller.Initialize();

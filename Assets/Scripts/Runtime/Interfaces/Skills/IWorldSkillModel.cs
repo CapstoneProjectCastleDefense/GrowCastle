@@ -1,8 +1,9 @@
 ﻿namespace Runtime.Interfaces.Skills
 {
     using Runtime.BasePoolAbleItem;
+    using Runtime.Elements.Base;
 
-    public interface IWorldSkillModel : IPoolAbleItemModel
+    public interface IWorldSkillModel : IElementModel
     {
         
     }
