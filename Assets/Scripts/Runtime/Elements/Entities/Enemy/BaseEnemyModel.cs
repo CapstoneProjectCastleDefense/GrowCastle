@@ -1,11 +1,11 @@
 ﻿namespace Runtime.Elements.Entities.Enemy
 {
     using System.Collections.Generic;
-    using Runtime.BasePoolAbleItem;
+    using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Interfaces;
 
-    public class BaseEnemyModel : IPoolAbleItemModel, IHaveStats
+    public abstract class BaseEnemyModel : IElementModel, IHaveStats
     {
         public string                       Id              { get; set; }
         public string                       AddressableName { get; set; }
