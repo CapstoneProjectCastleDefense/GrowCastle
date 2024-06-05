@@ -17,8 +17,18 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 7cfac8fdc5a55f8448e6ccda2e52d719
   m_SerializeEntries:
-  - m_GUID: 464c0330877f4d8f91afec782d67b4e4
-    m_Address: Test
+  - m_GUID: 322adb2c4ef9eba49bcc9063b59f470d
+    m_Address: AudioSource
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6bd68deb02971bb4f87c4b4715def2be
+    m_Address: LoadingScreenView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f4323a562a96d7f49b6286ccc3f3a5fc
+    m_Address: MainScene
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
