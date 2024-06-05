@@ -7,6 +7,14 @@
     "Zenject",
     "Zenject-Signals",
     "UniTask",
-    "DOTween.Modules"
+    "DOTween.Modules",
+    "GameFoundation.BlueprintFlow",
+    "GameFoundation.UIModule",
+    "GameFoundation.Models",
+    "GameFoundation.AssetLibrary",
+    "Unity.ResourceManager",
+    "Unity.TextMeshPro",
+    "Unity.Addressables",
+    "UniTask.Addressables"
   ]
 }
