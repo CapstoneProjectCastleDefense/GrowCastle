@@ -12,7 +12,7 @@
         private readonly ObjectPoolManager objectPoolManager;
 
         protected BasePoolableItemPresenter(TModel model,
-                                            ObjectPoolManager objectPoolManager)
+            ObjectPoolManager objectPoolManager)
         {
             this.objectPoolManager = objectPoolManager;
             this.Model             = model;

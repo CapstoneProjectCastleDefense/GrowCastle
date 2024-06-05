@@ -1,9 +1,8 @@
 ﻿namespace Runtime.Interfaces.Skills
 {
-    using Runtime.BasePoolAbleItem;
     using Runtime.Elements.Base;
 
-    public interface ISkillModel : IElementModel
+    public interface IEntitySkillModel : IElementModel
     {
 
         string Description { get; }
