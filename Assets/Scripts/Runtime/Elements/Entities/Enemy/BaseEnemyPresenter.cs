@@ -4,7 +4,7 @@
     using Runtime.BasePoolAbleItem;
     using Runtime.Interfaces.Entities;
 
-    public abstract class BaseEnemyPresenter : BasePoolableItemPresenter<BaseEnemyModel, BaseEnemyView>, IEnemyPresenter
+    public abstract class BaseEnemyPresenter : BaseGameElementPresenter<BaseEnemyModel, BaseEnemyView>, IEnemyPresenter
     {
         protected BaseEnemyPresenter(BaseEnemyModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager)
         {

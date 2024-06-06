@@ -1,10 +1,9 @@
 ﻿namespace Runtime.Interfaces.Skills
 {
-    using Runtime.Elements.Base;
+    using Runtime.BasePoolAbleItem;
 
-    public interface IEntitySkillModel : IElementModel
+    public interface IEntitySkillModel : IGameElementModel
     {
-
         string Description { get; }
         string Name        { get; }
         string IconPath    => this.AddressableName;

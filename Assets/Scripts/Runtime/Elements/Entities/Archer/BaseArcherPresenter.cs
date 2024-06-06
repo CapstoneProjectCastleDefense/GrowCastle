@@ -5,7 +5,7 @@
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Skills;
 
-    public abstract class BaseArcherPresenter : BasePoolableItemPresenter<BaseArcherModel, BaseArcherView>, IArcherPresenter
+    public abstract class BaseArcherPresenter : BaseGameElementPresenter<BaseArcherModel, BaseArcherView>, IArcherPresenter
     {
         protected BaseArcherPresenter(BaseArcherModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager)
         {

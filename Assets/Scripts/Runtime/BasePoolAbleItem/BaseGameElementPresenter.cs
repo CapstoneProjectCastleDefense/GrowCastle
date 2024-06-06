@@ -2,16 +2,15 @@
 {
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
-    using Runtime.Elements.Base;
     using UnityEngine;
 
-    public abstract class BasePoolableItemPresenter<TModel, TView> : IPoolableItemPresenter
-        where TView : BasePoolableItemView
-        where TModel : IElementModel
+    public abstract class BaseGameElementPresenter<TModel, TView> : IGameElementPresenter
+        where TView : BaseGameElementView
+        where TModel : IGameElementModel
     {
         private readonly ObjectPoolManager objectPoolManager;
 
-        protected BasePoolableItemPresenter(TModel model,
+        protected BaseGameElementPresenter(TModel model,
             ObjectPoolManager objectPoolManager)
         {
             this.objectPoolManager = objectPoolManager;

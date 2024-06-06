@@ -6,7 +6,7 @@
     using Runtime.Interfaces.Items;
     using Runtime.Interfaces.Skills;
 
-    public abstract class BaseHeroPresenter : BasePoolableItemPresenter<BaseHeroModel, BaseHeroView>, IHeroPresenter
+    public abstract class BaseHeroPresenter : BaseGameElementPresenter<BaseHeroModel, BaseHeroView>, IHeroPresenter
     {
         public void CastSkill(IEntitySkillPresenter entitySkillPresenter, ITargetable target) { throw new System.NotImplementedException(); }
         public void Attack(ITargetable target)                                                { throw new System.NotImplementedException(); }

@@ -2,7 +2,7 @@
 {
     using Runtime.BasePoolAbleItem;
 
-    public interface IEntitySkillPresenter : IPoolableItemPresenter
+    public interface IEntitySkillPresenter : IGameElementPresenter<IEntitySkillModel, IEntitySkillView>
     {
         void Activate();
     }

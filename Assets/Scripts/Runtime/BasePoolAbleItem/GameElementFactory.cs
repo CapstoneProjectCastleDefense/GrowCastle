@@ -3,14 +3,14 @@
     using Runtime.BasePoolAbleItem;
     using Zenject;
 
-    public class PoolableItemFactory
+    public class GameElementFactory
     {
         private readonly DiContainer diContainer;
 
-        public PoolableItemFactory(DiContainer diContainer) { this.diContainer = diContainer; }
+        public GameElementFactory(DiContainer diContainer) { this.diContainer = diContainer; }
 
         public TController Create<TController, TModel>(TModel model)
-            where TController : IPoolableItemPresenter
+            where TController : IGameElementPresenter
             where TModel : IElementModel
         {
             var controller = this.diContainer.Instantiate<TController>(new object[] { model });

@@ -2,8 +2,7 @@
 {
     using UnityEngine;
 
-    public class BasePoolableItemView : MonoBehaviour
+    public class BaseGameElementView : MonoBehaviour, IGameElementView
     {
-        
     }
 }
