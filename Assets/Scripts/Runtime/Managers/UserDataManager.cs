@@ -30,16 +30,15 @@
             var dataCache = (Dictionary<string, ILocalData>)typeof(BaseHandleUserDataServices).GetField("userDataCache", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(this.handleUserDataService);
             IterTools.Zip(types, datas).ForEach((type, data) =>
             {
-                if (typeof(ILocalDataHaveController).IsAssignableFrom(type))
-                {
-                    var controllerType = ((ILocalDataHaveController)data).ControllerType;
-                    this.container.BindInterfacesAndSelfTo(controllerType).AsCached();
-                    this.container.Rebind(type).AsCached().WhenInjectedInto(controllerType);
-                }
                 var boundData = this.container.Resolve(type);
 
                 data.CopyTo(boundData);
                 dataCache[BaseHandleUserDataServices.KeyOf(type)] = (ILocalData)boundData;
+                if (!typeof(ILocalDataHaveController).IsAssignableFrom(type)) return;
+                var controllerType = ((ILocalDataHaveController)data).ControllerType;
+                this.container.BindInterfacesAndSelfTo(controllerType).AsCached();
+                this.container.Rebind(type).AsCached().WhenInjectedInto(controllerType);
+
             });
             this.signalBus.Fire<UserDataLoadedSignal>();
         }

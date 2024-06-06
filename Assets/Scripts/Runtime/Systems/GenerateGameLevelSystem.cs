@@ -38,7 +38,7 @@
         private void GenerateCastle()
         {
             CastleModel castleModel = new CastleModel() {CastleStat = this.castleLocalDataController.GetCasteStat()};
-            this.castleManager.CreateElement(castleModel);
+            //this.castleManager.CreateElement(castleModel);
         }
         public void Initialize()
         {
