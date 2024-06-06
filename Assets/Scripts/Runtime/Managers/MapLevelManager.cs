@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
-    using GameFoundation.Scripts.Utilities.Extension;
     using Models.Blueprints;
     using Models.LocalData;
     using Runtime.Elements.Base;
@@ -33,18 +32,13 @@
                 this.currentMapLevel = null;
             }
             this.currentMapLevel = this.Factory.Create(model);
-            this.StartChangeNextEnvironment();
+            this.CreateEnvironmentInternal(model.LevelRecord.LevelToWaveRecords.First());
             return this.currentMapLevel;
-        }
-        private void StartChangeNextEnvironment()
-        {
-            var listEnvironment = this.currentMapLevel.Model.LevelRecord.LevelToWaveRecords;
-            listEnvironment.ForEach(this.CreateEnvironmentInternal);
         }
         private async void CreateEnvironmentInternal(KeyValuePair<string, LevelToWaveRecord> environment)
         {
-            this.currentMapLevel.SpawnEnvironment(environment.Key);
             await UniTask.Delay(TimeSpan.FromSeconds(environment.Value.Delay));
+            this.currentMapLevel.SpawnEnvironment(environment.Key);
         }
         public override void DisposeAllElement()
         { 

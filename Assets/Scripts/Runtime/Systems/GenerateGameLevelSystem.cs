@@ -5,7 +5,7 @@
     using Runtime.Elements.Entities.MapLevel;
     using Runtime.Managers;
 
-    public class GenerateGameLevelSystem
+    public class GenerateGameLevelSystem : IGameSystem
     {
         private readonly MapLevelManager mapLevelManager;
         private readonly LevelLocalData  levelLocalData;
@@ -17,10 +17,18 @@
             this.levelBlueprint  = levelBlueprint;
         }
 
-        public void GenerateLevelGame()
+        public void GenerateCurrentLevelGame()
         {
             var currentLevelRecord = this.levelBlueprint.GetDataById(this.levelLocalData.CurrentLevel);
             this.mapLevelManager.CreateElement(new MapLevelModel(){LevelRecord = currentLevelRecord});
+        }
+        public void Initialize()
+        {
+            
+        }
+        public void Tick()
+        {
+            
         }
     }
 }

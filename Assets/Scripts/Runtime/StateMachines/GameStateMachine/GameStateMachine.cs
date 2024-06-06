@@ -27,7 +27,7 @@ namespace Runtime.StateMachines.GameStateMachine
 
         public void Initialize()
         {
-
+            this.TransitionTo<GamePrepareState>();
         }
     }
 }

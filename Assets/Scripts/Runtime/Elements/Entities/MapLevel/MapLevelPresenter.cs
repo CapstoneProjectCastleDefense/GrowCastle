@@ -18,9 +18,10 @@
         public override    void                OnDestroyPresenter() { }
         protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.LevelRecord.PrefabName); }
 
-        protected override void UpdateView()
+        protected override async void UpdateView()
         {
             base.UpdateView();
+            await UniTask.WaitUntil(() => this.View != null);
             this.View.transform.position = Vector3.zero;
         }
 
