@@ -5,7 +5,7 @@
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Skills;
 
-    public abstract class BaseTowerPresenter : BasePoolableItemPresenter<BaseTowerModel, BaseTowerView>, ITowerPresenter
+    public abstract class BaseTowerPresenter : BaseGameElementPresenter<BaseTowerModel, BaseTowerView>, ITowerPresenter
     {
         protected BaseTowerPresenter(BaseTowerModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager)
         {

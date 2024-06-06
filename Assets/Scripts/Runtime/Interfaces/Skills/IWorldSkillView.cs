@@ -2,7 +2,8 @@
 {
     using Runtime.BasePoolAbleItem;
 
-    public interface IWorldSkillModel : IGameElementModel
+    public interface IWorldSkillView : IGameElementView
     {
+        
     }
 }

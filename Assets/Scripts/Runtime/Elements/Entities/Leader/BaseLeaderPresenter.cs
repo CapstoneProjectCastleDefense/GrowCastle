@@ -6,7 +6,7 @@
     using Runtime.Interfaces.Items;
     using Runtime.Interfaces.Skills;
 
-    public abstract class BaseLeaderPresenter : BasePoolableItemPresenter<BaseLeaderModel, BaseLeaderView>, ILeaderPresenter
+    public abstract class BaseLeaderPresenter : BaseGameElementPresenter<BaseLeaderModel, BaseLeaderView>, ILeaderPresenter
     {
         public void Attack(ITargetable target)                                                { throw new System.NotImplementedException(); }
         public void OnGetHit(float damage)                                                    { throw new System.NotImplementedException(); }

@@ -2,8 +2,7 @@
 {
     using Runtime.BasePoolAbleItem;
 
-    public interface IWorldSkillPresenter : IPoolableItemPresenter, IAbleToLevelUp
+    public interface IWorldSkillPresenter : IGameElementPresenter<IWorldSkillModel, IWorldSkillView>, IAbleToLevelUp
     {
-        
     }
 }

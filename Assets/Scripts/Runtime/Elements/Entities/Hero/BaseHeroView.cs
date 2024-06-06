@@ -2,7 +2,7 @@
 {
     using Runtime.BasePoolAbleItem;
 
-    public class BaseHeroView : BasePoolableItemView
+    public class BaseHeroView : BaseGameElementView
     {
         
     }
