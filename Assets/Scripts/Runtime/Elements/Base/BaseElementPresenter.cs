@@ -6,9 +6,10 @@
     using UnityEngine;
     using Zenject;
 
-    public abstract class BaseElementPresenter<TModel, TView, TPresenter> : IInitializable,IElementPresenter, IDisposable where TView : BaseElementView where TPresenter : BaseElementPresenter<TModel, TView, TPresenter> where TModel : IElementModel
+    public abstract class BaseElementPresenter<TModel, TView, TPresenter> : IInitializable, IElementPresenter, IDisposable
+        where TView : BaseElementView where TPresenter : BaseElementPresenter<TModel, TView, TPresenter> where TModel : IElementModel
     {
-        protected ObjectPoolManager                             ObjectPoolManager;
+        protected ObjectPoolManager ObjectPoolManager;
         protected BaseElementPresenter(TModel model, ObjectPoolManager objectPoolManager)
         {
             this.Model             = model;
@@ -17,20 +18,15 @@
         public TModel Model { get; }
         public TView  View  { get; set; }
 
-        public          GameObject  GetViewObject() => this.View.gameObject;
-        public abstract void        OnDestroyPresenter();
+        public          GameObject GetViewObject() => this.View.gameObject;
+        public abstract void       OnDestroyPresenter();
 
-        public virtual async void Initialize()
-        {
-            this.UpdateView();
-        }
+        public virtual async void Initialize() { this.UpdateView(); }
         protected virtual async void UpdateView()
         {
-            if (this.View == null)
-            {
-                var viewObject = await this.CreateView();
-                this.View = viewObject.GetComponent<TView>();
-            }
+            if (this.View != null) return;
+            var viewObject = await this.CreateView();
+            this.View = viewObject.GetComponent<TView>();
         }
 
         protected abstract UniTask<GameObject> CreateView();
@@ -50,9 +46,6 @@
         }
 
 
-
         public abstract void Dispose();
-
-
     }
 }
