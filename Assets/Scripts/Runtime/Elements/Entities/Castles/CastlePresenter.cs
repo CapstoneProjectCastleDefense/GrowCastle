@@ -1,33 +1,62 @@
 ﻿namespace Runtime.Elements.Entities.Castles
 {
     using Cysharp.Threading.Tasks;
+    using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using Models.Blueprints;
+    using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using UnityEngine;
 
-    public class CastlePresenter : BaseElementPresenter<CastleModel,CastleView,CastlePresenter>
+    public class CastlePresenter : BaseElementPresenter<CastleModel, CastleView, CastlePresenter>
     {
-        public CastlePresenter(CastleModel model, ObjectPoolManager objectPoolManager)
+        private readonly CastleLocalDataController castleLocalDataController;
+        private readonly IGameAssets               gameAssets;
+        private readonly BlockBlueprint            blueprint;
+
+        public CastlePresenter(CastleModel model, ObjectPoolManager objectPoolManager,CastleLocalDataController castleLocalDataController, IGameAssets gameAssets, BlockBlueprint blueprint)
             : base(model, objectPoolManager)
         {
+            this.castleLocalDataController = castleLocalDataController;
+            this.gameAssets                = gameAssets;
+            this.blueprint                 = blueprint;
         }
-        public override void OnDestroyPresenter()
+        public override    void                OnDestroyPresenter() { }
+        protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
+
+        protected override async void UpdateView()
         {
-            
+            base.UpdateView();
+            await UniTask.WaitUntil(() => this.View != null);
+            this.View.transform.position = new(-8.54f, -1.33f, 0);
+            this.UpdateBlockBaseOnCurrentLevel();
         }
-        protected override UniTask<GameObject> CreateView()
+
+        public void UpdateBlockBaseOnCurrentLevel()
         {
-            return this.ObjectPoolManager.Spawn(this.Model.AddressableName);
+            this.View.listBlockView.ForEach(blockView =>
+            {
+                var blockData       = this.castleLocalDataController.GetBlockDataById(blockView.blockId);
+                var blockDataRecord = this.blueprint.GetDataById(blockData.BlockId);
+                blockView.gameObject.SetActive(blockData.IsUnlock);
+                blockView.blockImage.sprite = this.gameAssets.LoadAssetAsync<Sprite>(blockDataRecord.BlockToLevelRecords[blockData.BlockLevel].Image).WaitForCompletion();
+            });
         }
-        public override void Dispose()
-        {
-            
-        }
+        public override void Dispose()                        { }
     }
 
     public class CastleModel : IElementModel
     {
         public string Id              { get; set; }
         public string AddressableName { get; set; }
+
+        public CastleStat CastleStat { get; set; }
+    }
+
+    public class CastleStat
+    {
+        public int Mp            { get; set; }
+        public int Hp            { get; set; }
+        public int GoldToUpgrade { get; set; }
     }
 }

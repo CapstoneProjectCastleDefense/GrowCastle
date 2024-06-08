@@ -10,23 +10,32 @@
         where TView : BaseElementView where TPresenter : BaseElementPresenter<TModel, TView, TPresenter> where TModel : IElementModel
     {
         protected ObjectPoolManager ObjectPoolManager;
+
         protected BaseElementPresenter(TModel model, ObjectPoolManager objectPoolManager)
         {
             this.Model             = model;
             this.ObjectPoolManager = objectPoolManager;
         }
+
         public TModel Model { get; }
         public TView  View  { get; set; }
 
-        public          GameObject GetViewObject() => this.View.gameObject;
-        public abstract void       OnDestroyPresenter();
+        public GameObject GetViewObject() => this.View.gameObject;
 
-        public virtual async void Initialize() { this.UpdateView(); }
+        public abstract void OnDestroyPresenter();
+
+        public virtual async void Initialize()
+        {
+            this.UpdateView();
+        }
+
         protected virtual async void UpdateView()
         {
             if (this.View != null) return;
-            var viewObject = await this.CreateView();
-            this.View = viewObject.GetComponent<TView>();
+            await this.CreateView().ContinueWith((viewObject) =>
+            {
+                this.View = viewObject.GetComponent<TView>();
+            });
         }
 
         protected abstract UniTask<GameObject> CreateView();
@@ -41,10 +50,10 @@
             {
                 var presenter = this.Container.Instantiate<TPresenter>(new object[] { param });
                 presenter.Initialize();
+
                 return presenter;
             }
         }
-
 
         public abstract void Dispose();
     }

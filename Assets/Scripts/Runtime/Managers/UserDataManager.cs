@@ -7,6 +7,7 @@
     using GameFoundation.Scripts.Interfaces;
     using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.UserData;
+    using Models.LocalData;
     using Zenject;
 
     public class UserDataManager
@@ -33,6 +34,11 @@
 
                 data.CopyTo(boundData);
                 dataCache[BaseHandleUserDataServices.KeyOf(type)] = (ILocalData)boundData;
+                if (!typeof(ILocalDataHaveController).IsAssignableFrom(type)) return;
+                var controllerType = ((ILocalDataHaveController)data).ControllerType;
+                this.container.BindInterfacesAndSelfTo(controllerType).AsCached();
+                this.container.Rebind(type).AsCached().WhenInjectedInto(controllerType);
+
             });
             this.signalBus.Fire<UserDataLoadedSignal>();
         }
