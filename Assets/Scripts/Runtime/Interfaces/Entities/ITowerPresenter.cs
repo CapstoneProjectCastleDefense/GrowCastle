@@ -1,6 +1,6 @@
 ﻿namespace Runtime.Interfaces.Entities
 {
-    public interface ITowerPresenter : IAttackable, ISkillCastable
+    public interface ITowerPresenter : IAttackable, ISkillCastable, IDeployable
     {
         
     }

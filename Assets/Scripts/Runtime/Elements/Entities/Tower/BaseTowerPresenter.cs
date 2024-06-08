@@ -12,5 +12,13 @@
         }
         public void Attack(ITargetable target)                                                { throw new System.NotImplementedException(); }
         public void CastSkill(IEntitySkillPresenter entitySkillPresenter, ITargetable target) { throw new System.NotImplementedException(); }
+
+        public void Deploy(IDeploymentTarget target) {
+            throw new System.NotImplementedException();
+        }
+
+        public void Retract() {
+            throw new System.NotImplementedException();
+        }
     }
 }

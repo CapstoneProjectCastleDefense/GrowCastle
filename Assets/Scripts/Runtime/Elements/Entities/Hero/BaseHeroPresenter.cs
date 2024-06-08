@@ -13,6 +13,14 @@
         public void Equip(IEquipment equipment)                                               { throw new System.NotImplementedException(); }
         public void Unequip(IEquipment equipment)                                             { throw new System.NotImplementedException(); }
 
+        public void Deploy(IDeploymentTarget target) {
+            throw new System.NotImplementedException();
+        }
+
+        public void Retract() {
+            throw new System.NotImplementedException();
+        }
+
         protected BaseHeroPresenter(BaseHeroModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
     }
 }

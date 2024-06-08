@@ -1,6 +1,6 @@
 ﻿namespace Runtime.Interfaces.Entities
 {
-    public interface IHeroPresenter : IAttackable, ISkillCastable, IEquippable
+    public interface IHeroPresenter : IAttackable, ISkillCastable, IEquippable, IDeployable
     {
         
     }
