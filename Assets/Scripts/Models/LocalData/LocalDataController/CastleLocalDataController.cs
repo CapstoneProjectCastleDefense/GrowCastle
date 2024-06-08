@@ -22,8 +22,10 @@
 
         private void InitCastleLocalData()
         {
-            if (this.castleLocalData.ListBlockData.Count != 0) return;
-            this.castleLocalData.Level = 1;
+            if (this.castleLocalData.ListBlockData != null) return;
+            this.castleLocalData.Level         = 1;
+            this.castleLocalData.ListBlockData = new();
+            this.castleLocalData.ListSlotData  = new();
             this.castleBlueprint.ForEach(castleData =>
             {
                 this.castleLocalData.ListBlockData.Add(new() { BlockId = castleData.Value.BlockUnlockId, BlockLevel = 1, IsUnlock = false });
@@ -57,7 +59,6 @@
 
         private void UnlockNewSlot(List<string> slotId)
         {
-
         }
 
         #endregion
@@ -68,7 +69,7 @@
 
         public CastleLocalData.BlockData GetBlockDataById(string blockId) => this.castleLocalData.ListBlockData.First(e => e.BlockId.Equals(blockId));
 
-        private void UnlockNewBlock(string blockId,int blockLevel)
+        private void UnlockNewBlock(string blockId, int blockLevel)
         {
             var blockData = this.GetBlockDataById(blockId);
             blockData.IsUnlock   = true;

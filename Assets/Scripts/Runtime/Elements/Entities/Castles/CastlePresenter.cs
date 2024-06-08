@@ -24,9 +24,11 @@
         public override    void                OnDestroyPresenter() { }
         protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
-        protected override void UpdateView()
+        protected override async void UpdateView()
         {
             base.UpdateView();
+            await UniTask.WaitUntil(() => this.View != null);
+            this.View.transform.position = new(-8.54f, -1.33f, 0);
             this.UpdateBlockBaseOnCurrentLevel();
         }
 
