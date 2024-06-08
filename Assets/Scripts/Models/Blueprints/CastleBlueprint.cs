@@ -4,15 +4,15 @@
     using BlueprintFlow.BlueprintReader;
 
     [BlueprintReader("Castle", true)] [CsvHeaderKey("Level")]
-    public class CastleBlueprint : GenericBlueprintReaderByRow<int,CastleRecord>
+    public class CastleBlueprint : GenericBlueprintReaderByRow<int, CastleRecord>
     {
-        
     }
 
     public class CastleRecord
     {
-        public int          Level         { get; set; }
-        public List<string> SlotUnlock    { get; set; }
-        public string       BlockUnlockId { get; set; }
+        public int          Level            { get; set; }
+        public List<string> SlotUnlock       { get; set; }
+        public string       BlockUnlockId    { get; set; }
+        public int          BlockUnlockLevel { get; set; }
     }
 }

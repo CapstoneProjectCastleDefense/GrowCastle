@@ -37,16 +37,16 @@
 
         private void GenerateCastle()
         {
-            CastleModel castleModel = new CastleModel() {CastleStat = this.castleLocalDataController.GetCasteStat()};
-            //this.castleManager.CreateElement(castleModel);
+            CastleModel castleModel = new CastleModel() {CastleStat = this.castleLocalDataController.GetCasteStat(), AddressableName = "Castle"};
+            this.castleManager.CreateElement(castleModel);
         }
         public void Initialize()
         {
-            
+
         }
         public void Tick()
         {
-            
+
         }
     }
 }

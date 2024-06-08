@@ -1,20 +1,45 @@
 ﻿namespace Runtime.Elements.Entities.Castles
 {
     using Cysharp.Threading.Tasks;
+    using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using Models.Blueprints;
+    using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using UnityEngine;
 
     public class CastlePresenter : BaseElementPresenter<CastleModel, CastleView, CastlePresenter>
     {
-        public CastlePresenter(CastleModel model, ObjectPoolManager objectPoolManager)
+        private readonly CastleLocalDataController castleLocalDataController;
+        private readonly IGameAssets               gameAssets;
+        private readonly BlockBlueprint            blueprint;
+
+        public CastlePresenter(CastleModel model, ObjectPoolManager objectPoolManager,CastleLocalDataController castleLocalDataController, IGameAssets gameAssets, BlockBlueprint blueprint)
             : base(model, objectPoolManager)
         {
+            this.castleLocalDataController = castleLocalDataController;
+            this.gameAssets                = gameAssets;
+            this.blueprint                 = blueprint;
         }
         public override    void                OnDestroyPresenter() { }
         protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
-        public          void SpawnBlockBaseOnLevel(int level) { }
+        protected override void UpdateView()
+        {
+            base.UpdateView();
+            this.UpdateBlockBaseOnCurrentLevel();
+        }
+
+        public void UpdateBlockBaseOnCurrentLevel()
+        {
+            this.View.listBlockView.ForEach(blockView =>
+            {
+                var blockData       = this.castleLocalDataController.GetBlockDataById(blockView.blockId);
+                var blockDataRecord = this.blueprint.GetDataById(blockData.BlockId);
+                blockView.gameObject.SetActive(blockData.IsUnlock);
+                blockView.blockImage.sprite = this.gameAssets.LoadAssetAsync<Sprite>(blockDataRecord.BlockToLevelRecords[blockData.BlockLevel].Image).WaitForCompletion();
+            });
+        }
         public override void Dispose()                        { }
     }
 
