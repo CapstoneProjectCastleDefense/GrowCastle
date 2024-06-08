@@ -1,13 +1,21 @@
 ﻿namespace Runtime.StateMachines.GameStateMachine.States
 {
+    using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
+    using Runtime.Scenes;
     using Runtime.Systems;
 
     public class GamePrepareState : BaseGameState
     {
         private readonly GenerateGameLevelSystem gameLevelSystem;
-        public GamePrepareState(GenerateGameLevelSystem gameLevelSystem) { this.gameLevelSystem = gameLevelSystem; }
-        public override void Enter()
+        private readonly ScreenManager           screenManager;
+        public GamePrepareState(GenerateGameLevelSystem gameLevelSystem, ScreenManager screenManager)
         {
+            this.gameLevelSystem = gameLevelSystem;
+            this.screenManager   = screenManager;
+        }
+        public override async void Enter()
+        {
+            //await this.screenManager.OpenScreen<GameplayScreenPresenter>();
             this.gameLevelSystem.GenerateCurrentLevelGame();
         }
 

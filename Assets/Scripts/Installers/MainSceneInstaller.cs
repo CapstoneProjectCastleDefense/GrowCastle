@@ -16,12 +16,14 @@
     {
         public override void InstallBindings()
         {
+            base.InstallBindings();
+            this.Container.InitScreenManually<GameplayScreenPresenter>();
+
             this.BindAllSystem();
             this.BindAllManager();
             this.BindElement();
             GameStateMachineInstaller.Install(this.Container);
 
-            this.Container.InitScreenManually<GameplayScreenPresenter>();
         }
 
         private void BindElement()

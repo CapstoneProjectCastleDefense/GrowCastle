@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   listBlockView:
-  - {fileID: 2208111698613478913}
+  - {fileID: 6309803000732296437}
 --- !u!1 &8859391239363843068
 GameObject:
   m_ObjectHideFlags: 0
@@ -57,7 +57,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4441417288833386310}
   - component: {fileID: 8477319197574636318}
-  - component: {fileID: 2208111698613478913}
+  - component: {fileID: 6309803000732296437}
   m_Layer: 0
   m_Name: Block
   m_TagString: Untagged
@@ -132,7 +132,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &2208111698613478913
+--- !u!114 &6309803000732296437
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
