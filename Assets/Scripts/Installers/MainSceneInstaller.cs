@@ -28,9 +28,9 @@
 
         private void BindElement()
         {
-            this.Container.BindFactory<CastleModel, CastlePresenter, BaseElementPresenter<CastleModel, CastleView, CastlePresenter>.Factory>().AsCached()
+            this.Container.BindFactory<CastleModel, CastlePresenter, CastlePresenter.Factory>().AsCached()
                 .WhenInjectedInto<CastleManager>();
-            this.Container.BindFactory<MapLevelModel, MapLevelPresenter, BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>.Factory>().AsCached()
+            this.Container.BindFactory<MapLevelModel, MapLevelPresenter, MapLevelPresenter.Factory>().AsCached()
                 .WhenInjectedInto<MapLevelManager>();
         }
 
