@@ -10,7 +10,8 @@
         protected BaseTowerPresenter(BaseTowerModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager)
         {
         }
-        public void Attack(ITargetable target)                                                { throw new System.NotImplementedException(); }
-        public void CastSkill(IEntitySkillPresenter entitySkillPresenter, ITargetable target) { throw new System.NotImplementedException(); }
+        public void        Attack(ITargetable target)                                                { throw new System.NotImplementedException(); }
+        public ITargetable FindTarget()                                                              { throw new System.NotImplementedException(); }
+        public void        CastSkill(IEntitySkillPresenter entitySkillPresenter, ITargetable target) { throw new System.NotImplementedException(); }
     }
 }

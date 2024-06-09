@@ -1,4 +1,4 @@
-﻿namespace Runtime.Elements.Entities.Archer
+﻿namespace Runtime.Elements.Entities.Archer.Base
 {
     using Runtime.BasePoolAbleItem;
 

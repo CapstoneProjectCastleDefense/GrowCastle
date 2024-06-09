@@ -1,4 +1,4 @@
-﻿namespace Runtime.Elements.Entities.Tower
+﻿namespace Runtime.Elements.Entities.Archer.Base
 {
     using System;
     using System.Collections.Generic;
@@ -6,7 +6,7 @@
     using Runtime.Enums;
     using Runtime.Interfaces;
 
-    public abstract class BaseTowerModel : IGameElementModel, IHaveStats
+    public abstract class BaseArcherModel : IGameElementModel, IHaveStats
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }

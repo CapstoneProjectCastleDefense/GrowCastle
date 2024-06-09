@@ -3,5 +3,6 @@
     public interface IAttackable
     {
         void Attack(ITargetable target);
+        ITargetable FindTarget();
     }
 }

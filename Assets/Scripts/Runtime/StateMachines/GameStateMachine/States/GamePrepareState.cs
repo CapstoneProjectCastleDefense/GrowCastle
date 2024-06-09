@@ -17,6 +17,7 @@
         {
             //await this.screenManager.OpenScreen<GameplayScreenPresenter>();
             this.gameLevelSystem.GenerateCurrentLevelGame();
+            this.gameStateMachine.TransitionTo<GameStartWaveState>();
         }
 
         public override void Exit()
