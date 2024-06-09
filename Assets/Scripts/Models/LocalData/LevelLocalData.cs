@@ -1,13 +1,15 @@
 ﻿namespace Models.LocalData
 {
-    using GameFoundation.Scripts.Interfaces;
+    using Models.LocalData.LocalDataController;
 
-    public class LevelLocalData : ILocalData
+    public class LevelLocalData : ILocalDataHaveController<LevelLocalDataController>
     {
-        public int    CurrentLevel;
+        public int CurrentLevel = 1;
+        public int CurrentWave  = 1;
         public void Init()
         {
-            this.CurrentLevel  = 1;
+            this.CurrentLevel = 1;
+            this.CurrentWave  = 1;
         }
     }
 }
