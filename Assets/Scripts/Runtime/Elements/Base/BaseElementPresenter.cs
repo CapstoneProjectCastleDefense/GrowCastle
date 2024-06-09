@@ -24,18 +24,13 @@
 
         public abstract void OnDestroyPresenter();
 
-        public virtual async void Initialize()
-        {
-            this.UpdateView();
-        }
+        public virtual void Initialize() { }
 
-        protected virtual async void UpdateView()
+        public virtual async UniTask UpdateView()
         {
             if (this.View != null) return;
-            await this.CreateView().ContinueWith((viewObject) =>
-            {
-                this.View = viewObject.GetComponent<TView>();
-            });
+            var viewObject = await this.CreateView();
+            this.View = viewObject.GetComponent<TView>();
         }
 
         protected abstract UniTask<GameObject> CreateView();

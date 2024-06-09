@@ -24,7 +24,7 @@
         public override    void                OnDestroyPresenter() { }
         protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
-        protected override async void UpdateView()
+        public override async UniTask UpdateView()
         {
             base.UpdateView();
             await UniTask.WaitUntil(() => this.View != null);
