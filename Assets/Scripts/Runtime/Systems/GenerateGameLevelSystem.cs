@@ -10,14 +10,14 @@
     public class GenerateGameLevelSystem : IGameSystem
     {
         private readonly MapLevelManager           mapLevelManager;
-        private readonly LevelLocalData            levelLocalData;
+        private readonly LevelLocalDataController  levelLocalDataController;
         private readonly LevelBlueprint            levelBlueprint;
         private readonly CastleManager             castleManager;
         private readonly CastleLocalDataController castleLocalDataController;
-        public GenerateGameLevelSystem(MapLevelManager mapLevelManager, LevelLocalData levelLocalData, LevelBlueprint levelBlueprint, CastleManager castleManager,CastleLocalDataController castleLocalDataController)
+        public GenerateGameLevelSystem(MapLevelManager mapLevelManager,LevelLocalDataController levelLocalDataController, LevelBlueprint levelBlueprint, CastleManager castleManager,CastleLocalDataController castleLocalDataController)
         {
             this.mapLevelManager           = mapLevelManager;
-            this.levelLocalData            = levelLocalData;
+            this.levelLocalDataController  = levelLocalDataController;
             this.levelBlueprint            = levelBlueprint;
             this.castleManager             = castleManager;
             this.castleLocalDataController = castleLocalDataController;
@@ -31,7 +31,7 @@
 
         private void GenerateMapLevel()
         {
-            var currentLevelRecord = this.levelBlueprint.GetDataById(this.levelLocalData.CurrentLevel);
+            var currentLevelRecord = this.levelBlueprint.GetDataById(this.levelLocalDataController.CurrentLevel);
             this.mapLevelManager.CreateElement(new MapLevelModel(){LevelRecord = currentLevelRecord});
         }
 

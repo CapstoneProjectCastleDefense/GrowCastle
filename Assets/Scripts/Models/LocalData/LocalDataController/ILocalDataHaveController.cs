@@ -1,8 +1,7 @@
-﻿namespace Models.LocalData
+﻿namespace Models.LocalData.LocalDataController
 {
     using System;
     using GameFoundation.Scripts.Interfaces;
-    using Models.LocalData.LocalDataController;
 
     public interface ILocalDataHaveController : ILocalData
     {

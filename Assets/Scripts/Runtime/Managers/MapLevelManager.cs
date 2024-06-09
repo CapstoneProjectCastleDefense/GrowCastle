@@ -6,18 +6,19 @@
     using Cysharp.Threading.Tasks;
     using Models.Blueprints;
     using Models.LocalData;
+    using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.MapLevel;
     using Runtime.Managers.Base;
 
     public class MapLevelManager : BaseElementManager<MapLevelModel,MapLevelPresenter,MapLevelView>
     {
-        private readonly LevelLocalData    levelLocalData;
-        private          MapLevelPresenter currentMapLevel;
-        public MapLevelManager(BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>.Factory factory, LevelLocalData levelLocalData)
+        private readonly LevelLocalDataController levelLocalDataController;
+        private          MapLevelPresenter        currentMapLevel;
+        public MapLevelManager(BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>.Factory factory, LevelLocalDataController levelLocalDataController)
             : base(factory)
         {
-            this.levelLocalData = levelLocalData;
+            this.levelLocalDataController = levelLocalDataController;
         }
         public override void Initialize()
         {

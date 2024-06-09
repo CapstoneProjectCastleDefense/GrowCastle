@@ -8,6 +8,7 @@
     using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.UserData;
     using Models.LocalData;
+    using Models.LocalData.LocalDataController;
     using Zenject;
 
     public class UserDataManager
