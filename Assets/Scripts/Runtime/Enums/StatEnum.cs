@@ -13,5 +13,7 @@
         CritChance,
         CritDamage,
         ManaCost,
+        
+        AttackPriority,
     }
 }
