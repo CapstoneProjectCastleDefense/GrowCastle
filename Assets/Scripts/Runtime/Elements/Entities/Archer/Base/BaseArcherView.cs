@@ -1,8 +1,8 @@
 ﻿namespace Runtime.Elements.Entities.Archer.Base
 {
-    using Runtime.BasePoolAbleItem;
+    using Runtime.Elements.Base;
 
-    public class BaseArcherView : BaseGameElementView
+    public class BaseArcherView : BaseElementView
     {
         
     }
