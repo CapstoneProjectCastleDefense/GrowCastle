@@ -6,7 +6,7 @@
     using Runtime.Elements.Base;
     using UnityEngine;
 
-    public abstract class MapLevelPresenter : BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>
+    public class MapLevelPresenter : BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>
     {
         private readonly EnvironmentBlueprint environmentBlueprint;
         private          GameObject           currentEnvi;

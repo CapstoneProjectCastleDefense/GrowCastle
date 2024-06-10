@@ -8,6 +8,7 @@
     using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.UserData;
     using Models.LocalData;
+    using Models.LocalData.LocalDataController;
     using Zenject;
 
     public class UserDataManager
@@ -25,9 +26,10 @@
 
         public async UniTask LoadUserData()
         {
-            var types     = ReflectionUtils.GetAllDerivedTypes<ILocalData>();
-            var datas     = await this.handleUserDataService.Load(types.ToArray());
-            var dataCache = (Dictionary<string, ILocalData>)typeof(BaseHandleUserDataServices).GetField("userDataCache", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(this.handleUserDataService);
+            var types = ReflectionUtils.GetAllDerivedTypes<ILocalData>();
+            var datas = await this.handleUserDataService.Load(types.ToArray());
+            var dataCache =
+                (Dictionary<string, ILocalData>)typeof(BaseHandleUserDataServices).GetField("userDataCache", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(this.handleUserDataService);
             IterTools.Zip(types, datas).ForEach((type, data) =>
             {
                 var boundData = this.container.Resolve(type);
@@ -38,7 +40,6 @@
                 var controllerType = ((ILocalDataHaveController)data).ControllerType;
                 this.container.BindInterfacesAndSelfTo(controllerType).AsCached();
                 this.container.Rebind(type).AsCached().WhenInjectedInto(controllerType);
-
             });
             this.signalBus.Fire<UserDataLoadedSignal>();
         }

@@ -22,8 +22,8 @@
             this.BindAllSystem();
             this.BindAllManager();
             this.BindElement();
+            LocalDataInstaller.Install(this.Container);
             GameStateMachineInstaller.Install(this.Container);
-
         }
 
         private void BindElement()
@@ -38,7 +38,7 @@
         {
             foreach (var type in ReflectionUtils.GetAllDerivedTypes<IElementManager>())
             {
-                if(!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
+                if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
             }
         }
 
@@ -46,7 +46,7 @@
         {
             foreach (var type in ReflectionUtils.GetAllDerivedTypes<IGameSystem>())
             {
-                if(!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
+                if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
             }
         }
     }

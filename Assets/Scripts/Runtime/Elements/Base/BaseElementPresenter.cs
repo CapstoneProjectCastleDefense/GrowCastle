@@ -6,7 +6,7 @@
     using UnityEngine;
     using Zenject;
 
-    public abstract class BaseElementPresenter<TModel, TView, TPresenter> : IInitializable, IElementPresenter, IDisposable
+    public abstract class BaseElementPresenter<TModel, TView, TPresenter>: IElementPresenter, IDisposable
         where TView : BaseElementView where TPresenter : BaseElementPresenter<TModel, TView, TPresenter> where TModel : IElementModel
     {
         protected ObjectPoolManager ObjectPoolManager;
@@ -44,7 +44,7 @@
             public override TPresenter Create(TModel param)
             {
                 var presenter = this.Container.Instantiate<TPresenter>(new object[] { param });
-                presenter.Initialize();
+                presenter.UpdateView().Forget();
 
                 return presenter;
             }
