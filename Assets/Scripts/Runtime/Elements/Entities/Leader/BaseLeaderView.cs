@@ -1,8 +1,8 @@
 ﻿namespace Runtime.Elements.Entities.Leader
 {
-    using Runtime.BasePoolAbleItem;
+    using Runtime.Elements.Base;
 
-    public class BaseLeaderView : BaseGameElementView
+    public class BaseLeaderView : BaseElementView
     {
         
     }

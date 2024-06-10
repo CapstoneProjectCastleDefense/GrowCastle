@@ -1,8 +1,7 @@
 ﻿namespace Runtime.Interfaces.Skills
 {
-    using Runtime.BasePoolAbleItem;
 
-    public interface IWorldSkillView : IGameElementView
+    public interface IWorldSkillView 
     {
         
     }

@@ -6,7 +6,7 @@
     using Runtime.Elements.Base;
     using UnityEngine;
 
-    public class MapLevelPresenter : BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>
+    public abstract class MapLevelPresenter : BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>
     {
         private readonly EnvironmentBlueprint environmentBlueprint;
         private          GameObject           currentEnvi;
@@ -18,7 +18,7 @@
         public override    void                OnDestroyPresenter() { }
         protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.LevelRecord.PrefabName); }
 
-        protected override async void UpdateView()
+        public override async UniTask UpdateView()
         {
             base.UpdateView();
             await UniTask.WaitUntil(() => this.View != null);

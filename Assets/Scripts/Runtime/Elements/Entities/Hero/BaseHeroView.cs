@@ -1,8 +1,8 @@
 ﻿namespace Runtime.Elements.Entities.Hero
 {
-    using Runtime.BasePoolAbleItem;
+    using Runtime.Elements.Base;
 
-    public class BaseHeroView : BaseGameElementView
+    public class BaseHeroView : BaseElementView
     {
         
     }

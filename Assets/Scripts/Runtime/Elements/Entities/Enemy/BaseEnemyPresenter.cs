@@ -1,7 +1,6 @@
 ﻿namespace Runtime.Elements.Entities.Enemy
 {
     using GameFoundation.Scripts.Utilities.ObjectPool;
-    using Runtime.BasePoolAbleItem;
     using Runtime.Elements.Base;
     using Runtime.Interfaces.Entities;
 
