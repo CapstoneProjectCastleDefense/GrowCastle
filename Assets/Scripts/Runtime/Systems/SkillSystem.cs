@@ -9,7 +9,10 @@
     {
         private readonly Dictionary<string, IEntitySkillPresenter> EntitySkills;
 
-        public SkillSystem(List<IEntitySkillPresenter> entitySkillPresenters) { this.EntitySkills = entitySkillPresenters.ToDictionary(s => s.Model.Id); }
+        public SkillSystem(List<IEntitySkillPresenter> entitySkillPresenters)
+        {
+            // this.EntitySkills = entitySkillPresenters.ToDictionary(s => s.);
+        }
 
         public void CastSkill(string skillId)
         {

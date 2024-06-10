@@ -1,8 +1,8 @@
 ﻿namespace Runtime.Elements.Entities.Tower
 {
-    using Runtime.BasePoolAbleItem;
+    using Runtime.Elements.Base;
 
-    public class BaseTowerView : BaseGameElementView
+    public class BaseTowerView : BaseElementView
     {
         
     }

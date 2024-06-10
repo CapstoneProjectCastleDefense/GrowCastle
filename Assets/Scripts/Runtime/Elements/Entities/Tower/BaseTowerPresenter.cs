@@ -1,15 +1,16 @@
 ﻿namespace Runtime.Elements.Entities.Tower
 {
     using GameFoundation.Scripts.Utilities.ObjectPool;
-    using Runtime.BasePoolAbleItem;
+    using Runtime.Elements.Base;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Skills;
 
-    public abstract class BaseTowerPresenter : BaseGameElementPresenter<BaseTowerModel, BaseTowerView>, ITowerPresenter
+    public abstract class BaseTowerPresenter<TModel, TView, TPresenter> : BaseElementPresenter<TModel, TView, TPresenter>, ITowerPresenter
+        where TView : BaseTowerView
+        where TPresenter : BaseTowerPresenter<TModel, TView, TPresenter>
+        where TModel : BaseTowerModel
     {
-        protected BaseTowerPresenter(BaseTowerModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager)
-        {
-        }
+        protected BaseTowerPresenter(TModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
         public void        Attack(ITargetable target)                                                { throw new System.NotImplementedException(); }
         public ITargetable FindTarget()                                                              { throw new System.NotImplementedException(); }
         public void        CastSkill(IEntitySkillPresenter entitySkillPresenter, ITargetable target) { throw new System.NotImplementedException(); }
