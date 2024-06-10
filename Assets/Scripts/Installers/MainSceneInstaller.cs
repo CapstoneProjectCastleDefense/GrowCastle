@@ -5,7 +5,9 @@
     using GameFoundation.Scripts.Utilities.Extension;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Castles;
+    using Runtime.Elements.Entities.Enemy;
     using Runtime.Elements.Entities.MapLevel;
+    using Runtime.Elements.Entities.Slot;
     using Runtime.Managers;
     using Runtime.Managers.Base;
     using Runtime.Scenes;
@@ -23,7 +25,6 @@
             this.BindAllManager();
             this.BindElement();
             GameStateMachineInstaller.Install(this.Container);
-
         }
 
         private void BindElement()
@@ -32,13 +33,17 @@
                 .WhenInjectedInto<CastleManager>();
             this.Container.BindFactory<MapLevelModel, MapLevelPresenter, MapLevelPresenter.Factory>().AsCached()
                 .WhenInjectedInto<MapLevelManager>();
+            this.Container.BindFactory<SlotModel, SlotPresenter, SlotPresenter.Factory>().AsCached()
+                .WhenInjectedInto<SlotManager>();
+            this.Container.BindFactory<BaseEnemyModel, BaseEnemyPresenter, BaseEnemyPresenter.Factory>().AsCached()
+                .WhenInjectedInto<EnemyManager>();
         }
 
         private void BindAllManager()
         {
             foreach (var type in ReflectionUtils.GetAllDerivedTypes<IElementManager>())
             {
-                if(!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
+                if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
             }
         }
 
@@ -46,7 +51,7 @@
         {
             foreach (var type in ReflectionUtils.GetAllDerivedTypes<IGameSystem>())
             {
-                if(!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
+                if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
             }
         }
     }

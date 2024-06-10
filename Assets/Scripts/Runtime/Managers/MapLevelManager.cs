@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Codice.Client.BaseCommands.BranchExplorer;
     using Cysharp.Threading.Tasks;
     using Models.Blueprints;
     using Models.LocalData;
@@ -33,12 +34,13 @@
                 this.currentMapLevel = null;
             }
             this.currentMapLevel = this.Factory.Create(model);
+            this.currentMapLevel.UpdateView();
             this.CreateEnvironmentInternal(model.LevelRecord.LevelToWaveRecords.First());
             return this.currentMapLevel;
         }
         private async void CreateEnvironmentInternal(KeyValuePair<string, LevelToWaveRecord> environment)
         {
-            await UniTask.Delay(TimeSpan.FromSeconds(environment.Value.Delay));
+            //await UniTask.Delay(TimeSpan.FromSeconds(environment.Value.Delay));
             this.currentMapLevel.SpawnEnvironment(environment.Key);
         }
         public override void DisposeAllElement()

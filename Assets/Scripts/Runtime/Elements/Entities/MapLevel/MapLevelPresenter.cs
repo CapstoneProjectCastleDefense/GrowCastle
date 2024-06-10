@@ -6,7 +6,7 @@
     using Runtime.Elements.Base;
     using UnityEngine;
 
-    public abstract class MapLevelPresenter : BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>
+    public class MapLevelPresenter : BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>
     {
         private readonly EnvironmentBlueprint environmentBlueprint;
         private          GameObject           currentEnvi;
@@ -20,13 +20,13 @@
 
         public override async UniTask UpdateView()
         {
-            base.UpdateView();
-            await UniTask.WaitUntil(() => this.View != null);
+            await base.UpdateView();
             this.View.transform.position = Vector3.zero;
         }
 
         public async void SpawnEnvironment(string waveId)
         {
+            await UniTask.WaitUntil(() => this.View != null);
             if (this.currentEnvi != null) Object.Destroy(this.currentEnvi);
             var environmentPrefabName = this.environmentBlueprint.GetDataById(this.Model.LevelRecord.LevelToWaveRecords[waveId].EnvironmentId).PrefabName;
             this.currentEnvi                    = await this.ObjectPoolManager.Spawn(environmentPrefabName, this.View.transform);
