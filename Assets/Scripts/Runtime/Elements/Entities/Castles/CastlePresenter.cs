@@ -26,7 +26,7 @@
 
         public override async UniTask UpdateView()
         {
-            base.UpdateView();
+            await base.UpdateView();
             await UniTask.WaitUntil(() => this.View != null);
             this.View.transform.position = new(-8.54f, -1.33f, 0);
             this.UpdateBlockBaseOnCurrentLevel();

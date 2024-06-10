@@ -25,7 +25,6 @@
             if (this.castleLocalData.ListBlockData != null) return;
             this.castleLocalData.Level         = 1;
             this.castleLocalData.ListBlockData = new();
-            this.castleLocalData.ListSlotData  = new();
             this.castleBlueprint.ForEach(castleData =>
             {
                 this.castleLocalData.ListBlockData.Add(new() { BlockId = castleData.Value.BlockUnlockId, BlockLevel = 1, IsUnlock = false });
@@ -50,13 +49,7 @@
 
         #region Slot
 
-        public List<CastleLocalData.SlotData> GetAllSlotData() => this.castleLocalData.ListSlotData;
-
-        public List<CastleLocalData.SlotData> GetAllUnlockedSlotData()
-        {
-            return this.castleLocalData.ListSlotData.Where(e => e.IsUnlock).ToList();
-        }
-
+        
         private void UnlockNewSlot(List<string> slotId)
         {
         }
