@@ -11,7 +11,7 @@
     {
         public int                                       Id                 { get; set; }
         public string                                    PrefabName         { get; set; }
-        public BlueprintByRow<string, LevelToWaveRecord> LevelToWaveRecords { get; set; }
+        public BlueprintByRow<int, LevelToWaveRecord> LevelToWaveRecords { get; set; }
     }
 
     [CsvHeaderKey("WaveId")] public class LevelToWaveRecord

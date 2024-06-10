@@ -12,22 +12,19 @@ namespace Runtime.StateMachines.GameStateMachine
     {
         public GameStateMachine(
             List<IGameState> listGameState,
-            SignalBus        signalBus
+            SignalBus signalBus
         )
             : base(listGameState.Select(state => state as IState).ToList(), signalBus)
         {
             listGameState.ForEach(e =>
             {
-                if (e is BaseGameState state)
+                if (e is IHaveStateMachine state)
                 {
-                    state.gameStateMachine = this;
+                    state.StateMachine = this;
                 }
             });
         }
 
-        public void Initialize()
-        {
-            this.TransitionTo<GamePrepareState>();
-        }
+        public void Initialize() { this.TransitionTo<GamePrepareState>(); }
     }
 }
