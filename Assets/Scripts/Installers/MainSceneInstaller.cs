@@ -35,7 +35,7 @@
                 .WhenInjectedInto<MapLevelManager>();
             this.Container.BindFactory<SlotModel, SlotPresenter, SlotPresenter.Factory>().AsCached()
                 .WhenInjectedInto<SlotManager>();
-            this.Container.BindFactory<BaseEnemyModel, BaseEnemyPresenter, BaseEnemyPresenter.Factory>().AsCached()
+            this.Container.BindFactory<EnemyModel, EnemyPresenter, EnemyPresenter.Factory>().AsCached()
                 .WhenInjectedInto<EnemyManager>();
         }
 

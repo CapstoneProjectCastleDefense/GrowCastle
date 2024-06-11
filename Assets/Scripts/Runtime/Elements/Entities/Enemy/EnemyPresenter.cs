@@ -9,9 +9,9 @@
     using Runtime.Interfaces.Entities;
     using UnityEngine;
 
-    public class BaseEnemyPresenter : BaseElementPresenter<BaseEnemyModel, BaseEnemyView, BaseEnemyPresenter>, IEnemyPresenter
+    public class EnemyPresenter : BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
     {
-        protected BaseEnemyPresenter(BaseEnemyModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
+        protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
         public void Attack(ITargetable target)
         {
             this.View.Animator.SetTrigger("Attack");
@@ -24,6 +24,7 @@
             currentHealth -= damage;
             this.Model.SetStat(StatEnum.Health, currentHealth);
         }
+        
 
         public void OnDeath()
         {

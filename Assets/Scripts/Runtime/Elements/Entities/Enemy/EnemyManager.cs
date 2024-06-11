@@ -3,9 +3,9 @@
     using Runtime.Elements.Base;
     using Runtime.Managers.Base;
 
-    public class EnemyManager : BaseElementManager<BaseEnemyModel, BaseEnemyPresenter, BaseEnemyView>
+    public class EnemyManager : BaseElementManager<EnemyModel, EnemyPresenter, EnemyView>
     {
-        public EnemyManager(BaseElementPresenter<BaseEnemyModel, BaseEnemyView, BaseEnemyPresenter>.Factory factory) : base(factory)
+        public EnemyManager(BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>.Factory factory) : base(factory)
         {
         }
         public override void Initialize()        {  }

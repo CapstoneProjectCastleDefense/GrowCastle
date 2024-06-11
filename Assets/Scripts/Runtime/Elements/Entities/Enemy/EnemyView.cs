@@ -3,7 +3,7 @@
     using Runtime.Elements.Base;
     using UnityEngine;
 
-    public class BaseEnemyView : BaseElementView
+    public class EnemyView : BaseElementView
     {
         [field: SerializeField] public SpriteRenderer SpriteRenderer        { get; private set; }
         [field: SerializeField] public Collider2D     GraphicCollider2D     { get; private set; }
