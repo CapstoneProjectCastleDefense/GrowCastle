@@ -1,5 +1,5 @@
-﻿Id,EnemyId,EnemyNumber,Delay
-1,Goblin_1,10,1
-,Goblin_2,2,0.5
-2,Goblin_1,10,0
-,Goblin_2,3,0.5
+﻿Id,EnemyId,Quantity,Delay
+1,goblin_1,10,1
+,goblin_2,2,0
+2,goblin_1,10,0
+,goblin_2,3,0.5

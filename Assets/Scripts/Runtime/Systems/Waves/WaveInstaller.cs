@@ -6,7 +6,7 @@
     {
         public override void InstallBindings()
         {
-            this.Container.Bind<WaveLoader>().AsSingle().NonLazy();
+            this.Container.BindInterfacesAndSelfTo<WaveLoader>().AsSingle().NonLazy();
         }
     }
 }

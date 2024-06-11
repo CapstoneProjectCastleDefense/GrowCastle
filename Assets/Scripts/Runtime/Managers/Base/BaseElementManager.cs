@@ -16,7 +16,6 @@
         {
             var presenter = this.Factory.Create(model);
             this.entities.Add(presenter);
-            presenter.UpdateView();
             return presenter;
         }
         public abstract void DisposeAllElement();
