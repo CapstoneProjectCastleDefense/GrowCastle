@@ -36,13 +36,13 @@
 
         private void BindElement()
         {
-            this.Container.BindFactory<CastleModel, CastlePresenter, CastlePresenter.Factory>().AsCached()
+            this.Container.BindFactory<CastleModel, CastlePresenter, BaseElementPresenter<CastleModel, CastleView, CastlePresenter>.Factory>().AsCached()
                 .WhenInjectedInto<CastleManager>();
-            this.Container.BindFactory<MapLevelModel, MapLevelPresenter, MapLevelPresenter.Factory>().AsCached()
+            this.Container.BindFactory<MapLevelModel, MapLevelPresenter, BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>.Factory>().AsCached()
                 .WhenInjectedInto<MapLevelManager>();
-            this.Container.BindFactory<SlotModel, SlotPresenter, SlotPresenter.Factory>().AsCached()
+            this.Container.BindFactory<SlotModel, SlotPresenter, BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory>().AsCached()
                 .WhenInjectedInto<SlotManager>();
-            this.Container.BindFactory<EnemyModel, EnemyPresenter, EnemyPresenter.Factory>().AsCached()
+            this.Container.BindFactory<EnemyModel, EnemyPresenter, BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>.Factory>().AsCached()
                 .WhenInjectedInto<EnemyManager>();
         }
 
