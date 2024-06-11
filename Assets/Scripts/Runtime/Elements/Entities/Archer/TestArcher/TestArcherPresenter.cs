@@ -10,7 +10,6 @@
         public TestArcherPresenter(TestArcherModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager)
         {
         }
-        public override    void                OnDestroyPresenter() { throw new System.NotImplementedException(); }
         protected override UniTask<GameObject> CreateView()         { throw new System.NotImplementedException(); }
         public override    void                Dispose()            { throw new System.NotImplementedException(); }
     }

@@ -10,10 +10,6 @@
     using UnityEngine;
 
     public class BaseEnemyPresenter : BaseElementPresenter<BaseEnemyModel, BaseEnemyView, BaseEnemyPresenter>, IEnemyPresenter
-    public abstract class BaseEnemyPresenter<TModel, TView, TPresenter> : BaseElementPresenter<TModel, TView, TPresenter>, IEnemyPresenter
-        where TPresenter : BaseElementPresenter<TModel, TView, TPresenter>
-        where TModel : BaseEnemyModel
-        where TView : BaseEnemyView
     {
         protected BaseEnemyPresenter(BaseEnemyModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
         public void Attack(ITargetable target)
@@ -21,7 +17,7 @@
             this.View.Animator.SetTrigger("Attack");
             target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
         }
-        public ITargetable FindTarget()               { return null; }
+        public ITargetable FindTarget() { return null; }
         public void OnGetHit(float damage)
         {
             var currentHealth = this.Model.GetStat<float>(StatEnum.Health);
