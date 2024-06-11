@@ -27,7 +27,6 @@
         {
             this.gameAssets = gameAssets;
         }
-        public override void OnDestroyPresenter() { }
 
         public override async UniTask UpdateView()
         {

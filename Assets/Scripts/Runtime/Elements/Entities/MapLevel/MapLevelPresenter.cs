@@ -15,7 +15,6 @@
         {
             this.environmentBlueprint = environmentBlueprint;
         }
-        public override    void                OnDestroyPresenter() { }
         protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.LevelRecord.PrefabName); }
 
         public override async UniTask UpdateView()

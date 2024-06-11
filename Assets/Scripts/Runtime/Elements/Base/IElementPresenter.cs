@@ -4,7 +4,7 @@
 
     public interface IElementPresenter
     {
-        GameObject  GetViewObject();
-        void        OnDestroyPresenter();
+        void       Initialize();
+        void       Dispose();
     }
 }
