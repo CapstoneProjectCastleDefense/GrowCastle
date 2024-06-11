@@ -21,7 +21,6 @@
             this.gameAssets                = gameAssets;
             this.blueprint                 = blueprint;
         }
-        public override    void                OnDestroyPresenter() { }
         protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
         public override async UniTask UpdateView()
