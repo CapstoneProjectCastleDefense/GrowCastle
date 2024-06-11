@@ -10,10 +10,6 @@
     using UnityEngine;
 
     public class BaseEnemyPresenter : BaseElementPresenter<BaseEnemyModel, BaseEnemyView, BaseEnemyPresenter>, IEnemyPresenter
-    public abstract class BaseEnemyPresenter<TModel, TView, TPresenter> : BaseElementPresenter<TModel, TView, TPresenter>, IEnemyPresenter
-        where TPresenter : BaseElementPresenter<TModel, TView, TPresenter>
-        where TModel : BaseEnemyModel
-        where TView : BaseEnemyView
     {
         protected BaseEnemyPresenter(BaseEnemyModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
         public void Attack(ITargetable target)
