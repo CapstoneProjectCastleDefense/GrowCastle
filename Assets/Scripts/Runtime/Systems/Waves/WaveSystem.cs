@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Systems.Waves
 {
     using System.Collections.Generic;
+    using Cysharp.Threading.Tasks;
     using Models.Blueprints;
     using Time = UnityEngine.Time;
 
@@ -29,10 +30,10 @@
                 this.WaveWithDelayTimeQueue.Count > 0)
             {
                 var record = this.WaveWithDelayTimeQueue[0];
-                
+
                 this.waveLoader.LoadWave(record.waveId);
                 this.waveLoadCoolDown = record.delayTime;
-                
+
                 this.WaveWithDelayTimeQueue.Remove(record);
                 return;
             }

@@ -1,17 +1,23 @@
 ﻿namespace Runtime.Systems.Waves
 {
     using System;
-    using Codice.CM.Common;
+    using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
     using Models.Blueprints;
     using Runtime.Elements.Entities.Enemy;
     using Runtime.Enums;
+    using UnityEngine;
+    using Zenject;
 
-    public class WaveLoader
+    public class WaveLoader : ITickable
     {
+        private readonly List<WaveToEnemyRecord> inQueueWaves = new();
+        private          float                   waveLoadCoolDown;
+
         private readonly WaveBlueprint  waveBlueprint;
         private readonly EnemyBlueprint enemyBlueprint;
         private readonly EnemyManager   enemyManager;
+
         public WaveLoader(
             WaveBlueprint waveBlueprint,
             EnemyBlueprint enemyBlueprint,
@@ -22,13 +28,27 @@
             this.enemyManager   = enemyManager;
         }
 
-        public async UniTask LoadWave(int waveId)
+        public void Tick()
+        {
+            if (this.inQueueWaves.Count <= 0) return;
+            if (this.waveLoadCoolDown > 0)
+            {
+                this.waveLoadCoolDown -= Time.deltaTime;
+            }
+            else
+            {
+                var record = this.inQueueWaves[0];
+                this.waveLoadCoolDown = record.Delay;
+                this.SpawnEnemyGroup(record.EnemyId, record.Quantity);
+            }
+        }
+
+        public void LoadWave(int waveId)
         {
             var waveRecord = this.waveBlueprint[waveId];
-            foreach (var (enemyId, record) in waveRecord.WaveToEnemy)
+            foreach (var (_, record) in waveRecord.WaveToEnemy)
             {
-                this.SpawnEnemyGroup(enemyId, record.Quantity);
-                await UniTask.Delay(TimeSpan.FromSeconds(record.Delay));
+                this.inQueueWaves.Add(record);
             }
         }
 
@@ -41,7 +61,7 @@
                 {
                     Id              = enemyId,
                     AddressableName = enemyRecord.PrefabName,
-                    Stats = new()
+                    Stats = new Dictionary<StatEnum, (Type, object)>
                     {
                         { StatEnum.Attack, (typeof(float), enemyRecord.Attack.baseValue) },
                         { StatEnum.Health, (typeof(float), enemyRecord.HP.baseValue) },
