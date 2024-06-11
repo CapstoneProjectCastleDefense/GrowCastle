@@ -2,14 +2,13 @@
 {
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.StateMachines.GameStateMachine.Interfaces;
+    using Runtime.StateMachines.StateMachineBase.Interface;
 
-    public abstract class BaseGameState : IGameState
+    public abstract class BaseGameState : IGameState, IHaveStateMachine
     {
-
-        public GameStateMachine gameStateMachine;
-
         public abstract void Enter();
 
-        public abstract void Exit();
+        public abstract void          Exit();
+        public          IStateMachine StateMachine { get; set; }
     }
 }

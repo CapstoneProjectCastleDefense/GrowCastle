@@ -10,4 +10,9 @@ namespace Runtime.StateMachines.StateMachineBase.Interface
     {
         public TModel Model { set; }
     }
+
+    public interface IHaveStateMachine
+    {
+        public IStateMachine StateMachine { get; set; }
+    }
 }

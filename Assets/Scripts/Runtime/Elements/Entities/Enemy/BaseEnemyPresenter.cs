@@ -17,7 +17,7 @@
             this.View.Animator.SetTrigger("Attack");
             target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
         }
-        public ITargetable FindTarget()               { return null; }
+        public ITargetable FindTarget() { return null; }
         public void OnGetHit(float damage)
         {
             var currentHealth = this.Model.GetStat<float>(StatEnum.Health);

@@ -23,7 +23,7 @@
             this.View.transform.position = Vector3.zero;
         }
 
-        public async void SpawnEnvironment(string waveId)
+        public async void SpawnEnvironment(int waveId)
         {
             await UniTask.WaitUntil(() => this.View != null);
             if (this.currentEnvi != null) Object.Destroy(this.currentEnvi);

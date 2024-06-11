@@ -38,7 +38,7 @@
             this.CreateEnvironmentInternal(model.LevelRecord.LevelToWaveRecords.First());
             return this.currentMapLevel;
         }
-        private async void CreateEnvironmentInternal(KeyValuePair<string, LevelToWaveRecord> environment)
+        private async void CreateEnvironmentInternal(KeyValuePair<int, LevelToWaveRecord> environment)
         {
             //await UniTask.Delay(TimeSpan.FromSeconds(environment.Value.Delay));
             this.currentMapLevel.SpawnEnvironment(environment.Key);
