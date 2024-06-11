@@ -1,7 +1,6 @@
 ﻿namespace Runtime.Systems
 {
     using Models.Blueprints;
-    using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Entities.Castles;
     using Runtime.Elements.Entities.MapLevel;
@@ -14,7 +13,8 @@
         private readonly LevelBlueprint            levelBlueprint;
         private readonly CastleManager             castleManager;
         private readonly CastleLocalDataController castleLocalDataController;
-        public GenerateGameLevelSystem(MapLevelManager mapLevelManager, LevelLocalDataController levelLocalDataController, LevelBlueprint levelBlueprint, CastleManager castleManager,CastleLocalDataController castleLocalDataController)
+
+        public GenerateGameLevelSystem(MapLevelManager mapLevelManager, LevelLocalDataController levelLocalDataController, LevelBlueprint levelBlueprint, CastleManager castleManager, CastleLocalDataController castleLocalDataController)
         {
             this.mapLevelManager           = mapLevelManager;
             this.levelLocalDataController  = levelLocalDataController;
@@ -32,21 +32,18 @@
         private void GenerateMapLevel()
         {
             var currentLevelRecord = this.levelBlueprint.GetDataById(this.levelLocalDataController.CurrentLevel);
-            this.mapLevelManager.CreateElement(new MapLevelModel(){LevelRecord = currentLevelRecord});
+            this.mapLevelManager.CreateElement(new MapLevelModel() { LevelRecord = currentLevelRecord });
         }
 
         private void GenerateCastle()
         {
-            CastleModel castleModel = new CastleModel() {CastleStat = this.castleLocalDataController.GetCasteStat(), AddressableName = "Castle"};
+            CastleModel castleModel = new CastleModel() { CastleStat = this.castleLocalDataController.GetCasteStat(), AddressableName = "Castle" };
             this.castleManager.CreateElement(castleModel);
         }
-        public void Initialize()
-        {
 
-        }
-        public void Tick()
-        {
+        public void Initialize() { }
+        public void Tick()       { }
 
-        }
+        public void Dispose() { }
     }
 }

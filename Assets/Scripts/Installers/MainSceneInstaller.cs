@@ -11,20 +11,27 @@
     using Runtime.Managers;
     using Runtime.Managers.Base;
     using Runtime.Scenes;
+    using Runtime.Signals;
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.Systems;
+    using Runtime.Systems.Waves;
+    using Zenject;
 
     public class MainSceneInstaller : BaseSceneInstaller
     {
         public override void InstallBindings()
         {
             base.InstallBindings();
+            this.DeclareSignals();
+            
             this.Container.InitScreenManually<GameplayScreenPresenter>();
 
             this.BindAllSystem();
             this.BindAllManager();
             this.BindElement();
             GameStateMachineInstaller.Install(this.Container);
+            
+            WaveInstaller.Install(this.Container);
         }
 
         private void BindElement()
@@ -53,6 +60,11 @@
             {
                 if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
             }
+        }
+
+        private void DeclareSignals()
+        {
+            this.Container.DeclareSignal<TimeCooldownSignal>();
         }
     }
 }

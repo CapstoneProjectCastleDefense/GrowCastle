@@ -6,10 +6,10 @@
     using Models.Blueprints;
     using Runtime.Elements.Entities.Enemy;
     using Runtime.Enums;
-    using UnityEngine;
+    using Runtime.Signals;
     using Zenject;
 
-    public class WaveLoader : ITickable
+    public class WaveLoader : IInitializable, IDisposable
     {
         private readonly List<WaveToEnemyRecord> inQueueWaves = new();
         private          float                   waveLoadCoolDown;
@@ -17,23 +17,26 @@
         private readonly WaveBlueprint  waveBlueprint;
         private readonly EnemyBlueprint enemyBlueprint;
         private readonly EnemyManager   enemyManager;
+        private readonly SignalBus      signalBus;
 
         public WaveLoader(
             WaveBlueprint waveBlueprint,
             EnemyBlueprint enemyBlueprint,
-            EnemyManager enemyManager)
+            EnemyManager enemyManager,
+            SignalBus signalBus)
         {
             this.waveBlueprint  = waveBlueprint;
             this.enemyBlueprint = enemyBlueprint;
             this.enemyManager   = enemyManager;
+            this.signalBus      = signalBus;
         }
 
-        public void Tick()
+        private void OnTimeCooldown(TimeCooldownSignal signal)
         {
             if (this.inQueueWaves.Count <= 0) return;
             if (this.waveLoadCoolDown > 0)
             {
-                this.waveLoadCoolDown -= Time.deltaTime;
+                this.waveLoadCoolDown -= signal.DeltaTime;
             }
             else
             {
@@ -71,5 +74,9 @@
                 enemyController.UpdateView().Forget();
             }
         }
+
+        public void Initialize() { this.signalBus.Subscribe<TimeCooldownSignal>(this.OnTimeCooldown); }
+
+        public void Dispose() { this.signalBus.Unsubscribe<TimeCooldownSignal>(this.OnTimeCooldown); }
     }
 }
