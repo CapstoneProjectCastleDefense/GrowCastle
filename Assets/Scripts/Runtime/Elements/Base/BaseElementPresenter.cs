@@ -1,6 +1,5 @@
 ﻿namespace Runtime.Elements.Base
 {
-    using System;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using UnityEngine;
@@ -25,6 +24,7 @@
             if (this.View != null) return;
             var viewObject = await this.CreateView();
             this.View = viewObject.GetComponent<TView>();
+            this.UpdateView();
         }
 
         public virtual void UpdateView() { }

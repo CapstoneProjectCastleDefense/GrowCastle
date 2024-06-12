@@ -71,7 +71,6 @@
                         { StatEnum.MoveSpeed, (typeof(float), enemyRecord.Speed.baseValue) },
                     }
                 });
-                enemyController.UpdateView().Forget();
             }
         }
 
