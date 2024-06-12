@@ -29,8 +29,7 @@
                 this.currentMapLevel.Dispose();
                 this.currentMapLevel = null;
             }
-            this.currentMapLevel = this.Factory.Create(model);
-            this.currentMapLevel.UpdateView();
+            this.currentMapLevel = base.CreateElement(model);
             this.CreateEnvironmentInternal(model.LevelRecord.LevelToWaveRecords.First());
             return this.currentMapLevel;
         }

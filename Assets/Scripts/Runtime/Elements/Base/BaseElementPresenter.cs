@@ -20,17 +20,14 @@
         protected TModel Model { get; }
         protected TView  View  { get; private set; }
 
-        public virtual void Initialize() { }
-
-        public virtual async UniTask UpdateView()
+        public virtual async void Initialize()
         {
-            if (this.View == null)
-            {
-                var viewObject = await this.CreateView();
-                this.View = viewObject.GetComponent<TView>();
-            }
-            // then do something with the view
+            if (this.View != null) return;
+            var viewObject = await this.CreateView();
+            this.View = viewObject.GetComponent<TView>();
         }
+
+        public virtual void UpdateView() { }
 
         protected abstract UniTask<GameObject> CreateView();
 

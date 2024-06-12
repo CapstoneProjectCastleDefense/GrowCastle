@@ -17,9 +17,8 @@
         }
         protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.LevelRecord.PrefabName); }
 
-        public override async UniTask UpdateView()
+        public override void UpdateView()
         {
-            await base.UpdateView();
             this.View.transform.position = Vector3.zero;
         }
 

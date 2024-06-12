@@ -28,9 +28,8 @@
             this.gameAssets = gameAssets;
         }
 
-        public override async UniTask UpdateView()
+        public override void UpdateView()
         {
-            await base.UpdateView();
             this.View.image.sprite       = this.gameAssets.LoadAssetAsync<Sprite>(this.Model.SlotRecord.Image).WaitForCompletion();
             this.View.transform.position = this.Model.SlotRecord.Position;
             this.View.OnMouseClick       = this.OnClick;

@@ -23,10 +23,8 @@
         }
         protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
-        public override async UniTask UpdateView()
+        public override void UpdateView()
         {
-            await base.UpdateView();
-            await UniTask.WaitUntil(() => this.View != null);
             this.View.transform.position = new(-8.54f, -1.33f, 0);
             this.UpdateBlockBaseOnCurrentLevel();
         }
