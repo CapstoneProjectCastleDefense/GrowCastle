@@ -1,8 +1,10 @@
 ﻿namespace Runtime.Elements.Base
 {
+    using Cysharp.Threading.Tasks;
+
     public interface IElementPresenter
     {
-        void Initialize();
+        UniTaskVoid Initialize();
         void Dispose();
         void UpdateView();
     }

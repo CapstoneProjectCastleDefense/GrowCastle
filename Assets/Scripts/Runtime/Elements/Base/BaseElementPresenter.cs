@@ -8,7 +8,7 @@
     public abstract class BaseElementPresenter<TModel, TView, TPresenter> : IElementPresenter
         where TView : BaseElementView where TPresenter : BaseElementPresenter<TModel, TView, TPresenter> where TModel : IElementModel
     {
-        protected ObjectPoolManager ObjectPoolManager;
+        protected        ObjectPoolManager ObjectPoolManager;
 
         protected BaseElementPresenter(TModel model, ObjectPoolManager objectPoolManager)
         {
@@ -19,9 +19,8 @@
         protected TModel Model { get; }
         protected TView  View  { get; private set; }
 
-        public virtual async void Initialize()
+        public virtual async UniTaskVoid Initialize()
         {
-            if (this.View != null) return;
             var viewObject = await this.CreateView();
             this.View = viewObject.GetComponent<TView>();
             this.UpdateView();
@@ -40,7 +39,7 @@
             public override TPresenter Create(TModel param)
             {
                 var presenter = this.Container.Instantiate<TPresenter>(new object[] { param });
-                presenter.Initialize();
+                presenter.Initialize().Forget();
 
                 return presenter;
             }
