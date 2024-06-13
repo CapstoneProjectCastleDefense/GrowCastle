@@ -3,7 +3,13 @@
 --- !u!78 &1
 TagManager:
   serializedVersion: 2
-  tags: []
+  tags:
+  - Undefined
+  - Ally
+  - Fly
+  - Ground
+  - Boss
+  - Building
   layers:
   - Default
   - TransparentFX
@@ -13,11 +19,11 @@ TagManager:
   - UI
   - 
   - 
-  - 
-  - 
-  - 
-  - 
-  - 
+  - NotTargetable
+  - Enemy
+  - EnemyProjectile
+  - Ally
+  - AllyProjectile
   - 
   - 
   - 
@@ -38,12 +44,21 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 431636365
+    locked: 0
   - name: Default
     uniqueID: 0
     locked: 0
-  - name: Archer
-    uniqueID: 2323357539
+  - name: Castle
+    uniqueID: 3689165055
     locked: 0
-  - name: Slot
-    uniqueID: 3947752771
+  - name: Entity
+    uniqueID: 1939197609
+    locked: 0
+  - name: Projectile
+    uniqueID: 142633337
+    locked: 0
+  - name: Foreground
+    uniqueID: 4185232153
     locked: 0

@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using Extensions;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Runtime.Elements.Base;
     using Runtime.Enums;
@@ -12,13 +13,15 @@
 
     public class EnemyPresenter : BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
     {
-        private const string AttackAnimName = "Attack";
-        private const string DeathAnimName  = "Death";
+        private static readonly int    AttackAnimIndex = Animator.StringToHash(AttackAnimName);
+        private static readonly int    DeathAnimIndex  = Animator.StringToHash(DeathAnimName);
+        private const           string AttackAnimName  = "Attack";
+        private const           string DeathAnimName   = "Death";
         protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
 
         public void Attack(ITargetable target)
         {
-            this.View.Animator.SetTrigger(AttackAnimName);
+            if (AttackAnimName.IsNullOrEmpty() && this.View.Animator) this.View.Animator.SetTrigger(AttackAnimIndex);
             target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
         }
 
@@ -33,9 +36,13 @@
 
         public void OnDeath()
         {
-            this.View.Animator.SetTrigger(DeathAnimName);
-            var clip = this.View.Animator.runtimeAnimatorController.animationClips.First(x => x.name == DeathAnimName);
-            UniTask.Delay(TimeSpan.FromSeconds(clip.length)).ContinueWith(this.Dispose).Forget();
+            var wait = 0f;
+            if (DeathAnimName.IsNullOrEmpty()&& this.View.Animator)
+            {
+                this.View.Animator.SetTrigger(DeathAnimIndex);
+                wait = this.View.Animator.runtimeAnimatorController.animationClips.First(x => x.name == DeathAnimName).length;
+            }
+            UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
         }
 
         protected override UniTask<GameObject> CreateView()
