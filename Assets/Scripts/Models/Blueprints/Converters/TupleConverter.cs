@@ -11,7 +11,7 @@
     {
         private readonly string separator;
 
-        public TupleConverter(string separator = "/") { this.separator = separator; }
+        public TupleConverter(string separator = "|") { this.separator = separator; }
 
         public object ConvertFromString(string str, Type type)
         {
