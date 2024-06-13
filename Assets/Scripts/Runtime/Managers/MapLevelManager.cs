@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Cysharp.Threading.Tasks;
     using Models.Blueprints;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
@@ -19,7 +20,7 @@
         }
         public override void Initialize()
         {
-            
+
         }
 
         public override MapLevelPresenter CreateElement(MapLevelModel model)
@@ -30,7 +31,7 @@
                 this.currentMapLevel = null;
             }
             this.currentMapLevel = this.Factory.Create(model);
-            this.currentMapLevel.UpdateView();
+            this.currentMapLevel.UpdateView().Forget();
             this.CreateEnvironmentInternal(model.LevelRecord.LevelToWaveRecords.First());
             return this.currentMapLevel;
         }
@@ -40,8 +41,8 @@
             this.currentMapLevel.SpawnEnvironment(environment.Key);
         }
         public override void DisposeAllElement()
-        { 
-            
+        {
+
         }
     }
 }

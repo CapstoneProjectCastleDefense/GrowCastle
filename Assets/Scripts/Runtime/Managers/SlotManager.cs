@@ -14,11 +14,11 @@
         }
         public override void Initialize()
         {
-            
+
         }
         public override void DisposeAllElement()
         {
-            
+
         }
         public void EquipHeo(IHeroPresenter heroPresenter)
         {
@@ -27,9 +27,8 @@
 
         public override SlotPresenter CreateElement(SlotModel model)
         {
-            var presenter = this.Factory.Create(model);
+            var presenter = base.CreateElement(model);
             presenter.slotManager = this;
-            this.entities.Add(presenter);
             return presenter;
         }
 
@@ -37,6 +36,6 @@
         {
             this.currentSelectedSlot = slotPresenter;
         }
-        
+
     }
 }
