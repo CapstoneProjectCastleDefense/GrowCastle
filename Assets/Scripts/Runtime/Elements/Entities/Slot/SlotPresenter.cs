@@ -36,11 +36,16 @@
             this.View.OnMouseClick       = this.OnClick;
         }
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
-        public             void                OnClick()    { this.slotManager.UpdateCurrentSelectedSlot(this); }
+
+        public void OnClick()
+        {
+            this.slotManager.UpdateCurrentSelectedSlot(this);
+            Debug.Log("Click slot!!");
+        }
 
         public void LoadHero(IHeroPresenter heroPresenter)
         {
-            //using hero 
+            //using hero
         }
 
         public void UnLoadHero() { }
