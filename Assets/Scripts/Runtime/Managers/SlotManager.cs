@@ -1,5 +1,7 @@
 ﻿namespace Runtime.Managers
 {
+    using Cysharp.Threading.Tasks;
+    using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Slot;
     using Runtime.Interfaces.Entities;
@@ -7,10 +9,12 @@
 
     public class SlotManager : BaseElementManager<SlotModel,SlotPresenter,SlotView>
     {
-        private SlotPresenter currentSelectedSlot;
-        public SlotManager(BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory)
+        private readonly SlotLocalDataController slotLocalDataController;
+        private          SlotPresenter           currentSelectedSlot;
+        public SlotManager(BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory, SlotLocalDataController slotLocalDataController)
             : base(factory)
         {
+            this.slotLocalDataController = slotLocalDataController;
         }
         public override void Initialize()
         {
@@ -30,6 +34,15 @@
             var presenter = base.CreateElement(model);
             presenter.slotManager = this;
             return presenter;
+        }
+
+        public void CreateAllSlot()
+        {
+            this.slotLocalDataController.GetAllSlotData.ForEach(slotData =>
+            {
+                var slotPresenter = this.CreateElement(new SlotModel() { AddressableName = "BaseSlot", Id = slotData.SlotId.ToString(), SlotRecord = this.slotLocalDataController.GetSlotDataRecord(slotData.SlotId) });
+                slotPresenter.UpdateView().Forget();
+            });
         }
 
         public void UpdateCurrentSelectedSlot(SlotPresenter slotPresenter)

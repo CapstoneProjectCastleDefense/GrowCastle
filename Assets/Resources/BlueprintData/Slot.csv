@@ -1,3 +1,2 @@
 ﻿Id,SlotType,Image,EffectId,Position
-1,Tower,SlotImage_TW,Effect_1,0|0|0
-2,Hero,SlotImage_Hero,Effect_2,1|1|1
+1,Tower,SlotImage,Effect_1,-8.5|-0.5|0

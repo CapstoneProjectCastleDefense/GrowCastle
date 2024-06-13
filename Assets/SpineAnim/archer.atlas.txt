@@ -1,0 +1,55 @@
+
+archer.png
+size: 1264,295
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+archer 02/head Copy
+  rotate: false
+  xy: 2, 32
+  size: 317, 261
+  orig: 317, 261
+  offset: 0, 0
+  index: -1
+archer 03/body Copy 2
+  rotate: false
+  xy: 321, 3
+  size: 280, 290
+  orig: 280, 290
+  offset: 0, 0
+  index: -1
+archer images/body
+  rotate: false
+  xy: 1067, 50
+  size: 195, 243
+  orig: 195, 243
+  offset: 0, 0
+  index: -1
+archer images/cung
+  rotate: false
+  xy: 603, 39
+  size: 229, 254
+  orig: 229, 254
+  offset: 0, 0
+  index: -1
+archer images/head
+  rotate: true
+  xy: 834, 51
+  size: 242, 231
+  orig: 242, 231
+  offset: 0, 0
+  index: -1
+archer images/leg 1
+  rotate: true
+  xy: 2, 3
+  size: 27, 83
+  orig: 27, 83
+  offset: 0, 0
+  index: -1
+archer images/leg 2
+  rotate: true
+  xy: 603, 2
+  size: 35, 84
+  orig: 35, 84
+  offset: 0, 0
+  index: -1

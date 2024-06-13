@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Models.Blueprints;
+    using Sirenix.Utilities;
 
     public class SlotLocalDataController : ILocalDataController
     {
@@ -12,6 +13,15 @@
         {
             this.slotLocalData = slotLocalData;
             this.slotBlueprint = slotBlueprint;
+            if (this.slotLocalData.SlotData == null)
+            {
+                this.slotLocalData.SlotData = new();
+                this.slotBlueprint.ForEach(slot =>
+                {
+                    this.slotLocalData.SlotData.Add(new() { SlotId = slot.Key, SlotType = slot.Value.SlotType, IsUnlock = false });
+                });
+                this.slotLocalData.SlotData[0].IsUnlock = true;
+            }
         }
 
         public List<SlotData> GetAllSlotData => this.slotLocalData.SlotData;

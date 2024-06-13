@@ -21,7 +21,9 @@
             this.gameAssets                = gameAssets;
             this.blueprint                 = blueprint;
         }
-        protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
+
+        public             CastleView          CastleView => this.View;
+        protected override UniTask<GameObject> CreateView()  { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
         public override async UniTask UpdateView()
         {
