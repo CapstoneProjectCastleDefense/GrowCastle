@@ -8,7 +8,7 @@
     [CsvHeaderKey("Id")]
     public class EnemyBlueprint : GenericBlueprintReaderByRow<string, EnemyRecord>
     {
-        static EnemyBlueprint() { CsvHelper.RegisterTypeConverter(typeof((int, int)), new TupleConverter()); }
+        static EnemyBlueprint() { CsvHelper.RegisterTypeConverter(typeof((float, float)), new TupleConverter()); }
     }
 
     public class EnemyRecord
