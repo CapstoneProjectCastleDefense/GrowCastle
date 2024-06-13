@@ -5,8 +5,9 @@
         Default, // closest
         LowHealth,
         HighHealth,
-        Flying,
+        Fly,
         Ground,
         Boss,
+        Building,
     }
 }

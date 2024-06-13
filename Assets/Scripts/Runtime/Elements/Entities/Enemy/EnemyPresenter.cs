@@ -10,16 +10,19 @@
     using Runtime.Enums;
     using Runtime.Interfaces;
     using Runtime.Interfaces.Entities;
+    using Runtime.Systems;
     using UnityEngine;
 
     public class EnemyPresenter : BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
     {
-        private const string       AttackAnimName = "atk";
-        private const string       DeathAnimName  = "dead";
-        private       EnemyManager enemyManager;
-        protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager)
+        private const    string           AttackAnimName = "atk";
+        private const    string           DeathAnimName  = "dead";
+        private          EnemyManager     enemyManager;
+        private readonly FindTargetSystem findTargetSystem;
+        protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem)
             : base(model, objectPoolManager)
         {
+            this.findTargetSystem = findTargetSystem;
         }
 
         public EnemyView GetEnemyView                     => this.View;
@@ -44,7 +47,7 @@
             target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
         }
 
-        public ITargetable FindTarget() { return null; }
+        public ITargetable FindTarget() { return this.findTargetSystem.GetTarget(this, AttackPriorityEnum.Default, new() { "Ally", "Building" }); }
 
         private void UpdateHealthView()
         {
@@ -52,6 +55,8 @@
             this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / 20, 0.1f);
         }
 
+        public LayerMask LayerMask => this.View.gameObject.layer;
+        public string    Tag       => this.View.gameObject.tag;
         public void OnGetHit(float damage)
         {
             var currentHealth = this.Model.GetStat<float>(StatEnum.Health);
