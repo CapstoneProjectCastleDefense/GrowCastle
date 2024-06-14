@@ -28,6 +28,8 @@
             this.gameAssets = gameAssets;
         }
 
+        public SlotView GetSlotView => this.View;
+
         public override async UniTask UpdateView()
         {
             await base.UpdateView();

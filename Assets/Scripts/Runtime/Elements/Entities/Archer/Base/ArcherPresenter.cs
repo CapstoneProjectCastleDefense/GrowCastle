@@ -18,25 +18,27 @@
             await base.UpdateView();
             this.View.transform.SetParent(this.Model.ParentView);
             this.View.transform.localPosition                   = Vector3.zero;
-            this.View.GetComponent<MeshRenderer>().sortingOrder = this.Model.Index;
+            this.View.GetComponent<MeshRenderer>().sortingOrder = this.Model.Index + 1;
         }
 
         public void Attack(ITargetable target = null)
         {
             if (target == null)
                 target = this.FindTarget();
+
             if (target == null) return;
             var attackPower = this.Model.GetStat<float>(StatEnum.Attack);
         }
+
         public ITargetable FindTarget()
         {
             var attackPriority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
+
             return null;
         }
 
-        public void CastSkill(IEntitySkillPresenter entitySkillPresenter, ITargetable target)
+        public void CastSkill(string skillId, ITargetable target)
         {
-
         }
 
         protected override UniTask<GameObject> CreateView()

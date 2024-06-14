@@ -2,8 +2,8 @@
 {
     using Runtime.Elements.Base;
 
-    public class BaseHeroView : BaseElementView
+    public class HeroView : BaseElementView
     {
-        
+
     }
 }

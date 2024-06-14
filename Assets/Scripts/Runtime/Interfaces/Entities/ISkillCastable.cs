@@ -4,6 +4,6 @@
 
     public interface ISkillCastable
     {
-        void CastSkill(IEntitySkillPresenter entitySkillPresenter, ITargetable target);
+        void CastSkill(string skillId, ITargetable target);
     }
 }

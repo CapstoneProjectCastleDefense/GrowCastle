@@ -7,8 +7,10 @@
     using Runtime.Elements.Entities.Archer.Base;
     using Runtime.Elements.Entities.Castles;
     using Runtime.Elements.Entities.Enemy;
+    using Runtime.Elements.Entities.Hero;
     using Runtime.Elements.Entities.MapLevel;
     using Runtime.Elements.Entities.Slot;
+    using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Managers.Base;
     using Runtime.Scenes;
@@ -30,6 +32,7 @@
             this.BindAllSystem();
             this.BindAllManager();
             this.BindElement();
+            this.BindAllSkill();
             GameStateMachineInstaller.Install(this.Container);
 
             WaveInstaller.Install(this.Container);
@@ -41,12 +44,14 @@
                 .WhenInjectedInto<CastleManager>();
             this.Container.BindFactory<MapLevelModel, MapLevelPresenter, MapLevelPresenter.Factory>().AsCached()
                 .WhenInjectedInto<MapLevelManager>();
-            this.Container.BindFactory<SlotModel, SlotPresenter,SlotPresenter.Factory>().AsCached()
+            this.Container.BindFactory<SlotModel, SlotPresenter, SlotPresenter.Factory>().AsCached()
                 .WhenInjectedInto<SlotManager>();
             this.Container.BindFactory<EnemyModel, EnemyPresenter, EnemyPresenter.Factory>().AsCached()
                 .WhenInjectedInto<EnemyManager>();
             this.Container.BindFactory<ArcherModel, ArcherPresenter, ArcherPresenter.Factory>().AsCached()
                 .WhenInjectedInto<ArcherManager>();
+            this.Container.BindFactory<HeroModel, HeroPresenter, HeroPresenter.Factory>().AsCached()
+                .WhenInjectedInto<HeroManager>();
         }
 
         private void BindAllManager()
@@ -60,6 +65,14 @@
         private void BindAllSystem()
         {
             foreach (var type in ReflectionUtils.GetAllDerivedTypes<IGameSystem>())
+            {
+                if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
+            }
+        }
+
+        private void BindAllSkill()
+        {
+            foreach (var type in ReflectionUtils.GetAllDerivedTypes<IEntitySkillPresenter>())
             {
                 if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
             }

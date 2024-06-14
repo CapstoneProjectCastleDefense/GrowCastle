@@ -5,11 +5,13 @@
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Interfaces;
+    using UnityEngine;
 
-    public abstract class BaseHeroModel : IElementModel, IHaveStats
+    public class HeroModel : IElementModel, IHaveStats
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }
         public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
+        public Transform                            ParentView      { get; set; }
     }
 }
