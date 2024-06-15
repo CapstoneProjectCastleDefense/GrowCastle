@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 15216840342310218}
   - component: {fileID: 3900704071852464764}
   - component: {fileID: 8094330637975608009}
+  - component: {fileID: -5970182367299595993}
   m_Layer: 0
   m_Name: HeroKnight
   m_TagString: Untagged
@@ -98,7 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   skeletonDataAsset: {fileID: 11400000, guid: 2ddf1a6994406ae47ab0b229dd1f8059, type: 2}
-  initialSkinName: 1
+  initialSkinName: 2
   initialFlipX: 0
   initialFlipY: 0
   updateWhenInvisible: 3
@@ -134,3 +135,49 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb72d6fe8fed4fc18ed0312329c550cb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  skeletonAnimation: {fileID: 3900704071852464764}
+--- !u!61 &-5970182367299595993
+BoxCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7991563882657363595}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_ForceSendLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ForceReceiveLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_ContactCaptureLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_CallbackLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0.067578554, y: 1.8527708}
+  m_SpriteTilingProperty:
+    border: {x: 0, y: 0, z: 0, w: 0}
+    pivot: {x: 0, y: 0}
+    oldSize: {x: 0, y: 0}
+    newSize: {x: 0, y: 0}
+    adaptiveTilingThreshold: 0
+    drawMode: 0
+    adaptiveTiling: 0
+  m_AutoTiling: 0
+  serializedVersion: 2
+  m_Size: {x: 4.243757, y: 4.7055416}
+  m_EdgeRadius: 0

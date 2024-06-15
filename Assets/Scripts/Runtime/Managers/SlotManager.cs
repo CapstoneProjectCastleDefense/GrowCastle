@@ -63,5 +63,7 @@
             this.currentSelectedSlot = slotPresenter;
         }
 
+        public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
+
     }
 }

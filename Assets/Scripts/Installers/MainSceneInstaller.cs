@@ -18,6 +18,7 @@
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.Systems;
     using Runtime.Systems.Waves;
+    using UnityEngine.EventSystems;
     using Zenject;
 
     public class MainSceneInstaller : BaseSceneInstaller
@@ -36,6 +37,7 @@
             GameStateMachineInstaller.Install(this.Container);
 
             WaveInstaller.Install(this.Container);
+            this.Container.Bind<EventSystem>().FromComponentInNewPrefabResource("EventSystem").AsSingle().NonLazy();
         }
 
         private void BindElement()
@@ -78,9 +80,6 @@
             }
         }
 
-        private void DeclareSignals()
-        {
-            this.Container.DeclareSignal<TimeCooldownSignal>();
-        }
+        private void DeclareSignals() { this.Container.DeclareSignal<TimeCooldownSignal>(); }
     }
 }

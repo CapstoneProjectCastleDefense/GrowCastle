@@ -13,11 +13,9 @@
             this.gameLevelSystem = gameLevelSystem;
             this.screenManager   = screenManager;
         }
-        public override async void Enter()
+        public override void Enter()
         {
-            //await this.screenManager.OpenScreen<GameplayScreenPresenter>();
             this.gameLevelSystem.GenerateCurrentLevelGame();
-            this.StateMachine.TransitionTo<GameStartWaveState>();
         }
 
         public override void Exit()

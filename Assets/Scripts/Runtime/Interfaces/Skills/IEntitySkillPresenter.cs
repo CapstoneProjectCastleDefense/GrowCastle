@@ -11,13 +11,13 @@
     {
         public abstract string SkillId { get; }
 
-        public TModel skillModel;
+        protected TModel SkillModel;
 
         public virtual void Activate(BaseSkillModel baseSkillModel)
         {
             if (baseSkillModel is TModel model)
             {
-                this.skillModel = model;
+                this.SkillModel = model;
             }
         }
     }

@@ -5,6 +5,6 @@
     public interface IEquippable
     {
         void Equip(IEquipment equipment);
-        void Unequip(IEquipment equipment);
+        void UnEquip(IEquipment equipment);
     }
 }

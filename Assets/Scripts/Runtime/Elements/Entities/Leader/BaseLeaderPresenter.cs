@@ -21,7 +21,7 @@
 
         public void Equip(IEquipment equipment) { throw new System.NotImplementedException(); }
 
-        public void Unequip(IEquipment equipment) { throw new System.NotImplementedException(); }
+        public void UnEquip(IEquipment equipment) { throw new System.NotImplementedException(); }
 
         public void OnGetHit(float damage) { throw new System.NotImplementedException(); }
 

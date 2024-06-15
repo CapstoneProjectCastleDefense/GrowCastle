@@ -1,9 +1,12 @@
 ﻿namespace Runtime.Elements.Entities.Slot
 {
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
+    using Extensions;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
+    using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Interfaces.Entities;
@@ -20,12 +23,14 @@
 
     public class SlotPresenter : BaseElementPresenter<SlotModel, SlotView, SlotPresenter>
     {
-        private readonly IGameAssets gameAssets;
-        public           SlotManager slotManager;
+        private readonly IGameAssets             gameAssets;
+        private readonly SlotLocalDataController slotLocalDataController;
+        public           SlotManager             slotManager;
         public SlotPresenter(SlotModel model, ObjectPoolManager objectPoolManager, IGameAssets gameAssets, SlotLocalDataController slotLocalDataController)
             : base(model, objectPoolManager)
         {
-            this.gameAssets = gameAssets;
+            this.gameAssets              = gameAssets;
+            this.slotLocalDataController = slotLocalDataController;
         }
 
         public SlotView GetSlotView => this.View;
@@ -48,6 +53,12 @@
         public void LoadHero(IHeroPresenter heroPresenter)
         {
             //using hero
+        }
+
+        public void DeActiveView()
+        {
+            this.View.image.DOFade(0, 0.1f);
+            this.View.image.GetComponent<BoxCollider2D>().enabled = false;
         }
 
         public void UnLoadHero() { }
