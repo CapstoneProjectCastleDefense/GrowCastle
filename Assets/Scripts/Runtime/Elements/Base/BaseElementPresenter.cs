@@ -21,6 +21,8 @@
         protected TView  View  { get; private set; }
 
         public virtual void Initialize() { }
+        
+        public virtual void Tick(){}
 
         public virtual async UniTask UpdateView()
         {

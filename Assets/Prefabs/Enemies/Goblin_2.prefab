@@ -11,7 +11,17 @@ PrefabInstance:
     - target: {fileID: 814328206612611133, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_Name
-      value: Goblin_2 Variant
+      value: Goblin_2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5352632078692599770, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: m_Mass
+      value: 0.0001
+      objectReference: {fileID: 0}
+    - target: {fileID: 5352632078692599770, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: m_Constraints
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8823434734986036782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}

@@ -14,6 +14,7 @@
     using Runtime.Managers;
     using Runtime.Managers.Base;
     using Runtime.Scenes;
+    using Runtime.Services;
     using Runtime.Signals;
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.Systems;
@@ -34,6 +35,7 @@
             this.BindAllManager();
             this.BindElement();
             this.BindAllSkill();
+            this.BindService();
             GameStateMachineInstaller.Install(this.Container);
 
             WaveInstaller.Install(this.Container);
@@ -78,6 +80,11 @@
             {
                 if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
             }
+        }
+
+        private void BindService()
+        {
+            this.Container.BindInterfacesAndSelfTo<TimeCoolDownService>().AsCached();
         }
 
         private void DeclareSignals() { this.Container.DeclareSignal<TimeCooldownSignal>(); }

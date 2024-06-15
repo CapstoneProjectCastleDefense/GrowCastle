@@ -2,8 +2,9 @@
 {
     using System.Collections.Generic;
     using Runtime.Elements.Base;
+    using Zenject;
 
-    public abstract class BaseElementManager<TModel, TPresenter, TView> : IElementManager
+    public abstract class BaseElementManager<TModel, TPresenter, TView> : IElementManager, ITickable
         where TView : BaseElementView
         where TPresenter : BaseElementPresenter<TModel, TView, TPresenter>
         where TModel : IElementModel
@@ -19,5 +20,9 @@
             return presenter;
         }
         public abstract void DisposeAllElement();
+        public virtual void Tick()
+        {
+            this.entities.ForEach(e=>e.Tick());
+        }
     }
 }

@@ -3,8 +3,8 @@
     using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
-    using Extensions;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using global::Extensions;
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Interfaces;
@@ -13,15 +13,20 @@
 
     public class EnemyPresenter : BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
     {
-        private static readonly int    AttackAnimIndex = Animator.StringToHash(AttackAnimName);
-        private static readonly int    DeathAnimIndex  = Animator.StringToHash(DeathAnimName);
-        private const           string AttackAnimName  = "Attack";
-        private const           string DeathAnimName   = "Death";
+        private const           string AttackAnimName  = "atk";
+        private const           string DeathAnimName   = "dead";
         protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
 
+        public EnemyView GetEnemyView => this.View;
+
+        public override async UniTask UpdateView()
+        {
+            await base.UpdateView();
+            this.View.transform.position = this.Model.StartPos;
+        }
         public void Attack(ITargetable target)
         {
-            if (AttackAnimName.IsNullOrEmpty() && this.View.Animator) this.View.Animator.SetTrigger(AttackAnimIndex);
+            if (AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation) this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
             target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
         }
 
@@ -37,10 +42,10 @@
         public void OnDeath()
         {
             var wait = 0f;
-            if (DeathAnimName.IsNullOrEmpty()&& this.View.Animator)
+            if (DeathAnimName.IsNullOrEmpty()&& this.View.SkeletonAnimation!=null)
             {
-                this.View.Animator.SetTrigger(DeathAnimIndex);
-                wait = this.View.Animator.runtimeAnimatorController.animationClips.First(x => x.name == DeathAnimName).length;
+                this.View.SkeletonAnimation.SetAnimation(DeathAnimName);
+                wait = 0.3f;
             }
             UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
         }

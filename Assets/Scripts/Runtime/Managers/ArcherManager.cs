@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Managers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
@@ -8,6 +9,7 @@
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Archer.Base;
     using Runtime.Elements.Entities.Castles.ArcherSlots;
+    using Runtime.Enums;
     using Runtime.Managers.Base;
 
     public class ArcherManager : BaseElementManager<ArcherModel,ArcherPresenter,ArcherView>
@@ -31,9 +33,26 @@
             this.archerLocalDataController.GetAllUnlockedArcher().ForEach(archerData =>
             {
                 var archerSlot      = archerSlots.First(e => e.index == archerData.index);
-                var archerPresenter = this.CreateElement(new() { Index = archerData.index, Level = archerData.level, AddressableName = this.archerBlueprint.GetDataById(archerData.level).PrefabName,ParentView = archerSlot.gameObject.transform});
+                var archerPresenter = this.CreateElement(new()
+                {
+                    Index = archerData.index,
+                    Level = archerData.level,
+                    AddressableName = this.archerBlueprint.GetDataById(archerData.level).PrefabName,
+                    ParentView = archerSlot.gameObject.transform,
+                    Stats = new Dictionary<StatEnum, (Type, object)>
+                    {
+                        { StatEnum.Attack, (typeof(float), 10f) },
+                        { StatEnum.Health, (typeof(float), 10f) },
+                        { StatEnum.AttackSpeed, (typeof(float), 1f) },
+                    }
+                });
                 archerPresenter.UpdateView().Forget();
             });
+        }
+
+        public void ChangeAttackStatusOfAllArcher(bool canAttack)
+        {
+            this.entities.ForEach(e=>e.SetAttackStatus(canAttack));
         }
 
         public void UpgradeArcher()

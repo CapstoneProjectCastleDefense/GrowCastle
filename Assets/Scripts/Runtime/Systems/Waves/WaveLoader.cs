@@ -7,6 +7,7 @@
     using Runtime.Elements.Entities.Enemy;
     using Runtime.Enums;
     using Runtime.Signals;
+    using UnityEngine;
     using Zenject;
 
     public class WaveLoader : IInitializable, IDisposable
@@ -60,7 +61,7 @@
             var enemyRecord = this.enemyBlueprint[enemyId];
             for (var i = 0; i < quantity; i++)
             {
-                var enemyController = this.enemyManager.CreateElement(new EnemyModel()
+                var enemyPresenter = this.enemyManager.CreateElement(new EnemyModel()
                 {
                     Id              = enemyId,
                     AddressableName = enemyRecord.PrefabName,
@@ -69,9 +70,10 @@
                         { StatEnum.Attack, (typeof(float), enemyRecord.Attack.baseValue) },
                         { StatEnum.Health, (typeof(float), enemyRecord.HP.baseValue) },
                         { StatEnum.MoveSpeed, (typeof(float), enemyRecord.Speed.baseValue) },
-                    }
+                    },
+                    StartPos = new Vector3(0,-2,0)
                 });
-                enemyController.UpdateView().Forget();
+                enemyPresenter.UpdateView().Forget();
             }
         }
 
