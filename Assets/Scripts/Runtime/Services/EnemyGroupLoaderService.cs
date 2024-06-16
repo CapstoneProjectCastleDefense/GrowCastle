@@ -1,4 +1,4 @@
-﻿namespace Runtime.Systems.Waves
+﻿namespace Runtime.Services
 {
     using System;
     using System.Collections.Generic;
@@ -8,7 +8,7 @@
     using Runtime.Signals;
     using Zenject;
 
-    public class WaveLoader : IInitializable, IDisposable
+    public class EnemyGroupLoaderService : IInitializable, IDisposable
     {
         private readonly List<WaveToEnemyRecord> inQueueWaves = new();
         private          float                   waveLoadCoolDown;
@@ -17,7 +17,7 @@
         private readonly EnemyManager   enemyManager;
         private readonly SignalBus      signalBus;
 
-        public WaveLoader(
+        public EnemyGroupLoaderService(
             WaveBlueprint waveBlueprint,
             EnemyManager enemyManager,
             SignalBus signalBus)

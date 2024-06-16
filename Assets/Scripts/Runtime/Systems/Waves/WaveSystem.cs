@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Models.Blueprints;
+    using Runtime.Services;
     using Runtime.Signals;
     using Zenject;
     using Time = UnityEngine.Time;
@@ -12,15 +13,15 @@
         private          float                               waveLoadCoolDown;
         private readonly List<(int waveId, float delayTime)> waveWithDelayTimeQueue = new();
 
-        private readonly WaveLoader     waveLoader;
+        private readonly EnemyGroupLoaderService     enemyGroupLoaderService;
         private readonly LevelBlueprint levelBlueprint;
         private readonly SignalBus      signalBus;
 
-        public WaveSystem(WaveLoader waveLoader,
+        public WaveSystem(EnemyGroupLoaderService enemyGroupLoaderService,
                           LevelBlueprint levelBlueprint,
                           SignalBus signalBus)
         {
-            this.waveLoader     = waveLoader;
+            this.enemyGroupLoaderService     = enemyGroupLoaderService;
             this.levelBlueprint = levelBlueprint;
             this.signalBus      = signalBus;
         }
@@ -37,7 +38,7 @@
             {
                 var record = this.waveWithDelayTimeQueue[0];
 
-                this.waveLoader.LoadWave(record.waveId);
+                this.enemyGroupLoaderService.LoadWave(record.waveId);
                 this.waveLoadCoolDown = record.delayTime;
 
                 this.waveWithDelayTimeQueue.Remove(record);

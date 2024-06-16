@@ -1,19 +1,27 @@
-﻿namespace Runtime.Elements.Skills
+﻿namespace Runtime.Elements.EntitySkills
 {
+    using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using Runtime.Enums;
     using Runtime.Interfaces.Skills;
     using UnityEngine;
 
-    public class SummonSkill : BaseEntitySkillPresenter<SummonKnightSkillModel>
+    public class SummonSkill : BaseEntitySkillPresenter<SummonSkillModel>
     {
+        public override EntitySkillType SkillType { get; set; } = EntitySkillType.Summon;
+        
         private readonly ObjectPoolManager objectPoolManager;
-        public override  string            SkillId => "SummonSkill";
 
         public SummonSkill(ObjectPoolManager objectPoolManager) { this.objectPoolManager = objectPoolManager; }
 
-        public override async void Activate(BaseSkillModel skillModel)
+        protected override void InternalActivate()
         {
-            base.Activate(skillModel);
+            this.Summon().Forget();
+        }
+
+        private async UniTaskVoid Summon()
+        {
+            //todo: summon base on data instead of knight only
             var startPos = this.SkillModel.StartPos;
             for (var i = 0; i < this.SkillModel.Number; i++)
             {
@@ -25,7 +33,7 @@
         }
     }
 
-    public class SummonKnightSkillModel : BaseSkillModel
+    public class SummonSkillModel : BaseSkillModel
     {
         public int     Number;
         public string  PrefabName;

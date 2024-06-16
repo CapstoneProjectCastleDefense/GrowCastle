@@ -1,29 +1,33 @@
 ﻿namespace Runtime.Interfaces.Skills
 {
+    using Runtime.Enums;
 
     public interface IEntitySkillPresenter
     {
-        string         SkillId    { get; }
-        void           Activate(BaseSkillModel baseSkillModel);
+        EntitySkillType SkillType { get; set; }
+        void            Activate(BaseSkillModel baseSkillModel);
     }
 
     public abstract class BaseEntitySkillPresenter<TModel> : IEntitySkillPresenter where TModel : BaseSkillModel
     {
-        public abstract string SkillId { get; }
+        public abstract EntitySkillType SkillType { get; set; }
+        
+        protected       TModel          SkillModel;
 
-        protected TModel SkillModel;
-
-        public virtual void Activate(BaseSkillModel baseSkillModel)
+        public void Activate(BaseSkillModel baseSkillModel)
         {
             if (baseSkillModel is TModel model)
             {
                 this.SkillModel = model;
             }
+
+            this.InternalActivate();
         }
+
+        protected virtual void InternalActivate() { }
     }
 
     public abstract class BaseSkillModel
     {
-
     }
 }

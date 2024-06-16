@@ -1,8 +1,9 @@
-﻿namespace Runtime.Interfaces
+﻿namespace Runtime.Extensions
 {
     using System;
     using Runtime.Enums;
     using UnityEngine;
+    using Runtime.Interfaces;
 
     public static class HaveStatsExtension
     {
