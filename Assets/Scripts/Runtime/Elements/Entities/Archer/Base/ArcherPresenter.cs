@@ -52,14 +52,17 @@
             target ??= this.FindTarget();
             if (target == null) return;
             var enemy       = (EnemyPresenter)target;
-            var attackPower = this.Model.GetStat<float>(StatEnum.Attack);
+            
             this.View.skeletonAnimation.SetAnimation("attack",false);
+            var attackPower = this.Model.GetStat<float>(StatEnum.Attack);
+            
             var arrow = this.ObjectPoolManager.Spawn(this.View.arrowPrefab, this.View.spawnArrowPos);
             arrow.transform.localPosition = Vector3.zero;
             arrow.transform.Fly(arrow.transform.position, enemy.GetEnemyView.transform.position, 3, 0.7f, 0, new Vector3(1,1,-7), () =>
             {
                 arrow.Recycle();
                 DOTween.Kill(arrow.transform);
+                if(!enemy.IsDead) enemy.OnGetHit(attackPower);
             });
             
         }

@@ -13,5 +13,6 @@
         public string                               AddressableName { get; set; }
         public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
         public Vector3                              StartPos        { get; set; }
+        public Vector3                              EndPos          { get; set; }
     }
 }

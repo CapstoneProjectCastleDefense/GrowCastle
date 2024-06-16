@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using global::Extensions;
     using Runtime.Elements.Base;
@@ -13,16 +14,29 @@
 
     public class EnemyPresenter : BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
     {
-        private const           string AttackAnimName  = "atk";
-        private const           string DeathAnimName   = "dead";
-        protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
+        private const string       AttackAnimName = "atk";
+        private const string       DeathAnimName  = "dead";
+        private       EnemyManager enemyManager;
+        protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager)
+            : base(model, objectPoolManager)
+        {
+        }
 
-        public EnemyView GetEnemyView => this.View;
+        public EnemyView GetEnemyView                     => this.View;
+        public void      SetManager(EnemyManager manager) => this.enemyManager = manager;
 
         public override async UniTask UpdateView()
         {
             await base.UpdateView();
             this.View.transform.position = this.Model.StartPos;
+        }
+
+        private void StartMove()
+        {
+            this.View.transform.DOMove(this.Model.EndPos, 1 / this.Model.GetStat<float>(StatEnum.MoveSpeed)).onComplete += () =>
+            {
+                //start attack
+            };
         }
         public void Attack(ITargetable target)
         {
@@ -32,23 +46,39 @@
 
         public ITargetable FindTarget() { return null; }
 
+        private void UpdateHealthView()
+        {
+            DOTween.Kill(this.View.HealthBar);
+            this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / 20, 0.1f);
+        }
+
         public void OnGetHit(float damage)
         {
             var currentHealth = this.Model.GetStat<float>(StatEnum.Health);
             currentHealth -= damage;
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+            }
+
             this.Model.SetStat(StatEnum.Health, currentHealth);
+            this.UpdateHealthView();
+            if (currentHealth <= 0) this.OnDeath();
         }
 
         public void OnDeath()
         {
             var wait = 0f;
-            if (DeathAnimName.IsNullOrEmpty()&& this.View.SkeletonAnimation!=null)
+            if (!DeathAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation != null)
             {
                 this.View.SkeletonAnimation.SetAnimation(DeathAnimName);
-                wait = 0.3f;
+                wait = 1f;
             }
+
             UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
         }
+
+        public bool IsDead => this.Model.GetStat<float>(StatEnum.Health) <= 0;
 
         protected override UniTask<GameObject> CreateView()
         {
@@ -56,6 +86,10 @@
             return res;
         }
 
-        public override void Dispose() { this.ObjectPoolManager.Recycle(this.View); }
+        public override void Dispose()
+        {
+            this.ObjectPoolManager.Recycle(this.View);
+            this.enemyManager.entities.Remove(this);
+        }
     }
 }

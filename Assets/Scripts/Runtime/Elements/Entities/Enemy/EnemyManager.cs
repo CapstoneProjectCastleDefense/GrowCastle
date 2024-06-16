@@ -46,6 +46,7 @@
                     StartPos = new Vector3(0, -2, 0)
                 });
                 enemyPresenter.UpdateView().Forget();
+                enemyPresenter.SetManager(this);
             }
             
             Debug.Log("Spawn enemy");

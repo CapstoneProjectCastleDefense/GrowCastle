@@ -41,7 +41,7 @@
                     ParentView = archerSlot.gameObject.transform,
                     Stats = new Dictionary<StatEnum, (Type, object)>
                     {
-                        { StatEnum.Attack, (typeof(float), 10f) },
+                        { StatEnum.Attack, (typeof(float), 2f) },
                         { StatEnum.Health, (typeof(float), 10f) },
                         { StatEnum.AttackSpeed, (typeof(float), 1f) },
                     }
