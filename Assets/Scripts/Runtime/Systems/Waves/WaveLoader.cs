@@ -2,12 +2,9 @@
 {
     using System;
     using System.Collections.Generic;
-    using Cysharp.Threading.Tasks;
     using Models.Blueprints;
     using Runtime.Elements.Entities.Enemy;
-    using Runtime.Enums;
     using Runtime.Signals;
-    using UnityEngine;
     using Zenject;
 
     public class WaveLoader : IInitializable, IDisposable
@@ -16,18 +13,15 @@
         private          float                   waveLoadCoolDown;
 
         private readonly WaveBlueprint  waveBlueprint;
-        private readonly EnemyBlueprint enemyBlueprint;
         private readonly EnemyManager   enemyManager;
         private readonly SignalBus      signalBus;
 
         public WaveLoader(
             WaveBlueprint waveBlueprint,
-            EnemyBlueprint enemyBlueprint,
             EnemyManager enemyManager,
             SignalBus signalBus)
         {
             this.waveBlueprint  = waveBlueprint;
-            this.enemyBlueprint = enemyBlueprint;
             this.enemyManager   = enemyManager;
             this.signalBus      = signalBus;
         }
@@ -44,6 +38,7 @@
                 var record = this.inQueueWaves[0];
                 this.waveLoadCoolDown = record.Delay;
                 this.SpawnEnemyGroup(record.EnemyId, record.Quantity);
+                this.inQueueWaves.Remove(record);
             }
         }
 
@@ -58,22 +53,9 @@
 
         private void SpawnEnemyGroup(string enemyId, int quantity)
         {
-            var enemyRecord = this.enemyBlueprint[enemyId];
             for (var i = 0; i < quantity; i++)
             {
-                var enemyPresenter = this.enemyManager.CreateElement(new EnemyModel()
-                {
-                    Id              = enemyId,
-                    AddressableName = enemyRecord.PrefabName,
-                    Stats = new Dictionary<StatEnum, (Type, object)>
-                    {
-                        { StatEnum.Attack, (typeof(float), enemyRecord.Attack.baseValue) },
-                        { StatEnum.Health, (typeof(float), enemyRecord.HP.baseValue) },
-                        { StatEnum.MoveSpeed, (typeof(float), enemyRecord.Speed.baseValue) },
-                    },
-                    StartPos = new Vector3(0,-2,0)
-                });
-                enemyPresenter.UpdateView().Forget();
+                this.enemyManager.SpawnEnemy(enemyId);
             }
         }
 

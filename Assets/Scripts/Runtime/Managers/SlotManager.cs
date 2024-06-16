@@ -47,7 +47,12 @@
             this.slotLocalDataController.GetAllSlotData.ForEach( this.CreateSingleSlot);
         }
 
-        private async void CreateSingleSlot(SlotData slotData)
+        private void CreateSingleSlot(SlotData slotData)
+        {
+            this.CreateSingleSlotAsync(slotData).Forget();
+        }
+        
+        private async UniTask CreateSingleSlotAsync(SlotData slotData)
         {
             var slotPresenter = this.CreateElement(new() { AddressableName = "BaseSlot", Id = slotData.SlotId.ToString(), SlotRecord = this.slotLocalDataController.GetSlotDataRecord(slotData.SlotId) });
             await slotPresenter.UpdateView();
