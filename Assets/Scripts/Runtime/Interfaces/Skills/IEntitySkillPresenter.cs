@@ -5,29 +5,25 @@
     public interface IEntitySkillPresenter
     {
         EntitySkillType SkillType { get; set; }
-        void            Activate(BaseSkillModel baseSkillModel);
+        void            Activate(IEntitySkillModel baseSkillModel);
     }
 
-    public abstract class BaseEntitySkillPresenter<TModel> : IEntitySkillPresenter where TModel : BaseSkillModel
+    public abstract class BaseEntitySkillPresenter<TModel> : IEntitySkillPresenter where TModel : IEntitySkillModel
     {
         public abstract EntitySkillType SkillType { get; set; }
-        
-        protected       TModel          SkillModel;
 
-        public void Activate(BaseSkillModel baseSkillModel)
+        protected TModel Model;
+
+        public void Activate(IEntitySkillModel baseSkillModel)
         {
             if (baseSkillModel is TModel model)
             {
-                this.SkillModel = model;
+                this.Model = model;
             }
 
             this.InternalActivate();
         }
 
-        protected virtual void InternalActivate() { }
-    }
-
-    public abstract class BaseSkillModel
-    {
+        protected abstract void InternalActivate();
     }
 }

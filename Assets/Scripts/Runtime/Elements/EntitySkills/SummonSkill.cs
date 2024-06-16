@@ -22,22 +22,26 @@
         private async UniTaskVoid Summon()
         {
             //todo: summon base on data instead of knight only
-            var startPos = this.SkillModel.StartPos;
-            for (var i = 0; i < this.SkillModel.Number; i++)
+            var startPos = this.Model.StartPos;
+            for (var i = 0; i < this.Model.Number; i++)
             {
-                var knightSummonObj = await this.objectPoolManager.Spawn(this.SkillModel.PrefabName);
+                var knightSummonObj = await this.objectPoolManager.Spawn(this.Model.PrefabName);
                 knightSummonObj.transform.position                        =  startPos;
-                startPos.y                                                -= this.SkillModel.DistanceRange;
+                startPos.y                                                -= this.Model.DistanceRange;
                 knightSummonObj.GetComponent<MeshRenderer>().sortingOrder =  i + 1;
             }
         }
     }
 
-    public class SummonSkillModel : BaseSkillModel
+    public class SummonSkillModel : IEntitySkillModel
     {
         public int     Number;
         public string  PrefabName;
         public Vector3 StartPos;
         public float   DistanceRange;
+        public string  Id              { get; set; }
+        public string  AddressableName { get; set; }
+        public string  Description     { get; }
+        public string  Name            { get; }
     }
 }

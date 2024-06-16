@@ -8,7 +8,7 @@
     public abstract class BaseElementPresenter<TModel, TView, TPresenter> : IElementPresenter
         where TView : BaseElementView where TPresenter : BaseElementPresenter<TModel, TView, TPresenter> where TModel : IElementModel
     {
-        protected ObjectPoolManager ObjectPoolManager;
+        protected readonly ObjectPoolManager ObjectPoolManager;
 
         protected BaseElementPresenter(TModel model, ObjectPoolManager objectPoolManager)
         {

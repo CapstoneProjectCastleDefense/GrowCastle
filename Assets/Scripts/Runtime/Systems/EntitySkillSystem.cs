@@ -12,9 +12,9 @@
 
         public EntitySkillSystem(List<IEntitySkillPresenter> entitySkillPresenters) { this.entitySkills = entitySkillPresenters.ToDictionary(entity => entity.SkillType, entity => entity); }
 
-        private EntitySkillType GetSkillType(string skillId) { return EntitySkillType.Summon; }
+        private EntitySkillType GetSkillType(string skillId) { return EntitySkillType.Projectile; }
 
-        public void CastSkill(string skillId, BaseSkillModel skillModel)
+        public void CastSkill(string skillId, IEntitySkillModel skillModel)
         {
             if (this.entitySkills.TryGetValue(this.GetSkillType(skillId), out var entitySkill))
             {

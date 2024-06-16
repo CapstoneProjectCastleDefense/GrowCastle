@@ -6,6 +6,7 @@
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Enemy;
+    using Runtime.Elements.EntitySkills;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces;
