@@ -1,10 +1,11 @@
-﻿namespace Runtime.Elements.Entities.Enemy
+﻿namespace Runtime.Managers
 {
     using System;
     using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
     using Models.Blueprints;
     using Runtime.Elements.Base;
+    using Runtime.Elements.Entities.Enemy;
     using Runtime.Enums;
     using Runtime.Managers.Base;
     using UnityEngine;
@@ -33,17 +34,17 @@
         {
             var enemyRecord = this.enemyBlueprint[enemyId];
             {
-                var enemyPresenter = this.CreateElement(new EnemyModel()
+                var enemyPresenter = this.CreateElement(new()
                 {
                     Id              = enemyId,
                     AddressableName = enemyRecord.PrefabName,
-                    Stats = new Dictionary<StatEnum, (Type, object)>
+                    Stats = new()
                     {
                         { StatEnum.Attack, (typeof(float), enemyRecord.Attack.baseValue) },
                         { StatEnum.Health, (typeof(float), enemyRecord.HP.baseValue) },
                         { StatEnum.MoveSpeed, (typeof(float), enemyRecord.Speed.baseValue) },
                     },
-                    StartPos = new Vector3(0, -2, 0)
+                    StartPos = new(0, -2, 0)
                 });
                 enemyPresenter.UpdateView().Forget();
                 enemyPresenter.SetManager(this);

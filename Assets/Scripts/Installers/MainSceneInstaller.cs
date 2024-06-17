@@ -67,7 +67,6 @@
                 if (!type.IsAbstract)
                 {
                     this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
-                    this.Container.Resolve<EntityManager>().AddElementManager(type, this.Container.Resolve(type) as IElementManager);
                 }
             }
 

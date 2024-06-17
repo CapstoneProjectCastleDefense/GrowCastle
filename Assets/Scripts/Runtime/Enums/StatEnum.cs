@@ -15,5 +15,8 @@
         ManaCost,
         
         AttackPriority,
+        
+        TargetThatImAttacking,
+        TargetThatAttackingMe,
     }
 }

@@ -1,7 +1,9 @@
 ﻿namespace Runtime.Managers.Base
 {
     using System.Collections.Generic;
+    using GameFoundation.Scripts.Utilities.Extension;
     using Runtime.Elements.Base;
+    using Runtime.Managers.Entity;
     using Zenject;
 
     public abstract class BaseElementManager<TModel, TPresenter, TView> : IElementManager, ITickable
@@ -11,7 +13,11 @@
     {
         public    List<TPresenter>                                        entities = new();
         protected BaseElementPresenter<TModel, TView, TPresenter>.Factory Factory { get; }
-        protected BaseElementManager(BaseElementPresenter<TModel, TView, TPresenter>.Factory factory) { this.Factory = factory; }
+        protected BaseElementManager(BaseElementPresenter<TModel, TView, TPresenter>.Factory factory)
+        {
+            this.Factory = factory;
+            this.GetCurrentContainer().Resolve<EntityManager>().AddElementManager( this.GetType(), this); // TODO: Remove this line, this is a temporary for testing
+        }
         public abstract void Initialize();
         public virtual TPresenter CreateElement(TModel model)
         {

@@ -10,6 +10,7 @@
     using Runtime.Enums;
     using Runtime.Interfaces;
     using Runtime.Interfaces.Entities;
+    using Runtime.Managers;
     using Runtime.Systems;
     using UnityEngine;
 
@@ -43,20 +44,32 @@
         }
         public void Attack(ITargetable target)
         {
-            if (AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation) this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
+            if (!AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation) this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
             target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
         }
 
-        public ITargetable FindTarget() { return this.findTargetSystem.GetTarget(this, AttackPriorityEnum.Default, new() { "Ally", "Building" }); }
+        public ITargetable FindTarget()
+        {
+            var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
+            if (priority == default)
+            {
+                priority = AttackPriorityEnum.Default;
+                this.Model.SetStat(StatEnum.AttackPriority, priority);
+            }
+
+            return this.TargetThatImAttacking
+                = this.TargetThatImAttacking is { IsDead: false }
+                    ? this.TargetThatImAttacking
+                    : this.TargetThatAttackingMe is { IsDead: false }
+                        ? this.TargetThatAttackingMe
+                        : this.findTargetSystem.GetTarget(this, priority, new() { "Ally", "Building" });
+        }
 
         private void UpdateHealthView()
         {
             DOTween.Kill(this.View.HealthBar);
             this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / 20, 0.1f);
         }
-
-        public LayerMask LayerMask => this.View.gameObject.layer;
-        public string    Tag       => this.View.gameObject.tag;
         public void OnGetHit(float damage)
         {
             var currentHealth = this.Model.GetStat<float>(StatEnum.Health);
@@ -81,6 +94,26 @@
             }
 
             UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
+        }
+
+        public ITargetable TargetThatImAttacking
+        {
+            get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatImAttacking);
+            set
+            {
+                if (value == this.Model.GetStat<ITargetable>(StatEnum.TargetThatImAttacking)) return;
+                this.Model.SetStat(StatEnum.TargetThatImAttacking, value);
+            }
+        }
+
+        public ITargetable TargetThatAttackingMe
+        {
+            get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatAttackingMe);
+            set
+            {
+                if (value == this.Model.GetStat<ITargetable>(StatEnum.TargetThatAttackingMe)) return;
+                this.Model.SetStat(StatEnum.TargetThatAttackingMe, value);
+            }
         }
 
         public bool IsDead => this.Model.GetStat<float>(StatEnum.Health) <= 0;

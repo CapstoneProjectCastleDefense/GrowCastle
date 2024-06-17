@@ -21,8 +21,8 @@
         protected TView  View  { get; private set; }
 
         public virtual void Initialize() { }
-        
-        public virtual void Tick(){}
+
+        public virtual void Tick() { }
 
         public virtual async UniTask UpdateView()
         {
@@ -33,6 +33,10 @@
             }
             // then do something with the view
         }
+        public T               GetModelGeneric<T>() { return (T)(object)this.Model; }
+        public T               GetViewGeneric<T>()  { return (T)(object)this.View; }
+        public IElementModel   GetModel()           => this.Model;
+        public BaseElementView GetView()            => this.View;
 
         protected abstract UniTask<GameObject> CreateView();
 
