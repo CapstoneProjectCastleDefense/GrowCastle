@@ -2,14 +2,12 @@
 {
     using System.Linq;
     using Cysharp.Threading.Tasks;
-    using DG.Tweening;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Enemy;
     using Runtime.Elements.EntitySkills;
     using Runtime.Enums;
     using Runtime.Extensions;
-    using Runtime.Interfaces;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
     using Runtime.Systems;
