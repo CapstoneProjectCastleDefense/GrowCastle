@@ -73,7 +73,7 @@
                     break;
 
                 case AttackPriorityEnum.HighHealth:
-                    target = this.GetTargetByHealth(cache, false);
+                    target = this.GetTargetByHealth(cache, true);
                     break;
 
                 default:
