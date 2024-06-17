@@ -19,7 +19,8 @@
             this.entities.Add(presenter);
             return presenter;
         }
-        public abstract void DisposeAllElement();
+        public abstract void           DisposeAllElement();
+        public          IEnumerable<T> GetAllElementPresenter<T>() { return this.entities as IEnumerable<T>;}
         public virtual void Tick()
         {
             this.entities.ForEach(e=>e.Tick());

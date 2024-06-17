@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Runtime.Elements.Base;
     using Runtime.Managers.Base;
     using Zenject;
 
@@ -16,5 +17,15 @@
         }
 
         public void AddElementManager(Type type, IElementManager elementManager) { this.presenterTypeToElementManager.TryAdd(type, elementManager); }
+        public List<IElementPresenter> GetAllElementPresenter()
+        {
+            var result = new List<IElementPresenter>();
+            foreach (var elementManager in this.presenterTypeToElementManager.Values)
+            {
+                result.AddRange(elementManager.GetAllElementPresenter<IElementPresenter>());
+            }
+
+            return result;
+        }
     }
 }

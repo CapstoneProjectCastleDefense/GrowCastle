@@ -6,34 +6,21 @@
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Interfaces.Entities;
+    using Runtime.Managers.Entity;
 
     public class FindTargetSystem : IGameSystem
     {
-        private List<ITargetable> targetables = new();
+        private readonly EntityManager     entityManager;
+        private          List<ITargetable> Targetables  => this.entityManager.GetAllElementPresenter().Select(x => x as ITargetable).ToList();
+        public           void              Initialize() { }
+        public           void              Tick()       { }
+        public           void              Dispose()    { }
 
-        public void Initialize() { }
-        public void Tick()       { }
-        public void Dispose()    { }
-
-        public void OnEntityInitialized(IElementPresenter presenter)
-        {
-            if (presenter is ITargetable targetable)
-            {
-                this.targetables.Add(targetable);
-            }
-        }
-
-        public void OnEntityDisposed(IElementPresenter presenter)
-        {
-            if (presenter is ITargetable targetable)
-            {
-                this.targetables.Remove(targetable);
-            }
-        }
+        public FindTargetSystem(EntityManager entityManager) { this.entityManager = entityManager; }
 
         public ITargetable GetTarget(ITargetable host, AttackPriorityEnum priority, List<string> tagList)
         {
-            var cache = this.targetables.Where(x => x.LayerMask != host.LayerMask && x != host && tagList.Contains(x.Tag)).ToList();
+            var cache = this.Targetables.Where(x => x.LayerMask != host.LayerMask && x != host && tagList.Contains(x.Tag)).ToList();
             return cache.Count == 0 ? null : this.GetTaggedTarget(host, priority, tagList, cache);
         }
 
