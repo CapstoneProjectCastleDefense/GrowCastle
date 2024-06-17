@@ -5,6 +5,7 @@
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
     using Runtime.Interfaces.Skills;
+    using UnityEngine;
 
     public abstract class BaseLeaderPresenter<TModel, TView, TPresenter> : BaseElementPresenter<TModel, TView, TPresenter>, ILeaderPresenter
         where TView : BaseLeaderView
@@ -25,6 +26,8 @@
 
         public void OnGetHit(float damage) { throw new System.NotImplementedException(); }
 
-        public void OnDeath() { throw new System.NotImplementedException(); }
+        public void      OnDeath() { throw new System.NotImplementedException(); }
+        public LayerMask LayerMask => this.View.gameObject.layer;
+        public string    Tag       => this.View.gameObject.tag;
     }
 }

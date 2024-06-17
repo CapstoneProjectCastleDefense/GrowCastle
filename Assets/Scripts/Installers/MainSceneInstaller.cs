@@ -13,6 +13,7 @@
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Managers.Base;
+    using Runtime.Managers.Entity;
     using Runtime.Scenes;
     using Runtime.Services;
     using Runtime.Signals;
@@ -60,10 +61,16 @@
 
         private void BindAllManager()
         {
+            this.Container.Bind<EntityManager>().AsSingle().NonLazy();
             foreach (var type in ReflectionUtils.GetAllDerivedTypes<IElementManager>())
             {
-                if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
+                if (!type.IsAbstract)
+                {
+                    this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
+                    this.Container.Resolve<EntityManager>().AddElementManager(type, this.Container.Resolve(type) as IElementManager);
+                }
             }
+
         }
 
         private void BindAllSystem()
