@@ -2,26 +2,38 @@
 {
     using System;
     using System.Collections.Generic;
-    using DG.Tweening;
+    using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using Runtime.Elements.Entities.Projectile;
     using Runtime.Enums;
-    using Runtime.Extensions;
     using Runtime.Interfaces.Skills;
     using UnityEngine;
 
     public class ProjectileSkill : BaseEntitySkillPresenter<ProjectileSkillModel>
     {
+        private readonly ProjectileManager projectileManager;
+        public ProjectileSkill(ProjectileManager projectileManager) { this.projectileManager = projectileManager; }
+
         public override EntitySkillType SkillType { get; set; } = EntitySkillType.Projectile;
 
         protected override void InternalActivate()
         {
-            var projectile = this.Model.ProjectilePrefab;
-            projectile.transform.localPosition = Vector3.zero;
-            projectile.transform.Fly(this.Model.StartPoint, this.Model.EndPoint, this.Model.Fragment, this.Model.Duration, this.Model.Delay, this.Model.VectorOrientation, () =>
+            this.FireProjectile().Forget();
+        }
+
+        private async UniTaskVoid FireProjectile()
+        {
+            var projectile = this.projectileManager.CreateElement(new ProjectileModel
             {
-                DOTween.Kill(projectile.transform);
-                projectile.Recycle();
+                Id              = this.Model.Id,
+                AddressableName = this.Model.AddressableName,
+                Prefab          = this.Model.ProjectilePrefab,
+                StartPoint      = this.Model.StartPoint,
+                EndPoint        = this.Model.EndPoint
             });
+
+            await projectile.UpdateView();
+            projectile.FlyToTarget();
         }
     }
 
@@ -32,12 +44,7 @@
         public string                               Description     { get; }
         public string                               Name            { get; }
         public GameObject                           ProjectilePrefab;
-        public Dictionary<StatEnum, (Type, object)> Stats;
         public Vector3                              StartPoint;
         public Vector3                              EndPoint;
-        public int                                  Fragment; //read in blueprint
-        public float                                Duration; //read in blueprint 
-        public float                                Delay; //read in blueprint
-        public Vector3                              VectorOrientation; //read in blueprint and may set this to offset instead of static data
     }
 }

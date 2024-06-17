@@ -1,1 +1,2 @@
- Id,Fragment,ProjectileSpeed,Delay
+Id,Fragment,ProjectileSpeed,Delay
+archer_normal_attack,3,0.7,0

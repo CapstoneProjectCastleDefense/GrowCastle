@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Enemy;
@@ -15,14 +16,21 @@
 
     public class ArcherPresenter : BaseElementPresenter<ArcherModel, ArcherView, ArcherPresenter>, IArcherPresenter
     {
-        private readonly EnemyManager     enemyManager;
-        private readonly FindTargetSystem findTargetSystem;
-        private          bool             canAttack;
-        private          float            timer;
-        protected ArcherPresenter(ArcherModel model, ObjectPoolManager objectPoolManager, EnemyManager enemyManager, FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
+        private readonly EnemyManager      enemyManager;
+        private readonly FindTargetSystem  findTargetSystem;
+        private readonly EntitySkillSystem entitySkillSystem;
+        private          bool              canAttack;
+        private          float             timer;
+        protected ArcherPresenter(ArcherModel model,
+            ObjectPoolManager objectPoolManager,
+            EnemyManager enemyManager,
+            FindTargetSystem findTargetSystem,
+            EntitySkillSystem entitySkillSystem)
+            : base(model, objectPoolManager)
         {
-            this.enemyManager     = enemyManager;
-            this.findTargetSystem = findTargetSystem;
+            this.enemyManager      = enemyManager;
+            this.findTargetSystem  = findTargetSystem;
+            this.entitySkillSystem = entitySkillSystem;
         }
 
         public override async UniTask UpdateView()
@@ -61,15 +69,12 @@
             var enemy = (EnemyPresenter)target;
 
             this.View.skeletonAnimation.SetAnimation("attack", false);
-            var attackPower = this.Model.GetStat<float>(StatEnum.Attack);
-
-            var arrow = this.ObjectPoolManager.Spawn(this.View.arrowPrefab, this.View.spawnArrowPos);
-            arrow.transform.localPosition = Vector3.zero;
-            arrow.transform.Fly(arrow.transform.position, enemy.GetEnemyView.transform.position, 3, 0.7f, 0, new Vector3(1, 1, -7), () =>
+            this.entitySkillSystem.CastSkill("archer_normal_attack", new ProjectileSkillModel()
             {
-                arrow.Recycle();
-                DOTween.Kill(arrow.transform);
-                if (!enemy.IsDead) enemy.OnGetHit(attackPower);
+                Id               = "archer_normal_attack",
+                StartPoint       = this.View.spawnArrowPos.position,
+                EndPoint         = enemy.GetEnemyView.transform.position,
+                ProjectilePrefab = this.View.arrowPrefab
             });
         }
 
@@ -81,6 +86,7 @@
                 priority = AttackPriorityEnum.Default;
                 this.Model.SetStat(StatEnum.AttackPriority, priority);
             }
+
             var res = this.findTargetSystem.GetTarget(this, priority, new()
             {
                 AttackPriorityEnum.Ground.ToString(),

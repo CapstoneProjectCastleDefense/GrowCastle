@@ -9,6 +9,7 @@
     using Runtime.Elements.Entities.Enemy;
     using Runtime.Elements.Entities.Hero;
     using Runtime.Elements.Entities.MapLevel;
+    using Runtime.Elements.Entities.Projectile;
     using Runtime.Elements.Entities.Slot;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
@@ -57,6 +58,8 @@
                 .WhenInjectedInto<ArcherManager>();
             this.Container.BindFactory<HeroModel, HeroPresenter, HeroPresenter.Factory>().AsCached()
                 .WhenInjectedInto<HeroManager>();
+            this.Container.BindFactory<ProjectileModel, ProjectilePresenter, ProjectilePresenter.Factory>().AsCached()
+                .WhenInjectedInto<ProjectileManager>();
         }
 
         private void BindAllManager()
