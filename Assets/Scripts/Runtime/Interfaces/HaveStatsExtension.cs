@@ -13,7 +13,6 @@
             haveStats.Stats.TryGetValue(statEnum, out var value);
             if (value.Item1 == null)
             {
-                Debug.LogError($"[{nameof(HaveStatsExtension)}]: Stat {statEnum} not found");
                 return default;
             }
 

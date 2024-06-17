@@ -12,23 +12,27 @@
 
     public class FindTargetSystem : IGameSystem
     {
-        private readonly EntityManager     entityManager;
-        private          List<ITargetable> Targetables  => this.entityManager.GetAllElementPresenter().Select(x => x as ITargetable).ToList();
-        public           void              Initialize() { }
-        public           void              Tick()       { }
-        public           void              Dispose()    { }
+        private readonly EntityManager           entityManager;
+        private          List<IElementPresenter> Presenters   => this.entityManager.GetAllElementPresenter().ToList();
+        public           void                    Initialize() { }
+        public           void                    Tick()       { }
+        public           void                    Dispose()    { }
 
         public FindTargetSystem(EntityManager entityManager) { this.entityManager = entityManager; }
 
-        public ITargetable GetTarget(ITargetable host, AttackPriorityEnum priority, List<string> tagList)
+        public ITargetable GetTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList)
         {
-            var cache = this.Targetables.Where(x => x.LayerMask != host.LayerMask && x != host && tagList.Contains(x.Tag)).ToList();
-            return cache.Count == 0 ? null : this.GetTaggedTarget(host, priority, tagList, cache);
+            var cache = this.Presenters.Where(x =>
+                x is ITargetable
+                && x.GetView().LayerMask != host.GetView().LayerMask
+                && x != host && tagList.Contains(x.GetView().Tag)
+            ).ToList();
+            return cache.Count == 0 ? null : this.GetTaggedTarget(host, priority, tagList, cache) as ITargetable;
         }
 
-        private ITargetable GetTaggedTarget(ITargetable host, AttackPriorityEnum priority, List<string> tagList, List<ITargetable> cache)
+        private IElementPresenter GetTaggedTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, List<IElementPresenter> cache)
         {
-            ITargetable target = null;
+            IElementPresenter target = null;
             switch (priority)
             {
                 case AttackPriorityEnum.Boss:
@@ -56,17 +60,17 @@
             return target;
         }
 
-        private ITargetable GetClosestTarget(ITargetable host, List<string> tagList, List<ITargetable> cache)
+        private IElementPresenter GetClosestTarget(IElementPresenter host, List<string> tagList, List<IElementPresenter> cache)
         {
-            cache = cache.Where(x => tagList.Contains(x.Tag)).ToList();
+            cache = cache.Where(x => tagList.Contains(x.GetView().Tag)).ToList();
             if (cache.Count == 0)
                 return null;
-            return cache.OrderBy(x => Vector3.Distance(host.GetView<Transform>().position, x.GetView<Transform>().position)).First();
+            return cache.OrderBy(x => Vector3.Distance(host.GetView().transform.position, x.GetView().transform.position)).First();
         }
 
-        private ITargetable GetNormalTarget(ITargetable host, AttackPriorityEnum priority, List<string> tagList, List<ITargetable> cache)
+        private IElementPresenter GetNormalTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, List<IElementPresenter> cache)
         {
-            ITargetable target = null;
+            IElementPresenter target = null;
             switch (priority)
             {
                 case AttackPriorityEnum.LowHealth:
@@ -84,9 +88,9 @@
 
             return target;
         }
-        private ITargetable GetTargetByHealth(List<ITargetable> cache, bool getHigh)
+        private IElementPresenter GetTargetByHealth(List<IElementPresenter> cache, bool getHigh)
         {
-            cache = cache.OrderBy(x => x.GetModel<IHaveStats>().GetStat<float>(StatEnum.Health)).ToList();
+            cache = cache.OrderBy(x => x.GetModelGeneric<IHaveStats>().GetStat<float>(StatEnum.Health)).ToList();
             return getHigh ? cache.Last() : cache.First();
         }
     }

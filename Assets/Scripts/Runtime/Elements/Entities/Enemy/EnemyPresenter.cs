@@ -70,9 +70,6 @@
             DOTween.Kill(this.View.HealthBar);
             this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / 20, 0.1f);
         }
-
-        public LayerMask LayerMask => this.View.gameObject.layer;
-        public string    Tag       => this.View.gameObject.tag;
         public void OnGetHit(float damage)
         {
             var currentHealth = this.Model.GetStat<float>(StatEnum.Health);
@@ -98,8 +95,6 @@
 
             UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
         }
-        public T GetModel<T>() { return (T)(object)this.Model; }
-        public T GetView<T>()  { return (T)(object)this.View; }
 
         public ITargetable TargetThatImAttacking
         {

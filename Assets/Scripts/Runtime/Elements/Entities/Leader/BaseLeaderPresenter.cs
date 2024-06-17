@@ -29,8 +29,6 @@
         public void OnGetHit(float damage) { throw new System.NotImplementedException(); }
 
         public void OnDeath()     { throw new System.NotImplementedException(); }
-        public T    GetModel<T>() { return (T)(object)this.Model; }
-        public T    GetView<T>()  { return (T)(object)this.View; }
 
         public ITargetable TargetThatImAttacking
         {
@@ -53,7 +51,5 @@
         }
 
         public bool      IsDead    => this.Model.GetStat<float>(StatEnum.Health) <= 0;
-        public LayerMask LayerMask => this.View.gameObject.layer;
-        public string    Tag       => this.View.gameObject.tag;
     }
 }

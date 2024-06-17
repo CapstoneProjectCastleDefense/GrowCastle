@@ -7,5 +7,11 @@
         void    Initialize();
         void    Dispose();
         UniTask UpdateView();
+
+        T GetModelGeneric<T>();
+        T GetViewGeneric<T>();
+
+        IElementModel   GetModel();
+        BaseElementView GetView();
     }
 }
