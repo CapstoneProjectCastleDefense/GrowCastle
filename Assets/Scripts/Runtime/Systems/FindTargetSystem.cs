@@ -1,10 +1,10 @@
 ﻿namespace Runtime.Systems
 {
-    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Runtime.Elements.Base;
     using Runtime.Enums;
+    using Runtime.Extensions;
     using Runtime.Interfaces;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers.Entity;
