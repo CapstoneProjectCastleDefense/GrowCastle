@@ -5,6 +5,7 @@
     using System.Linq;
     using Runtime.Elements.Base;
     using Runtime.Enums;
+    using Runtime.Interfaces;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers.Entity;
     using UnityEngine;
@@ -85,7 +86,7 @@
         }
         private ITargetable GetTargetByHealth(List<ITargetable> cache, bool getHigh)
         {
-            cache = cache.OrderBy(x => x.GetModel<float>()).ToList();
+            cache = cache.OrderBy(x => x.GetModel<IHaveStats>().GetStat<float>(StatEnum.Health)).ToList();
             return getHigh ? cache.Last() : cache.First();
         }
     }
