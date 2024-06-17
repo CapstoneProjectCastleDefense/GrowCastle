@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8269150969629173041}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Archers
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -48,7 +48,7 @@ GameObject:
   - component: {fileID: 5630870800976859821}
   - component: {fileID: 1834160328761292667}
   - component: {fileID: 8021863122206717666}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ArcherSlot
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -146,7 +146,7 @@ GameObject:
   - component: {fileID: 1894118972802407807}
   - component: {fileID: 2760272013735633139}
   - component: {fileID: 9179835411908944332}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ArcherSlot (5)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -244,7 +244,7 @@ GameObject:
   - component: {fileID: 1582009139057821405}
   - component: {fileID: 5877969631738316499}
   - component: {fileID: 7166459674320564941}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ArcherSlot (4)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -341,9 +341,9 @@ GameObject:
   m_Component:
   - component: {fileID: 323131353341406394}
   - component: {fileID: 4858070737075864318}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Castle
-  m_TagString: Untagged
+  m_TagString: Building
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -397,7 +397,7 @@ GameObject:
   - component: {fileID: 9113348586379051940}
   - component: {fileID: 9083664028139280503}
   - component: {fileID: 1451985205785061739}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ArcherSlot (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -495,7 +495,7 @@ GameObject:
   - component: {fileID: 6857779572490035571}
   - component: {fileID: 5766910580225248779}
   - component: {fileID: 9027422733329987721}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ArcherSlot (2)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -593,7 +593,7 @@ GameObject:
   - component: {fileID: 5264675171545733917}
   - component: {fileID: 5335097209534747763}
   - component: {fileID: 3318033427654576841}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: ArcherSlot (3)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -691,7 +691,7 @@ GameObject:
   - component: {fileID: 4441417288833386310}
   - component: {fileID: 8477319197574636318}
   - component: {fileID: 6309803000732296437}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Block
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -7,6 +7,7 @@
     using Runtime.Enums;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers.Entity;
+    using UnityEngine;
 
     public class FindTargetSystem : IGameSystem
     {
@@ -56,10 +57,10 @@
 
         private ITargetable GetClosestTarget(ITargetable host, List<string> tagList, List<ITargetable> cache)
         {
-            var newCache = cache.Where(x => tagList.Contains(x.Tag)).ToList();
-            if (newCache.Count == 0)
+            cache = cache.Where(x => tagList.Contains(x.Tag)).ToList();
+            if (cache.Count == 0)
                 return null;
-            throw new NotImplementedException();
+            return cache.OrderBy(x => Vector3.Distance(host.GetView<Transform>().position, x.GetView<Transform>().position)).First();
         }
 
         private ITargetable GetNormalTarget(ITargetable host, AttackPriorityEnum priority, List<string> tagList, List<ITargetable> cache)
@@ -68,11 +69,11 @@
             switch (priority)
             {
                 case AttackPriorityEnum.LowHealth:
-                    target = this.GetTargetByHealth(host, cache, false);
+                    target = this.GetTargetByHealth(cache, false);
                     break;
 
                 case AttackPriorityEnum.HighHealth:
-                    target = this.GetTargetByHealth(host, cache, false);
+                    target = this.GetTargetByHealth(cache, false);
                     break;
 
                 default:
@@ -82,11 +83,10 @@
 
             return target;
         }
-        private ITargetable GetTargetByHealth(ITargetable host, List<ITargetable> cache, bool getHigh)
+        private ITargetable GetTargetByHealth(List<ITargetable> cache, bool getHigh)
         {
-            // sort by health
-            // get the first one if getHigh is false else get the last one
-            throw new NotImplementedException();
+            cache = cache.OrderBy(x => x.GetModel<float>()).ToList();
+            return getHigh ? cache.Last() : cache.First();
         }
     }
 }

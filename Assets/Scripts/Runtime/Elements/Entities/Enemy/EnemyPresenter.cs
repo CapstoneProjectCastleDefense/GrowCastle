@@ -10,6 +10,7 @@
     using Runtime.Enums;
     using Runtime.Interfaces;
     using Runtime.Interfaces.Entities;
+    using Runtime.Managers;
     using Runtime.Systems;
     using UnityEngine;
 
@@ -43,11 +44,26 @@
         }
         public void Attack(ITargetable target)
         {
-            if (AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation) this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
+            if (!AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation) this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
             target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
         }
 
-        public ITargetable FindTarget() { return this.findTargetSystem.GetTarget(this, AttackPriorityEnum.Default, new() { "Ally", "Building" }); }
+        public ITargetable FindTarget()
+        {
+            var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
+            if (priority == default)
+            {
+                priority = AttackPriorityEnum.Default;
+                this.Model.SetStat(StatEnum.AttackPriority, priority);
+            }
+
+            return this.TargetThatImAttacking
+                = this.TargetThatImAttacking is { IsDead: false }
+                    ? this.TargetThatImAttacking
+                    : this.TargetThatAttackingMe is { IsDead: false }
+                        ? this.TargetThatAttackingMe
+                        : this.findTargetSystem.GetTarget(this, priority, new() { "Ally", "Building" });
+        }
 
         private void UpdateHealthView()
         {
@@ -81,6 +97,28 @@
             }
 
             UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
+        }
+        public T GetModel<T>() { return (T)(object)this.Model; }
+        public T GetView<T>()  { return (T)(object)this.View; }
+
+        public ITargetable TargetThatImAttacking
+        {
+            get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatImAttacking);
+            set
+            {
+                if (value == this.Model.GetStat<ITargetable>(StatEnum.TargetThatImAttacking)) return;
+                this.Model.SetStat(StatEnum.TargetThatImAttacking, value);
+            }
+        }
+
+        public ITargetable TargetThatAttackingMe
+        {
+            get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatAttackingMe);
+            set
+            {
+                if (value == this.Model.GetStat<ITargetable>(StatEnum.TargetThatAttackingMe)) return;
+                this.Model.SetStat(StatEnum.TargetThatAttackingMe, value);
+            }
         }
 
         public bool IsDead => this.Model.GetStat<float>(StatEnum.Health) <= 0;

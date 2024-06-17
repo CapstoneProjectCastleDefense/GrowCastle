@@ -10,6 +10,7 @@
     using Runtime.Extensions;
     using Runtime.Interfaces;
     using Runtime.Interfaces.Entities;
+    using Runtime.Managers;
     using UnityEngine;
 
     public class ArcherPresenter : BaseElementPresenter<ArcherModel, ArcherView, ArcherPresenter>, IArcherPresenter
