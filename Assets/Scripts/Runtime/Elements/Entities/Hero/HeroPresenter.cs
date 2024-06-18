@@ -1,13 +1,14 @@
 ﻿namespace Runtime.Elements.Entities.Hero
 {
+    using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Runtime.Elements.Base;
-    using Runtime.Elements.EntitySkills;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
+    using Runtime.Interfaces.Skills;
     using Runtime.Systems;
     using UnityEngine;
 
@@ -22,19 +23,22 @@
             this.heroBlueprint     = heroBlueprint;
         }
 
-
         public void CastSkill(string skillId, ITargetable target)
         {
-            this.View.skeletonAnimation.SetAnimation("summon", loop: false);
-            this.entitySkillSystem.CastSkill(skillId, new SummonSkillModel
+            var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
+            this.View.skeletonAnimation.SetAnimation(heroDataRecord.SkillToAnimationRecords[skillId].AnimationSkillName, loop: false);
+            this.entitySkillSystem.CastSkill(skillId, new BasicSkillModel()
             {
-                Number        = 2,
-                PrefabName    = "SummonKnight",
-                StartPos      = new Vector3(-6.51f, -1.38f, 0),
-                DistanceRange = 1f
+                Id    = skillId,
+                Level = 1,
             });
-            //this.View.skeletonAnimation.SetAnimation("idle",loop: true);
+            UniTask.Delay(TimeSpan.FromSeconds(1f)).ContinueWith(() =>
+            {
+                this.View.skeletonAnimation.SetAnimation("idle", loop: true);
+            });
         }
+
+        public void OnHeroUpgrade() { }
 
         public void Attack(ITargetable target) { }
 
@@ -52,8 +56,8 @@
             Transform transform;
             (transform = this.View.transform).SetParent(this.Model.ParentView);
             transform.localPosition = Vector3.zero;
-            var listSkill = this.heroBlueprint.GetDataById(this.Model.Id).Skill;
-            this.View.OnClickAction = () => this.CastSkill(listSkill.First(), null);
+            var listSkill = this.heroBlueprint.GetDataById(this.Model.Id).SkillToAnimationRecords;
+            this.View.OnClickAction = () => this.CastSkill(listSkill.First().Key, null);
         }
 
         public override void Dispose() { }

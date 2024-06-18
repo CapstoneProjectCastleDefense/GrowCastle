@@ -1,2 +1,2 @@
-﻿HeroId,PrefabName,Class,EvolutionId,BaseAttack,Skill
-Knight,HeroKnight,Summon,KnightEvol_1,10,SummonSkill
+﻿HeroId,PrefabName,Class,EvolutionId,BaseAttack,Skill,AnimationSkillName
+Knight,HeroKnight,Summon,KnightEvol_1,10,SummonSkill,summon

@@ -2,17 +2,23 @@
 {
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using Models.Blueprints;
     using Runtime.Enums;
     using Runtime.Interfaces.Skills;
     using UnityEngine;
 
-    public class SummonSkill : BaseEntitySkillPresenter<SummonSkillModel>
+    public class SummonSkill : BaseEntitySkillPresenter<BasicSkillModel>
     {
         public override EntitySkillType SkillType { get; set; } = EntitySkillType.Summon;
-        
-        private readonly ObjectPoolManager objectPoolManager;
 
-        public SummonSkill(ObjectPoolManager objectPoolManager) { this.objectPoolManager = objectPoolManager; }
+        private readonly ObjectPoolManager    objectPoolManager;
+        private readonly SkillSummonBlueprint skillSummonBlueprint;
+
+        public SummonSkill(ObjectPoolManager objectPoolManager, SkillSummonBlueprint skillSummonBlueprint)
+        {
+            this.objectPoolManager    = objectPoolManager;
+            this.skillSummonBlueprint = skillSummonBlueprint;
+        }
 
         protected override void InternalActivate()
         {
@@ -21,27 +27,15 @@
 
         private async UniTaskVoid Summon()
         {
-            //todo: summon base on data instead of knight only
-            var startPos = this.Model.StartPos;
-            for (var i = 0; i < this.Model.Number; i++)
+            var skillSummonRecord = this.skillSummonBlueprint.GetDataById(this.Model.Id).SkillToLevelRecords[this.Model.Level];
+            var startPos          = skillSummonRecord.StartPos;
+            for (var i = 0; i < skillSummonRecord.NumberSpawn; i++)
             {
-                var knightSummonObj = await this.objectPoolManager.Spawn(this.Model.PrefabName);
+                var knightSummonObj = await this.objectPoolManager.Spawn(skillSummonRecord.PrefabName);
                 knightSummonObj.transform.position                        =  startPos;
-                startPos.y                                                -= this.Model.DistanceRange;
+                startPos.y                                                -= skillSummonRecord.DistanceRange;
                 knightSummonObj.GetComponent<MeshRenderer>().sortingOrder =  i + 1;
             }
         }
-    }
-
-    public class SummonSkillModel : IEntitySkillModel
-    {
-        public int     Number;
-        public string  PrefabName;
-        public Vector3 StartPos;
-        public float   DistanceRange;
-        public string  Id              { get; set; }
-        public string  AddressableName { get; set; }
-        public string  Description     { get; }
-        public string  Name            { get; }
     }
 }

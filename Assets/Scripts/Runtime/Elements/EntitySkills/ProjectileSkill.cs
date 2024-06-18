@@ -1,9 +1,6 @@
 ﻿namespace Runtime.Elements.EntitySkills
 {
-    using System;
-    using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
-    using GameFoundation.Scripts.Utilities.ObjectPool;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Enums;
     using Runtime.Interfaces.Skills;

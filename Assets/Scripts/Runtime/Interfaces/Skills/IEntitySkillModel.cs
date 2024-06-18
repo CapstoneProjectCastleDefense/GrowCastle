@@ -8,4 +8,13 @@
         string Name        { get; }
         string IconPath    => this.AddressableName;
     }
+
+    public class BasicSkillModel : IEntitySkillModel
+    {
+        public string Id              { get; set; }
+        public int    Level           { get; set; }
+        public string AddressableName { get; set; }
+        public string Description     { get; }
+        public string Name            { get; }
+    }
 }
