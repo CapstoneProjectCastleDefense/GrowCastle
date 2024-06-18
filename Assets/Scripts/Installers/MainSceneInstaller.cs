@@ -64,7 +64,6 @@
 
         private void BindAllManager()
         {
-            this.Container.Bind<EntityManager>().AsSingle().NonLazy();
             foreach (var type in ReflectionUtils.GetAllDerivedTypes<IElementManager>())
             {
                 if (!type.IsAbstract)
@@ -72,11 +71,11 @@
                     this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
                 }
             }
-
         }
 
         private void BindAllSystem()
         {
+            this.Container.Bind<GetCustomPresenterSystem>().AsSingle().NonLazy();
             foreach (var type in ReflectionUtils.GetAllDerivedTypes<IGameSystem>())
             {
                 if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();

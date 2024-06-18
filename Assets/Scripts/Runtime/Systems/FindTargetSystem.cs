@@ -12,13 +12,13 @@
 
     public class FindTargetSystem : IGameSystem
     {
-        private readonly EntityManager           entityManager;
-        private          List<IElementPresenter> Presenters   => this.entityManager.GetAllElementPresenter().ToList();
+        private readonly GetCustomPresenterSystem           getCustomPresenterSystem;
+        private          List<IElementPresenter> Presenters   => this.getCustomPresenterSystem.GetAllElementPresenter().ToList();
         public           void                    Initialize() { }
         public           void                    Tick()       { }
         public           void                    Dispose()    { }
 
-        public FindTargetSystem(EntityManager entityManager) { this.entityManager = entityManager; }
+        public FindTargetSystem(GetCustomPresenterSystem getCustomPresenterSystem) { this.getCustomPresenterSystem = getCustomPresenterSystem; }
 
         public ITargetable GetTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList)
         {
