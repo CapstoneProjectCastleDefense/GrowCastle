@@ -1,13 +1,12 @@
 ﻿namespace Runtime.Elements.Entities.Leader
 {
+    using System;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Runtime.Elements.Base;
     using Runtime.Enums;
-    using Runtime.Interfaces;
+    using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
-    using Runtime.Interfaces.Skills;
-    using UnityEngine;
 
     public abstract class BaseLeaderPresenter<TModel, TView, TPresenter> : BaseElementPresenter<TModel, TView, TPresenter>, ILeaderPresenter
         where TView : BaseLeaderView
@@ -16,19 +15,19 @@
     {
         protected BaseLeaderPresenter(TModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
 
-        public void Attack(ITargetable target) { throw new System.NotImplementedException(); }
+        public void Attack(ITargetable target) { throw new NotImplementedException(); }
 
-        public ITargetable FindTarget() { throw new System.NotImplementedException(); }
+        public ITargetable FindTarget() { throw new NotImplementedException(); }
 
-        public void CastSkill(string skillId, ITargetable target) { throw new System.NotImplementedException(); }
+        public void CastSkill(string skillId, ITargetable target) { throw new NotImplementedException(); }
 
-        public void Equip(IEquipment equipment) { throw new System.NotImplementedException(); }
+        public void Equip(IEquipment equipment) { throw new NotImplementedException(); }
 
-        public void UnEquip(IEquipment equipment) { throw new System.NotImplementedException(); }
+        public void UnEquip(IEquipment equipment) { throw new NotImplementedException(); }
 
-        public void OnGetHit(float damage) { throw new System.NotImplementedException(); }
+        public void OnGetHit(float damage) { throw new NotImplementedException(); }
 
-        public void OnDeath()     { throw new System.NotImplementedException(); }
+        public void OnDeath()     { throw new NotImplementedException(); }
 
         public ITargetable TargetThatImAttacking
         {
