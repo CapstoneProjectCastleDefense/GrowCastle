@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Elements.Entities.Archer.Base
 {
+    using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
@@ -92,14 +93,16 @@
                 AttackPriorityEnum.Fly.ToString(),
                 AttackPriorityEnum.Boss.ToString(),
                 AttackPriorityEnum.Building.ToString()
-            });
+            },
+                this.GetManagerTypes());
 
             return res;
         }
 
         public void CastSkill(string skillId, ITargetable target) { }
 
-        protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
+        public             Type[]              GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
+        protected override UniTask<GameObject> CreateView()      { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
         public override void Dispose() { this.ObjectPoolManager.Recycle(this.View); }
     }

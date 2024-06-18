@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Elements.Entities.Castles
 {
+    using System;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.Utilities.ObjectPool;
@@ -22,8 +23,8 @@
             this.blueprint                 = blueprint;
         }
 
-        public             CastleView          CastleView => this.View;
-        protected override UniTask<GameObject> CreateView()  { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
+        public             CastleView          CastleView        => this.View;
+        protected override UniTask<GameObject> CreateView()      { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
         public override async UniTask UpdateView()
         {

@@ -21,6 +21,9 @@
         private const    string           DeathAnimName  = "dead";
         private          EnemyManager     enemyManager;
         private readonly FindTargetSystem findTargetSystem;
+        
+        public Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
+
         protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem)
             : base(model, objectPoolManager)
         {
@@ -63,7 +66,7 @@
                     ? this.TargetThatImAttacking
                     : this.TargetThatAttackingMe is { IsDead: false }
                         ? this.TargetThatAttackingMe
-                        : this.findTargetSystem.GetTarget(this, priority, new() { "Ally", "Building" });
+                        : this.findTargetSystem.GetTarget(this, priority, new() { "Ally", "Building" }, this.GetManagerTypes());
         }
 
         private void UpdateHealthView()
