@@ -67,11 +67,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 767df05985f4b5541a7187ffa7d929c9
-    m_Address: Archer
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 0e1978cd9aac04743a076c9806cae243
     m_Address: SlotImage
     m_ReadOnly: 0
@@ -79,16 +74,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 5d584c3055e199d4f8a2abb551d1a181
     m_Address: BaseSlot
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7b47ff0e622bc3b43bbd4772d3fca7df
-    m_Address: HeroKnight
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c6fffbb677601f84ebcc1d6800a521d9
-    m_Address: SummonKnight
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
