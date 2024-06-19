@@ -43,11 +43,11 @@
                 projectileRecord.Fragment,
                 projectileRecord.ProjectileSpeed,
                 projectileRecord.Delay,
-                projectileRecord.VectorOrientation).onComplete += () =>
-            {
-                this.View.Recycle();
-                DOTween.Kill(this.View.transform);
-            };
+                projectileRecord.VectorOrientation,() =>
+                {
+                    this.View.Recycle();
+                    DOTween.Kill(this.View.transform);
+                });
         }
 
         public override void Dispose() { }
