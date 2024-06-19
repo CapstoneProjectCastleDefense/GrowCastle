@@ -13,19 +13,22 @@
 
     public class FindTargetSystem : IGameSystem
     {
-        private readonly GetCustomPresenterSystem           getCustomPresenterSystem;
-        public           void                    Initialize() { }
-        public           void                    Tick()       { }
-        public           void                    Dispose()    { }
+        private readonly GetCustomPresenterSystem getCustomPresenterSystem;
+        public           void                     Initialize() { }
+        public           void                     Tick()       { }
+        public           void                     Dispose()    { }
 
         public FindTargetSystem(GetCustomPresenterSystem getCustomPresenterSystem) { this.getCustomPresenterSystem = getCustomPresenterSystem; }
 
         public ITargetable GetTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, Type[] managerTypes)
         {
-            var cache = this.getCustomPresenterSystem.GetAllElementPresenters(managerTypes).Where(x =>
-                x is ITargetable
+            var cache = this.getCustomPresenterSystem.GetAllElementPresenters(managerTypes);
+                cache = cache.Where(x =>
+                x is ITargetable t
+                && (t.TargetThatAttackingMe == null || t.TargetThatAttackingMe.IsDead)
                 && x.GetView().LayerMask != host.GetView().LayerMask
-                && x != host && tagList.Contains(x.GetView().Tag)
+                && x != host 
+                && tagList.Contains(x.GetView().Tag)
             ).ToList();
             return cache.Count == 0 ? null : this.GetTaggedTarget(host, priority, tagList, cache) as ITargetable;
         }

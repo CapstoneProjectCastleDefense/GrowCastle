@@ -66,15 +66,15 @@
         {
             target ??= this.FindTarget();
             if (target == null) return;
-            Debug.Log("LVT - ArcherPresenter - target: " + (target as EnemyPresenter).GetView().name);
-            var enemy = (EnemyPresenter)target;
+            Debug.Log("LVT - ArcherPresenter - target: " + (target as IElementPresenter).GetView().name);
+            var enemy = (IElementPresenter)target;
 
             this.View.skeletonAnimation.SetAnimation("attack", false);
             this.entitySkillSystem.CastSkill("archer_normal_attack", new ProjectileSkillModel()
             {
                 Id               = "archer_normal_attack",
                 StartPoint       = this.View.spawnArrowPos.position,
-                EndPoint         = enemy.GetEnemyView.transform.position,
+                EndPoint         = enemy.GetView().transform.position
             });
         }
 
@@ -88,16 +88,17 @@
             }
 
             var res = this.findTargetSystem.GetTarget(this, priority, new()
-            {
-                AttackPriorityEnum.Ground.ToString(),
-                AttackPriorityEnum.Fly.ToString(),
-                AttackPriorityEnum.Boss.ToString(),
-                AttackPriorityEnum.Building.ToString()
-            },
+                {
+                    AttackPriorityEnum.Ground.ToString(),
+                    AttackPriorityEnum.Fly.ToString(),
+                    AttackPriorityEnum.Boss.ToString(),
+                    AttackPriorityEnum.Building.ToString()
+                },
                 this.GetManagerTypes());
 
             return res;
         }
+        public float AttackCooldownTime { get; }
 
         public void CastSkill(string skillId, ITargetable target) { }
 

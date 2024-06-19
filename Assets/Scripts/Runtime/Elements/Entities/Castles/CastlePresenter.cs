@@ -7,9 +7,10 @@
     using Models.Blueprints;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
+    using Runtime.Interfaces.Entities;
     using UnityEngine;
 
-    public class CastlePresenter : BaseElementPresenter<CastleModel, CastleView, CastlePresenter>
+    public class CastlePresenter : BaseElementPresenter<CastleModel, CastleView, CastlePresenter>, ICastlePresenter
     {
         private readonly CastleLocalDataController castleLocalDataController;
         private readonly IGameAssets               gameAssets;
@@ -44,7 +45,12 @@
                 blockView.blockImage.sprite = this.gameAssets.LoadAssetAsync<Sprite>(blockDataRecord.BlockToLevelRecords[blockData.BlockLevel].Image).WaitForCompletion();
             });
         }
-        public override void Dispose()                        { }
+        public override void        Dispose()              { }
+        public          void        OnGetHit(float damage) {  }
+        public          void        OnDeath()              { }
+        public          ITargetable TargetThatImAttacking  { get; set; }
+        public          ITargetable TargetThatAttackingMe  { get; set; }
+        public          bool        IsDead                 { get; }
     }
 
     public class CastleModel : IElementModel

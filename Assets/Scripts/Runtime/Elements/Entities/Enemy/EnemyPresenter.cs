@@ -19,9 +19,10 @@
     {
         private const    string           AttackAnimName = "atk";
         private const    string           DeathAnimName  = "dead";
+        private const    string           MoveAnimName   = "animation2";
         private          EnemyManager     enemyManager;
         private readonly FindTargetSystem findTargetSystem;
-        
+
         public Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
 
         protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem)
@@ -29,8 +30,6 @@
         {
             this.findTargetSystem = findTargetSystem;
         }
-
-        public EnemyView GetEnemyView                     => this.View;
         public void      SetManager(EnemyManager manager) => this.enemyManager = manager;
 
         public override async UniTask UpdateView()
@@ -39,12 +38,12 @@
             this.View.transform.position = this.Model.StartPos;
         }
 
-        private void StartMove()
+        private void DoMove(Vector3 endPos, float distance)
         {
-            this.View.transform.DOMove(this.Model.EndPos, 1 / this.Model.GetStat<float>(StatEnum.MoveSpeed)).onComplete += () =>
-            {
-                //start attack
-            };
+            if (this.TargetThatImAttacking == null) return;
+            this.View.SkeletonAnimation.SetAnimation(MoveAnimName);
+            this.View.transform.DOKill();
+            this.View.transform.DOMove(endPos, distance / this.Model.GetStat<float>(StatEnum.MoveSpeed));
         }
         public void Attack(ITargetable target)
         {
@@ -93,8 +92,8 @@
             var wait = 0f;
             if (!DeathAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation != null)
             {
-                this.View.SkeletonAnimation.SetAnimation(DeathAnimName);
-                wait = 1f;
+                this.View.SkeletonAnimation.SetAnimation(DeathAnimName, false);
+                wait = this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
             }
 
             UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
@@ -132,6 +131,28 @@
         {
             this.ObjectPoolManager.Recycle(this.View);
             this.enemyManager.entities.Remove(this);
+        }
+
+        public override void Tick()
+        {
+            base.Tick();
+            if(!this.IsViewInit) return;
+            if (this.IsDead) return;
+            if (this.TargetThatImAttacking == null)
+            {
+                this.TargetThatImAttacking = this.FindTarget();
+                return;
+            }
+
+            var endPos = ((IElementPresenter)this.TargetThatImAttacking).GetView().transform.position;
+            var distance = Vector3.Distance(this.View.transform.position, endPos);
+            if (distance > 2f) //TODO: replace 2f with a variable
+                this.DoMove(endPos, distance);
+            else
+            {
+                this.View.transform.DOKill();
+                this.Attack(this.TargetThatImAttacking);
+            }
         }
     }
 }
