@@ -38,6 +38,7 @@
             paths.Add(C);
             paths.Add(endPos);
 
+            
             return flyObj.DOPath(paths.ToArray(), duration, PathType.CatmullRom).SetDelay(delay).SetOptions(false, AxisConstraint.Z).SetEase(ease);
         }
     }
