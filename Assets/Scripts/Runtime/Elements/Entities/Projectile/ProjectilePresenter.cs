@@ -12,7 +12,8 @@
     {
         private readonly ProjectileBlueprint projectileBlueprint;
 
-        public ProjectilePresenter(ProjectileModel model,
+        public ProjectilePresenter(
+            ProjectileModel model,
             ObjectPoolManager objectPoolManager,
             ProjectileBlueprint projectileBlueprint)
             : base(model, objectPoolManager)
@@ -20,12 +21,17 @@
             this.projectileBlueprint = projectileBlueprint;
         }
 
+        public override async UniTask UpdateView()
+        {
+            await base.UpdateView();
+            this.View.transform.position = this.Model.StartPoint;
+        }
+
 
         protected override UniTask<GameObject> CreateView()
         {
-            var obj = this.ObjectPoolManager.Spawn(this.Model.Prefab); //consider of load view from addressable with id or with prefab
-            obj.transform.position = this.Model.StartPoint;
-            return new UniTask<GameObject>(obj);
+            var projectileRecord = this.projectileBlueprint[this.Model.Id];
+            return this.ObjectPoolManager.Spawn(projectileRecord.PrefabName); 
         }
 
         public void FlyToTarget()
@@ -37,7 +43,7 @@
                 projectileRecord.Fragment,
                 projectileRecord.ProjectileSpeed,
                 projectileRecord.Delay,
-                new Vector3(1, 1, -7)).onComplete += () =>
+                projectileRecord.VectorOrientation).onComplete += () =>
             {
                 this.View.Recycle();
                 DOTween.Kill(this.View.transform);

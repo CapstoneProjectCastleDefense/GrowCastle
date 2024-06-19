@@ -1,2 +1,3 @@
 ﻿HeroId,PrefabName,Class,EvolutionId,BaseAttack,Skill,AnimationSkillName
 Knight,HeroKnight,Summon,KnightEvol_1,10,SummonSkill,summon
+Wizard,HeroWizard,Attack,WizardEvol_1,10,FireLightingBall|wizard_normal_attack,atk
