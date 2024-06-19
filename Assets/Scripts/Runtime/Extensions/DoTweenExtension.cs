@@ -5,30 +5,18 @@
     using DG.Tweening;
     using UnityEngine;
 
-    public static class DoTweenExtension
+    public static class DotweenExtension
     {
-        /// <summary>
-        /// general fly object animation
-        /// </summary>
-        /// <param name="flyObj">obj to fly</param>
-        /// <param name="startPos">start position</param>
-        /// <param name="endPos">end position</param>
-        /// <param name="fragment">curve highest/lowest point</param>
-        /// <param name="duration">fly duration</param>
-        /// <param name="vectorOrientation"></param>
-        /// <param name="finishCallback">callback function to invoke when fly finish</param>
-        /// <param name="ease">ease type</param>
-        /// <param name="delay"></param>
         public static Tween Fly(
             this Transform flyObj,
-            Vector3 startPos,
-            Vector3 endPos,
-            int fragment,
-            float duration,
-            float delay,
-            Vector3 vectorOrientation,
-            Action finishCallback,
-            Ease ease = Ease.OutQuad)
+            Vector3        startPos,
+            Vector3        endPos,
+            int            fragment,
+            float          duration,
+            float          delay,
+            Vector3        vectorOrientation,
+            Action         finishCallback,
+            Ease           ease = Ease.OutQuad)
         {
             flyObj.gameObject.SetActive(true);
             var paths   = new List<Vector3> { startPos };

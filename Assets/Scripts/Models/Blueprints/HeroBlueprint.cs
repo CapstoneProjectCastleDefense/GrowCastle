@@ -28,5 +28,6 @@
     public enum HeroClass
     {
         Summon,
+        Attack,
     }
 }
