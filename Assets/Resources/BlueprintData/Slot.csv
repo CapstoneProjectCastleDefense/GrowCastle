@@ -1,2 +1,12 @@
 ﻿Id,SlotType,Image,EffectId,Position
-1,Hero,SlotImage,Effect_1,-8.5|-0.5|0
+6,Hero,SlotImage,Effect_1,-8.5|-0.5|0
+3,Hero,SlotImage,Effect_1,-9.8|1|0
+9,Hero,SlotImage,Effect_1,-9.8|-2.6|0
+2,Hero,SlotImage,Effect_1,-11.8|1|0
+8,Hero,SlotImage,Effect_1,-11.8|-2.6|0
+1,Hero,SlotImage,Effect_1,-13.8|1|0
+7,Hero,SlotImage,Effect_1,-13.8|-2.6|0
+5,Hero,SlotImage,Effect_1,-11|-0.5|0
+4,Hero,SlotImage,Effect_1,-13.8|-0.5|0
+
+

@@ -1,5 +1,16 @@
 ﻿Id,BlockLevel,Image
-Block_1,1,castle 8
-,2,BlockImg_1
-Block_2,1,Block_2_Image
-,2,Block_2_Image_1
+Block_1,1,castle 4
+Block_2,1,wall 1
+Block_3,1,wall 1
+Block_4,1,castle 6
+Block_5,1,castle 3
+Block_6,1,wall 2
+Block_7,1,wall 1
+Block_8,1,castle 6
+Block_9,1,castle 3
+Block_10,1,wall 2
+Block_11,1,wall 1
+Block_12,1,castle 6
+Block_13,1,castle 3
+Block_14,1,castle 6
+Block_15,1,castle 8
