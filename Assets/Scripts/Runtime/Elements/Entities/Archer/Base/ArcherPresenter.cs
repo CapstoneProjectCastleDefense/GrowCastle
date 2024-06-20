@@ -74,7 +74,6 @@
                 Id               = "archer_normal_attack",
                 StartPoint       = this.View.spawnArrowPos.position,
                 EndPoint         = enemy.GetEnemyView.transform.position,
-                ProjectilePrefab = this.View.arrowPrefab
             });
         }
 

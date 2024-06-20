@@ -3,9 +3,14 @@
     using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Runtime.Elements.Base;
+    using Runtime.Elements.Entities.Enemy;
+    using Runtime.Elements.EntitySkills;
+    using Runtime.Enums;
+    using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
     using Runtime.Interfaces.Skills;
@@ -16,11 +21,29 @@
     {
         private readonly EntitySkillSystem entitySkillSystem;
         private readonly HeroBlueprint     heroBlueprint;
+        private readonly FindTargetSystem  findTargetSystem;
 
-        protected HeroPresenter(HeroModel model, ObjectPoolManager objectPoolManager, EntitySkillSystem entitySkillSystem, HeroBlueprint heroBlueprint) : base(model, objectPoolManager)
+        private bool  canAttack;
+        private float timer;
+        protected HeroPresenter(HeroModel model, ObjectPoolManager objectPoolManager, EntitySkillSystem entitySkillSystem, HeroBlueprint heroBlueprint, FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
         {
             this.entitySkillSystem = entitySkillSystem;
             this.heroBlueprint     = heroBlueprint;
+            this.findTargetSystem  = findTargetSystem;
+        }
+
+        public override void Tick()
+        {
+
+            if (!this.canAttack) return;
+            if (this.timer >= 1 / this.Model.GetStat<float>(StatEnum.AttackSpeed))
+            {
+                this.Attack(null);
+                this.timer = 0;
+            }
+
+            this.timer += Time.deltaTime;
+            this.Attack(null);
         }
 
         public void CastSkill(string skillId, ITargetable target)
@@ -40,9 +63,43 @@
 
         public void OnHeroUpgrade() { }
 
-        public void Attack(ITargetable target) { }
+        public void Attack(ITargetable target)
+        {
+            var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
+            if (heroDataRecord.Class != HeroClass.Attack) return;
 
-        public ITargetable FindTarget() { return null; }
+            target ??= this.FindTarget();
+            if (target == null) return;
+            var enemy = (EnemyPresenter)target;
+
+            var skillId = heroDataRecord.SkillToAnimationRecords.ElementAt(1).Key;
+            this.entitySkillSystem.CastSkill(skillId, new ProjectileSkillModel()
+            {
+                Id               = skillId,
+                StartPoint       = this.View.spawnProjectilePos.position,
+                EndPoint         = enemy.GetEnemyView.transform.position,
+            });
+        }
+
+        public ITargetable FindTarget()
+        {
+            var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
+            if (priority == default)
+            {
+                priority = AttackPriorityEnum.Default;
+                this.Model.SetStat(StatEnum.AttackPriority, priority);
+            }
+
+            var res = this.findTargetSystem.GetTarget(this, priority, new()
+            {
+                AttackPriorityEnum.Ground.ToString(),
+                AttackPriorityEnum.Fly.ToString(),
+                AttackPriorityEnum.Boss.ToString(),
+                AttackPriorityEnum.Building.ToString()
+            });
+
+            return res;
+        }
 
         public void Equip(IEquipment equipment) { }
 
