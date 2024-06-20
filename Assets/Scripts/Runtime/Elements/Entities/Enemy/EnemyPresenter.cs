@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Elements.Entities.Enemy
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
@@ -90,6 +91,7 @@
             DOTween.Kill(this.View.HealthBar);
             this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / this.Model.GetStat<float>(StatEnum.MaxHealth), 0.1f);
         }
+
         public void OnGetHit(float damage)
         {
             if (this.IsDead) return;
@@ -113,7 +115,8 @@
             this.IsDead = true;
             this.View.HealthBarContainer.gameObject.SetActive(false);
             var wait = 0f;
-            if (!DeathAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation != null)
+            if (!DeathAnimName.IsNullOrEmpty() &&
+                this.View.SkeletonAnimation != null)
             {
                 this.View.SkeletonAnimation.SetAnimation(DeathAnimName, false);
                 wait = this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
