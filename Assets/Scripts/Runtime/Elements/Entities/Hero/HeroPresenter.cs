@@ -25,6 +25,7 @@
 
         private bool  canAttack;
         private float timer;
+
         protected HeroPresenter(HeroModel model, ObjectPoolManager objectPoolManager, EntitySkillSystem entitySkillSystem, HeroBlueprint heroBlueprint, FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
         {
             this.entitySkillSystem = entitySkillSystem;
@@ -34,7 +35,6 @@
 
         public override void Tick()
         {
-
             if (!this.canAttack) return;
             if (this.timer >= 1 / this.Model.GetStat<float>(StatEnum.AttackSpeed))
             {
@@ -43,22 +43,32 @@
             }
 
             this.timer += Time.deltaTime;
-            this.Attack(null);
         }
 
-        public void CastSkill(string skillId, ITargetable target)
+        private void CastSkillInternal(string skillId, ITargetable target, IEntitySkillModel skillModel)
         {
             var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
             this.View.skeletonAnimation.SetAnimation(heroDataRecord.SkillToAnimationRecords[skillId].AnimationSkillName, loop: false);
-            this.entitySkillSystem.CastSkill(skillId, new BasicSkillModel()
-            {
-                Id    = skillId,
-                Level = 1,
-            });
+            this.entitySkillSystem.CastSkill(skillId, skillModel);
             UniTask.Delay(TimeSpan.FromSeconds(1f)).ContinueWith(() =>
             {
                 this.View.skeletonAnimation.SetAnimation("idle", loop: true);
             });
+        }
+
+        public void CastSkill(string skillId, ITargetable target)
+        {
+            this.CastSkillInternal(skillId, target, new BasicSkillModel()
+            {
+                Id    = skillId,
+                Level = 1,
+            });
+        }
+
+        public void SetAttackStatus(bool attackStatus)
+        {
+            this.canAttack = attackStatus;
+            this.timer     = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
         }
 
         public void OnHeroUpgrade() { }
@@ -66,18 +76,20 @@
         public void Attack(ITargetable target)
         {
             var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
+
             if (heroDataRecord.Class != HeroClass.Attack) return;
 
             target ??= this.FindTarget();
+
             if (target == null) return;
             var enemy = (EnemyPresenter)target;
 
             var skillId = heroDataRecord.SkillToAnimationRecords.ElementAt(1).Key;
-            this.entitySkillSystem.CastSkill(skillId, new ProjectileSkillModel()
+            this.CastSkillInternal(skillId, target, new ProjectileSkillModel()
             {
-                Id               = skillId,
-                StartPoint       = this.View.spawnProjectilePos.position,
-                EndPoint         = enemy.GetEnemyView.transform.position,
+                Id         = skillId,
+                StartPoint = this.View.spawnProjectilePos.position,
+                EndPoint   = enemy.GetEnemyView.transform.position,
             });
         }
 
