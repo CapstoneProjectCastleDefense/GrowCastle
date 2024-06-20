@@ -155,7 +155,8 @@
             }
         }
 
-        public bool IsDead { get; private set; }
+        public bool                                 IsDead     { get; private set; }
+        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats; }
 
         protected override UniTask<GameObject> CreateView()
         {
