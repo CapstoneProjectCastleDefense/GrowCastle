@@ -42,7 +42,7 @@
 
         private UniTask GenerateCastle()
         {
-            CastleModel castleModel = new CastleModel() { Stats = this.castleLocalDataController.GetCasteStat(), AddressableName = "Castle" };
+            CastleModel castleModel = new CastleModel() { Stats = this.castleLocalDataController.GetCastleStat(), AddressableName = "Castle" };
             return this.castleManager.CreateElement(castleModel).UpdateView();
         }
 

@@ -73,11 +73,11 @@
 
         #endregion
 
-        public Dictionary<StatEnum, (Type, Object)> GetCasteStat()
+        public Dictionary<StatEnum, (Type, Object)> GetCastleStat()
         {
             var result     = new Dictionary<StatEnum, (Type, Object)>();
             var configData = this.castleConfigBlueprint.First().Value;
-            result.Add(StatEnum.Health, (configData.BaseHP.GetType(), configData.BaseHP*10000));
+            result.Add(StatEnum.Health, (configData.BaseHP.GetType(), configData.BaseHP*10000)); //TODO: *10000 for testing, change to local data later
             result.Add(StatEnum.Mana, (configData.BaseMP.GetType(), configData.BaseMP));
 
             return result;
