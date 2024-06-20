@@ -27,7 +27,6 @@
             this.View.transform.position = this.Model.StartPoint;
         }
 
-
         protected override UniTask<GameObject> CreateView()
         {
             var projectileRecord = this.projectileBlueprint[this.Model.Id];
@@ -39,15 +38,16 @@
             var id               = this.Model.Id;
             var projectileRecord = this.projectileBlueprint[id];
             this.View.transform.Fly(this.Model.StartPoint,
-                this.Model.EndPoint,
-                projectileRecord.Fragment,
-                projectileRecord.ProjectileSpeed,
-                projectileRecord.Delay,
-                projectileRecord.VectorOrientation,() =>
-                {
-                    this.View.Recycle();
-                    DOTween.Kill(this.View.transform);
-                });
+                                    this.Model.EndPoint,
+                                    projectileRecord.Fragment,
+                                    projectileRecord.ProjectileSpeed,
+                                    projectileRecord.Delay,
+                                    projectileRecord.VectorOrientation)
+                .onComplete += () =>
+            {
+                this.View.Recycle();
+                DOTween.Kill(this.View.transform);
+            };
         }
 
         public override void Dispose() { }

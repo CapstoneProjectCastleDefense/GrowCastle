@@ -5,7 +5,7 @@
     using DG.Tweening;
     using UnityEngine;
 
-    public static class DotweenExtension
+    public static class DoTweenExtension
     {
         public static Tween Fly(
             this Transform flyObj,
@@ -15,7 +15,6 @@
             float          duration,
             float          delay,
             Vector3        vectorOrientation,
-            Action         finishCallback,
             Ease           ease = Ease.OutQuad)
         {
             flyObj.gameObject.SetActive(true);
@@ -27,8 +26,10 @@
             paths.Add(C);
             paths.Add(endPos);
 
-            return flyObj.DOPath(paths.ToArray(), duration, PathType.CatmullRom).SetDelay(delay).SetOptions(false, AxisConstraint.Z).SetEase(ease)
-                .OnComplete(() => { finishCallback?.Invoke(); });
+            return flyObj.DOPath(paths.ToArray(), duration, PathType.CatmullRom)
+                         .SetDelay(delay)
+                         .SetOptions(false, AxisConstraint.Z)
+                         .SetEase(ease);
         }
     }
 }
