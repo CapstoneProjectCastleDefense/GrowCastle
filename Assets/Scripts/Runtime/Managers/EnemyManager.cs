@@ -9,6 +9,7 @@
     using Runtime.Enums;
     using Runtime.Managers.Base;
     using UnityEngine;
+    using Random = UnityEngine.Random;
 
     public class EnemyManager : BaseElementManager<EnemyModel, EnemyPresenter, EnemyView>
     {
@@ -42,14 +43,16 @@
                     {
                         { StatEnum.Attack, (typeof(float), enemyRecord.Attack.baseValue) },
                         { StatEnum.Health, (typeof(float), enemyRecord.HP.baseValue) },
+                        { StatEnum.MaxHealth, (typeof(float), enemyRecord.HP.baseValue) },
                         { StatEnum.MoveSpeed, (typeof(float), enemyRecord.Speed.baseValue) },
+                        { StatEnum.AttackRange, (typeof(float), enemyRecord.AttackRange) }
                     },
-                    StartPos = new(0, -2, 0)
+                    StartPos = new(Random.Range(10f, 11f), Random.Range(-2.5f, -1.5f), 0)
                 });
                 enemyPresenter.UpdateView().Forget();
                 enemyPresenter.SetManager(this);
             }
-            
+
             Debug.Log("Spawn enemy");
         }
     }

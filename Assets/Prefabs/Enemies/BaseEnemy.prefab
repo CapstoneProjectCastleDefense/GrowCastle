@@ -53,6 +53,7 @@ MonoBehaviour:
   <AttackRangeCollider2D>k__BackingField: {fileID: 497148970014649306}
   <Rigidbody2D>k__BackingField: {fileID: 5352632078692599770}
   <HealthBar>k__BackingField: {fileID: 2551546863798378409}
+  <HealthBarContainer>k__BackingField: {fileID: 4608881920492560244}
 --- !u!50 &5352632078692599770
 Rigidbody2D:
   serializedVersion: 4

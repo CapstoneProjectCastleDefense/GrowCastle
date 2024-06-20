@@ -7,6 +7,8 @@
         void Attack(ITargetable target);
         ITargetable FindTarget();
         
+        float AttackCooldownTime { get; }
+        
         Type[] GetManagerTypes();
     }
 }

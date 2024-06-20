@@ -16,8 +16,9 @@
 
         public void Attack(ITargetable target) { throw new NotImplementedException(); }
 
-        public ITargetable FindTarget()      { throw new NotImplementedException(); }
-        public Type[]      GetManagerTypes() { return new[] { typeof(Managers.CastleManager), typeof(Managers.EnemyManager) }; }
+        public ITargetable FindTarget()       { throw new NotImplementedException(); }
+        public float       AttackCooldownTime { get; }
+        public Type[]      GetManagerTypes()  { return new[] { typeof(Managers.CastleManager), typeof(Managers.EnemyManager) }; }
 
         public void CastSkill(string skillId, ITargetable target) { throw new NotImplementedException(); }
 

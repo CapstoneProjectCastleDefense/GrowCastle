@@ -13,9 +13,9 @@ GameObject:
   - component: {fileID: 2793204145281465318}
   - component: {fileID: 7213022332086022339}
   - component: {fileID: -1503425077051987320}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: Archer
-  m_TagString: Untagged
+  m_TagString: Undefined
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -148,7 +148,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4620488570041844190}
-  m_Layer: 0
+  m_Layer: 11
   m_Name: SpawnPos
   m_TagString: Untagged
   m_Icon: {fileID: 0}

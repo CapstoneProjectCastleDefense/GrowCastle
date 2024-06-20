@@ -30,25 +30,34 @@
         {
             this.findTargetSystem = findTargetSystem;
         }
-        public void      SetManager(EnemyManager manager) => this.enemyManager = manager;
+        public void SetManager(EnemyManager manager) => this.enemyManager = manager;
 
         public override async UniTask UpdateView()
         {
             await base.UpdateView();
-            this.View.transform.position = this.Model.StartPos;
+            this.View.SkeletonAnimation.SetAnimation(MoveAnimName);
+            this.View.HealthBarContainer.gameObject.SetActive(true);
+            this.View.HealthBar.fillAmount = 1;
+            this.View.transform.position   = this.Model.StartPos;
         }
 
         private void DoMove(Vector3 endPos, float distance)
         {
             if (this.TargetThatImAttacking == null) return;
-            this.View.SkeletonAnimation.SetAnimation(MoveAnimName);
             this.View.transform.DOKill();
-            this.View.transform.DOMove(endPos, distance / this.Model.GetStat<float>(StatEnum.MoveSpeed));
+            this.View.transform.DOMoveX(endPos.x, distance / this.Model.GetStat<float>(StatEnum.MoveSpeed));
         }
-        public void Attack(ITargetable target)
+        public void Attack(ITargetable target) //TODO : Replace with a skill called attack
         {
-            if (!AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation) this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
-            target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
+            if (!AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation && Time.time >= this.AttackCooldownTime)
+            {
+                this.View.transform.DOKill();
+                this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
+                target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
+                var attackSpeed                   = this.Model.GetStat<float>(StatEnum.AttackSpeed);
+                if (attackSpeed <= 0) attackSpeed = 1f / this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
+                this.AttackCooldownTime = Time.time + 1f / attackSpeed;
+            }
         }
 
         public ITargetable FindTarget()
@@ -67,14 +76,16 @@
                         ? this.TargetThatAttackingMe
                         : this.findTargetSystem.GetTarget(this, priority, new() { "Ally", "Building" }, this.GetManagerTypes());
         }
+        public float AttackCooldownTime { get; private set; } = 0;
 
         private void UpdateHealthView()
         {
             DOTween.Kill(this.View.HealthBar);
-            this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / 20, 0.1f);
+            this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / this.Model.GetStat<float>(StatEnum.MaxHealth), 0.1f);
         }
         public void OnGetHit(float damage)
         {
+            if (this.IsDead) return;
             var currentHealth = this.Model.GetStat<float>(StatEnum.Health);
             currentHealth -= damage;
             if (currentHealth <= 0)
@@ -83,12 +94,17 @@
             }
 
             this.Model.SetStat(StatEnum.Health, currentHealth);
-            this.UpdateHealthView();
-            if (currentHealth <= 0) this.OnDeath();
+            if (currentHealth <= 0)
+                this.OnDeath();
+            else
+                this.UpdateHealthView();
         }
 
         public void OnDeath()
         {
+            if (this.IsDead) return;
+            this.IsDead = true;
+            this.View.HealthBarContainer.gameObject.SetActive(false);
             var wait = 0f;
             if (!DeathAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation != null)
             {
@@ -119,7 +135,8 @@
             }
         }
 
-        public bool IsDead => this.Model.GetStat<float>(StatEnum.Health) <= 0;
+        public bool IsDead { get; private set; }
+        //=> this.Model.GetStat<float>(StatEnum.Health) <= 0;
 
         protected override UniTask<GameObject> CreateView()
         {
@@ -136,21 +153,26 @@
         public override void Tick()
         {
             base.Tick();
-            if(!this.IsViewInit) return;
-            if (this.IsDead) return;
+            if (!this.IsViewInit) return;
+            if (this.IsDead)
+            {
+                this.View.transform.DOKill();
+                return;
+            }
+
             if (this.TargetThatImAttacking == null)
             {
                 this.TargetThatImAttacking = this.FindTarget();
                 return;
             }
 
-            var endPos = ((IElementPresenter)this.TargetThatImAttacking).GetView().transform.position;
+            var endPos   = ((IElementPresenter)this.TargetThatImAttacking).GetView().transform.position;
             var distance = Vector3.Distance(this.View.transform.position, endPos);
-            if (distance > 2f) //TODO: replace 2f with a variable
+            var range    = this.Model.GetStat<float>(StatEnum.AttackRange);
+            if (distance > range)
                 this.DoMove(endPos, distance);
             else
             {
-                this.View.transform.DOKill();
                 this.Attack(this.TargetThatImAttacking);
             }
         }

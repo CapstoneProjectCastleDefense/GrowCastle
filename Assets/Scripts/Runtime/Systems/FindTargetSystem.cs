@@ -24,10 +24,10 @@
         {
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(managerTypes);
                 cache = cache.Where(x =>
-                x is ITargetable t
+                x is ITargetable { IsDead: false } t
                 && (t.TargetThatAttackingMe == null || t.TargetThatAttackingMe.IsDead)
                 && x.GetView().LayerMask != host.GetView().LayerMask
-                && x != host 
+                && x != host
                 && tagList.Contains(x.GetView().Tag)
             ).ToList();
             return cache.Count == 0 ? null : this.GetTaggedTarget(host, priority, tagList, cache) as ITargetable;

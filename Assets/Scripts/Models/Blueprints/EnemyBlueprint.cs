@@ -13,13 +13,14 @@
 
     public class EnemyRecord
     {
-        public string                               Id         { get; set; }
-        public string                               PrefabName { get; set; }
-        public AttackType                           AttackType { get; set; }
-        public string                               Name       { get; set; }
-        public (float baseValue, float coefficient) Attack     { get; set; }
-        public (float baseValue, float coefficient) HP         { get; set; }
-        public (float baseValue, float coefficient) Speed      { get; set; }
+        public string                               Id          { get; set; }
+        public string                               PrefabName  { get; set; }
+        public AttackType                           AttackType  { get; set; }
+        public string                               Name        { get; set; }
+        public float                                AttackRange { get; set; }
+        public (float baseValue, float coefficient) Attack      { get; set; }
+        public (float baseValue, float coefficient) HP          { get; set; }
+        public (float baseValue, float coefficient) Speed       { get; set; }
     }
 
     public enum AttackType

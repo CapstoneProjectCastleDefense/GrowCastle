@@ -1,3 +1,3 @@
-﻿Id,PrefabName,AttackType,Name,Attack,HP,Speed
-goblin_1,goblin_1,Melee,NormalGoblin,10|1.1,20|1.2,5|1.1
-goblin_2,goblin_2,Melee,NormalGoblin,10|1.1,20|1.2,5|1.1
+﻿Id,PrefabName,AttackType,Name,Attack,HP,Speed,AttackRange
+goblin_1,goblin_1,Melee,NormalGoblin,10|1.1,20|1.2,2|1.1,2
+goblin_2,goblin_2,Melee,NormalGoblin,10|1.1,20|1.2,2|1.1,2

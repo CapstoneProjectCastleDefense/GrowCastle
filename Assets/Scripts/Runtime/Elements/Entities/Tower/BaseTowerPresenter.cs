@@ -14,6 +14,7 @@
         protected BaseTowerPresenter(TModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
         public void        Attack(ITargetable target)                    { throw new System.NotImplementedException(); }
         public ITargetable FindTarget()                                  { throw new System.NotImplementedException(); }
+        public float       AttackCooldownTime                            { get; }
         public Type[]      GetManagerTypes()                             { return new[] { typeof(Managers.EnemyManager), typeof(Managers.CastleManager) }; }
         public void        CastSkill(string skillId, ITargetable target) { throw new System.NotImplementedException(); }
     }
