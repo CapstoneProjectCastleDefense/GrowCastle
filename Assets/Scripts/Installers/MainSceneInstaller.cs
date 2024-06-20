@@ -8,6 +8,7 @@
     using Runtime.Elements.Entities.Castles;
     using Runtime.Elements.Entities.Enemy;
     using Runtime.Elements.Entities.Hero;
+    using Runtime.Elements.Entities.Leader;
     using Runtime.Elements.Entities.MapLevel;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Elements.Entities.Slot;
@@ -60,6 +61,8 @@
                 .WhenInjectedInto<HeroManager>();
             this.Container.BindFactory<ProjectileModel, ProjectilePresenter, ProjectilePresenter.Factory>().AsCached()
                 .WhenInjectedInto<ProjectileManager>();
+            this.Container.BindFactory<LeaderModel, LeaderPresenter, LeaderPresenter.Factory>().AsCached()
+                .WhenInjectedInto<LeaderManager>();
         }
 
         private void BindAllManager()

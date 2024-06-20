@@ -1,10 +1,12 @@
 ﻿namespace Models.LocalData.LocalDataController
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using GameFoundation.Scripts.Utilities.Extension;
     using Models.Blueprints;
     using Runtime.Elements.Entities.Castles;
+    using Runtime.Enums;
 
     public class CastleLocalDataController : ILocalDataController
     {
@@ -71,13 +73,12 @@
 
         #endregion
 
-        public CastleStat GetCasteStat()
+        public Dictionary<StatEnum, (Type, Object)> GetCastleStat()
         {
-            var result     = new CastleStat();
+            var result     = new Dictionary<StatEnum, (Type, Object)>();
             var configData = this.castleConfigBlueprint.First().Value;
-            result.Hp            = configData.BaseHP;
-            result.Mp            = configData.BaseMP;
-            result.GoldToUpgrade = configData.BaseGoldNeedToUpgrade;
+            result.Add(StatEnum.Health, (configData.BaseHP.GetType(), configData.BaseHP*10000)); //TODO: *10000 for testing, change to local data later
+            result.Add(StatEnum.Mana, (configData.BaseMP.GetType(), configData.BaseMP));
 
             return result;
         }

@@ -6,7 +6,7 @@
     using Runtime.Enums;
     using Runtime.Interfaces;
 
-    public abstract class BaseLeaderModel : IElementModel, IHaveStats
+    public abstract class LeaderModel : IElementModel, IHaveStats
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }

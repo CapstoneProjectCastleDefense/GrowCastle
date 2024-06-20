@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Elements.Base
 {
+    using System;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using UnityEngine;
@@ -33,10 +34,10 @@
                 this.IsViewInit = true;
             }
         }
-        public T               GetModelGeneric<T>() { return (T)(object)this.Model; }
-        public T               GetViewGeneric<T>()  { return (T)(object)this.View; }
-        public IElementModel   GetModel()           => this.Model;
-        public BaseElementView GetView()            => this.View;
+        public          T               GetModelGeneric<T>() { return (T)(object)this.Model; }
+        public          T               GetViewGeneric<T>()  { return (T)(object)this.View; }
+        public          IElementModel   GetModel()           => this.Model;
+        public          BaseElementView GetView()            => this.View;
 
         protected abstract UniTask<GameObject> CreateView();
 

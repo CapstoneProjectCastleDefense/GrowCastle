@@ -11,11 +11,8 @@
 
         public static T GetStat<T>(this IHaveStats haveStats, StatEnum statEnum)
         {
+            haveStats.Stats.TryAdd(statEnum, (typeof(T), default));
             haveStats.Stats.TryGetValue(statEnum, out var value);
-            if (value.Item1 == null)
-            {
-                return default;
-            }
 
             if (value.Item1 != typeof(T))
             {

@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Elements.Entities.Archer.Base
 {
+    using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
@@ -65,41 +66,39 @@
         {
             target ??= this.FindTarget();
             if (target == null) return;
-            Debug.Log("LVT - ArcherPresenter - target: " + (target as EnemyPresenter).GetView().name);
-            var enemy = (EnemyPresenter)target;
+            Debug.Log("LVT - ArcherPresenter - target: " + (target as IElementPresenter).GetView().name);
+            var enemy = (IElementPresenter)target;
 
             this.View.skeletonAnimation.SetAnimation("attack", false);
             this.entitySkillSystem.CastSkill("archer_normal_attack", new ProjectileSkillModel()
             {
                 Id               = "archer_normal_attack",
                 StartPoint       = this.View.spawnArrowPos.position,
-                EndPoint         = enemy.GetEnemyView.transform.position,
+                EndPoint         = enemy.GetView().transform.position
             });
         }
 
         public ITargetable FindTarget()
         {
             var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
-            if (priority == default)
-            {
-                priority = AttackPriorityEnum.Default;
-                this.Model.SetStat(StatEnum.AttackPriority, priority);
-            }
 
             var res = this.findTargetSystem.GetTarget(this, priority, new()
-            {
-                AttackPriorityEnum.Ground.ToString(),
-                AttackPriorityEnum.Fly.ToString(),
-                AttackPriorityEnum.Boss.ToString(),
-                AttackPriorityEnum.Building.ToString()
-            });
+                {
+                    AttackPriorityEnum.Ground.ToString(),
+                    AttackPriorityEnum.Fly.ToString(),
+                    AttackPriorityEnum.Boss.ToString(),
+                    AttackPriorityEnum.Building.ToString()
+                },
+                this.GetManagerTypes());
 
             return res;
         }
+        public float AttackCooldownTime { get; } = 0;
 
         public void CastSkill(string skillId, ITargetable target) { }
 
-        protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
+        public             Type[]              GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
+        protected override UniTask<GameObject> CreateView()      { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
         public override void Dispose() { this.ObjectPoolManager.Recycle(this.View); }
     }

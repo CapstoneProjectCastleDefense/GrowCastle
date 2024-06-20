@@ -5,9 +5,13 @@
         Health,
         Mana,
         
+        MaxHealth,
+        MaxMana,
+        
         Attack,
         Defense,
         AttackSpeed,
+        AttackRange,
         MoveSpeed,
         CastSpeed,
         CritChance,

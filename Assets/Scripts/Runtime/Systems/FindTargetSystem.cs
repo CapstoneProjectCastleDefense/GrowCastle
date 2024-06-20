@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Systems
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Runtime.Elements.Base;
@@ -12,20 +13,22 @@
 
     public class FindTargetSystem : IGameSystem
     {
-        private readonly GetCustomPresenterSystem           getCustomPresenterSystem;
-        private          List<IElementPresenter> Presenters   => this.getCustomPresenterSystem.GetAllElementPresenter().ToList();
-        public           void                    Initialize() { }
-        public           void                    Tick()       { }
-        public           void                    Dispose()    { }
+        private readonly GetCustomPresenterSystem getCustomPresenterSystem;
+        public           void                     Initialize() { }
+        public           void                     Tick()       { }
+        public           void                     Dispose()    { }
 
         public FindTargetSystem(GetCustomPresenterSystem getCustomPresenterSystem) { this.getCustomPresenterSystem = getCustomPresenterSystem; }
 
-        public ITargetable GetTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList)
+        public ITargetable GetTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, Type[] managerTypes)
         {
-            var cache = this.Presenters.Where(x =>
-                x is ITargetable
+            var cache = this.getCustomPresenterSystem.GetAllElementPresenters(managerTypes);
+                cache = cache.Where(x =>
+                x is ITargetable { IsDead: false } t
+                && (t.TargetThatAttackingMe == null || t.TargetThatAttackingMe.IsDead)
                 && x.GetView().LayerMask != host.GetView().LayerMask
-                && x != host && tagList.Contains(x.GetView().Tag)
+                && x != host
+                && tagList.Contains(x.GetView().Tag)
             ).ToList();
             return cache.Count == 0 ? null : this.GetTaggedTarget(host, priority, tagList, cache) as ITargetable;
         }

@@ -12,5 +12,6 @@
         [field: SerializeField] public Collider2D        AttackRangeCollider2D { get; private set; }
         [field: SerializeField] public Rigidbody2D       Rigidbody2D           { get; private set; }
         [field: SerializeField] public Image             HealthBar             { get; private set; }
+        [field: SerializeField] public GameObject        HealthBarContainer    { get; private set; }
     }
 }

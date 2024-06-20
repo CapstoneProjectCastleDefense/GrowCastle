@@ -2,8 +2,7 @@
 {
     using Runtime.Elements.Base;
 
-    public class BaseLeaderView : BaseElementView
+    public class LeaderView : BaseElementView
     {
-        
     }
 }

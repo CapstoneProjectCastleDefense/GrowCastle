@@ -1,10 +1,12 @@
 ﻿namespace Runtime.Elements.Entities.MapLevel
 {
+    using System;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Runtime.Elements.Base;
     using UnityEngine;
+    using Object = UnityEngine.Object;
 
     public class MapLevelPresenter : BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>
     {
@@ -15,7 +17,7 @@
         {
             this.environmentBlueprint = environmentBlueprint;
         }
-        protected override UniTask<GameObject> CreateView()         { return this.ObjectPoolManager.Spawn(this.Model.LevelRecord.PrefabName); }
+        protected override UniTask<GameObject> CreateView()      { return this.ObjectPoolManager.Spawn(this.Model.LevelRecord.PrefabName); }
 
         public override async UniTask UpdateView()
         {
