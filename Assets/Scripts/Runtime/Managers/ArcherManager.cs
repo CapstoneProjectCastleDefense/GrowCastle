@@ -44,6 +44,7 @@
                         { StatEnum.Attack, (typeof(float), 2f) },
                         { StatEnum.Health, (typeof(float), 10f) },
                         { StatEnum.AttackSpeed, (typeof(float), 1f) },
+                        { StatEnum.AttackPriority,(typeof(AttackPriorityEnum), AttackPriorityEnum.Ground)}
                     }
                 });
                 archerPresenter.UpdateView().Forget();

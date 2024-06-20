@@ -4,6 +4,6 @@
     {
         InstantHit,
         Projectile,
-        Summon
+        Summon,
     }
 }
