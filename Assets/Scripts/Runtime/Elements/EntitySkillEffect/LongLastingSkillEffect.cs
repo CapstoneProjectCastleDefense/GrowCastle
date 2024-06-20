@@ -7,7 +7,7 @@
 
     public class LongLastingSkillEffect : IEntitySkillEffect
     {
-        public EntitySkillEffectType EntitySkillEffectType                                                   { get; set; }
+        public EntitySkillEffectType EntitySkillEffectType { get; set; } = EntitySkillEffectType.LongLasting;
 
         public void Execute(ITargetable target, Dictionary<StatEnum, (Type, object)> stats)
         {

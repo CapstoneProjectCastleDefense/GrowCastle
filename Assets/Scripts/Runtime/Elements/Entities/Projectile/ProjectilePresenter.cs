@@ -34,22 +34,25 @@
             return this.ObjectPoolManager.Spawn(projectileRecord.PrefabName);
         }
 
-        public void FlyToTarget(ITargetable target)
+        public Tween FlyToTarget()
         {
             var id               = this.Model.Id;
             var projectileRecord = this.projectileBlueprint[id];
-            this.View.transform.Fly(this.Model.StartPoint,
-                                    this.Model.EndPoint,
-                                    projectileRecord.Fragment,
-                                    projectileRecord.ProjectileSpeed,
-                                    projectileRecord.Delay,
-                                    projectileRecord.VectorOrientation)
-                .onComplete += () =>
+            var tween = this.View.transform.Fly(this.Model.StartPoint,
+                this.Model.EndPoint,
+                projectileRecord.Fragment,
+                projectileRecord.ProjectileSpeed,
+                projectileRecord.Delay,
+                projectileRecord.VectorOrientation);
+
+            tween.onComplete += () =>
             {
                 this.View.Recycle();
                 DOTween.Kill(this.View.transform);
                 target.OnGetHit(this.Model.Damage);
             };
+
+            return tween;
         }
 
         public override void Dispose() { }

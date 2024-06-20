@@ -1,5 +1,6 @@
 ﻿namespace Models.Blueprints
 {
+    using System.Collections.Generic;
     using BlueprintFlow.BlueprintReader;
     using Runtime.Enums;
 
@@ -11,9 +12,10 @@
 
     public class SkillRecord
     {
-        public string          Id       { get; set; }
-        public EntitySkillType Type     { get; set; }
-        public float           Mana     { get; set; }
-        public float           Cooldown { get; set; }
+        public string                      Id                     { get; set; }
+        public EntitySkillType             Type                   { get; set;}
+        public float                       Mana                   { get; set; }
+        public float                       Cooldown               { get; set;}
+        public List<EntitySkillEffectType> EntitySkillEffectTypes { get; set;}
     }
 }
