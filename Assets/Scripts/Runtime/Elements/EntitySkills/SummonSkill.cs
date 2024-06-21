@@ -5,6 +5,7 @@
     using Models.Blueprints;
     using Runtime.Enums;
     using Runtime.Interfaces.Skills;
+    using Runtime.Managers;
     using UnityEngine;
 
     public class SummonSkill : BaseEntitySkillPresenter<BasicSkillModel>
@@ -13,11 +14,13 @@
 
         private readonly ObjectPoolManager    objectPoolManager;
         private readonly SkillSummonBlueprint skillSummonBlueprint;
+        private readonly SummonerManager      summonerManager;
 
-        public SummonSkill(ObjectPoolManager objectPoolManager, SkillSummonBlueprint skillSummonBlueprint)
+        public SummonSkill(ObjectPoolManager objectPoolManager, SkillSummonBlueprint skillSummonBlueprint,SummonerManager summonerManager)
         {
             this.objectPoolManager    = objectPoolManager;
             this.skillSummonBlueprint = skillSummonBlueprint;
+            this.summonerManager      = summonerManager;
         }
 
         protected override void InternalActivate()
@@ -31,10 +34,8 @@
             var startPos          = skillSummonRecord.StartPos;
             for (var i = 0; i < skillSummonRecord.NumberSpawn; i++)
             {
-                var knightSummonObj = await this.objectPoolManager.Spawn(skillSummonRecord.PrefabName);
-                knightSummonObj.transform.position                        =  startPos;
+                this.summonerManager.CreateSingleSummoner(skillSummonRecord.SummonerId,startPos,i+1);
                 startPos.y                                                -= skillSummonRecord.DistanceRange;
-                knightSummonObj.GetComponent<MeshRenderer>().sortingOrder =  i + 1;
             }
         }
     }

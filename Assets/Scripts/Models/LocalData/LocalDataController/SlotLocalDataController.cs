@@ -21,7 +21,7 @@
                     this.slotLocalData.SlotData.Add(new() { SlotId = slot.Key, SlotType = slot.Value.SlotType, IsUnlock = false });
                 });
                 this.slotLocalData.SlotData[0].IsUnlock       = true;
-                this.slotLocalData.SlotData[0].DeployObjectId = "Wizard";
+                this.slotLocalData.SlotData[0].DeployObjectId = "Knight";
             }
         }
 
