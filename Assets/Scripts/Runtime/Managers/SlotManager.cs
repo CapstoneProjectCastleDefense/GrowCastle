@@ -74,7 +74,7 @@ namespace Runtime.Managers
 
         public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
 
-        public void UpdateSlotBaseOnCurrentLevel() {
+        public void UpdateAllSlotsBaseOnCurrentLevel() {
             this.entities.ForEach(presenter =>
             {
                 presenter.UpdateSlotBaseOnCurrentLevel();
