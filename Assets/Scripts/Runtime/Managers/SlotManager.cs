@@ -9,6 +9,7 @@ namespace Runtime.Managers
     using Runtime.Elements.Entities.Slot;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers.Base;
+    using System;
 
     public class SlotManager : BaseElementManager<SlotModel, SlotPresenter, SlotView>
     {
@@ -72,5 +73,12 @@ namespace Runtime.Managers
         }
 
         public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
+
+        public void UpdateAllSlotsBaseOnCurrentLevel() {
+            this.entities.ForEach(presenter =>
+            {
+                presenter.UpdateSlotBaseOnCurrentLevel();
+            });
+        }
     }
 }

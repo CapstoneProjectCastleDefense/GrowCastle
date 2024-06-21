@@ -27,7 +27,13 @@
 
         public List<SlotData> GetAllSlotData => this.slotLocalData.SlotData;
 
-        public void UnlockSlot(int slotId) { this.slotLocalData.SlotData.First(e => e.SlotId == slotId).IsUnlock = true; }
+        public void UnlockSlot(List<string> slotId) { 
+            foreach(var slot in slotId)
+            {
+            this.slotLocalData.SlotData.First(e => e.SlotId.ToString().Equals(slot)).IsUnlock = true;
+
+            }
+        }
 
         public SlotRecord GetSlotDataRecord(int slotId) => this.slotBlueprint.GetDataById(slotId);
 

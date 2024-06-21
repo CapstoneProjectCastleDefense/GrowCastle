@@ -11,11 +11,12 @@
     public class CastleManager : BaseElementManager<CastleModel,CastlePresenter,CastleView>
     {
         private readonly CastleLocalDataController castleLocalDataController;
+        private readonly SlotManager slotManager;
 
-        public CastleManager(BaseElementPresenter<CastleModel, CastleView, CastlePresenter>.Factory factory, CastleLocalDataController castleLocalDataController)
-            : base(factory)
-        {
+        public CastleManager(BaseElementPresenter<CastleModel, CastleView, CastlePresenter>.Factory factory, CastleLocalDataController castleLocalDataController, SlotManager slotManager)
+            : base(factory) {
             this.castleLocalDataController = castleLocalDataController;
+            this.slotManager = slotManager;
         }
         public override void Initialize()
         {
@@ -29,6 +30,7 @@
         {
             this.castleLocalDataController.UpgradeCastle();
             this.entities.First().UpdateBlockBaseOnCurrentLevel();
+            this.slotManager.UpdateAllSlotsBaseOnCurrentLevel();
         }
 
         public List<ArcherSlot> GetAllArcherSlot() => this.entities[0].CastleView.listArcherSlot;

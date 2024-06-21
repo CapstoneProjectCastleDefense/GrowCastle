@@ -12,7 +12,7 @@
     {
         public int          Level            { get; set; }
         public List<string> SlotUnlock       { get; set; }
-        public string       BlockUnlockId    { get; set; }
+        public List<string>       BlockUnlock    { get; set; }
         public int          BlockUnlockLevel { get; set; }
     }
 }

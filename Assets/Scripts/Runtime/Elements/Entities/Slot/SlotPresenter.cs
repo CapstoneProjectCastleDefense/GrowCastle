@@ -11,6 +11,7 @@
     using Runtime.Elements.Base;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
+    using System;
     using UnityEngine;
 
     public class SlotModel : IElementModel
@@ -41,13 +42,25 @@
             this.View.image.sprite       = this.gameAssets.LoadAssetAsync<Sprite>(this.Model.SlotRecord.Image).WaitForCompletion();
             this.View.transform.position = this.Model.SlotRecord.Position;
             this.View.OnMouseClick       = this.OnClick;
+            this.UpdateSlotBaseOnCurrentLevel();
         }
+
+        public void UpdateSlotBaseOnCurrentLevel() {
+            if (this.slotLocalDataController.GetSlotData(this.Model.SlotRecord.Id).IsUnlock)
+            {
+                this.View.gameObject.SetActive(true);
+            } else
+            {
+                this.View.gameObject.SetActive(false);
+            }
+        }
+
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
         public void OnClick()
         {
             this.slotManager.UpdateCurrentSelectedSlot(this);
-            Debug.Log("Click slot!!");
+            Debug.Log("Click slot "+ this.Model.Id+"!!");
         }
 
         public void LoadHero(IHeroPresenter heroPresenter)
