@@ -26,16 +26,6 @@
 
         public override void Initialize() { }
 
-        public override void DisposeAllElement()
-        {
-            var cache = this.entities.ToArray();
-            this.entities.Clear();
-            foreach (var entity in cache)
-            {
-                entity.Dispose();
-            }
-        }
-
         public void SpawnEnemy(string enemyId)
         {
             var enemyRecord = this.enemyBlueprint[enemyId];

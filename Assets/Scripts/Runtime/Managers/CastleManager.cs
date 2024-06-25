@@ -22,10 +22,6 @@
         {
 
         }
-        public override void DisposeAllElement()
-        {
-
-        }
         public void UpgradeCastle()
         {
             this.castleLocalDataController.UpgradeCastle();

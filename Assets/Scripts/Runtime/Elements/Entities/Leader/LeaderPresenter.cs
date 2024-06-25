@@ -2,23 +2,78 @@
 {
     using System;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using global::Extensions;
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
+    using Runtime.Managers;
+    using Runtime.Systems;
     using UnityEngine;
 
     public class LeaderPresenter : BaseElementPresenter<LeaderModel, LeaderView, LeaderPresenter>, ILeaderPresenter
     {
-        protected LeaderPresenter(LeaderModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
+        private readonly FindTargetSystem findTargetSystem;
+        private const    string           AttackAnimName = "atk";
+        private const    string           DeathAnimName  = "dead";
+        private const    string           MoveAnimName   = "animation2";
+        private          LeaderManager    leaderManager;
+        protected LeaderPresenter(LeaderModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
+        {
+            this.findTargetSystem = findTargetSystem;
+        }
 
-        public void Attack(ITargetable target) { throw new NotImplementedException(); }
+        public void SetManager(LeaderManager manager) => this.leaderManager = manager;
 
-        public ITargetable FindTarget()       { throw new NotImplementedException(); }
-        public float       AttackCooldownTime { get; }
-        public Type[]      GetManagerTypes()  { return new[] { typeof(Managers.CastleManager), typeof(Managers.EnemyManager) }; }
+        public void Attack(ITargetable target)
+        {
+            if (!AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation && Time.time >= this.AttackCooldownTime)
+            {
+                this.View.transform.DOKill();
+                this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
+                target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
+                var attackSpeed                   = this.Model.GetStat<float>(StatEnum.AttackSpeed);
+                if (attackSpeed <= 0) attackSpeed = 1f / this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
+                this.AttackCooldownTime = Time.time + 1f / attackSpeed;
+            }
+        }
+        public override async UniTask UpdateView()
+        {
+            await base.UpdateView();
+            this.View.SkeletonAnimation.SetAnimation(MoveAnimName);
+            this.View.HealthBarContainer.gameObject.SetActive(true);
+            this.View.HealthBar.fillAmount = 1;
+            this.View.transform.position   = this.Model.StartPos;
+        }
+
+        private void DoMove(Vector3 endPos, float distance)
+        {
+            if (this.TargetThatImAttacking == null) return;
+            this.View.transform.DOKill();
+            this.View.transform.DOMoveX(endPos.x, distance / this.Model.GetStat<float>(StatEnum.MoveSpeed));
+        }
+
+        public ITargetable FindTarget()
+        {
+            var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
+            if (priority == default)
+            {
+                priority = AttackPriorityEnum.Default;
+                this.Model.SetStat(StatEnum.AttackPriority, priority);
+            }
+
+            return this.TargetThatImAttacking
+                = this.TargetThatImAttacking is { IsDead: false }
+                    ? this.TargetThatImAttacking
+                    : this.TargetThatAttackingMe is { IsDead: false }
+                        ? this.TargetThatAttackingMe
+                        : this.findTargetSystem.GetTarget(this, priority, new() { "Fly", "Ground", "Boss", "Building" }, this.GetManagerTypes());
+        }
+        public float  AttackCooldownTime { get; private set; } = 0;
+        public Type[] GetManagerTypes()  { return new[] { typeof(Managers.CastleManager), typeof(Managers.EnemyManager) }; }
 
         public void CastSkill(string skillId, ITargetable target) { throw new NotImplementedException(); }
 
@@ -26,9 +81,42 @@
 
         public void UnEquip(IEquipment equipment) { throw new NotImplementedException(); }
 
-        public void OnGetHit(float damage) { throw new NotImplementedException(); }
+        private void UpdateHealthView()
+        {
+            DOTween.Kill(this.View.HealthBar);
+            this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / this.Model.GetStat<float>(StatEnum.MaxHealth), 0.1f);
+        }
+        public void OnGetHit(float damage)
+        {
+            if (this.IsDead) return;
+            var currentHealth = this.Model.GetStat<float>(StatEnum.Health);
+            currentHealth -= damage;
+            if (currentHealth <= 0)
+            {
+                currentHealth = 0;
+            }
 
-        public void OnDeath() { throw new NotImplementedException(); }
+            this.Model.SetStat(StatEnum.Health, currentHealth);
+            if (currentHealth <= 0)
+                this.OnDeath();
+            else
+                this.UpdateHealthView();
+        }
+
+        public void OnDeath()
+        {
+            if (this.IsDead) return;
+            this.IsDead = true;
+            this.View.HealthBarContainer.gameObject.SetActive(false);
+            var wait = 0f;
+            if (!DeathAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation != null)
+            {
+                this.View.SkeletonAnimation.SetAnimation(DeathAnimName, false);
+                wait = this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
+            }
+
+            UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
+        }
 
         public ITargetable TargetThatImAttacking
         {
@@ -50,8 +138,43 @@
             }
         }
 
-        public             bool                IsDead       => this.Model.GetStat<float>(StatEnum.Health) <= 0;
-        protected override UniTask<GameObject> CreateView() { throw new NotImplementedException(); }
-        public override    void                Dispose()    { throw new NotImplementedException(); }
+        public bool IsDead { get; private set; } = false;
+        protected override UniTask<GameObject> CreateView()
+        {
+            var res = this.ObjectPoolManager.Spawn(this.Model.AddressableName);
+            return res;
+        }
+        public override void Dispose()
+        {
+            this.ObjectPoolManager.Recycle(this.View);
+            this.leaderManager.entities.Remove(this);
+        }
+
+        public override void Tick()
+        {
+            base.Tick();
+            if (!this.IsViewInit) return;
+            if (this.IsDead)
+            {
+                this.View.transform.DOKill();
+                return;
+            }
+
+            if (this.TargetThatImAttacking == null)
+            {
+                this.TargetThatImAttacking = this.FindTarget();
+                return;
+            }
+
+            var endPos   = ((IElementPresenter)this.TargetThatImAttacking).GetView().transform.position;
+            var distance = Vector3.Distance(this.View.transform.position, endPos);
+            var range    = this.Model.GetStat<float>(StatEnum.AttackRange);
+            if (distance > range)
+                this.DoMove(endPos, distance);
+            else
+            {
+                this.Attack(this.TargetThatImAttacking);
+            }
+        }
     }
 }

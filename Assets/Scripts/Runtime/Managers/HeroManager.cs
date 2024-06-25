@@ -37,10 +37,5 @@
         {
 
         }
-
-        public override void DisposeAllElement()
-        {
-
-        }
     }
 }

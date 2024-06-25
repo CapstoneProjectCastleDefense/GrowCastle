@@ -40,9 +40,5 @@
             //await UniTask.Delay(TimeSpan.FromSeconds(environment.Value.Delay));
             this.currentMapLevel.SpawnEnvironment(environment.Key);
         }
-        public override void DisposeAllElement()
-        {
-
-        }
     }
 }
