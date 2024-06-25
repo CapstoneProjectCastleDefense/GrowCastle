@@ -101,6 +101,10 @@
             this.Container.BindInterfacesAndSelfTo<TimeCoolDownService>().AsCached();
         }
 
-        private void DeclareSignals() { this.Container.DeclareSignal<TimeCooldownSignal>(); }
+        private void DeclareSignals()
+        {
+            this.Container.DeclareSignal<TimeCooldownSignal>();
+            this.Container.DeclareSignal<UpdateCastleStatSignal>();
+        }
     }
 }

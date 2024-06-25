@@ -12,20 +12,30 @@
     using Runtime.Extensions;
     using Runtime.Interfaces;
     using Runtime.Interfaces.Entities;
+    using Runtime.Signals;
     using UnityEngine;
+    using Zenject;
 
     public class CastlePresenter : BaseElementPresenter<CastleModel, CastleView, CastlePresenter>, ICastlePresenter
     {
         private readonly CastleLocalDataController castleLocalDataController;
         private readonly IGameAssets               gameAssets;
         private readonly BlockBlueprint            blueprint;
+        private readonly SignalBus                 signalBus;
 
-        public CastlePresenter(CastleModel model, ObjectPoolManager objectPoolManager, CastleLocalDataController castleLocalDataController, IGameAssets gameAssets, BlockBlueprint blueprint)
+        public CastlePresenter(
+            CastleModel model,
+            ObjectPoolManager objectPoolManager,
+            CastleLocalDataController castleLocalDataController,
+            IGameAssets gameAssets,
+            BlockBlueprint blueprint,
+            SignalBus signalBus)
             : base(model, objectPoolManager)
         {
             this.castleLocalDataController = castleLocalDataController;
             this.gameAssets                = gameAssets;
             this.blueprint                 = blueprint;
+            this.signalBus                 = signalBus;
         }
 
         public             CastleView          CastleView   => this.View;
@@ -53,16 +63,20 @@
         public void OnGetHit(float damage)
         {
             var hp = this.Model.GetStat<float>(StatEnum.Health);
-            if(this.IsDead) return;
+            if (this.IsDead) return;
             hp -= damage;
             Debug.Log($"Castle get hit {damage} hp left {hp}");
+
+            if (hp <= 0)
+            {
+                hp = 0;
+                this.OnDeath();
+            }
+
             this.Model.SetStat(StatEnum.Health, hp);
-            if (hp <= 0) this.OnDeath();
+            this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
         }
-        public void OnDeath()
-        {
-            Debug.Log("Lose");
-        }
+        public void        OnDeath()             { Debug.Log("Lose"); }
         public ITargetable TargetThatImAttacking { get; set; }
         public ITargetable TargetThatAttackingMe { get; set; }
         public bool        IsDead                { get; }

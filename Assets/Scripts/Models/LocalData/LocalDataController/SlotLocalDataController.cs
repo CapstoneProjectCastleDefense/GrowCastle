@@ -21,7 +21,7 @@
                     this.slotLocalData.SlotData.Add(new() { SlotId = slot.Key, SlotType = slot.Value.SlotType, IsUnlock = false });
                 });
                 this.slotLocalData.SlotData[0].IsUnlock       = true;
-                this.slotLocalData.SlotData[0].DeployObjectId = "Knight";
+                this.slotLocalData.SlotData[0].DeployObjectId = "Wizard";
             }
         }
 
@@ -30,8 +30,7 @@
         public void UnlockSlot(List<string> slotId) { 
             foreach(var slot in slotId)
             {
-            this.slotLocalData.SlotData.First(e => e.SlotId.ToString().Equals(slot)).IsUnlock = true;
-
+                this.slotLocalData.SlotData.First(e => e.SlotId.ToString().Equals(slot)).IsUnlock = true;
             }
         }
 
