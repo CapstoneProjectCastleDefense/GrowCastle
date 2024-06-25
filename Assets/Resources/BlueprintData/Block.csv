@@ -1,7 +1,7 @@
 ﻿Id,BlockLevel,Image
 Block_1,1,castle 4
-Block_2,1,wall 1
-Block_3,1,wall 1
+Block_2,1,wall 4
+Block_3,1,wall 3
 Block_4,1,castle 6
 Block_5,1,castle 3
 Block_6,1,wall 2
