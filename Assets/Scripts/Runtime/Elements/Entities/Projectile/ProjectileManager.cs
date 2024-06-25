@@ -8,6 +8,5 @@
         public ProjectileManager(BaseElementPresenter<ProjectileModel, ProjectileView, ProjectilePresenter>.Factory factory) : base(factory) { }
         public override void Initialize() { }
 
-        public override void DisposeAllElement() { }
     }
 }

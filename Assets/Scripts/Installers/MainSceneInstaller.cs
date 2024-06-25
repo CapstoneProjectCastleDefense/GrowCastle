@@ -12,6 +12,7 @@
     using Runtime.Elements.Entities.MapLevel;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Elements.Entities.Slot;
+    using Runtime.Elements.Entities.Summoner;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Managers.Base;
@@ -63,6 +64,8 @@
                 .WhenInjectedInto<ProjectileManager>();
             this.Container.BindFactory<LeaderModel, LeaderPresenter, LeaderPresenter.Factory>().AsCached()
                 .WhenInjectedInto<LeaderManager>();
+            this.Container.BindFactory<SummonerModel, SummonerPresenter, SummonerPresenter.Factory>().AsCached()
+                .WhenInjectedInto<SummonerManager>();
         }
 
         private void BindAllManager()
@@ -98,6 +101,10 @@
             this.Container.BindInterfacesAndSelfTo<TimeCoolDownService>().AsCached();
         }
 
-        private void DeclareSignals() { this.Container.DeclareSignal<TimeCooldownSignal>(); }
+        private void DeclareSignals()
+        {
+            this.Container.DeclareSignal<TimeCooldownSignal>();
+            this.Container.DeclareSignal<UpdateCastleStatSignal>();
+        }
     }
 }

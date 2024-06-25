@@ -16,6 +16,7 @@
     "Unity.TextMeshPro",
     "Unity.Addressables",
     "UniTask.Addressables",
-    "spine-unity"
+    "spine-unity",
+    "Sirenix.OdinInspector.CompatibilityLayer"
   ]
 }

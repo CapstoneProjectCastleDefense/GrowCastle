@@ -30,8 +30,7 @@
         public void UnlockSlot(List<string> slotId) { 
             foreach(var slot in slotId)
             {
-            this.slotLocalData.SlotData.First(e => e.SlotId.ToString().Equals(slot)).IsUnlock = true;
-
+                this.slotLocalData.SlotData.First(e => e.SlotId.ToString().Equals(slot)).IsUnlock = true;
             }
         }
 

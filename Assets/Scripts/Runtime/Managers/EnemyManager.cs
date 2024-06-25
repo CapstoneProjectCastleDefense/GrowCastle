@@ -14,22 +14,17 @@
     public class EnemyManager : BaseElementManager<EnemyModel, EnemyPresenter, EnemyView>
     {
         private readonly EnemyBlueprint enemyBlueprint;
-        public EnemyManager(BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>.Factory factory,
-            EnemyBlueprint enemyBlueprint)
+
+        public EnemyManager(
+            BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>.Factory factory,
+            EnemyBlueprint                                                      enemyBlueprint
+        )
             : base(factory)
         {
             this.enemyBlueprint = enemyBlueprint;
         }
+
         public override void Initialize() { }
-        public override void DisposeAllElement()
-        {
-            var cache = this.entities.ToArray();
-            this.entities.Clear();
-            foreach (var entity in cache)
-            {
-                entity.Dispose();
-            }
-        }
 
         public void SpawnEnemy(string enemyId)
         {
@@ -45,7 +40,9 @@
                         { StatEnum.Health, (typeof(float), enemyRecord.HP.baseValue) },
                         { StatEnum.MaxHealth, (typeof(float), enemyRecord.HP.baseValue) },
                         { StatEnum.MoveSpeed, (typeof(float), enemyRecord.Speed.baseValue) },
-                        { StatEnum.AttackRange, (typeof(float), enemyRecord.AttackRange) }
+                        { StatEnum.AttackRange, (typeof(float), enemyRecord.AttackRange) },
+                        { StatEnum.AttackSpeed, (typeof(float), 1f) },
+                        { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Building) },
                     },
                     StartPos = new(Random.Range(10f, 11f), Random.Range(-2.5f, -1.5f), 0)
                 });

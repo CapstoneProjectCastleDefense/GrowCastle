@@ -64,7 +64,7 @@
                 Level = 1,
             });
         }
-        
+
         public    Type[]              GetManagerTypes() { return new[] { typeof(Managers.CastleManager), typeof(Managers.EnemyManager) }; }
 
         public void SetAttackStatus(bool attackStatus)
@@ -84,7 +84,7 @@
             target ??= this.FindTarget();
 
             if (target == null) return;
-            var enemy = (EnemyPresenter)target;
+            var enemy = (IElementPresenter)target;
 
             var skillId = heroDataRecord.SkillToAnimationRecords.ElementAt(1).Key;
             this.CastSkillInternal(skillId, target, new ProjectileSkillModel()
@@ -98,19 +98,15 @@
         public ITargetable FindTarget()
         {
             var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
-            if (priority == default)
-            {
-                priority = AttackPriorityEnum.Default;
-                this.Model.SetStat(StatEnum.AttackPriority, priority);
-            }
 
             var res = this.findTargetSystem.GetTarget(this, priority, new()
-            {
-                AttackPriorityEnum.Ground.ToString(),
-                AttackPriorityEnum.Fly.ToString(),
-                AttackPriorityEnum.Boss.ToString(),
-                AttackPriorityEnum.Building.ToString()
-            }, this.GetManagerTypes());
+                {
+                    AttackPriorityEnum.Ground.ToString(),
+                    AttackPriorityEnum.Fly.ToString(),
+                    AttackPriorityEnum.Boss.ToString(),
+                    AttackPriorityEnum.Building.ToString()
+                },
+                this.GetManagerTypes());
 
             return res;
         }

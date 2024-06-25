@@ -20,7 +20,7 @@
     {
         public int     Level         { get; set; }
         public int     NumberSpawn   { get; set; }
-        public string  PrefabName    { get; set; }
+        public string  SummonerId    { get; set; }
         public float   BaseHP        { get; set; }
         public float   BaseAttack    { get; set; }
         public float   TimeExist     { get; set; }

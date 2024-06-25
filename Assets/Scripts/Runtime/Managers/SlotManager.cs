@@ -15,27 +15,21 @@ namespace Runtime.Managers
     {
         private readonly SlotLocalDataController slotLocalDataController;
         private readonly HeroManager             heroManager;
+        private readonly LeaderManager           leaderManager;
         private          SlotPresenter           currentSelectedSlot;
 
-        public SlotManager(BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory, SlotLocalDataController slotLocalDataController, HeroManager heroManager)
+        public SlotManager(BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory, SlotLocalDataController slotLocalDataController, HeroManager heroManager,
+            LeaderManager leaderManager)
             : base(factory)
         {
             this.slotLocalDataController = slotLocalDataController;
             this.heroManager             = heroManager;
+            this.leaderManager           = leaderManager;
         }
 
-        public override void Initialize()
-        {
-        }
+        public override void Initialize() { }
 
-        public override void DisposeAllElement()
-        {
-        }
-
-        public void EquipHeo(IHeroPresenter heroPresenter)
-        {
-            this.currentSelectedSlot.LoadHero(heroPresenter);
-        }
+        public void EquipHeo(IHeroPresenter heroPresenter) { this.currentSelectedSlot.LoadHero(heroPresenter); }
 
         public override SlotPresenter CreateElement(SlotModel model)
         {
@@ -45,19 +39,14 @@ namespace Runtime.Managers
             return presenter;
         }
 
-        public void CreateAllSlot()
-        {
-            this.slotLocalDataController.GetAllSlotData.ForEach(this.CreateSingleSlot);
-        }
+        public void CreateAllSlot() { this.slotLocalDataController.GetAllSlotData.ForEach(this.CreateSingleSlot); }
 
-        private void CreateSingleSlot(SlotData slotData)
-        {
-            this.CreateSingleSlotAsync(slotData).Forget();
-        }
+        private void CreateSingleSlot(SlotData slotData) { this.CreateSingleSlotAsync(slotData).Forget(); }
 
         private async UniTask CreateSingleSlotAsync(SlotData slotData)
         {
-            var slotPresenter = this.CreateElement(new() { AddressableName = "BaseSlot", Id = slotData.SlotId.ToString(), SlotRecord = this.slotLocalDataController.GetSlotDataRecord(slotData.SlotId) });
+            var slotPresenter = this.CreateElement(
+                new() { AddressableName = "BaseSlot", Id = slotData.SlotId.ToString(), SlotRecord = this.slotLocalDataController.GetSlotDataRecord(slotData.SlotId) });
             await slotPresenter.UpdateView();
 
             if (TypeExtension.IsNullOrEmpty(slotData.DeployObjectId)) return;
@@ -65,12 +54,13 @@ namespace Runtime.Managers
             {
                 this.heroManager.CreateSingleHero(slotData.DeployObjectId, slotPresenter.GetSlotView.heroPos);
             }
+            else if (slotData.SlotType == SlotType.Leader)
+            {
+                this.leaderManager.CreateSingleLeader(slotData.DeployObjectId, slotPresenter.GetSlotView.heroPos);
+            }
         }
 
-        public void UpdateCurrentSelectedSlot(SlotPresenter slotPresenter)
-        {
-            this.currentSelectedSlot = slotPresenter;
-        }
+        public void UpdateCurrentSelectedSlot(SlotPresenter slotPresenter) { this.currentSelectedSlot = slotPresenter; }
 
         public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
 
