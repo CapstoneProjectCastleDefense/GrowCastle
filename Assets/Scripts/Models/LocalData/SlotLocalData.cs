@@ -23,7 +23,9 @@
     public enum SlotType
     {
         Hero,
-        Tower
+        Tower,
+        Leader,
+        Archer
     }
 
 }

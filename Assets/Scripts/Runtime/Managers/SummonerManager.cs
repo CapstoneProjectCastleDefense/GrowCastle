@@ -22,7 +22,6 @@
             var presenter      = this.CreateElement(new SummonerModel() { Id = summonerId, AddressableName = summonerRecord.PrefabName, StartPos = startPos, SortingIndex = sortingIndex });
             presenter.UpdateView().Forget();
         }
-        public override void Initialize()        { }
-        public override void DisposeAllElement() { }
+        public override void Initialize() { }
     }
 }

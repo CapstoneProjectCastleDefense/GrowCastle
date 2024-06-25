@@ -60,10 +60,5 @@
         {
             this.archerLocalDataController.UnlockArcher();
         }
-
-        public override void DisposeAllElement()
-        {
-
-        }
     }
 }

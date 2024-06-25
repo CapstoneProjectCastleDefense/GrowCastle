@@ -81,6 +81,11 @@
         public ITargetable FindTarget()
         {
             var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
+            if (priority == default)
+            {
+                priority = AttackPriorityEnum.Default;
+                this.Model.SetStat(StatEnum.AttackPriority, priority);
+            }
 
             var res = this.findTargetSystem.GetTarget(this, priority, new()
                 {
