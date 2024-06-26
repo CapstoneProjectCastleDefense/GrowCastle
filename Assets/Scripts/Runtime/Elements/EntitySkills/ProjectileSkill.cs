@@ -5,6 +5,7 @@
     using Models.Blueprints;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Enums;
+    using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Skills;
     using UnityEngine;
 
@@ -14,7 +15,7 @@
         private readonly IGameAssets         gameAssets;
         private readonly ProjectileBlueprint projectileBlueprint;
 
-        public ProjectileSkill(ProjectileManager projectileManager, IGameAssets gameAssets,ProjectileBlueprint projectileBlueprint)
+        public ProjectileSkill(ProjectileManager projectileManager, IGameAssets gameAssets, ProjectileBlueprint projectileBlueprint)
         {
             this.projectileManager   = projectileManager;
             this.gameAssets          = gameAssets;
@@ -38,20 +39,23 @@
                 Prefab          = this.gameAssets.LoadAssetAsync<GameObject>(projectileSkillRecord.PrefabName).WaitForCompletion(),
                 StartPoint      = this.Model.StartPoint,
                 EndPoint        = this.Model.EndPoint,
+                Damage          = this.Model.damage,
             });
 
             await projectile.UpdateView();
-            projectile.FlyToTarget();
+            projectile.FlyToTarget(this.Model.Target);
         }
     }
 
     public class ProjectileSkillModel : IEntitySkillModel
     {
-        public string                               Id              { get; set; }
-        public string                               AddressableName { get; set; }
-        public string                               Description     { get; }
-        public string                               Name            { get; }
-        public Vector3                              StartPoint;
-        public Vector3                              EndPoint;
+        public string      Id              { get; set; }
+        public string      AddressableName { get; set; }
+        public string      Description     { get; }
+        public string      Name            { get; }
+        public Vector3     StartPoint;
+        public Vector3     EndPoint;
+        public ITargetable Target;
+        public float       damage;
     }
 }

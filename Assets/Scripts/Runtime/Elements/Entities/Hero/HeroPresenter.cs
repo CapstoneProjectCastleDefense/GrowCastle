@@ -65,7 +65,7 @@
             });
         }
 
-        public    Type[]              GetManagerTypes() { return new[] { typeof(Managers.CastleManager), typeof(Managers.EnemyManager) }; }
+        public Type[] GetManagerTypes() { return new[] { typeof(Managers.CastleManager), typeof(Managers.EnemyManager) }; }
 
         public void SetAttackStatus(bool attackStatus)
         {
@@ -92,6 +92,8 @@
                 Id         = skillId,
                 StartPoint = this.View.spawnProjectilePos.position,
                 EndPoint   = enemy.GetView().transform.position,
+                Target     = target,
+                damage     = this.Model.GetStat<float>(StatEnum.Attack),
             });
         }
 
@@ -104,19 +106,19 @@
                     AttackPriorityEnum.Ground.ToString(),
                     AttackPriorityEnum.Fly.ToString(),
                     AttackPriorityEnum.Boss.ToString(),
-                    AttackPriorityEnum.Building.ToString()
                 },
                 this.GetManagerTypes());
 
             return res;
         }
+
         public float AttackCooldownTime { get; }
 
         public void Equip(IEquipment equipment) { }
 
         public void UnEquip(IEquipment equipment) { }
 
-        protected override UniTask<GameObject> CreateView()      { return this.ObjectPoolManager.Spawn(this.heroBlueprint.GetDataById(this.Model.Id).PrefabName); }
+        protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.heroBlueprint.GetDataById(this.Model.Id).PrefabName); }
 
         public override async UniTask UpdateView()
         {

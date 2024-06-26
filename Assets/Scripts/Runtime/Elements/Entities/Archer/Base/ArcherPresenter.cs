@@ -22,11 +22,14 @@
         private readonly EntitySkillSystem entitySkillSystem;
         private          bool              canAttack;
         private          float             timer;
-        protected ArcherPresenter(ArcherModel model,
+
+        protected ArcherPresenter(
+            ArcherModel       model,
             ObjectPoolManager objectPoolManager,
-            EnemyManager enemyManager,
-            FindTargetSystem findTargetSystem,
-            EntitySkillSystem entitySkillSystem)
+            EnemyManager      enemyManager,
+            FindTargetSystem  findTargetSystem,
+            EntitySkillSystem entitySkillSystem
+        )
             : base(model, objectPoolManager)
         {
             this.enemyManager      = enemyManager;
@@ -65,6 +68,7 @@
         public void Attack(ITargetable target = null)
         {
             target ??= this.FindTarget();
+
             if (target == null) return;
             Debug.Log("LVT - ArcherPresenter - target: " + (target as IElementPresenter).GetView().name);
             var enemy = (IElementPresenter)target;
@@ -72,9 +76,11 @@
             this.View.skeletonAnimation.SetAnimation("attack", false);
             this.entitySkillSystem.CastSkill("archer_normal_attack", new ProjectileSkillModel()
             {
-                Id               = "archer_normal_attack",
-                StartPoint       = this.View.spawnArrowPos.position,
-                EndPoint         = enemy.GetView().transform.position
+                Id         = "archer_normal_attack",
+                StartPoint = this.View.spawnArrowPos.position,
+                EndPoint   = enemy.GetView().transform.position,
+                Target     = target,
+                damage     = this.Model.GetStat<float>(StatEnum.Attack),
             });
         }
 
@@ -98,12 +104,14 @@
 
             return res;
         }
+
         public float AttackCooldownTime { get; } = 0;
 
         public void CastSkill(string skillId, ITargetable target) { }
 
-        public             Type[]              GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
-        protected override UniTask<GameObject> CreateView()      { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
+        public Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
+
+        protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
         public override void Dispose() { this.ObjectPoolManager.Recycle(this.View); }
     }

@@ -6,6 +6,7 @@
     using Models.Blueprints;
     using Runtime.Elements.Base;
     using Runtime.Extensions;
+    using Runtime.Interfaces.Entities;
     using UnityEngine;
 
     public class ProjectilePresenter : BaseElementPresenter<ProjectileModel, ProjectileView, ProjectilePresenter>
@@ -33,7 +34,7 @@
             return this.ObjectPoolManager.Spawn(projectileRecord.PrefabName);
         }
 
-        public void FlyToTarget()
+        public void FlyToTarget(ITargetable target)
         {
             var id               = this.Model.Id;
             var projectileRecord = this.projectileBlueprint[id];
@@ -47,6 +48,7 @@
             {
                 this.View.Recycle();
                 DOTween.Kill(this.View.transform);
+                target.OnGetHit(this.Model.Damage);
             };
         }
 
