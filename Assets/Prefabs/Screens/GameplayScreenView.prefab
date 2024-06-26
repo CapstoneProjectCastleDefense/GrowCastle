@@ -1593,6 +1593,7 @@ MonoBehaviour:
   backGround: {fileID: 793956360869433178}
   startWaveButton: {fileID: 2018397828689260916}
   upgradeCastle: {fileID: 1371687634021301861}
+  upgradeArcher: {fileID: 8058719086858006460}
   castleHealthBar: {fileID: 4333773665839811897}
   castleManaBar: {fileID: 7340910286428293413}
   upgradeFiled: {fileID: 7159868863605315390}

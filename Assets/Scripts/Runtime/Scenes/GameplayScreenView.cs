@@ -20,6 +20,7 @@
         public Image      backGround;
         public Button     startWaveButton;
         public Button     upgradeCastle;
+        public Button     upgradeArcher;
         public Image      castleHealthBar;
         public Image      castleManaBar;
         public GameObject upgradeFiled;
@@ -30,10 +31,14 @@
     {
         private readonly GameStateMachine gameStateMachine;
         private readonly CastleManager    castleManager;
+        private readonly ArcherManager    archerManager;
         private readonly SignalBus        signalBus;
-        public GameplayScreenPresenter(SignalBus signalBus, GameStateMachine gameStateMachine, CastleManager castleManager) : base(signalBus) {
+        public GameplayScreenPresenter(SignalBus signalBus, GameStateMachine gameStateMachine, CastleManager castleManager, ArcherManager archerManager)
+            : base(signalBus)
+        {
             this.gameStateMachine = gameStateMachine;
             this.castleManager    = castleManager;
+            this.archerManager    = archerManager;
             this.signalBus        = signalBus;
         }
 
@@ -44,19 +49,20 @@
             this.signalBus.Subscribe<UpdateCastleStatSignal>(this.OnCastleStatChange);
             this.View.startWaveButton.onClick.AddListener(this.OnStartWaveButtonClick);
             this.View.upgradeCastle.onClick.AddListener(this.OnUpgradeCastleButtonClick);
+            this.View.upgradeArcher.onClick.AddListener(this.OnUpgradeArcherButtonClick);
         }
 
         private void OnCastleStatChange(UpdateCastleStatSignal signal)
         {
             var a = signal.CastleStats.GetStat<float>(StatEnum.MaxHealth);
             var b = signal.CastleStats.GetStat<float>(StatEnum.Health);
-            this.View.castleHealthBar.DOFillAmount(signal.CastleStats.GetStat<float>(StatEnum.Health)*1.0f/signal.CastleStats.GetStat<float>(StatEnum.MaxHealth),0.1f);
+            this.View.castleHealthBar.DOFillAmount(signal.CastleStats.GetStat<float>(StatEnum.Health) * 1.0f / signal.CastleStats.GetStat<float>(StatEnum.MaxHealth), 0.1f);
             //this.View.castleManaBar.fillAmount = signal.CastleStats.GetStat<float>(Sat)
         }
 
-        private void OnUpgradeCastleButtonClick() {
-            this.castleManager.UpgradeCastle();
-        }
+        private void OnUpgradeCastleButtonClick() { this.castleManager.UpgradeCastle(); }
+
+        private void OnUpgradeArcherButtonClick() { this.archerManager.UpgradeArcher(); }
 
         private void OnStartWaveButtonClick()
         {
@@ -67,10 +73,7 @@
 
         public override UniTask BindData()
         {
-            UniTask.Delay(TimeSpan.FromSeconds(1)).ContinueWith(() =>
-            {
-                this.View.backGround.DOFade(0, 3).SetEase(Ease.OutQuad);
-            });
+            UniTask.Delay(TimeSpan.FromSeconds(1)).ContinueWith(() => { this.View.backGround.DOFade(0, 3).SetEase(Ease.OutQuad); });
             return UniTask.CompletedTask;
         }
     }

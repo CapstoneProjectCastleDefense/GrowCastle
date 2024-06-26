@@ -10,24 +10,35 @@
         public ArcherLocalDataController(ArcherLocalData archerLocalData)
         {
             this.archerLocalData = archerLocalData;
-            if (this.archerLocalData.listArcher == null)
+            if (this.archerLocalData.ListArcher == null)
             {
                 this.archerLocalData.Init();
             }
         }
 
-        public List<ArcherData> GetAllArcher() => this.archerLocalData.listArcher;
+        public List<ArcherData> GetAllArcher() => this.archerLocalData.ListArcher;
 
-        public List<ArcherData> GetAllUnlockedArcher() => this.archerLocalData.listArcher.Where(e => e.isUnlock).ToList();
+        public List<ArcherData> GetAllUnlockedArcher() => this.archerLocalData.ListArcher.Where(e => e.isUnlock).ToList();
 
-        public void UnlockArcher()
+        public ArcherData UnlockArcher()
         {
-            this.archerLocalData.listArcher[this.archerLocalData.currentUpgradeIndex].isUnlock = true;
-            this.archerLocalData.currentUpgradeIndex++;
-            if (this.archerLocalData.currentUpgradeIndex >= 6)
+            this.archerLocalData.CurrentUpgradeIndex++;
+            if (this.archerLocalData.CurrentUpgradeIndex >= 6)
             {
-                this.archerLocalData.currentUpgradeIndex = 0;
+                this.archerLocalData.CurrentUpgradeIndex = 0;
             }
+            
+            var currentArcher = this.archerLocalData.ListArcher[this.archerLocalData.CurrentUpgradeIndex];
+            if (currentArcher.isUnlock)
+            {
+                currentArcher.level++;
+            }
+            else
+            {
+                this.archerLocalData.ListArcher[this.archerLocalData.CurrentUpgradeIndex].isUnlock = true;
+            }
+
+            return this.archerLocalData.ListArcher[this.archerLocalData.CurrentUpgradeIndex];
         }
     }
 }

@@ -113,6 +113,9 @@
 
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
-        public override void Dispose() { this.ObjectPoolManager.Recycle(this.View); }
+        public override void Dispose()
+        {
+            this.ObjectPoolManager.Recycle(this.View);
+        }
     }
 }

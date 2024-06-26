@@ -48,7 +48,7 @@
 
         private void GenerateArcher()
         {
-            this.archerManager.CreateAllUnlockedArcher(this.castleManager.GetAllArcherSlot());
+            this.archerManager.CreateAllUnlockedArcher();
         }
 
         private void GenerateSlot()
