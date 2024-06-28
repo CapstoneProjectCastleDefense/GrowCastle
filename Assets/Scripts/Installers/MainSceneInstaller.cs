@@ -40,6 +40,7 @@
             this.BindElement();
             this.BindAllSkill();
             this.BindService();
+            this.BindMono();
             GameStateMachineInstaller.Install(this.Container);
 
             WaveInstaller.Install(this.Container);
@@ -99,6 +100,11 @@
         private void BindService()
         {
             this.Container.BindInterfacesAndSelfTo<TimeCoolDownService>().AsCached();
+        }
+
+        private void BindMono()
+        {
+            this.Container.Bind<SlotConfig>().FromComponentInHierarchy().AsCached().NonLazy();
         }
 
         private void DeclareSignals()

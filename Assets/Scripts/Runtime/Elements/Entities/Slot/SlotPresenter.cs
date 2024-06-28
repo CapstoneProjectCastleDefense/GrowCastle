@@ -1,18 +1,15 @@
 ﻿namespace Runtime.Elements.Entities.Slot
 {
+    using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
-    using Extensions;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
-    using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
-    using System;
-    using System.Linq;
     using UnityEngine;
 
     public class SlotModel : IElementModel
@@ -27,47 +24,44 @@
     {
         private readonly IGameAssets             gameAssets;
         private readonly SlotLocalDataController slotLocalDataController;
-        private readonly CastleManager           castleManager;
-        public           SlotManager             slotManager;
-        public SlotPresenter(SlotModel model, ObjectPoolManager objectPoolManager, IGameAssets gameAssets, SlotLocalDataController slotLocalDataController, CastleManager castleManager)
+        private readonly SlotConfig              slotConfig;
+
+        public SlotManager slotManager;
+        public SlotPresenter(SlotModel model, ObjectPoolManager objectPoolManager, IGameAssets gameAssets, SlotLocalDataController slotLocalDataController,SlotConfig slotConfig)
             : base(model, objectPoolManager)
         {
             this.gameAssets              = gameAssets;
             this.slotLocalDataController = slotLocalDataController;
-            this.castleManager           = castleManager;
+            this.slotConfig              = slotConfig;
         }
 
         public SlotView GetSlotView => this.View;
 
-        public override UniTask UpdateView()
+        public override async UniTask UpdateView()
         {
-            this.View                    = this.castleManager.entities.First().CastleView.listSlotView.First(e => e.id == this.Model.Id);
-            this.IsViewInit              = true;
+            await base.UpdateView();
             this.View.image.sprite       = this.gameAssets.LoadAssetAsync<Sprite>(this.Model.SlotRecord.Image).WaitForCompletion();
-            this.View.transform.position = this.Model.SlotRecord.Position;
+            this.View.transform.position = this.slotConfig.slotViewConfigs.First(e => e.id.Equals(this.Model.Id)).transform.position;
             this.View.OnMouseClick       = this.OnClick;
             this.UpdateSlotBaseOnCurrentLevel();
-            return UniTask.CompletedTask;
         }
 
-        public void UpdateSlotBaseOnCurrentLevel()
-        {
+        public void UpdateSlotBaseOnCurrentLevel() {
             if (this.slotLocalDataController.GetSlotData(this.Model.SlotRecord.Id).IsUnlock)
             {
                 this.View.gameObject.SetActive(true);
-            }
-            else
+            } else
             {
                 this.View.gameObject.SetActive(false);
             }
         }
 
-        protected override UniTask<GameObject> CreateView() { return new UniTask<GameObject>(); }
+        protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
         public void OnClick()
         {
             this.slotManager.UpdateCurrentSelectedSlot(this);
-            Debug.Log("Click slot " + this.Model.Id + "!!");
+            Debug.Log("Click slot "+ this.Model.Id+"!!");
         }
 
         public void LoadHero(IHeroPresenter heroPresenter)
