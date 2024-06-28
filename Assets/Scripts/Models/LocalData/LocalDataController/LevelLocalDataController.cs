@@ -30,5 +30,9 @@
         {
             
         }
+        public void InitData()
+        {
+            
+        }
     }
 }

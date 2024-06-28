@@ -6,7 +6,7 @@
     public class CastleLocalData : ILocalDataHaveController<CastleLocalDataController>
     {
         public int             Level;
-        public List<BlockData> ListBlockData;
+        public List<BlockData> ListBlockData = new();
         public void            Init() { }
 
         

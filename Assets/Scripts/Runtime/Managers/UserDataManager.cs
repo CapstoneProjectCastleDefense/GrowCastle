@@ -7,20 +7,23 @@
     using GameFoundation.Scripts.Interfaces;
     using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.UserData;
-    using Models.LocalData;
+    using Models.LocalData.LocalDataController;
     using Zenject;
+    using ILocalDataHaveController = Models.LocalData.ILocalDataHaveController;
 
     public class UserDataManager
     {
-        private readonly DiContainer             container;
-        private readonly SignalBus               signalBus;
-        private readonly IHandleUserDataServices handleUserDataService;
+        private readonly DiContainer                container;
+        private readonly SignalBus                  signalBus;
+        private readonly IHandleUserDataServices    handleUserDataService;
+        private readonly List<ILocalDataController> localDataControllers;
 
-        public UserDataManager(DiContainer container, SignalBus signalBus, IHandleUserDataServices handleUserDataService)
+        public UserDataManager(DiContainer container, SignalBus signalBus, IHandleUserDataServices handleUserDataService,List<ILocalDataController> localDataControllers)
         {
             this.container             = container;
             this.signalBus             = signalBus;
             this.handleUserDataService = handleUserDataService;
+            this.localDataControllers  = localDataControllers;
         }
 
         public async UniTask LoadUserData()
@@ -30,15 +33,13 @@
             var dataCache = (Dictionary<string, ILocalData>)typeof(BaseHandleUserDataServices).GetField("userDataCache", BindingFlags.Instance | BindingFlags.NonPublic)!.GetValue(this.handleUserDataService);
             IterTools.Zip(types, datas).ForEach((type, data) =>
             {
-                var boundData = this.container.Resolve(type);
-
+                var boundData = (data as ILocalDataHaveController)?.ControllerType is { } controllerType
+                    ? controllerType.GetFields(BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public)
+                        .First(fieldInfo => fieldInfo.FieldType == type)
+                        .GetValue(this.container.Resolve(controllerType))
+                    : this.container.Resolve(type);
                 data.CopyTo(boundData);
                 dataCache[BaseHandleUserDataServices.KeyOf(type)] = (ILocalData)boundData;
-                if (!typeof(ILocalDataHaveController).IsAssignableFrom(type)) return;
-                var controllerType = ((ILocalDataHaveController)data).ControllerType;
-                this.container.BindInterfacesAndSelfTo(controllerType).AsCached();
-                this.container.Rebind(type).AsCached().WhenInjectedInto(controllerType);
-
             });
             this.signalBus.Fire<UserDataLoadedSignal>();
         }

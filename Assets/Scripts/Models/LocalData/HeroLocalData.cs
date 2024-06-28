@@ -4,7 +4,7 @@
 
     public class HeroLocalData : ILocalDataHaveController<HeroLocalDataController>
     {
-        public List<HeroData> listHeroData;
+        public List<HeroData> listHeroData = new();
         public void Init()
         {
         }

@@ -5,7 +5,7 @@
 
     public class SlotLocalData : ILocalDataHaveController<SlotLocalDataController>
     {
-        public List<SlotData> SlotData;
+        public List<SlotData> SlotData = new();
         public void Init()
         {
             

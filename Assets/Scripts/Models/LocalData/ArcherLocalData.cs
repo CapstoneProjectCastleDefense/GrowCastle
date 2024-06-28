@@ -6,7 +6,7 @@
     public class ArcherLocalData : ILocalDataHaveController<ArcherLocalDataController>
     {
         public int              CurrentUpgradeIndex;
-        public List<ArcherData> ListArcher;
+        public List<ArcherData> ListArcher = new();
         public void Init()
         {
             this.CurrentUpgradeIndex = 0;

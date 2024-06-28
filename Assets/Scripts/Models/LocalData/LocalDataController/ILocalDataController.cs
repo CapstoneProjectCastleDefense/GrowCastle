@@ -2,6 +2,6 @@
 {
     public interface ILocalDataController
     {
-        
+        public void InitData();
     }
 }

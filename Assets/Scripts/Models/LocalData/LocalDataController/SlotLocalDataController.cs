@@ -13,22 +13,13 @@
         {
             this.slotLocalData = slotLocalData;
             this.slotBlueprint = slotBlueprint;
-            if (this.slotLocalData.SlotData == null)
-            {
-                this.slotLocalData.SlotData = new();
-                this.slotBlueprint.ForEach(slot =>
-                {
-                    this.slotLocalData.SlotData.Add(new() { SlotId = slot.Key, SlotType = slot.Value.SlotType, IsUnlock = false });
-                });
-                this.slotLocalData.SlotData[0].IsUnlock       = true;
-                this.slotLocalData.SlotData[0].DeployObjectId = "Wizard";
-            }
         }
 
         public List<SlotData> GetAllSlotData => this.slotLocalData.SlotData;
 
-        public void UnlockSlot(List<string> slotId) { 
-            foreach(var slot in slotId)
+        public void UnlockSlot(List<string> slotId)
+        {
+            foreach (var slot in slotId)
             {
                 this.slotLocalData.SlotData.First(e => e.SlotId.ToString().Equals(slot)).IsUnlock = true;
             }
@@ -37,5 +28,14 @@
         public SlotRecord GetSlotDataRecord(int slotId) => this.slotBlueprint.GetDataById(slotId);
 
         public SlotData GetSlotData(int slotId) => this.slotLocalData.SlotData.First(e => e.SlotId == slotId);
+        public void InitData()
+        {
+            if (this.slotLocalData.SlotData.Count == 0)
+            {
+                this.slotBlueprint.ForEach(slot => { this.slotLocalData.SlotData.Add(new() { SlotId = slot.Key, SlotType = slot.Value.SlotType, IsUnlock = false }); });
+                this.slotLocalData.SlotData[0].IsUnlock       = true;
+                this.slotLocalData.SlotData[0].DeployObjectId = "Wizard";
+            }
+        }
     }
 }

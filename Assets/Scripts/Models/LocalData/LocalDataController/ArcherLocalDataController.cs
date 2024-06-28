@@ -10,10 +10,6 @@
         public ArcherLocalDataController(ArcherLocalData archerLocalData)
         {
             this.archerLocalData = archerLocalData;
-            if (this.archerLocalData.ListArcher == null)
-            {
-                this.archerLocalData.Init();
-            }
         }
 
         public List<ArcherData> GetAllArcher() => this.archerLocalData.ListArcher;
@@ -27,7 +23,7 @@
             {
                 this.archerLocalData.CurrentUpgradeIndex = 0;
             }
-            
+
             var currentArcher = this.archerLocalData.ListArcher[this.archerLocalData.CurrentUpgradeIndex];
             if (currentArcher.isUnlock)
             {
@@ -39,6 +35,13 @@
             }
 
             return this.archerLocalData.ListArcher[this.archerLocalData.CurrentUpgradeIndex];
+        }
+        public void InitData()
+        {
+            if (this.archerLocalData.ListArcher.Count == 0)
+            {
+                this.archerLocalData.Init();
+            }
         }
     }
 }

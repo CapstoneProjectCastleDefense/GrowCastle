@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Scenes
 {
+    using System.Collections.Generic;
     using BlueprintFlow.BlueprintControlFlow;
     using BlueprintFlow.Signals;
     using Cysharp.Threading.Tasks;
@@ -11,6 +12,7 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.Signals;
     using GameFoundation.Scripts.Utilities;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using Models.LocalData.LocalDataController;
     using Runtime.Managers;
     using UnityEngine;
     using UnityEngine.ResourceManagement.AsyncOperations;
@@ -54,24 +56,26 @@
 
         #region Inject
 
-        protected readonly BlueprintReaderManager blueprintManager;
-        protected readonly UserDataManager        userDataManager;
-        protected readonly IGameAssets            gameAssets;
-        private readonly   ObjectPoolManager      objectPoolManager;
+        protected readonly BlueprintReaderManager     blueprintManager;
+        protected readonly UserDataManager            userDataManager;
+        protected readonly IGameAssets                gameAssets;
+        private readonly   ObjectPoolManager          objectPoolManager;
+        private readonly   List<ILocalDataController> localDataControllers;
 
         protected LoadingScreenPresenter(
             SignalBus signalBus,
             BlueprintReaderManager blueprintManager,
             UserDataManager userDataManager,
             IGameAssets gameAssets,
-            ObjectPoolManager objectPoolManager
-        )
+            ObjectPoolManager objectPoolManager,
+            List<ILocalDataController> localDataControllers)
             : base(signalBus)
         {
-            this.blueprintManager           = blueprintManager;
-            this.userDataManager            = userDataManager;
-            this.gameAssets                 = gameAssets;
-            this.objectPoolManager          = objectPoolManager;
+            this.blueprintManager     = blueprintManager;
+            this.userDataManager      = userDataManager;
+            this.gameAssets           = gameAssets;
+            this.objectPoolManager    = objectPoolManager;
+            this.localDataControllers = localDataControllers;
         }
 
         #endregion
@@ -113,8 +117,7 @@
                 this.CreateObjectPool(AudioService.AudioSourceKey, 3),
                 this.Preload(),
                 UniTask.WhenAll(
-                    this.LoadBlueprint().ContinueWith(this.OnBlueprintLoaded),
-                    this.LoadUserData().ContinueWith(this.OnUserDataLoaded)
+                    this.LoadBlueprint().ContinueWith(this.OnBlueprintLoaded)
                 ).ContinueWith(this.OnBlueprintAndUserDataLoaded)
             ).ContinueWith(this.OnLoadingCompleted).ContinueWith(this.LoadNextScene);
 
@@ -151,13 +154,20 @@
 
         private UniTask LoadUserData() { return this.TrackProgress(this.userDataManager.LoadUserData()); }
 
-        protected virtual UniTask OnBlueprintLoaded() { return UniTask.CompletedTask; }
+        protected virtual UniTask OnBlueprintLoaded()
+        {
+            return this.LoadUserData().ContinueWith(this.OnUserDataLoaded);
+        }
 
         protected virtual UniTask OnUserDataLoaded() { return UniTask.CompletedTask; }
 
         protected virtual UniTask OnBlueprintAndUserDataLoaded() { return UniTask.CompletedTask; }
 
-        protected virtual UniTask OnLoadingCompleted() { return UniTask.CompletedTask; }
+        protected virtual UniTask OnLoadingCompleted()
+        {
+            this.localDataControllers.ForEach(e=>e.InitData());
+            return UniTask.CompletedTask;
+        }
 
         protected virtual UniTask Preload() { return UniTask.CompletedTask; }
 

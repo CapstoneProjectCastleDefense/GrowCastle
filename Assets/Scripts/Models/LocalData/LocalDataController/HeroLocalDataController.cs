@@ -12,16 +12,16 @@
         {
             this.heroLocalData = heroLocalData;
             this.heroBlueprint = heroBlueprint;
-            if (this.heroLocalData.listHeroData == null)
+        }
+
+        public void InitData()
+        {
+            if (this.heroLocalData.listHeroData.Count == 0)
             {
                 this.heroLocalData.listHeroData = new();
-                this.heroBlueprint.ForEach(hero =>
-                {
-                    this.heroLocalData.listHeroData.Add(new() { id = hero.Key, heroStatus = HeroStatus.Lock,level = 1 });
-                });
+                this.heroBlueprint.ForEach(hero => { this.heroLocalData.listHeroData.Add(new() { id = hero.Key, heroStatus = HeroStatus.Lock, level = 1 }); });
                 this.heroLocalData.listHeroData[0].heroStatus = HeroStatus.UnLock;
             }
         }
-
     }
 }
