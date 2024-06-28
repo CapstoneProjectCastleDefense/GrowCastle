@@ -12,6 +12,7 @@
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
     using System;
+    using System.Linq;
     using UnityEngine;
 
     public class SlotModel : IElementModel
@@ -26,41 +27,47 @@
     {
         private readonly IGameAssets             gameAssets;
         private readonly SlotLocalDataController slotLocalDataController;
+        private readonly CastleManager           castleManager;
         public           SlotManager             slotManager;
-        public SlotPresenter(SlotModel model, ObjectPoolManager objectPoolManager, IGameAssets gameAssets, SlotLocalDataController slotLocalDataController)
+        public SlotPresenter(SlotModel model, ObjectPoolManager objectPoolManager, IGameAssets gameAssets, SlotLocalDataController slotLocalDataController, CastleManager castleManager)
             : base(model, objectPoolManager)
         {
             this.gameAssets              = gameAssets;
             this.slotLocalDataController = slotLocalDataController;
+            this.castleManager           = castleManager;
         }
 
         public SlotView GetSlotView => this.View;
 
-        public override async UniTask UpdateView()
+        public override UniTask UpdateView()
         {
-            await base.UpdateView();
+            this.View                    = this.castleManager.entities.First().CastleView.listSlotView.First(e => e.id == this.Model.Id);
+            this.IsViewInit              = true;
             this.View.image.sprite       = this.gameAssets.LoadAssetAsync<Sprite>(this.Model.SlotRecord.Image).WaitForCompletion();
             this.View.transform.position = this.Model.SlotRecord.Position;
             this.View.OnMouseClick       = this.OnClick;
             this.UpdateSlotBaseOnCurrentLevel();
+            return UniTask.CompletedTask;
         }
 
-        public void UpdateSlotBaseOnCurrentLevel() {
+        public void UpdateSlotBaseOnCurrentLevel()
+        {
             if (this.slotLocalDataController.GetSlotData(this.Model.SlotRecord.Id).IsUnlock)
             {
                 this.View.gameObject.SetActive(true);
-            } else
+            }
+            else
             {
                 this.View.gameObject.SetActive(false);
             }
         }
 
-        protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
+        protected override UniTask<GameObject> CreateView() { return new UniTask<GameObject>(); }
 
         public void OnClick()
         {
             this.slotManager.UpdateCurrentSelectedSlot(this);
-            Debug.Log("Click slot "+ this.Model.Id+"!!");
+            Debug.Log("Click slot " + this.Model.Id + "!!");
         }
 
         public void LoadHero(IHeroPresenter heroPresenter)

@@ -19,7 +19,7 @@
 
         protected bool   IsViewInit { get; set; }
         protected TModel Model      { get; }
-        protected TView  View       { get; private set; }
+        protected TView  View       { get; set; }
 
         public virtual void Initialize() { }
 

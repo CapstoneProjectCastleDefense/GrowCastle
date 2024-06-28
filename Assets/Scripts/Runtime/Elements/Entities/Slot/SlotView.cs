@@ -6,12 +6,10 @@
 
     public class SlotView : BaseElementView
     {
-        public SpriteRenderer image;
-        public Transform      heroPos;
-        public Action         OnMouseClick;
-        private void OnMouseDown()
-        {
-            this.OnMouseClick?.Invoke();
-        }
+        public  string         id;
+        public  SpriteRenderer image;
+        public  Transform      heroPos;
+        public  Action         OnMouseClick;
+        private void           OnMouseDown() { this.OnMouseClick?.Invoke(); }
     }
 }
