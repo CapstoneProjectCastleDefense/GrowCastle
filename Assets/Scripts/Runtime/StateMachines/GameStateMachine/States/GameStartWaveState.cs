@@ -11,14 +11,15 @@
         private readonly TimeCoolDownService timeCoolDownService;
         private readonly ArcherManager       archerManager;
         private readonly HeroManager         heroManager;
+        private readonly TowerManager towerManager;
 
-        public GameStartWaveState(WaveSystem waveSystem,SlotManager slotManager,TimeCoolDownService timeCoolDownService,ArcherManager archerManager,HeroManager heroManager)
-        {
-            this.waveSystem          = waveSystem;
-            this.slotManager         = slotManager;
+        public GameStartWaveState(WaveSystem waveSystem, SlotManager slotManager, TimeCoolDownService timeCoolDownService, ArcherManager archerManager, HeroManager heroManager, TowerManager towerManager) {
+            this.waveSystem = waveSystem;
+            this.slotManager = slotManager;
             this.timeCoolDownService = timeCoolDownService;
-            this.archerManager       = archerManager;
-            this.heroManager         = heroManager;
+            this.archerManager = archerManager;
+            this.heroManager = heroManager;
+            this.towerManager = towerManager;
         }
         public override void Enter()
         {
@@ -27,6 +28,7 @@
             this.slotManager.DeActiveAllSlot();
             this.archerManager.ChangeAttackStatusOfAllArcher(true);
             this.heroManager.ChangeAttackStatusOfAllHero(true);
+            this.towerManager.ChangeAttackStatusOfAllTower(true);
         }
 
         public override void Exit()
