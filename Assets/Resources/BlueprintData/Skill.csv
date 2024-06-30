@@ -2,3 +2,4 @@ Id,Type,Mana,Cooldown
 archer_normal_attack,Projectile,10,10
 SummonSkill,Summon,15,15
 wizard_normal_attack,Projectile,0,0
+LightningRod,Projectile,0,0

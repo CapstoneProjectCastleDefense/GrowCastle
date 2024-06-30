@@ -1,3 +1,4 @@
 Id,Level,NodeId,Depend,SkillId
 KnightEvol_1,1,Node_a,,KnightSkill_1|1
 ,2,Node_b,Node_a,KnightSkill_1|2
+XelNagaEvol_1,1,Node_A,,XelNagaSkill_1|1

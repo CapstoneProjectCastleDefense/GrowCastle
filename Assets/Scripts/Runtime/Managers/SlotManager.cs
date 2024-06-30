@@ -10,21 +10,24 @@ namespace Runtime.Managers
     using Runtime.Interfaces.Entities;
     using Runtime.Managers.Base;
     using System;
+    using System.Diagnostics;
+    using System.Linq;
 
     public class SlotManager : BaseElementManager<SlotModel, SlotPresenter, SlotView>
     {
         private readonly SlotLocalDataController slotLocalDataController;
         private readonly HeroManager             heroManager;
         private readonly LeaderManager           leaderManager;
+        private readonly TowerManager towerManager;
         private          SlotPresenter           currentSelectedSlot;
 
         public SlotManager(BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory, SlotLocalDataController slotLocalDataController, HeroManager heroManager,
-            LeaderManager leaderManager)
-            : base(factory)
-        {
+            LeaderManager leaderManager, TowerManager towerManager)
+            : base(factory) {
             this.slotLocalDataController = slotLocalDataController;
-            this.heroManager             = heroManager;
-            this.leaderManager           = leaderManager;
+            this.heroManager = heroManager;
+            this.leaderManager = leaderManager;
+            this.towerManager = towerManager;
         }
 
         public override void Initialize() { }
@@ -57,6 +60,9 @@ namespace Runtime.Managers
             else if (slotData.SlotType == SlotType.Leader)
             {
                 this.leaderManager.CreateSingleLeader(slotData.DeployObjectId, slotPresenter.GetSlotView.heroPos);
+            }else if (slotData.SlotType == SlotType.Tower)
+            {
+                this.towerManager.CreateSingleTower(slotData.DeployObjectId, slotPresenter.GetSlotView.heroPos);
             }
         }
 
@@ -64,11 +70,16 @@ namespace Runtime.Managers
 
         public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
 
-        public void UpdateAllSlotsBaseOnCurrentLevel() {
+        public void UpdateAllSlots(int currentLevel) {
+            
             this.entities.ForEach(presenter =>
             {
                 presenter.UpdateSlotBaseOnCurrentLevel();
             });
+            if (currentLevel == 6)
+            {
+                this.towerManager.CreateSingleTower("Xel'Naga", this.entities.First(slot => slot.GetModel().Id == "10").GetSlotView.heroPos);
+            }
         }
     }
 }

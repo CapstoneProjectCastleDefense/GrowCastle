@@ -13,6 +13,7 @@
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Elements.Entities.Slot;
     using Runtime.Elements.Entities.Summoner;
+    using Runtime.Elements.Entities.Tower;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Managers.Base;
@@ -60,6 +61,8 @@
                 .WhenInjectedInto<ArcherManager>();
             this.Container.BindFactory<HeroModel, HeroPresenter, HeroPresenter.Factory>().AsCached()
                 .WhenInjectedInto<HeroManager>();
+            this.Container.BindFactory<TowerModel, TowerPresenter, TowerPresenter.Factory>().AsCached()
+                .WhenInjectedInto<TowerManager>();
             this.Container.BindFactory<ProjectileModel, ProjectilePresenter, ProjectilePresenter.Factory>().AsCached()
                 .WhenInjectedInto<ProjectileManager>();
             this.Container.BindFactory<LeaderModel, LeaderPresenter, LeaderPresenter.Factory>().AsCached()

@@ -26,7 +26,7 @@
         {
             this.castleLocalDataController.UpgradeCastle();
             this.entities.First().UpdateBlockBaseOnCurrentLevel();
-            this.slotManager.UpdateAllSlotsBaseOnCurrentLevel();
+            this.slotManager.UpdateAllSlots(castleLocalDataController.GetCurrentCastle().Level);
         }
 
         public List<ArcherSlot> GetAllArcherSlot() => this.entities[0].CastleView.listArcherSlot;
