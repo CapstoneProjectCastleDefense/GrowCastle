@@ -21,6 +21,7 @@
         AttackPriority,
         
         TargetThatImAttacking,
+        TargetThatImLookingAt,
         TargetThatAttackingMe,
     }
 }

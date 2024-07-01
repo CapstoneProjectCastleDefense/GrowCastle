@@ -78,6 +78,7 @@
         }
         public void        OnDeath()             { Debug.Log("Lose"); }
         public ITargetable TargetThatImAttacking { get; set; }
+        public ITargetable TargetThatImLookingAt { get; set; }
         public ITargetable TargetThatAttackingMe { get; set; }
         public bool        IsDead                { get; }
     }
@@ -86,8 +87,6 @@
     {
         public string Id              { get; set; }
         public string AddressableName { get; set; }
-
-        // public CastleStat                           CastleStat { get; set; }
         public Dictionary<StatEnum, (Type, object)> Stats { get; set; }
     }
 

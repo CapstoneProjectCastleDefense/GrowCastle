@@ -5,6 +5,7 @@
         void        OnGetHit(float damage);
         void        OnDeath();
         ITargetable TargetThatImAttacking { get; set; }
+        ITargetable TargetThatImLookingAt { get; set; }
         ITargetable TargetThatAttackingMe { get; set; }
         bool        IsDead { get; }
     }

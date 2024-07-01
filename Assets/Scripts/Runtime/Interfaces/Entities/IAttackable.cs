@@ -10,5 +10,6 @@
         float AttackCooldownTime { get; }
         
         Type[] GetManagerTypes();
+        string[] GetTags();
     }
 }

@@ -26,7 +26,8 @@
         private bool  canAttack;
         private float timer;
 
-        protected HeroPresenter(HeroModel model, ObjectPoolManager objectPoolManager, EntitySkillSystem entitySkillSystem, HeroBlueprint heroBlueprint, FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
+        protected HeroPresenter(HeroModel model, ObjectPoolManager objectPoolManager, EntitySkillSystem entitySkillSystem, HeroBlueprint heroBlueprint,
+            FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
         {
             this.entitySkillSystem = entitySkillSystem;
             this.heroBlueprint     = heroBlueprint;
@@ -50,10 +51,7 @@
             var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
             this.View.skeletonAnimation.SetAnimation(heroDataRecord.SkillToAnimationRecords[skillId].AnimationSkillName, loop: false);
             this.entitySkillSystem.CastSkill(skillId, skillModel);
-            UniTask.Delay(TimeSpan.FromSeconds(1f)).ContinueWith(() =>
-            {
-                this.View.skeletonAnimation.SetAnimation("idle", loop: true);
-            });
+            UniTask.Delay(TimeSpan.FromSeconds(1f)).ContinueWith(() => { this.View.skeletonAnimation.SetAnimation("idle", loop: true); });
         }
 
         public void CastSkill(string skillId, ITargetable target)
@@ -65,7 +63,8 @@
             });
         }
 
-        public Type[] GetManagerTypes() { return new[] { typeof(Managers.CastleManager), typeof(Managers.EnemyManager) }; }
+        public virtual Type[]   GetManagerTypes() { return new[] { typeof(Managers.CastleManager), typeof(Managers.EnemyManager) }; }
+        public virtual string[] GetTags()         { return new[] { "Fly", "Ground", "Boss", "Building", }; }
 
         public void SetAttackStatus(bool attackStatus)
         {
@@ -101,13 +100,7 @@
         {
             var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
 
-            var res = this.findTargetSystem.GetTarget(this, priority, new()
-                {
-                    AttackPriorityEnum.Ground.ToString(),
-                    AttackPriorityEnum.Fly.ToString(),
-                    AttackPriorityEnum.Boss.ToString(),
-                },
-                this.GetManagerTypes());
+            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes());
 
             return res;
         }
