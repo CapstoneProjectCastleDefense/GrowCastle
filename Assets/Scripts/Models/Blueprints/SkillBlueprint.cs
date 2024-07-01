@@ -1,6 +1,5 @@
 ﻿namespace Models.Blueprints
 {
-    using System.Collections.Generic;
     using BlueprintFlow.BlueprintReader;
     using Runtime.Enums;
 
