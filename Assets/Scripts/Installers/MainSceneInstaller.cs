@@ -14,7 +14,7 @@
     using Runtime.Elements.Entities.Slot;
     using Runtime.Elements.Entities.Summoner;
     using Runtime.Elements.Entities.Tower;
-    using Runtime.Interfaces.Skills;
+    using Runtime.Installers;
     using Runtime.Managers;
     using Runtime.Managers.Base;
     using Runtime.Managers.Entity;

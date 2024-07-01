@@ -34,7 +34,7 @@
             return this.ObjectPoolManager.Spawn(projectileRecord.PrefabName);
         }
 
-        public Tween FlyToTarget()
+        public Tween FlyToTarget(ITargetable target)
         {
             var id               = this.Model.Id;
             var projectileRecord = this.projectileBlueprint[id];
