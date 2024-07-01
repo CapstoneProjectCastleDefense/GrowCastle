@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Elements.Entities.Leader
 {
     using System;
+    using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using GameFoundation.Scripts.Utilities.ObjectPool;
@@ -35,6 +36,7 @@
                 this.View.transform.DOKill();
                 this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
                 target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
+                target.TargetThatAttackingMe = this;
                 var attackSpeed                   = this.Model.GetStat<float>(StatEnum.AttackSpeed);
                 if (attackSpeed <= 0) attackSpeed = 1f / this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
                 this.AttackCooldownTime = Time.time + 1f / attackSpeed;
@@ -70,10 +72,11 @@
                     ? this.TargetThatImAttacking
                     : this.TargetThatAttackingMe is { IsDead: false }
                         ? this.TargetThatAttackingMe
-                        : this.findTargetSystem.GetTarget(this, priority, new() { "Fly", "Ground", "Boss", "Building" }, this.GetManagerTypes());
+                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes());
         }
-        public float  AttackCooldownTime { get; private set; } = 0;
-        public Type[] GetManagerTypes()  { return new[] { typeof(Managers.CastleManager), typeof(Managers.EnemyManager) }; }
+        public         float    AttackCooldownTime { get; private set; } = 0;
+        public virtual Type[]   GetManagerTypes()  { return new[] { typeof(CastleManager), typeof(EnemyManager) }; }
+        public virtual string[] GetTags()          { return new[] { "Fly", "Ground", "Boss", "Building" }; }
 
         public void CastSkill(string skillId, ITargetable target) { throw new NotImplementedException(); }
 
@@ -125,6 +128,16 @@
             {
                 if (value == this.Model.GetStat<ITargetable>(StatEnum.TargetThatImAttacking)) return;
                 this.Model.SetStat(StatEnum.TargetThatImAttacking, value);
+            }
+        }
+
+        public ITargetable TargetThatImLookingAt
+        {
+            get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatImLookingAt);
+            set
+            {
+                if (value == this.Model.GetStat<ITargetable>(StatEnum.TargetThatImLookingAt)) return;
+                this.Model.SetStat(StatEnum.TargetThatImLookingAt, value);
             }
         }
 

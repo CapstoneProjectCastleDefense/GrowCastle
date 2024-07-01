@@ -34,7 +34,7 @@
             var startPos          = skillSummonRecord.StartPos;
             for (var i = 0; i < skillSummonRecord.NumberSpawn; i++)
             {
-                this.summonerManager.CreateSingleSummoner(skillSummonRecord.SummonerId,startPos,i+1);
+                this.summonerManager. CreateSingleSummoner(skillSummonRecord.SummonerId,startPos,i+1);
                 startPos.y                                                -= skillSummonRecord.DistanceRange;
             }
         }

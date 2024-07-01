@@ -24,10 +24,10 @@
         private          float             timer;
 
         protected ArcherPresenter(
-            ArcherModel       model,
+            ArcherModel model,
             ObjectPoolManager objectPoolManager,
-            EnemyManager      enemyManager,
-            FindTargetSystem  findTargetSystem,
+            EnemyManager enemyManager,
+            FindTargetSystem findTargetSystem,
             EntitySkillSystem entitySkillSystem
         )
             : base(model, objectPoolManager)
@@ -93,14 +93,7 @@
                 this.Model.SetStat(StatEnum.AttackPriority, priority);
             }
 
-            var res = this.findTargetSystem.GetTarget(this, priority, new()
-                {
-                    AttackPriorityEnum.Ground.ToString(),
-                    AttackPriorityEnum.Fly.ToString(),
-                    AttackPriorityEnum.Boss.ToString(),
-                    AttackPriorityEnum.Building.ToString()
-                },
-                this.GetManagerTypes());
+            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes());
 
             return res;
         }
@@ -109,13 +102,11 @@
 
         public void CastSkill(string skillId, ITargetable target) { }
 
-        public Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
+        public virtual Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
+        public virtual string[] GetTags() { return new[] { "Fly", "Ground", "Boss", "Building" }; }
 
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
-        public override void Dispose()
-        {
-            this.ObjectPoolManager.Recycle(this.View);
-        }
+        public override void Dispose() { this.ObjectPoolManager.Recycle(this.View); }
     }
 }
