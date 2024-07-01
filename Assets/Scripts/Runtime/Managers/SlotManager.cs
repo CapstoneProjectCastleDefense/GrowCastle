@@ -32,7 +32,36 @@ namespace Runtime.Managers
 
         public override void Initialize() { }
 
-        public void EquipHeo(IHeroPresenter heroPresenter) { this.currentSelectedSlot.LoadHero(heroPresenter); }
+        public SlotModel GetCurrentSelectedSlotModel() => (SlotModel)this.currentSelectedSlot.GetModel();
+
+        public void EquipHero(string heroId)
+        {
+            var currentSlotModel = this.GetCurrentSelectedSlotModel();
+            var currentSlotData  = this.slotLocalDataController.GetSlotData(currentSlotModel.SlotRecord.Id);
+            if (currentSlotData.DeployObjectId != null)
+            {
+                if (currentSlotModel.SlotRecord.SlotType == SlotType.Hero)
+                {
+                    this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(currentSlotData.DeployObjectId)).Dispose();
+                }
+            }
+            this.slotLocalDataController.EquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id,heroId);
+            this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
+        }
+
+        public void UnEquipHero()
+        {
+            var currentSlotModel = this.GetCurrentSelectedSlotModel();
+            var currentSlotData  = this.slotLocalDataController.GetSlotData(currentSlotModel.SlotRecord.Id);
+            if (currentSlotData.DeployObjectId != null)
+            {
+                if (currentSlotModel.SlotRecord.SlotType == SlotType.Hero)
+                {
+                    this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(currentSlotData.DeployObjectId)).Dispose();
+                }
+            }
+            this.slotLocalDataController.UnEquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id);
+        }
 
         public override SlotPresenter CreateElement(SlotModel model)
         {
@@ -71,7 +100,7 @@ namespace Runtime.Managers
         public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
 
         public void UpdateAllSlots(int currentLevel) {
-            
+
             this.entities.ForEach(presenter =>
             {
                 presenter.UpdateSlotBaseOnCurrentLevel();
