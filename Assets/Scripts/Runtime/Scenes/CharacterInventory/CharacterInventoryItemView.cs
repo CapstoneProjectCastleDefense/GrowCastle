@@ -4,20 +4,20 @@
     using GameFoundation.Scripts.UIModule.MVP;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using Models.LocalData.LocalDataController;
+    using Spine.Unity;
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
 
     public class CharacterInventoryItemModel
     {
-        public string          heroId;
         public HeroRuntimeData heroRuntimeData;
         public string          resourceIcon;
     }
 
     public class CharacterInventoryItemView : TViewMono
     {
-        public Image           characterImage;
+        public SkeletonGraphic characterAnim;
         public Image           resourceIcon;
         public GameObject      resourceField;
         public TextMeshProUGUI resourceValueText;
@@ -38,7 +38,7 @@
         public override void BindData(CharacterInventoryItemModel param)
         {
             this.model                       = param;
-            this.View.characterImage.sprite  = this.GameAssets.LoadAssetAsync<Sprite>(param.heroRuntimeData.avatar).WaitForCompletion();
+            this.View.characterAnim.ChangeSkeletonDataAsset(this.GameAssets.LoadAssetAsync<SkeletonDataAsset>(param.heroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion());
             this.View.resourceValueText.text = $"{param.heroRuntimeData.resourceValue}";
             this.View.resourceIcon.sprite    = this.GameAssets.LoadAssetAsync<Sprite>(param.resourceIcon).WaitForCompletion();
             this.View.resourceField.SetActive(param.heroRuntimeData.heroStatus == HeroStatus.Lock);

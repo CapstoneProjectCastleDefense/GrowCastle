@@ -10,8 +10,8 @@ namespace Runtime.Managers
     using Runtime.Interfaces.Entities;
     using Runtime.Managers.Base;
     using System;
-    using System.Diagnostics;
     using System.Linq;
+    using Runtime.Elements.Entities.Hero;
 
     public class SlotManager : BaseElementManager<SlotModel, SlotPresenter, SlotView>
     {
@@ -19,6 +19,7 @@ namespace Runtime.Managers
         private readonly HeroManager             heroManager;
         private readonly LeaderManager           leaderManager;
         private readonly TowerManager towerManager;
+        private readonly HeroLocalDataController heroLocalDataController;
         private          SlotPresenter           currentSelectedSlot;
 
         public SlotManager(BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory, SlotLocalDataController slotLocalDataController, HeroManager heroManager,
@@ -46,6 +47,7 @@ namespace Runtime.Managers
                 }
             }
             this.slotLocalDataController.EquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id,heroId);
+            this.heroLocalDataController.EquipHero(heroId);
             this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
         }
 
@@ -58,6 +60,7 @@ namespace Runtime.Managers
                 if (currentSlotModel.SlotRecord.SlotType == SlotType.Hero)
                 {
                     this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(currentSlotData.DeployObjectId)).Dispose();
+                    this.heroLocalDataController.UnEquipHero(currentSlotData.DeployObjectId);
                 }
             }
             this.slotLocalDataController.UnEquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id);

@@ -99,11 +99,13 @@
         private void OnEquipButtonClick()
         {
             this.slotManager.EquipHero(this.Model.heroRuntimeData.heroRecord.HeroId);
+            this.ReBindData();
         }
 
         private void OnUnEquipButtonClick()
         {
             this.slotManager.UnEquipHero();
+            this.ReBindData();
         }
 
         private async void OnUnlockButtonClick()
@@ -114,11 +116,17 @@
                     var heroId = this.Model.heroRuntimeData.heroRecord.HeroId;
                     if (this.heroLocalDataController.UnLockHero(heroId))
                     {
-                        this.Model.heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(heroId);
-                        await this.BindData(this.Model);
+                        this.ReBindData();
                     }
                     break;
             }
+        }
+
+        private async void ReBindData()
+        {
+            var heroId = this.Model.heroRuntimeData.heroRecord.HeroId;
+            this.Model.heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(heroId);
+            await this.BindData(this.Model);
         }
 
 

@@ -29,7 +29,7 @@
                 {
                     this.heroLocalData.listHeroData.Add(new() { id = hero.Key, heroStatus = HeroStatus.Lock, level = 1 });
                 });
-                this.heroLocalData.listHeroData[0].heroStatus = HeroStatus.UnLock;
+                this.heroLocalData.listHeroData[0].heroStatus = HeroStatus.Equip;
             }
         }
 
@@ -64,6 +64,15 @@
             if (heroLocalData.heroStatus == HeroStatus.UnLock)
             {
                 heroLocalData.heroStatus = HeroStatus.Equip;
+            }
+        }
+
+        public void UnEquipHero(string heroId)
+        {
+            var heroLocalData = this.GetHeroLocalData(heroId);
+            if (heroLocalData.heroStatus == HeroStatus.Equip)
+            {
+                heroLocalData.heroStatus = HeroStatus.UnLock;
             }
         }
 

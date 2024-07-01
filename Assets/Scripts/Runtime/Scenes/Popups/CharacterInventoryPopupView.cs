@@ -37,7 +37,7 @@
 
         public override async UniTask BindData()
         {
-            var listModel = this.heroLocalDataController.GetAllHeroData().Select(e => new CharacterInventoryItemModel() { heroRuntimeData = e, resourceIcon = this.resourceBlueprint.GetDataById(e.resourceType).Image, heroId = e.heroRecord.HeroId}).ToList();
+            var listModel = this.heroLocalDataController.GetAllHeroData().Select(e => new CharacterInventoryItemModel() { heroRuntimeData = e, resourceIcon = this.resourceBlueprint.GetDataById(e.resourceType).Image}).ToList();
             await this.View.characterInventoryAdapter.InitItemAdapter(listModel, this.diContainer);
         }
     }
