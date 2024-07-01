@@ -81,6 +81,7 @@
         public ITargetable TargetThatImLookingAt { get; set; }
         public ITargetable TargetThatAttackingMe { get; set; }
         public bool        IsDead                { get; }
+        public Dictionary<StatEnum, (Type, object)> GetStats()            { return this.Model.Stats; }
     }
 
     public class CastleModel : IElementModel, IHaveStats

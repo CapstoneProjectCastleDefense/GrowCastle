@@ -14,7 +14,7 @@
     using Runtime.Elements.Entities.Slot;
     using Runtime.Elements.Entities.Summoner;
     using Runtime.Elements.Entities.Tower;
-    using Runtime.Interfaces.Skills;
+    using Runtime.Installers;
     using Runtime.Managers;
     using Runtime.Managers.Base;
     using Runtime.Managers.Entity;
@@ -49,25 +49,25 @@
 
         private void BindElement()
         {
-            this.Container.BindFactory<CastleModel, CastlePresenter, CastlePresenter.Factory>().AsCached()
+            this.Container.BindFactory<CastleModel, CastlePresenter, BaseElementPresenter<CastleModel, CastleView, CastlePresenter>.Factory>().AsCached()
                 .WhenInjectedInto<CastleManager>();
-            this.Container.BindFactory<MapLevelModel, MapLevelPresenter, MapLevelPresenter.Factory>().AsCached()
+            this.Container.BindFactory<MapLevelModel, MapLevelPresenter, BaseElementPresenter<MapLevelModel, MapLevelView, MapLevelPresenter>.Factory>().AsCached()
                 .WhenInjectedInto<MapLevelManager>();
-            this.Container.BindFactory<SlotModel, SlotPresenter, SlotPresenter.Factory>().AsCached()
+            this.Container.BindFactory<SlotModel, SlotPresenter, BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory>().AsCached()
                 .WhenInjectedInto<SlotManager>();
-            this.Container.BindFactory<EnemyModel, EnemyPresenter, EnemyPresenter.Factory>().AsCached()
+            this.Container.BindFactory<EnemyModel, EnemyPresenter, BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>.Factory>().AsCached()
                 .WhenInjectedInto<EnemyManager>();
-            this.Container.BindFactory<ArcherModel, ArcherPresenter, ArcherPresenter.Factory>().AsCached()
+            this.Container.BindFactory<ArcherModel, ArcherPresenter, BaseElementPresenter<ArcherModel, ArcherView, ArcherPresenter>.Factory>().AsCached()
                 .WhenInjectedInto<ArcherManager>();
-            this.Container.BindFactory<HeroModel, HeroPresenter, HeroPresenter.Factory>().AsCached()
+            this.Container.BindFactory<HeroModel, HeroPresenter, BaseElementPresenter<HeroModel, HeroView, HeroPresenter>.Factory>().AsCached()
                 .WhenInjectedInto<HeroManager>();
-            this.Container.BindFactory<TowerModel, TowerPresenter, TowerPresenter.Factory>().AsCached()
+            this.Container.BindFactory<TowerModel, TowerPresenter, BaseElementPresenter<TowerModel, TowerView, TowerPresenter>.Factory>().AsCached()
                 .WhenInjectedInto<TowerManager>();
-            this.Container.BindFactory<ProjectileModel, ProjectilePresenter, ProjectilePresenter.Factory>().AsCached()
+            this.Container.BindFactory<ProjectileModel, ProjectilePresenter, BaseElementPresenter<ProjectileModel, ProjectileView, ProjectilePresenter>.Factory>().AsCached()
                 .WhenInjectedInto<ProjectileManager>();
-            this.Container.BindFactory<LeaderModel, LeaderPresenter, LeaderPresenter.Factory>().AsCached()
+            this.Container.BindFactory<LeaderModel, LeaderPresenter, BaseElementPresenter<LeaderModel, LeaderView, LeaderPresenter>.Factory>().AsCached()
                 .WhenInjectedInto<LeaderManager>();
-            this.Container.BindFactory<SummonerModel, SummonerPresenter, SummonerPresenter.Factory>().AsCached()
+            this.Container.BindFactory<SummonerModel, SummonerPresenter, BaseElementPresenter<SummonerModel, SummonerView, SummonerPresenter>.Factory>().AsCached()
                 .WhenInjectedInto<SummonerManager>();
         }
 

@@ -9,10 +9,8 @@
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Archer.Base;
-    using Runtime.Elements.Entities.Castles.ArcherSlots;
     using Runtime.Enums;
     using Runtime.Managers.Base;
-    using UnityEngine;
 
     public class ArcherManager : BaseElementManager<ArcherModel, ArcherPresenter, ArcherView>
     {
