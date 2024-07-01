@@ -96,11 +96,6 @@
         {
             if (this.IsDead) return;
             var currentHealth = this.Model.GetStat<float>(StatEnum.Health);
-            currentHealth -= damage;
-            if (currentHealth <= 0)
-            {
-                currentHealth = 0;
-            }
 
             this.Model.SetStat(StatEnum.Health, currentHealth);
             if (currentHealth <= 0)

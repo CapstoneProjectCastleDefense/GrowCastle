@@ -13,7 +13,7 @@
 
     public class CastleLocalDataController : ILocalDataController
     {
-        private          CastleLocalData         castleLocalData;
+        private readonly CastleLocalData         castleLocalData;
         private readonly CastleConfigBlueprint   castleConfigBlueprint;
         private readonly CastleBlueprint         castleBlueprint;
         private readonly BlockBlueprint          blockBlueprint;
