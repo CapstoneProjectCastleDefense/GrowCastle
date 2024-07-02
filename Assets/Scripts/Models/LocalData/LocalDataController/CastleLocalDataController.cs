@@ -1,36 +1,36 @@
 ﻿namespace Models.LocalData.LocalDataController
 {
     using System;
-    using System.Collections.Concurrent;
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
     using GameFoundation.Scripts.Utilities.Extension;
     using Models.Blueprints;
-    using Runtime.Elements.Entities.Castles;
     using Runtime.Enums;
-    using UnityEngine;
 
     public class CastleLocalDataController : ILocalDataController
     {
-        private          CastleLocalData         castleLocalData;
-        private readonly CastleConfigBlueprint   castleConfigBlueprint;
-        private readonly CastleBlueprint         castleBlueprint;
-        private readonly BlockBlueprint          blockBlueprint;
-        private readonly SlotLocalDataController slotLocalDataController;
+        private          CastleLocalData             castleLocalData;
+        private readonly CastleConfigBlueprint       castleConfigBlueprint;
+        private readonly CastleBlueprint             castleBlueprint;
+        private readonly BlockBlueprint              blockBlueprint;
+        private readonly ResourceLocalDataController resourceLocalDataController;
+        private readonly SlotLocalDataController     slotLocalDataController;
 
         public CastleLocalDataController(
-            CastleLocalData castleLocalData,
-            CastleConfigBlueprint castleConfigBlueprint,
-            CastleBlueprint castleBlueprint,
-            SlotLocalDataController slotLocalDataController,
-            BlockBlueprint blockBlueprint)
+            CastleLocalData             castleLocalData,
+            CastleConfigBlueprint       castleConfigBlueprint,
+            CastleBlueprint             castleBlueprint,
+            SlotLocalDataController     slotLocalDataController,
+            BlockBlueprint              blockBlueprint,
+            ResourceLocalDataController resourceLocalDataController
+        )
         {
-            this.castleLocalData         = castleLocalData;
-            this.castleConfigBlueprint   = castleConfigBlueprint;
-            this.castleBlueprint         = castleBlueprint;
-            this.slotLocalDataController = slotLocalDataController;
-            this.blockBlueprint          = blockBlueprint;
+            this.castleLocalData             = castleLocalData;
+            this.castleConfigBlueprint       = castleConfigBlueprint;
+            this.castleBlueprint             = castleBlueprint;
+            this.slotLocalDataController     = slotLocalDataController;
+            this.blockBlueprint              = blockBlueprint;
+            this.resourceLocalDataController = resourceLocalDataController;
         }
 
         #region Castle
@@ -43,7 +43,7 @@
             {
                 return;
             }
-
+            if(!this.resourceLocalDataController.SpendResource(ResourceType.Gold,this.castleConfigBlueprint.BaseGoldNeedToUpgrade)) return;
             this.castleLocalData.Level++;
             var newBlockUnlockId    = this.castleBlueprint.GetDataById(this.castleLocalData.Level).BlockUnlock;
             var newBlockUnlockLevel = this.castleBlueprint.GetDataById(this.castleLocalData.Level).BlockUnlockLevel;
@@ -85,10 +85,10 @@
 
         #endregion
 
-        public Dictionary<StatEnum, (Type, System.Object)> GetCastleStat()
+        public Dictionary<StatEnum, (Type, Object)> GetCastleStat()
         {
-            var result     = new Dictionary<StatEnum, (Type, System.Object)>();
-            var configData = this.castleConfigBlueprint.First().Value;
+            var result     = new Dictionary<StatEnum, (Type, Object)>();
+            var configData = this.castleConfigBlueprint;
 
             result.Add(StatEnum.MaxHealth, (configData.BaseHP.GetType(), configData.BaseHP * 1));
             result.Add(StatEnum.Health, (configData.BaseHP.GetType(), configData.BaseHP * 1)); //TODO: *10000 for testing, change to local data later
@@ -96,12 +96,16 @@
 
             return result;
         }
+
         public void InitData()
         {
             if (this.castleLocalData.ListBlockData.Count > 0) return;
             this.castleLocalData.Level         = 1;
             this.castleLocalData.ListBlockData = new();
-            this.blockBlueprint.ForEach(blockData => { this.castleLocalData.ListBlockData.Add(new() { BlockId = blockData.Value.Id, BlockLevel = 1, IsUnlock = false }); });
+            this.blockBlueprint.ForEach(blockData =>
+            {
+                this.castleLocalData.ListBlockData.Add(new() { BlockId = blockData.Value.Id, BlockLevel = 1, IsUnlock = false });
+            });
             this.castleLocalData.ListBlockData.First().IsUnlock = true;
         }
     }

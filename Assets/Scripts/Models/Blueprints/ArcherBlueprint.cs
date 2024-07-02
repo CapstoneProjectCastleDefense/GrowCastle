@@ -11,6 +11,6 @@
     public class ArcherRecord
     {
         public int    Level      { get; set; }
-        public string PrefabName { get; set; }
+        public string SkinName { get; set; }
     }
 }

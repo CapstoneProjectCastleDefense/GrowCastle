@@ -1,5 +1,7 @@
 ﻿namespace Models.LocalData.LocalDataController
 {
+    using R3;
+
     public class ResourceLocalDataController : ILocalDataController
     {
         private readonly ResourceLocalData resourceLocalData;
@@ -13,22 +15,24 @@
         {
         }
 
+        public ReactiveProperty<float> GetResource(ResourceType resourceType) => this.resourceLocalData.resource[resourceType];
+
         public void ReceiveResource(ResourceType resourceType, float receiveValue)
         {
-            this.resourceLocalData.resource[resourceType] += receiveValue;
+            this.resourceLocalData.resource[resourceType].Value += receiveValue;
         }
 
         public bool SpendResource(ResourceType resourceType,float spendValue)
         {
             if(!this.CheckCanSpend(resourceType,spendValue)) return false;
-            this.resourceLocalData.resource[resourceType] -= spendValue;
+            this.resourceLocalData.resource[resourceType].Value -= spendValue;
 
             return true;
         }
 
         public bool CheckCanSpend(ResourceType resourceType, float spendValue)
         {
-            return this.resourceLocalData.resource[resourceType] >= spendValue;
+            return this.resourceLocalData.resource[resourceType].Value >= spendValue;
         }
     }
 }
