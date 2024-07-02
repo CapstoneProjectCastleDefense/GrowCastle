@@ -1,0 +1,4 @@
+HeroId,BaseAttack,BaseAttackSpeed,BaseResource,Level,Avatar,Coefficient,ResourceType
+Knight,10,10,100,1,archer,1.2,Gold
+,,,,2,archer,1.2,Gold
+Wizard,10,10,100,1,archer,1.2,Gold

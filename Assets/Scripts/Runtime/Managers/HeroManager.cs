@@ -15,7 +15,8 @@
 
         public void CreateSingleHero(string id,Transform parent)
         {
-            this.CreateElement(new() {
+            var heroPresenter = this.CreateElement(new()
+            {
                 Id         = id,
                 ParentView = parent,
                 Stats = new()
@@ -23,9 +24,11 @@
                     { StatEnum.Attack, (typeof(float), 2f) },
                     { StatEnum.Health, (typeof(float), 10f) },
                     { StatEnum.AttackSpeed, (typeof(float), 1f) },
-                    { StatEnum.AttackPriority,(typeof(AttackPriorityEnum), AttackPriorityEnum.Ground)}
+                    { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) }
                 },
-            }).UpdateView().Forget();
+            });
+            heroPresenter.UpdateView().Forget();
+            heroPresenter.SetManager(this);
         }
 
         public void ChangeAttackStatusOfAllHero(bool canAttack)

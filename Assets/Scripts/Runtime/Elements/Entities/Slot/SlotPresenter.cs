@@ -13,6 +13,8 @@
     using Runtime.Managers;
     using Spine;
     using System;
+    using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
+    using Runtime.Scenes.CharacterInventory;
     using UnityEngine;
 
     public class SlotModel : IElementModel
@@ -27,12 +29,17 @@
     {
         private readonly IGameAssets             gameAssets;
         private readonly SlotLocalDataController slotLocalDataController;
+        private readonly ScreenManager           screenManager;
+        private readonly HeroLocalDataController heroLocalDataController;
         public           SlotManager             slotManager;
-        public SlotPresenter(SlotModel model, ObjectPoolManager objectPoolManager, IGameAssets gameAssets, SlotLocalDataController slotLocalDataController)
+
+        public SlotPresenter(SlotModel model, ObjectPoolManager objectPoolManager, IGameAssets gameAssets, SlotLocalDataController slotLocalDataController, ScreenManager screenManager, HeroLocalDataController heroLocalDataController)
             : base(model, objectPoolManager)
         {
             this.gameAssets              = gameAssets;
             this.slotLocalDataController = slotLocalDataController;
+            this.screenManager           = screenManager;
+            this.heroLocalDataController = heroLocalDataController;
         }
 
         public SlotView GetSlotView => this.View;
@@ -46,11 +53,13 @@
             this.UpdateSlotBaseOnCurrentLevel();
         }
 
-        public void UpdateSlotBaseOnCurrentLevel() {
+        public void UpdateSlotBaseOnCurrentLevel()
+        {
             if (this.slotLocalDataController.GetSlotData(this.Model.SlotRecord.Id).IsUnlock)
             {
                 this.View.gameObject.SetActive(true);
-            } else
+            }
+            else
             {
                 this.View.gameObject.SetActive(false);
             }
@@ -58,10 +67,19 @@
 
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
-        public void OnClick()
+        private void OnClick()
         {
             this.slotManager.UpdateCurrentSelectedSlot(this);
-            Debug.Log("Click slot "+ this.Model.Id+"!!");
+            Debug.Log("Click slot " + this.Model.Id + "!!");
+            var deployObjectId = this.slotLocalDataController.GetSlotData(this.Model.SlotRecord.Id).DeployObjectId;
+            if (deployObjectId == null)
+            {
+                this.ShowInventory();
+            }
+            else
+            {
+                this.ShowCharacterInfo(deployObjectId);
+            }
         }
 
         public void LoadHero(IHeroPresenter heroPresenter)
@@ -77,8 +95,15 @@
 
         public void UnLoadHero() { }
 
-        public void ShowInventory() { }
+        private async void ShowCharacterInfo(string characterId)
+        {
+            await this.screenManager.OpenScreen<CharacterInfoPopupPresenter, CharacterInfoPopupModel>(new() { heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(characterId), currentSelectedSlotType = this.slotManager.GetCurrentSelectedSlotModel().SlotRecord.SlotType });
+        }
 
+        private async void ShowInventory()
+        {
+            await this.screenManager.OpenScreen<CharacterInventoryPopupPresenter>();
+        }
 
         public override void Dispose() { }
     }

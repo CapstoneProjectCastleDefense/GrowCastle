@@ -24,12 +24,12 @@
                     this.towerLocalData.listTowerData.Add(new()
                     {
                         id = tower.Key,
-                        towerStatus = Status.Lock,
+                        towerHeroStatus = HeroStatus.Lock,
                         level = 1
                     });
                     
                 });
-                this.towerLocalData.listTowerData[0].towerStatus = Status.UnLock;
+                this.towerLocalData.listTowerData[0].towerHeroStatus = HeroStatus.UnLock;
                 
             }
         }

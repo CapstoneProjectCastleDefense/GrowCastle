@@ -1,6 +1,8 @@
 ﻿namespace Models.LocalData.LocalDataController
 {
     using System.Collections.Generic;
+    using System.Runtime.CompilerServices;
+    using R3;
 
     public class HeroLocalData : ILocalDataHaveController<HeroLocalDataController>
     {
@@ -12,12 +14,12 @@
 
     public class HeroData
     {
-        public string     id;
-        public int        level;
-        public Status heroStatus;
+        public string                       id;
+        public int                          level;
+        public ReactiveProperty<HeroStatus> HeroStatus { get; set; } = new(LocalDataController.HeroStatus.Lock);
     }
 
-    public enum Status
+    public enum HeroStatus
     {
         Equip,
         UnLock,

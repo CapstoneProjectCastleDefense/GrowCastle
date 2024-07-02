@@ -10,8 +10,8 @@ namespace Runtime.Managers
     using Runtime.Interfaces.Entities;
     using Runtime.Managers.Base;
     using System;
-    using System.Diagnostics;
     using System.Linq;
+    using Runtime.Elements.Entities.Hero;
 
     public class SlotManager : BaseElementManager<SlotModel, SlotPresenter, SlotView>
     {
@@ -19,20 +19,63 @@ namespace Runtime.Managers
         private readonly HeroManager             heroManager;
         private readonly LeaderManager           leaderManager;
         private readonly TowerManager towerManager;
+        private readonly HeroLocalDataController heroLocalDataController;
         private          SlotPresenter           currentSelectedSlot;
 
         public SlotManager(BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory, SlotLocalDataController slotLocalDataController, HeroManager heroManager,
-            LeaderManager leaderManager, TowerManager towerManager)
+            LeaderManager leaderManager, TowerManager towerManager, HeroLocalDataController heroLocalDataController)
             : base(factory) {
             this.slotLocalDataController = slotLocalDataController;
-            this.heroManager = heroManager;
-            this.leaderManager = leaderManager;
-            this.towerManager = towerManager;
+            this.heroManager             = heroManager;
+            this.leaderManager           = leaderManager;
+            this.towerManager            = towerManager;
+            this.heroLocalDataController = heroLocalDataController;
         }
 
         public override void Initialize() { }
 
-        public void EquipHeo(IHeroPresenter heroPresenter) { this.currentSelectedSlot.LoadHero(heroPresenter); }
+        public SlotModel GetCurrentSelectedSlotModel() => (SlotModel)this.currentSelectedSlot.GetModel();
+
+        public void EquipHero(string heroId)
+        {
+            var currentSlotModel = this.GetCurrentSelectedSlotModel();
+            var currentSlotData  = this.slotLocalDataController.GetSlotData(currentSlotModel.SlotRecord.Id);
+
+            if (currentSlotData.DeployObjectId != null)
+            {
+                this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(currentSlotData.DeployObjectId)).Dispose();
+                this.heroLocalDataController.UnEquipHero(currentSlotData.DeployObjectId);
+            }
+            else
+            {
+                var slotHoldHero = this.slotLocalDataController.GetSlotHoldHero(heroId);
+                if (slotHoldHero != null)
+                {
+                    this.slotLocalDataController.UnEquipCharacter(slotHoldHero.SlotId);
+                    this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(heroId)).Dispose();
+                    this.heroLocalDataController.UnEquipHero(heroId);
+                }
+            }
+
+            this.slotLocalDataController.EquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id,heroId);
+            this.heroLocalDataController.EquipHero(heroId);
+            this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
+        }
+
+        public void UnEquipHero()
+        {
+            var currentSlotModel = this.GetCurrentSelectedSlotModel();
+            var currentSlotData  = this.slotLocalDataController.GetSlotData(currentSlotModel.SlotRecord.Id);
+            if (currentSlotData.DeployObjectId != null)
+            {
+                if (currentSlotModel.SlotRecord.SlotType == SlotType.Hero)
+                {
+                    this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(currentSlotData.DeployObjectId)).Dispose();
+                    this.heroLocalDataController.UnEquipHero(currentSlotData.DeployObjectId);
+                }
+            }
+            this.slotLocalDataController.UnEquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id);
+        }
 
         public override SlotPresenter CreateElement(SlotModel model)
         {
@@ -71,7 +114,7 @@ namespace Runtime.Managers
         public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
 
         public void UpdateAllSlots(int currentLevel) {
-            
+
             this.entities.ForEach(presenter =>
             {
                 presenter.UpdateSlotBaseOnCurrentLevel();

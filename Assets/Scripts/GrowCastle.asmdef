@@ -17,6 +17,7 @@
     "Unity.Addressables",
     "UniTask.Addressables",
     "spine-unity",
-    "Sirenix.OdinInspector.CompatibilityLayer"
+    "Sirenix.OdinInspector.CompatibilityLayer",
+    "OSA.Core"
   ]
 }
