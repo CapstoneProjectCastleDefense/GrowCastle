@@ -8,6 +8,7 @@
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
+    using R3;
 
     public class CharacterInventoryItemModel
     {
@@ -42,9 +43,15 @@
             this.View.resourceValueText.text = $"{param.heroRuntimeData.resourceValue}";
             this.View.resourceIcon.sprite    = this.GameAssets.LoadAssetAsync<Sprite>(param.resourceIcon).WaitForCompletion();
             this.View.resourceField.SetActive(param.heroRuntimeData.heroStatus == HeroStatus.Lock);
-
+            this.heroLocalDataController.GetHeroLocalData(param.heroRuntimeData.heroRecord.HeroId).HeroStatus.Subscribe(this.OnCharacterStatusChange);
             this.View.selectBtn.onClick.RemoveAllListeners();
             this.View.selectBtn.onClick.AddListener(this.OnSelectButtonClick);
+        }
+
+        private void OnCharacterStatusChange(HeroStatus heroStatus)
+        {
+            if(this.View == null) return;
+            this.View.resourceField.SetActive(heroStatus == HeroStatus.Lock);
         }
 
         private async void OnSelectButtonClick()
@@ -53,8 +60,6 @@
             {
                 heroRuntimeData = this.model.heroRuntimeData,
             };
-
-            //try set hero status to unlock because can use hero in other slot and reset in current slot
             if (characterInfoModel.heroRuntimeData.heroStatus == HeroStatus.Equip) characterInfoModel.heroRuntimeData.heroStatus = HeroStatus.UnLock;
             await this.screenManager.OpenScreen<CharacterInfoPopupPresenter, CharacterInfoPopupModel>(characterInfoModel);
         }

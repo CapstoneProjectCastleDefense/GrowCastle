@@ -139,7 +139,6 @@
             var heroId = this.Model.heroRuntimeData.heroRecord.HeroId;
             this.Model.heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(heroId);
             await this.BindData(this.Model);
-            this.SignalBus.Fire(new RebindDataSignal(){screenPresenterType = typeof(CharacterInventoryPopupPresenter)});
         }
 
 

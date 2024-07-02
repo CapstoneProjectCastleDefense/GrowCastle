@@ -27,9 +27,9 @@
                 this.heroLocalData.listHeroData = new();
                 this.heroBlueprint.ForEach(hero =>
                 {
-                    this.heroLocalData.listHeroData.Add(new() { id = hero.Key, heroHeroStatus = HeroStatus.Lock, level = 1 });
+                    this.heroLocalData.listHeroData.Add(new() { id = hero.Key, level = 1 });
                 });
-                this.heroLocalData.listHeroData[0].heroHeroStatus = HeroStatus.Equip;
+                this.heroLocalData.listHeroData[0].HeroStatus.Value = HeroStatus.Equip;
             }
         }
 
@@ -47,13 +47,13 @@
                 avatar        = heroConfigRecord.LevelToConfigRecords[heroLocalData.level].Avatar,
                 resourceValue = heroConfigRecord.BaseResource,
                 resourceType  = heroConfigRecord.ResourceType,
-                heroStatus    = this.heroLocalData.listHeroData.First(e => e.id.Equals(heroId)).heroHeroStatus,
+                heroStatus    = this.heroLocalData.listHeroData.First(e => e.id.Equals(heroId)).HeroStatus.Value,
             };
 
             return heroRuntimeData;
         }
 
-        public List<HeroRuntimeData> GetAllHeroData()
+        public List<HeroRuntimeData> GetAllHeroRuntimeData()
         {
             return this.heroLocalData.listHeroData.Select(data => this.GetHeroRuntimeData(data.id)).ToList();
         }
@@ -61,18 +61,18 @@
         public void EquipHero(string heroId)
         {
             var heroLocalData = this.GetHeroLocalData(heroId);
-            if (heroLocalData.heroHeroStatus == HeroStatus.UnLock)
+            if (heroLocalData.HeroStatus.Value == HeroStatus.UnLock)
             {
-                heroLocalData.heroHeroStatus = HeroStatus.Equip;
+                heroLocalData.HeroStatus.Value = HeroStatus.Equip;
             }
         }
 
         public void UnEquipHero(string heroId)
         {
             var heroLocalData = this.GetHeroLocalData(heroId);
-            if (heroLocalData.heroHeroStatus == HeroStatus.Equip)
+            if (heroLocalData.HeroStatus.Value == HeroStatus.Equip)
             {
-                heroLocalData.heroHeroStatus = HeroStatus.UnLock;
+                heroLocalData.HeroStatus.Value = HeroStatus.UnLock;
             }
         }
 
@@ -82,14 +82,14 @@
 
             if (!heroData.heroStatus.Equals(HeroStatus.Lock)) return false;
             if (!this.resourceLocalDataController.SpendResource(ResourceType.Gold, heroData.resourceValue)) return false;
-            this.GetHeroLocalData(heroId).heroHeroStatus = HeroStatus.UnLock;
+            this.GetHeroLocalData(heroId).HeroStatus.Value = HeroStatus.UnLock;
 
             return true;
         }
 
         public bool UpgradeHero(string heroId)
         {
-            var heroData     = this.GetHeroRuntimeData(heroId);
+            var heroData = this.GetHeroRuntimeData(heroId);
 
             if (heroData.heroStatus.Equals(HeroStatus.Lock)) return false;
 

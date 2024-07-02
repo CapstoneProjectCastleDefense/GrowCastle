@@ -33,20 +33,11 @@
         protected override void OnViewReady()
         {
             base.OnViewReady();
-            this.SignalBus.Subscribe<RebindDataSignal>(this.RebindData);
-
             this.View.exitBtn.onClick.AddListener(this.CloseView);
         }
-
-        private async void RebindData(RebindDataSignal signal)
-        {
-            if(signal.screenPresenterType != this.GetType()) return;
-            await this.BindData();
-        }
-
         public override async UniTask BindData()
         {
-            var listModel = this.heroLocalDataController.GetAllHeroData().Select(e => new CharacterInventoryItemModel() { heroRuntimeData = e, resourceIcon = this.resourceBlueprint.GetDataById(e.resourceType).Image}).ToList();
+            var listModel = this.heroLocalDataController.GetAllHeroRuntimeData().Select(e => new CharacterInventoryItemModel() { heroRuntimeData = e, resourceIcon = this.resourceBlueprint.GetDataById(e.resourceType).Image}).ToList();
             await this.View.characterInventoryAdapter.InitItemAdapter(listModel, this.diContainer);
         }
     }
