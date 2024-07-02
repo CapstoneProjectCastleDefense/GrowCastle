@@ -6,6 +6,7 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using Models.Blueprints;
     using Models.LocalData.LocalDataController;
+    using Runtime.Signals;
     using UnityEngine.UI;
     using Zenject;
 
@@ -32,7 +33,15 @@
         protected override void OnViewReady()
         {
             base.OnViewReady();
+            this.SignalBus.Subscribe<RebindDataSignal>(this.RebindData);
+
             this.View.exitBtn.onClick.AddListener(this.CloseView);
+        }
+
+        private async void RebindData(RebindDataSignal signal)
+        {
+            if(signal.screenPresenterType != this.GetType()) return;
+            await this.BindData();
         }
 
         public override async UniTask BindData()

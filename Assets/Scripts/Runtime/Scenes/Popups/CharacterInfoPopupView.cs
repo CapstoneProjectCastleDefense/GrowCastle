@@ -11,6 +11,7 @@
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Managers;
+    using Runtime.Signals;
     using Spine.Unity;
     using TMPro;
     using UnityEngine.UI;
@@ -41,15 +42,13 @@
         private readonly IGameAssets             gameAssets;
         private readonly SkillBlueprint          skillBlueprint;
         private readonly SlotManager             slotManager;
-        private readonly SlotLocalDataController slotLocalDataController;
         private readonly HeroLocalDataController heroLocalDataController;
 
-        public CharacterInfoPopupPresenter(SignalBus signalBus, ILogService logService,IGameAssets gameAssets, SkillBlueprint skillBlueprint,SlotManager slotManager, SlotLocalDataController slotLocalDataController,HeroLocalDataController heroLocalDataController) : base(signalBus, logService)
+        public CharacterInfoPopupPresenter(SignalBus signalBus, ILogService logService,IGameAssets gameAssets, SkillBlueprint skillBlueprint,SlotManager slotManager,HeroLocalDataController heroLocalDataController) : base(signalBus, logService)
         {
             this.gameAssets              = gameAssets;
             this.skillBlueprint          = skillBlueprint;
             this.slotManager             = slotManager;
-            this.slotLocalDataController = slotLocalDataController;
             this.heroLocalDataController = heroLocalDataController;
         }
 
@@ -62,8 +61,9 @@
             this.View.exitBtn.onClick.AddListener(this.CloseView);
         }
 
-        public override async UniTask BindData(CharacterInfoPopupModel popupModel)
+        public override UniTask BindData(CharacterInfoPopupModel popupModel)
         {
+            this.Model = popupModel;
             var skeletonDataAsset = this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(popupModel.heroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion();
             this.View.avatarAnim.ChangeSkeletonDataAsset(skeletonDataAsset,"idle");
             this.View.skillDescription.text = this.skillBlueprint.GetDataById(popupModel.heroRuntimeData.heroRecord.SkillToAnimationRecords.First().Key).Description;
@@ -94,11 +94,15 @@
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+            return UniTask.CompletedTask;
         }
 
         private void OnEquipButtonClick()
         {
-            this.slotManager.EquipHero(this.Model.heroRuntimeData.heroRecord.HeroId);
+            if (this.Model.currentSelectedSlotType == SlotType.Hero)
+            {
+                this.slotManager.EquipHero(this.Model.heroRuntimeData.heroRecord.HeroId);
+            }
             this.ReBindData();
         }
 
@@ -108,7 +112,7 @@
             this.ReBindData();
         }
 
-        private async void OnUnlockButtonClick()
+        private void OnUnlockButtonClick()
         {
             switch (this.Model.currentSelectedSlotType)
             {
@@ -119,6 +123,14 @@
                         this.ReBindData();
                     }
                     break;
+                case SlotType.Tower:
+                    break;
+                case SlotType.Leader:
+                    break;
+                case SlotType.Archer:
+                    break;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
 
@@ -127,6 +139,7 @@
             var heroId = this.Model.heroRuntimeData.heroRecord.HeroId;
             this.Model.heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(heroId);
             await this.BindData(this.Model);
+            this.SignalBus.Fire(new RebindDataSignal(){screenPresenterType = typeof(CharacterInventoryPopupPresenter)});
         }
 
 

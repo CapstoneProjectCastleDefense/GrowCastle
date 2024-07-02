@@ -49,7 +49,14 @@
 
         private async void OnSelectButtonClick()
         {
-            await this.screenManager.OpenScreen<CharacterInfoPopupPresenter, CharacterInfoPopupModel>(new() { heroRuntimeData = this.model.heroRuntimeData });
+            var characterInfoModel = new CharacterInfoPopupModel()
+            {
+                heroRuntimeData = this.model.heroRuntimeData,
+            };
+
+            //try set hero status to unlock because can use hero in other slot and reset in current slot
+            if (characterInfoModel.heroRuntimeData.heroStatus == HeroStatus.Equip) characterInfoModel.heroRuntimeData.heroStatus = HeroStatus.UnLock;
+            await this.screenManager.OpenScreen<CharacterInfoPopupPresenter, CharacterInfoPopupModel>(characterInfoModel);
         }
     }
 }

@@ -108,6 +108,7 @@
         {
             this.Container.DeclareSignal<TimeCooldownSignal>();
             this.Container.DeclareSignal<UpdateCastleStatSignal>();
+            this.Container.DeclareSignal<RebindDataSignal>();
         }
     }
 }

@@ -23,12 +23,13 @@ namespace Runtime.Managers
         private          SlotPresenter           currentSelectedSlot;
 
         public SlotManager(BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory, SlotLocalDataController slotLocalDataController, HeroManager heroManager,
-            LeaderManager leaderManager, TowerManager towerManager)
+            LeaderManager leaderManager, TowerManager towerManager, HeroLocalDataController heroLocalDataController)
             : base(factory) {
             this.slotLocalDataController = slotLocalDataController;
-            this.heroManager = heroManager;
-            this.leaderManager = leaderManager;
-            this.towerManager = towerManager;
+            this.heroManager             = heroManager;
+            this.leaderManager           = leaderManager;
+            this.towerManager            = towerManager;
+            this.heroLocalDataController = heroLocalDataController;
         }
 
         public override void Initialize() { }
@@ -39,13 +40,23 @@ namespace Runtime.Managers
         {
             var currentSlotModel = this.GetCurrentSelectedSlotModel();
             var currentSlotData  = this.slotLocalDataController.GetSlotData(currentSlotModel.SlotRecord.Id);
+
             if (currentSlotData.DeployObjectId != null)
             {
-                if (currentSlotModel.SlotRecord.SlotType == SlotType.Hero)
+                this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(currentSlotData.DeployObjectId)).Dispose();
+                this.heroLocalDataController.UnEquipHero(currentSlotData.DeployObjectId);
+            }
+            else
+            {
+                var slotHoldHero = this.slotLocalDataController.GetSlotHoldHero(heroId);
+                if (slotHoldHero != null)
                 {
-                    this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(currentSlotData.DeployObjectId)).Dispose();
+                    this.slotLocalDataController.UnEquipCharacter(slotHoldHero.SlotId);
+                    this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(heroId)).Dispose();
+                    this.heroLocalDataController.UnEquipHero(heroId);
                 }
             }
+
             this.slotLocalDataController.EquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id,heroId);
             this.heroLocalDataController.EquipHero(heroId);
             this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
