@@ -1,5 +1,6 @@
-Id,Type,Mana,Cooldown
-archer_normal_attack,Projectile,10,10
-SummonSkill,Summon,15,15
-wizard_normal_attack,Projectile,0,0
-LightningRod,Projectile,0,0
+Id,Type,Mana,Cooldown,Description
+archer_normal_attack,Projectile,10,10,
+SummonSkill,Summon,15,15,Summon 2 knight
+wizard_normal_attack,Projectile,0,0,
+FireLightingBall,InstantHit,10,10,Summon 2 lighting ball
+LightningRod,Projectile,0,0, Summon lighting rod

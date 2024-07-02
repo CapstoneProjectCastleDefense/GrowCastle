@@ -14,6 +14,7 @@
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
     using Runtime.Interfaces.Skills;
+    using Runtime.Managers;
     using Runtime.Systems;
     using UnityEngine;
 
@@ -23,8 +24,9 @@
         private readonly HeroBlueprint     heroBlueprint;
         private readonly FindTargetSystem  findTargetSystem;
 
-        private bool  canAttack;
-        private float timer;
+        private HeroManager heroManager;
+        private bool        canAttack;
+        private float       timer;
 
         protected HeroPresenter(HeroModel model, ObjectPoolManager objectPoolManager, EntitySkillSystem entitySkillSystem, HeroBlueprint heroBlueprint,
             FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
@@ -33,6 +35,8 @@
             this.heroBlueprint     = heroBlueprint;
             this.findTargetSystem  = findTargetSystem;
         }
+
+        public void SetManager(HeroManager heroManager) => this.heroManager = heroManager;
 
         public override void Tick()
         {
@@ -123,6 +127,10 @@
             this.View.OnClickAction = () => this.CastSkill(listSkill.First().Key, null);
         }
 
-        public override void Dispose() { }
+        public override void Dispose()
+        {
+            if (this.View != null) this.View.Recycle();
+            this.heroManager.entities.Remove(this);
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿HeroId,PrefabName,Class,EvolutionId,BaseAttack,Skill,AnimationSkillName
-Knight,HeroKnight,Summon,KnightEvol_1,10,SummonSkill,summon
-Wizard,HeroWizard,Attack,WizardEvol_1,10,FireLightingBall,summon
-,,,,,wizard_normal_attack,atk
+﻿HeroId,PrefabName,Class,EvolutionId,BaseAttack,Skill,AnimationSkillName,SkeletonDataAsset
+Knight,HeroKnight,Summon,KnightEvol_1,10,SummonSkill,summon,knight hero_SkeletonData
+Wizard,HeroWizard,Attack,WizardEvol_1,10,FireLightingBall,summon,wizard_SkeletonData
+,,,,,wizard_normal_attack,atk,

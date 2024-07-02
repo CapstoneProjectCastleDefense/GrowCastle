@@ -14,10 +14,10 @@
     {
         public string     id;
         public int        level;
-        public Status heroStatus;
+        public HeroStatus heroHeroStatus;
     }
 
-    public enum Status
+    public enum HeroStatus
     {
         Equip,
         UnLock,

@@ -13,6 +13,6 @@
     {
         public string id;
         public int level;
-        public Status towerStatus;
+        public HeroStatus towerHeroStatus;
     }
 }

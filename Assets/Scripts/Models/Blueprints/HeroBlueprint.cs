@@ -15,6 +15,7 @@
         public HeroClass                                     Class                   { get; set; }
         public string                                        EvolutionId             { get; set; }
         public float                                         BaseAttack              { get; set; }
+        public string                                        SkeletonDataAsset       { get; set; }
         public BlueprintByRow<string,SkillToAnimationRecord> SkillToAnimationRecords { get; set; }
     }
 

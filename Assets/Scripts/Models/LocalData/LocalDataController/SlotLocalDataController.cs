@@ -1,8 +1,8 @@
 ﻿namespace Models.LocalData.LocalDataController
 {
     using System.Collections.Generic;
-    using System.Diagnostics;
     using System.Linq;
+    using Extensions;
     using Models.Blueprints;
     using Sirenix.Utilities;
 
@@ -10,6 +10,7 @@
     {
         private readonly SlotLocalData slotLocalData;
         private readonly SlotBlueprint slotBlueprint;
+
         public SlotLocalDataController(SlotLocalData slotLocalData, SlotBlueprint slotBlueprint)
         {
             this.slotLocalData = slotLocalData;
@@ -20,30 +21,42 @@
 
         public void UnlockSlot(List<string> slotId)
         {
-            if (slotId.Contains("10")) UnlockFirstTower();
             foreach (var slot in slotId)
             {
-                SlotData slotData = this.slotLocalData.SlotData.First(e => e.SlotId.ToString().Equals(slot));
-                slotData.IsUnlock = true;
+                this.slotLocalData.SlotData.First(e => e.SlotId.ToString().Equals(slot)).IsUnlock = true;
             }
         }
 
-        private void UnlockFirstTower() {
-            this.slotLocalData.SlotData.First(slot => slot.SlotId.Equals(10)).DeployObjectId = "Xel'Naga";
+        public void EquipCharacter(int slotId, string characterId)
+        {
+            this.GetSlotData(slotId).DeployObjectId = characterId;
+        }
+
+        public void UnEquipCharacter(int slotId)
+        {
+            this.GetSlotData(slotId).DeployObjectId = null;
+        }
+
+        public SlotData GetSlotHoldHero(string heroId)
+        {
+            if (heroId.IsNullOrEmpty() || !this.slotLocalData.SlotData.Any(e => e.DeployObjectId != null && e.DeployObjectId.Equals(heroId))) return null;
+            return this.slotLocalData.SlotData.First(e => e.DeployObjectId != null && e.DeployObjectId.Equals(heroId));
         }
 
         public SlotRecord GetSlotDataRecord(int slotId) => this.slotBlueprint.GetDataById(slotId);
 
         public SlotData GetSlotData(int slotId) => this.slotLocalData.SlotData.First(e => e.SlotId == slotId);
+
         public void InitData()
         {
             if (this.slotLocalData.SlotData.Count == 0)
             {
-                this.slotBlueprint.ForEach(slot => { 
+                this.slotBlueprint.ForEach(slot =>
+                {
                     this.slotLocalData.SlotData.Add(new() { SlotId = slot.Key, SlotType = slot.Value.SlotType, IsUnlock = false });
                 });
                 this.slotLocalData.SlotData[0].IsUnlock       = true;
-                this.slotLocalData.SlotData[0].DeployObjectId = "Wizard";
+                this.slotLocalData.SlotData[0].DeployObjectId = "Knight";
             }
         }
     }
