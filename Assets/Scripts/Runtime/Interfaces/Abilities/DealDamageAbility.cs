@@ -5,10 +5,11 @@
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
+    using Runtime.StaticValues;
 
     public class DealDamageAbility : IAbility
     {
-        public string Id { get; set; } = "deal_damage_ability";
+        public string Id { get; set; } = AbilityName.DealDamage;
         public void Execute(ITargetable target, Dictionary<StatEnum, (Type, object)> stats)
         {
             var targetStats = target.GetStats();

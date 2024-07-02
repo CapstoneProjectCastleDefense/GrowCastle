@@ -10,27 +10,26 @@
     using Runtime.Executors;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Skills;
+    using Runtime.StaticValues;
+    using Runtime.Systems;
     using UnityEngine;
 
     public class ProjectileSkill : BaseEntitySkillPresenter<ProjectileSkillModel>
     {
-        private readonly ProjectileManager         projectileManager;
-        private readonly IGameAssets               gameAssets;
-        private readonly ProjectileBlueprint       projectileBlueprint;
-        private readonly EntitySkillEffectExecutor entitySkillEffectExecutor;
-        private readonly SkillBlueprint            skillBlueprint;
+        private readonly ProjectileManager   projectileManager;
+        private readonly IGameAssets         gameAssets;
+        private readonly ProjectileBlueprint projectileBlueprint;
+        private readonly AbilitySystem       abilitySystem;
 
         public ProjectileSkill(ProjectileManager projectileManager,
             IGameAssets gameAssets,
             ProjectileBlueprint projectileBlueprint,
-            EntitySkillEffectExecutor entitySkillEffectExecutor,
-            SkillBlueprint skillBlueprint)
+            AbilitySystem abilitySystem)
         {
-            this.projectileManager         = projectileManager;
-            this.gameAssets                = gameAssets;
-            this.projectileBlueprint       = projectileBlueprint;
-            this.entitySkillEffectExecutor = entitySkillEffectExecutor;
-            this.skillBlueprint            = skillBlueprint;
+            this.projectileManager   = projectileManager;
+            this.gameAssets          = gameAssets;
+            this.projectileBlueprint = projectileBlueprint;
+            this.abilitySystem       = abilitySystem;
         }
 
         public override EntitySkillType SkillType { get; set; } = EntitySkillType.Projectile;
@@ -51,7 +50,17 @@
             });
 
             await projectile.UpdateView();
-            projectile.FlyToTarget(this.Model.Target);
+            projectile.FlyToTarget().onComplete += this.OnProjectileHit;
+        }
+
+        public virtual void OnProjectileHit()
+        {
+            this.Model.Target.OnGetHit(this.Model.damage);
+            this.abilitySystem.Execute(AbilityName.DealDamage, this.Model.Target, new Dictionary<StatEnum, (Type, object)>()
+            {
+                { StatEnum.Attack, (typeof(float), this.Model.damage) }
+            });
+            Debug.Log("Hit enemy with damage: " + this.Model.damage);
         }
     }
 

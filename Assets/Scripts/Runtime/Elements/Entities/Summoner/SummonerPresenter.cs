@@ -100,7 +100,8 @@
             }
         }
 
-        public bool IsDead { get; private set; }
+        public bool                                 IsDead     { get; private set; }
+        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats; }
         private void DoMove(Vector3 endPos, float distance)
         {
             if (this.TargetThatImAttacking == null || this.TargetThatImAttacking.IsDead) return;

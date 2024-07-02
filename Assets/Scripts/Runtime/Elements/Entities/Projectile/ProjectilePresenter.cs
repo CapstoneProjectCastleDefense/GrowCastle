@@ -34,7 +34,7 @@
             return this.ObjectPoolManager.Spawn(projectileRecord.PrefabName);
         }
 
-        public Tween FlyToTarget(ITargetable target)
+        public Tween FlyToTarget()
         {
             var id               = this.Model.Id;
             var projectileRecord = this.projectileBlueprint[id];
@@ -49,7 +49,6 @@
             {
                 this.View.Recycle();
                 DOTween.Kill(this.View.transform);
-                target.OnGetHit(this.Model.Damage);
             };
 
             return tween;
