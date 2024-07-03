@@ -6,7 +6,7 @@
     [RequireComponent(typeof(Camera))]
     public class CameraController : MonoBehaviour
     {
-        private Camera  camera;
+        [SerializeField] private Camera  camera;
         public  Vector3 startPos;
 
         private void Awake()
@@ -16,8 +16,8 @@
 
         private void Start()
         {
-
             this.camera.transform.position = this.startPos;
+            Debug.Log("Camera position: " + this.camera.transform.position);
         }
     }
 }
