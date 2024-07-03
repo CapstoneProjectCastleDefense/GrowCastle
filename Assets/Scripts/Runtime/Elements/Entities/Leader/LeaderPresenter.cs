@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Elements.Entities.Leader
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
@@ -151,7 +152,8 @@
             }
         }
 
-        public bool IsDead { get; private set; } = false;
+        public bool                                 IsDead     { get; private set; } = false;
+        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats;}
         protected override UniTask<GameObject> CreateView()
         {
             var res = this.ObjectPoolManager.Spawn(this.Model.AddressableName);

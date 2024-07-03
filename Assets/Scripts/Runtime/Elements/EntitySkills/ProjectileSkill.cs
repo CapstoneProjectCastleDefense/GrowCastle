@@ -1,5 +1,7 @@
 ﻿namespace Runtime.Elements.EntitySkills
 {
+    using System;
+    using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
     using Models.Blueprints;
@@ -7,6 +9,8 @@
     using Runtime.Enums;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Skills;
+    using Runtime.StaticValues;
+    using Runtime.Systems;
     using UnityEngine;
 
     public class ProjectileSkill : BaseEntitySkillPresenter<ProjectileSkillModel>
@@ -14,20 +18,22 @@
         private readonly ProjectileManager   projectileManager;
         private readonly IGameAssets         gameAssets;
         private readonly ProjectileBlueprint projectileBlueprint;
+        private readonly AbilitySystem       abilitySystem;
 
-        public ProjectileSkill(ProjectileManager projectileManager, IGameAssets gameAssets, ProjectileBlueprint projectileBlueprint)
+        public ProjectileSkill(ProjectileManager projectileManager,
+            IGameAssets gameAssets,
+            ProjectileBlueprint projectileBlueprint,
+            AbilitySystem abilitySystem)
         {
             this.projectileManager   = projectileManager;
             this.gameAssets          = gameAssets;
             this.projectileBlueprint = projectileBlueprint;
+            this.abilitySystem       = abilitySystem;
         }
 
         public override EntitySkillType SkillType { get; set; } = EntitySkillType.Projectile;
 
-        protected override void InternalActivate()
-        {
-            this.FireProjectile().Forget();
-        }
+        protected override void InternalActivate() { this.FireProjectile().Forget(); }
 
         private async UniTaskVoid FireProjectile()
         {
@@ -43,7 +49,17 @@
             });
 
             await projectile.UpdateView();
-            projectile.FlyToTarget(this.Model.Target);
+            projectile.FlyToTarget().onComplete += this.OnProjectileHit;
+        }
+
+        public virtual void OnProjectileHit()
+        {
+            this.Model.Target.OnGetHit(this.Model.damage);
+            this.abilitySystem.Execute(AbilityName.DealDamage, this.Model.Target, new Dictionary<StatEnum, (Type, object)>()
+            {
+                { StatEnum.Attack, (typeof(float), this.Model.damage) }
+            });
+            Debug.Log("Hit enemy with damage: " + this.Model.damage);
         }
     }
 
