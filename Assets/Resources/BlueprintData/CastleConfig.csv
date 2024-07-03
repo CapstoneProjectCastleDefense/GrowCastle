@@ -1,2 +1,7 @@
-﻿BaseMP,BaseHP,BaseGoldNeedToUpgrade,CoefficientMP,CoefficientHP,CoefficientGold,CastleConfigId
-1000,1000,10,1.1,1.1,1.2,CastleConfig_1
+﻿Id,Value
+BaseMP,1000
+BaseHP,1000
+BaseGoldNeedToUpgrade,200
+CoefficientMP,1.1
+CoefficientHP,1.1
+CoefficientGold,1.2

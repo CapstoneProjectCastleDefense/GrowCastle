@@ -22,9 +22,10 @@
 
         public ArcherManager(
             BaseElementPresenter<ArcherModel, ArcherView, ArcherPresenter>.Factory factory,
-            ArcherLocalDataController archerLocalDataController,
-            ArcherBlueprint archerBlueprint,
-            CastleManager castleManager)
+            ArcherLocalDataController                                              archerLocalDataController,
+            ArcherBlueprint                                                        archerBlueprint,
+            CastleManager                                                          castleManager
+        )
             : base(factory)
         {
             this.archerLocalDataController = archerLocalDataController;
@@ -46,7 +47,7 @@
             {
                 Index           = archerData.index,
                 Level           = archerData.level,
-                AddressableName = this.archerBlueprint.GetDataById(archerData.level).PrefabName,
+                AddressableName = this.archerBlueprint.GetDataById(archerData.level).SkinName,
                 ParentView      = archerSlot.transform,
                 Stats = new Dictionary<StatEnum, (Type, object)>
                 {
@@ -64,6 +65,8 @@
         public void UpgradeArcher()
         {
             var newArcher = this.archerLocalDataController.UnlockArcher();
+
+            if (newArcher == null) return;
             var hasOldArcher = this.entities.Any(e => ((ArcherModel)e.GetModel()).Index == newArcher.index);
             if (hasOldArcher)
             {
