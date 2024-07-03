@@ -6,6 +6,7 @@
     using GameFoundation.Scripts.Utilities.Extension;
     using Models.LocalData.LocalDataController;
     using Runtime.Managers;
+    using Runtime.Services;
     using Zenject;
     using Zenject.Internal;
     using ILocalDataHaveController = Models.LocalData.ILocalDataHaveController;
@@ -17,6 +18,8 @@
             GameFoundationInstaller.Install(this.Container);
             this.BindLocalData();
             this.BindAllController();
+            this.Container.BindInterfacesAndSelfTo<InternetService>().AsCached();
+
         }
         
         private void BindLocalData()
