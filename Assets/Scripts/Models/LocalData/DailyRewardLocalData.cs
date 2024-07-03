@@ -18,7 +18,7 @@
 
     public class RewardData
     {
-        public string       RewardId;
+        public int          Day;
         public RewardStatus RewardStatus;
     }
 

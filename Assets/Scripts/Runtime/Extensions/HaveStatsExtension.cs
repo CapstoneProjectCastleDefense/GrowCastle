@@ -27,6 +27,10 @@
 
             return (T)haveStats.Stats[statEnum].Item2;
         }
+        public static T ToEnum<T>(this string value)
+        {
+            return (T) Enum.Parse(typeof(T), value, true);
+        }
 
         public static T GetStat<T>(this Dictionary<StatEnum, (Type, object)> stats, StatEnum statEnum)
         {
