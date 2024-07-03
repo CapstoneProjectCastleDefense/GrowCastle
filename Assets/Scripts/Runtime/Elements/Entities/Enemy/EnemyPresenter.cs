@@ -169,6 +169,7 @@
         {
             this.ObjectPoolManager.Recycle(this.View);
             this.enemyManager.entities.Remove(this);
+            this.enemyManager.UpdateEnemyDeathCounter();
         }
 
         public override void Tick()

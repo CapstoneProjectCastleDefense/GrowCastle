@@ -4,7 +4,7 @@
     {
         public override void Enter()
         {
-
+            this.StateMachine.TransitionTo<GamePrepareState>();
         }
 
         public override void Exit()

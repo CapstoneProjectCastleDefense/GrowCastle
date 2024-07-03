@@ -13,11 +13,15 @@
 
     public class EnemyManager : BaseElementManager<EnemyModel, EnemyPresenter, EnemyView>
     {
-        private readonly EnemyBlueprint enemyBlueprint;
+        private int    counterDeathEnemy;
+        private int    targetCounterDeathEnemy;
+        private Action onCounterComplete;
+        private bool   isStartCounter;
 
+        private readonly EnemyBlueprint enemyBlueprint;
         public EnemyManager(
             BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>.Factory factory,
-            EnemyBlueprint                                                      enemyBlueprint
+            EnemyBlueprint enemyBlueprint
         )
             : base(factory)
         {
@@ -25,6 +29,20 @@
         }
 
         public override void Initialize() { }
+
+        public void StartCounterDeathEnemy(int targetCounter, Action onCounterCompleteAction)
+        {
+            this.counterDeathEnemy       = 0;
+            this.targetCounterDeathEnemy = targetCounter;
+            this.onCounterComplete       = onCounterCompleteAction;
+            this.isStartCounter          = true;
+        }
+        public void UpdateEnemyDeathCounter()
+        {
+            if (!this.isStartCounter) return;
+            this.counterDeathEnemy++;
+            if (this.counterDeathEnemy >= this.targetCounterDeathEnemy) this.onCounterComplete?.Invoke();
+        }
 
         public void SpawnEnemy(string enemyId)
         {
