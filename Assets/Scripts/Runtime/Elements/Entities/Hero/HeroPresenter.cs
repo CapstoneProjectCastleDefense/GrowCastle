@@ -148,9 +148,9 @@
 
         public float AttackCooldownTime { get; }
 
-        public void Equip(IEquipment equipment) { }
+        public void Equip(IEquipment equipment) { equipment.OnEquip(this.Model); }
 
-        public void UnEquip(IEquipment equipment) { }
+        public void UnEquip(IEquipment equipment) { equipment.OnUnEquip(this.Model); }
 
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.heroBlueprint.GetDataById(this.Model.Id).PrefabName); }
 
