@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Managers.Base
 {
+    using System;
     using System.Collections.Generic;
     using Runtime.Elements.Base;
     using Zenject;
@@ -19,6 +20,7 @@
         public virtual TPresenter CreateElement(TModel model)
         {
             var presenter = this.Factory.Create(model);
+            presenter.SetManager(this);
             this.entities.Add(presenter);
             return presenter;
         }

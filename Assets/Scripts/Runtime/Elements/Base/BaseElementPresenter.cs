@@ -3,27 +3,27 @@
     using System;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using Runtime.Managers.Base;
     using UnityEngine;
     using Zenject;
 
     public abstract class BaseElementPresenter<TModel, TView, TPresenter> : IElementPresenter
         where TView : BaseElementView where TPresenter : BaseElementPresenter<TModel, TView, TPresenter> where TModel : IElementModel
     {
-        protected readonly ObjectPoolManager ObjectPoolManager;
-
+        protected readonly ObjectPoolManager                             ObjectPoolManager;
+        protected          BaseElementManager<TModel, TPresenter, TView> ElementManager;
         protected BaseElementPresenter(TModel model, ObjectPoolManager objectPoolManager)
         {
             this.Model             = model;
             this.ObjectPoolManager = objectPoolManager;
         }
 
-        protected bool   IsViewInit { get; set; }
-        public    TModel Model      { get; }
-        protected TView  View       { get; private set; }
-
-        public virtual void Initialize() { }
-
-        public virtual void Tick() { }
+        protected      bool   IsViewInit                                                        { get; set; }
+        protected      TModel Model                                                             { get; }
+        protected      TView  View                                                              { get; private set; }
+        public         void   SetManager(BaseElementManager<TModel, TPresenter, TView> manager) => this.ElementManager = manager;
+        public virtual void   Initialize()                                                      { }
+        public virtual void   Tick()                                                            { }
 
         public virtual async UniTask UpdateView()
         {
