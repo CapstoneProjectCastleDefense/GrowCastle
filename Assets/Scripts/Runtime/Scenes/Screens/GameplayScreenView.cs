@@ -5,6 +5,7 @@
     using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Enums;
@@ -18,6 +19,7 @@
     using UnityEngine.UI;
     using Zenject;
     using R3;
+    using Runtime.Scenes.Popups;
 
     public class GameplayScreenView : BaseView
     {
@@ -25,6 +27,7 @@
         public Button     startWaveButton;
         public Button     upgradeCastle;
         public Button     upgradeArcher;
+        public Button     dailyRewardButton;
         public Image      castleHealthBar;
         public Image      castleManaBar;
         public GameObject upgradeFiled;
@@ -40,14 +43,22 @@
         private readonly CastleManager               castleManager;
         private readonly ArcherManager               archerManager;
         private readonly ResourceLocalDataController resourceLocalDataController;
+        private readonly ScreenManager               screenManager;
         private readonly SignalBus                   signalBus;
-        public GameplayScreenPresenter(SignalBus signalBus, GameStateMachine gameStateMachine, CastleManager castleManager, ArcherManager archerManager, ResourceLocalDataController resourceLocalDataController)
+        public GameplayScreenPresenter(
+            SignalBus signalBus,
+            GameStateMachine gameStateMachine,
+            CastleManager castleManager,
+            ArcherManager archerManager,
+            ResourceLocalDataController resourceLocalDataController,
+            ScreenManager screenManager)
             : base(signalBus)
         {
             this.gameStateMachine            = gameStateMachine;
             this.castleManager               = castleManager;
             this.archerManager               = archerManager;
             this.resourceLocalDataController = resourceLocalDataController;
+            this.screenManager               = screenManager;
             this.signalBus                   = signalBus;
         }
 
@@ -59,6 +70,7 @@
             this.View.startWaveButton.onClick.AddListener(this.OnStartWaveButtonClick);
             this.View.upgradeCastle.onClick.AddListener(this.OnUpgradeCastleButtonClick);
             this.View.upgradeArcher.onClick.AddListener(this.OnUpgradeArcherButtonClick);
+            this.View.dailyRewardButton.onClick.AddListener(this.OnDailyRewardClick);
 
             this.resourceLocalDataController.GetResource(ResourceType.Gold).Subscribe(this.OnGoldValueChange);
             this.resourceLocalDataController.GetResource(ResourceType.Diamond).Subscribe(this.OnDiamondValueChange);
@@ -71,7 +83,8 @@
 
         private void OnUpgradeCastleButtonClick() { this.castleManager.UpgradeCastle(); }
 
-        private void OnUpgradeArcherButtonClick() { this.archerManager.UpgradeArcher(); }
+        private       void OnUpgradeArcherButtonClick() { this.archerManager.UpgradeArcher(); }
+        private async void OnDailyRewardClick()         { await this.screenManager.OpenScreen<DailyRewardPopupPresenter>(); }
 
         private void OnStartWaveButtonClick()
         {
@@ -80,7 +93,7 @@
             this.View.startWaveButton.gameObject.SetActive(false);
         }
 
-        private void OnGoldValueChange(float value) => this.View.goldValue.text = $"{value}";
+        private void OnGoldValueChange(float value)    => this.View.goldValue.text = $"{value}";
         private void OnDiamondValueChange(float value) => this.View.diamondValue.text = $"{value}";
 
         public override UniTask BindData()

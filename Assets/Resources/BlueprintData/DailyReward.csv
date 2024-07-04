@@ -1,8 +1,8 @@
 Day,RewardId,RewardValue,RewardImage,RewardType
-1,Coin,200,icon_coin,Resource
-2,Diamond,1,thumbnail_shake_move,Resource
-3,Coin,1,thumbnail_rainbow_move,Resource
-4,Coin,500,icon_coin,Resource
-5,Coin,1,thumbnail_shake_move,Resource
-6,Coin,3,icon_ads_ticket,Resource
-7,Coin,500,icon_coin,Resource
+1,Gold,200,GoldIcon,Resource
+2,Diamond,1,DiamondIcon,Resource
+3,Diamond,2,DiamondIcon,Resource
+4,Gold,500,GoldIcon,Resource
+5,Diamond,3,DiamondIcon,Resource
+6,Diamond,4,DiamondIcon,Resource
+7,Gold,500,GoldIcon,Resource

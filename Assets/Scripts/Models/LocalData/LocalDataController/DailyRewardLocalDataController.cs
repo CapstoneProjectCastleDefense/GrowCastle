@@ -1,6 +1,7 @@
 ﻿namespace Models.LocalData.LocalDataController
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using System.Threading;
     using Cysharp.Threading.Tasks;
@@ -29,6 +30,10 @@
         {
             this.InitRewardForAllDay();
         }
+
+        public List<RewardData> GetAllRewardLocalData => this.dailyRewardLocalData.RewardData;
+
+        public RewardData GetRewardLocalData(int day) => this.dailyRewardLocalData.RewardData.First(e => e.Day == day);
 
         private void InitRewardForAllDay()
         {
@@ -101,7 +106,9 @@
                     break;
             }
         }
-        private int FindFirstLockedDayIndex() { return this.dailyRewardLocalData.RewardData.FirstIndex(status => status.RewardStatus == RewardStatus.Lock); }
+        public int FindFirstLockedDayIndex() { return this.dailyRewardLocalData.RewardData.FirstIndex(status => status.RewardStatus == RewardStatus.Lock); }
+
+        public bool CheckCanClaim() => this.dailyRewardLocalData.RewardData.Any(e => e.RewardStatus == RewardStatus.UnClaimed);
 
         private bool CanClaimReward => this.dailyRewardLocalData.RewardData.Any(t => t.RewardStatus == RewardStatus.UnClaimed);
 
