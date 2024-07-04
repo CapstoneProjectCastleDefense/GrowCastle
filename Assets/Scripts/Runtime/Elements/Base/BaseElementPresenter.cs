@@ -35,7 +35,6 @@
             }
         }
 
-        public T               GetViewGeneric<T>() { return (T)(object)this.View; }
         public BaseElementView GetView()           => this.View;
 
         protected abstract UniTask<GameObject> CreateView();

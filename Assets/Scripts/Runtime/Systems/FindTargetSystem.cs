@@ -12,11 +12,11 @@
 
     public class FindTargetSystem : IGameSystem
     {
-        private readonly GetCustomPresenterSystem getCustomPresenterSystem;
         public           void                     Initialize() { }
         public           void                     Tick()       { }
         public           void                     Dispose()    { }
 
+        private readonly GetCustomPresenterSystem getCustomPresenterSystem;
         public FindTargetSystem(GetCustomPresenterSystem getCustomPresenterSystem) { this.getCustomPresenterSystem = getCustomPresenterSystem; }
 
         public ITargetable GetTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, Type[] managerTypes)
@@ -73,7 +73,7 @@
 
         private ITargetable GetNormalTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, List<ITargetable> cache)
         {
-            ITargetable target = null;
+            ITargetable target;
             switch (priority)
             {
                 case AttackPriorityEnum.LowHealth:
