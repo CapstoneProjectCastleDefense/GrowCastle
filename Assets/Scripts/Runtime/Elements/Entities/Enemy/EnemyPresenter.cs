@@ -21,20 +21,16 @@
         private const    string           AttackAnimName = "atk";
         private const    string           DeathAnimName  = "dead";
         private const    string           MoveAnimName   = "animation2";
-        private          EnemyManager     enemyManager;
         private readonly FindTargetSystem findTargetSystem;
 
-        public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
-        public virtual string[] GetTags()         { return new[] { "Ally", "Building" }; }
+        public virtual Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
+        public virtual string[] GetTags() { return new[] { "Ally", "Building" }; }
 
         protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem)
             : base(model, objectPoolManager)
         {
             this.findTargetSystem = findTargetSystem;
         }
-
-        public void SetManager(EnemyManager manager) => this.enemyManager = manager;
-
         public override async UniTask UpdateView()
         {
             await base.UpdateView();
@@ -48,7 +44,7 @@
 
         private void DoMove(Vector3 endPos, float distance)
         {
-            if (this.isMoving) return;
+            if(this.isMoving) return;
             this.isMoving = true;
             this.View.transform.DOKill();
             this.View.transform.DOMoveX(endPos.x, distance / this.Model.GetStat<float>(StatEnum.MoveSpeed));
@@ -168,7 +164,8 @@
         public override void Dispose()
         {
             this.ObjectPoolManager.Recycle(this.View);
-            this.enemyManager.entities.Remove(this);
+            this.ElementManager.entities.Remove(this);
+            ((EnemyManager)this.ElementManager).UpdateEnemyDeathCounter();
         }
 
         public override void Tick()

@@ -13,15 +13,17 @@
         private readonly TimeCoolDownService     timeCoolDownService;
         private readonly ArcherManager           archerManager;
         private readonly HeroManager             heroManager;
-        private readonly TowerManager towerManager;
+        private readonly TowerManager            towerManager;
+        private readonly CastleManager           castleManager;
 
-        public GamePrepareState(GenerateGameLevelSystem gameLevelSystem, ScreenManager screenManager, TimeCoolDownService timeCoolDownService, ArcherManager archerManager, HeroManager heroManager, TowerManager towerManager) {
-            this.gameLevelSystem = gameLevelSystem;
-            this.screenManager = screenManager;
+        public GamePrepareState(GenerateGameLevelSystem gameLevelSystem, ScreenManager screenManager, TimeCoolDownService timeCoolDownService, ArcherManager archerManager, HeroManager heroManager, TowerManager towerManager, CastleManager castleManager) {
+            this.gameLevelSystem     = gameLevelSystem;
+            this.screenManager       = screenManager;
             this.timeCoolDownService = timeCoolDownService;
-            this.archerManager = archerManager;
-            this.heroManager = heroManager;
-            this.towerManager = towerManager;
+            this.archerManager       = archerManager;
+            this.heroManager         = heroManager;
+            this.towerManager        = towerManager;
+            this.castleManager       = castleManager;
         }
         public override void Enter()
         {
@@ -30,6 +32,8 @@
             this.archerManager.ChangeAttackStatusOfAllArcher(false);
             this.heroManager.ChangeAttackStatusOfAllHero(false);
             this.towerManager.ChangeAttackStatusOfAllTower(false);
+            
+            this.castleManager.ResetCurrentCastleHealth();
         }
 
         public override void Exit() { }

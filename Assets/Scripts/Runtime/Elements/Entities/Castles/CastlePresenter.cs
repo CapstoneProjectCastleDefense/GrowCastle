@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
+    using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Models.LocalData.LocalDataController;
@@ -13,6 +14,8 @@
     using Runtime.Interfaces;
     using Runtime.Interfaces.Entities;
     using Runtime.Signals;
+    using Runtime.StateMachines.GameStateMachine;
+    using Runtime.StateMachines.GameStateMachine.States;
     using UnityEngine;
     using Zenject;
 
@@ -60,6 +63,13 @@
             });
         }
         public override void Dispose() { }
+
+        public void ResetHealth()
+        {
+            var maxHp = this.Model.GetStat<float>(StatEnum.MaxHealth);
+            this.Model.SetStat(StatEnum.Health,maxHp);
+            this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
+        }
         public void OnGetHit(float damage)
         {
             var hp = this.Model.GetStat<float>(StatEnum.Health);
@@ -76,11 +86,15 @@
             this.Model.SetStat(StatEnum.Health, hp);
             this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
         }
-        public void                                 OnDeath()             { Debug.Log("Lose"); }
-        public ITargetable                          TargetThatImAttacking { get; set; }
-        public ITargetable                          TargetThatImLookingAt { get; set; }
-        public ITargetable                          TargetThatAttackingMe { get; set; }
-        public bool                                 IsDead                { get; }
+        public void OnDeath()
+        {
+            Debug.Log("Lose");
+            this.GetCurrentContainer().Resolve<GameStateMachine>().TransitionTo<GameEndWaveState>();
+        }
+        public ITargetable TargetThatImAttacking { get; set; }
+        public ITargetable TargetThatImLookingAt { get; set; }
+        public ITargetable TargetThatAttackingMe { get; set; }
+        public bool        IsDead                { get; }
         public Dictionary<StatEnum, (Type, object)> GetStats()            { return this.Model.Stats; }
         public GameObject                           GetGameObject()     { return this.View.gameObject; }
     }
@@ -90,12 +104,5 @@
         public string Id              { get; set; }
         public string AddressableName { get; set; }
         public Dictionary<StatEnum, (Type, object)> Stats { get; set; }
-    }
-
-    public class CastleStat
-    {
-        public int Mp            { get; set; }
-        public int Hp            { get; set; }
-        public int GoldToUpgrade { get; set; }
     }
 }

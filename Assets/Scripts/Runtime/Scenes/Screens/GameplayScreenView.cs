@@ -19,6 +19,7 @@
     using UnityEngine.UI;
     using Zenject;
     using R3;
+    using Runtime.StateMachines.StateMachineBase.Signals;
     using Runtime.Scenes.Popups;
 
     public class GameplayScreenView : BaseView
@@ -67,6 +68,7 @@
             base.OnViewReady();
             this.OpenViewAsync().Forget();
             this.signalBus.Subscribe<UpdateCastleStatSignal>(this.OnCastleStatChange);
+            this.signalBus.Subscribe<OnStateEnterSignal>(this.OnEnterNewGameState);
             this.View.startWaveButton.onClick.AddListener(this.OnStartWaveButtonClick);
             this.View.upgradeCastle.onClick.AddListener(this.OnUpgradeCastleButtonClick);
             this.View.upgradeArcher.onClick.AddListener(this.OnUpgradeArcherButtonClick);
@@ -89,8 +91,23 @@
         private void OnStartWaveButtonClick()
         {
             this.gameStateMachine.TransitionTo<GameStartWaveState>();
-            this.View.upgradeFiled.gameObject.SetActive(false);
-            this.View.startWaveButton.gameObject.SetActive(false);
+        }
+
+        private void OnEnterNewGameState(OnStateEnterSignal signal)
+        {
+            switch (signal.State)
+            {
+                case GamePrepareState:
+                    this.View.backGround.DOFade(1, 0);
+                    this.View.backGround.DOFade(0, 3).SetEase(Ease.OutQuad);
+                    this.View.upgradeFiled.gameObject.SetActive(true);
+                    this.View.startWaveButton.gameObject.SetActive(true);
+                    return;
+                case GameStartWaveState:
+                    this.View.upgradeFiled.gameObject.SetActive(false);
+                    this.View.startWaveButton.gameObject.SetActive(false);
+                    break;
+            }
         }
 
         private void OnGoldValueChange(float value)    => this.View.goldValue.text = $"{value}";

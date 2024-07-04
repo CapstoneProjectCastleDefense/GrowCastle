@@ -39,9 +39,11 @@
             this.View.HealthBar.fillAmount = 1;
             this.View.transform.position   = this.Model.StartPos;
         }
-
-        public override void Dispose() { }
-
+        public override void Dispose()
+        {
+            this.View.Recycle();
+            this.ElementManager.entities.Remove(this);
+        }
         public void OnGetHit(float damage)
         {
             if (this.IsDead) return;

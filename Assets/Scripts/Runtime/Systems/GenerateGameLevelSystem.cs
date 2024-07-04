@@ -16,6 +16,8 @@
         private readonly CastleLocalDataController castleLocalDataController;
         private readonly SlotManager               slotManager;
 
+        private bool isGenerateComplete;
+
         public GenerateGameLevelSystem(MapLevelManager mapLevelManager,ArcherManager archerManager, LevelLocalDataController levelLocalDataController, LevelBlueprint levelBlueprint, CastleManager castleManager, CastleLocalDataController castleLocalDataController,SlotManager slotManager)
         {
             this.mapLevelManager           = mapLevelManager;
@@ -29,9 +31,11 @@
 
         public void GenerateCurrentLevelGame()
         {
+            if(this.isGenerateComplete) return;
             this.GenerateMapLevel();
             this.GenerateCastle().ContinueWith(this.GenerateArcher);
             this.GenerateSlot();
+            this.isGenerateComplete = true;
         }
 
         private void GenerateMapLevel()

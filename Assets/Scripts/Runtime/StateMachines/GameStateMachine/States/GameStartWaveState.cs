@@ -1,6 +1,7 @@
 ﻿namespace Runtime.StateMachines.GameStateMachine.States
 {
     using Runtime.Managers;
+    using Runtime.Scenes;
     using Runtime.Services;
     using Runtime.Systems.Waves;
 
@@ -12,10 +13,16 @@
         private readonly ArcherManager       archerManager;
         private readonly HeroManager         heroManager;
         private readonly SummonerManager     summonerManager;
-        private readonly TowerManager towerManager;
+        private readonly TowerManager        towerManager;
 
-        public GameStartWaveState(WaveSystem waveSystem, SlotManager slotManager, TimeCoolDownService timeCoolDownService, ArcherManager archerManager, HeroManager heroManager,
-            SummonerManager summonerManager, TowerManager towerManager)
+        public GameStartWaveState(
+            WaveSystem waveSystem,
+            SlotManager slotManager,
+            TimeCoolDownService timeCoolDownService,
+            ArcherManager archerManager,
+            HeroManager heroManager,
+            SummonerManager summonerManager,
+            TowerManager towerManager)
         {
             this.waveSystem          = waveSystem;
             this.slotManager         = slotManager;
@@ -36,9 +43,6 @@
             this.towerManager.ChangeAttackStatusOfAllTower(true);
         }
 
-        public override void Exit()
-        {
-
-        }
+        public override void Exit() { }
     }
 }
