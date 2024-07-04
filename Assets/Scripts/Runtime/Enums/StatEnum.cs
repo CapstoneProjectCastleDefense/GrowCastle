@@ -18,6 +18,8 @@
         CritDamage,
         ManaCost,
         
+        Gold,
+        
         AttackPriority,
         
         TargetThatImAttacking,

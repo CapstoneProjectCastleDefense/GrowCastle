@@ -7,10 +7,11 @@
     using DG.Tweening;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using global::Extensions;
+    using Models.LocalData;
+    using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
-    using Runtime.Interfaces;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
     using Runtime.Systems;
@@ -18,18 +19,20 @@
 
     public class EnemyPresenter : BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
     {
-        private const    string           AttackAnimName = "atk";
-        private const    string           DeathAnimName  = "dead";
-        private const    string           MoveAnimName   = "animation2";
-        private readonly FindTargetSystem findTargetSystem;
+        private const    string                      AttackAnimName = "atk";
+        private const    string                      DeathAnimName  = "dead";
+        private const    string                      MoveAnimName   = "animation2";
+        private readonly FindTargetSystem            findTargetSystem;
+        private readonly ResourceLocalDataController resourceLocalDataController;
 
         public virtual Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
         public virtual string[] GetTags() { return new[] { "Ally", "Building" }; }
 
-        protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem)
+        protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem, ResourceLocalDataController resourceLocalDataController)
             : base(model, objectPoolManager)
         {
-            this.findTargetSystem = findTargetSystem;
+            this.findTargetSystem            = findTargetSystem;
+            this.resourceLocalDataController = resourceLocalDataController;
         }
         public override async UniTask UpdateView()
         {
@@ -108,6 +111,7 @@
         public void OnDeath()
         {
             if (this.IsDead) return;
+            this.resourceLocalDataController.ReceiveResource(ResourceType.Gold,this.Model.GetStat<float>(StatEnum.Gold));
             this.IsDead = true;
             this.View.HealthBarContainer.gameObject.SetActive(false);
             var wait = 0f;
