@@ -21,6 +21,7 @@
         public (float baseValue, float coefficient) Attack      { get; set; }
         public (float baseValue, float coefficient) HP          { get; set; }
         public (float baseValue, float coefficient) Speed       { get; set; }
+        public (float baseValue, float coefficient) Gold        { get; set; }
     }
 
     public enum AttackType
