@@ -29,6 +29,12 @@
             this.slotManager.UpdateAllSlots(castleLocalDataController.GetCurrentCastle().Level);
         }
 
+        public void ResetCurrentCastleHealth()
+        {
+            if(this.entities.Count==0) return;
+            this.entities.First().ResetHealth();
+        }
+
         public List<ArcherSlot> GetAllArcherSlot() => this.entities[0].CastleView.listArcherSlot;
     }
 }
