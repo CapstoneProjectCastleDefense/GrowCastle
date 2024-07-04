@@ -22,11 +22,13 @@
         private const    string           DeathAnimName  = "dead";
         private const    string           MoveAnimName   = "animation2";
         private readonly FindTargetSystem findTargetSystem;
+
         public SummonerPresenter(SummonerModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem)
             : base(model, objectPoolManager)
         {
             this.findTargetSystem = findTargetSystem;
         }
+
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
         public override async UniTask UpdateView()
@@ -37,7 +39,9 @@
             this.View.HealthBar.fillAmount = 1;
             this.View.transform.position   = this.Model.StartPos;
         }
+
         public override void Dispose() { }
+
         public void OnGetHit(float damage)
         {
             if (this.IsDead) return;
@@ -61,7 +65,8 @@
             this.IsDead = true;
             this.View.HealthBarContainer.gameObject.SetActive(false);
             var wait = 0f;
-            if (!DeathAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation != null)
+            if (!DeathAnimName.IsNullOrEmpty() &&
+                this.View.SkeletonAnimation != null)
             {
                 this.View.SkeletonAnimation.SetAnimation(DeathAnimName, false);
                 wait = this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
@@ -100,23 +105,30 @@
             }
         }
 
-        public bool                                 IsDead     { get; private set; }
-        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats; }
+        public bool                                 IsDead            { get; private set; }
+        public Dictionary<StatEnum, (Type, object)> GetStats()        { return this.Model.Stats; }
+        public GameObject                           GetGameObject() { return this.View.gameObject; }
+
         private void DoMove(Vector3 endPos, float distance)
         {
-            if (this.TargetThatImAttacking == null || this.TargetThatImAttacking.IsDead) return;
+            if (this.TargetThatImAttacking == null ||
+                this.TargetThatImAttacking.IsDead) return;
             this.View.transform.DOKill();
             this.View.transform.DOMoveX(endPos.x, distance / this.Model.GetStat<float>(StatEnum.MoveSpeed));
         }
+
         public void Attack(ITargetable target) //TODO : Replace with a skill called attack
         {
-            if (this.TargetThatImAttacking == null || this.TargetThatImAttacking.IsDead)
+            if (this.TargetThatImAttacking == null ||
+                this.TargetThatImAttacking.IsDead)
             {
                 this.FindTarget();
                 return;
             }
 
-            if (!AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation && Time.time >= this.AttackCooldownTime)
+            if (!AttackAnimName.IsNullOrEmpty() &&
+                this.View.SkeletonAnimation &&
+                Time.time >= this.AttackCooldownTime)
             {
                 this.View.transform.DOKill();
                 this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
@@ -127,6 +139,7 @@
                 this.AttackCooldownTime = Time.time + 1f / attackSpeed;
             }
         }
+
         public ITargetable FindTarget()
         {
             var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
@@ -149,9 +162,11 @@
             DOTween.Kill(this.View.HealthBar);
             this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / this.Model.GetStat<float>(StatEnum.MaxHealth), 0.1f);
         }
+
         public         float    AttackCooldownTime { get; private set; }
         public virtual Type[]   GetManagerTypes()  { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
         public virtual string[] GetTags()          { return new[] { "Fly", "Ground", "Boss", "Building" }; }
+
         public override void Tick()
         {
             base.Tick();

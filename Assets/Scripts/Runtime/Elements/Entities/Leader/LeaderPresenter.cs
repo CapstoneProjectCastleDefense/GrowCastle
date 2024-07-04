@@ -23,16 +23,15 @@
         private const    string           DeathAnimName  = "dead";
         private const    string           MoveAnimName   = "animation2";
         private          LeaderManager    leaderManager;
-        protected LeaderPresenter(LeaderModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
-        {
-            this.findTargetSystem = findTargetSystem;
-        }
+        protected LeaderPresenter(LeaderModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem) : base(model, objectPoolManager) { this.findTargetSystem = findTargetSystem; }
 
         public void SetManager(LeaderManager manager) => this.leaderManager = manager;
 
         public void Attack(ITargetable target)
         {
-            if (!AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation && Time.time >= this.AttackCooldownTime)
+            if (!AttackAnimName.IsNullOrEmpty() &&
+                this.View.SkeletonAnimation &&
+                Time.time >= this.AttackCooldownTime)
             {
                 this.View.transform.DOKill();
                 this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
@@ -43,6 +42,7 @@
                 this.AttackCooldownTime = Time.time + 1f / attackSpeed;
             }
         }
+
         public override async UniTask UpdateView()
         {
             await base.UpdateView();
@@ -75,6 +75,7 @@
                         ? this.TargetThatAttackingMe
                         : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes());
         }
+
         public         float    AttackCooldownTime { get; private set; } = 0;
         public virtual Type[]   GetManagerTypes()  { return new[] { typeof(CastleManager), typeof(EnemyManager) }; }
         public virtual string[] GetTags()          { return new[] { "Fly", "Ground", "Boss", "Building" }; }
@@ -90,6 +91,7 @@
             DOTween.Kill(this.View.HealthBar);
             this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / this.Model.GetStat<float>(StatEnum.MaxHealth), 0.1f);
         }
+
         public void OnGetHit(float damage)
         {
             if (this.IsDead) return;
@@ -113,7 +115,8 @@
             this.IsDead = true;
             this.View.HealthBarContainer.gameObject.SetActive(false);
             var wait = 0f;
-            if (!DeathAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation != null)
+            if (!DeathAnimName.IsNullOrEmpty() &&
+                this.View.SkeletonAnimation != null)
             {
                 this.View.SkeletonAnimation.SetAnimation(DeathAnimName, false);
                 wait = this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
@@ -153,12 +156,16 @@
         }
 
         public bool                                 IsDead     { get; private set; } = false;
-        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats;}
+        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats; }
+
+        public GameObject GetGameObject() { return this.View.gameObject; }
+
         protected override UniTask<GameObject> CreateView()
         {
             var res = this.ObjectPoolManager.Spawn(this.Model.AddressableName);
             return res;
         }
+
         public override void Dispose()
         {
             this.ObjectPoolManager.Recycle(this.View);

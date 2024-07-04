@@ -10,7 +10,7 @@
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
-    using Runtime.Interfaces.Skills;
+    using Runtime.Managers;
     using Runtime.Systems;
     using UnityEngine;
 
@@ -71,7 +71,7 @@
             return res;
         }
         public         float    AttackCooldownTime { get; }
-        public virtual Type[]   GetManagerTypes()  { return new[] { typeof(Managers.EnemyManager), typeof(Managers.CastleManager) }; }
+        public virtual Type[]   GetManagerTypes()  { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
         public virtual string[] GetTags()          { return new[] { "Fly", "Ground", "Boss", "Building", }; }
 
         public void CastSkill(string skillId, ITargetable target) { }
