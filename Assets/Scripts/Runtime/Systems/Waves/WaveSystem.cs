@@ -22,19 +22,17 @@
         private readonly SignalBus               signalBus;
         private readonly EnemyManager            enemyManager;
         private readonly WaveBlueprint           waveBlueprint;
-        private readonly GameStateMachine        gameStateMachine;
 
         public WaveSystem(
             EnemyGroupLoaderService enemyGroupLoaderService,
             LevelBlueprint levelBlueprint,
-            SignalBus signalBus, EnemyManager enemyManager,WaveBlueprint waveBlueprint,GameStateMachine gameStateMachine)
+            SignalBus signalBus, EnemyManager enemyManager,WaveBlueprint waveBlueprint)
         {
             this.enemyGroupLoaderService = enemyGroupLoaderService;
             this.levelBlueprint          = levelBlueprint;
             this.signalBus               = signalBus;
             this.enemyManager            = enemyManager;
             this.waveBlueprint           = waveBlueprint;
-            this.gameStateMachine        = gameStateMachine;
         }
 
         public void Initialize() { this.signalBus.Subscribe<TimeCooldownSignal>(this.OnTimeCooldown); }
@@ -93,7 +91,7 @@
         {
             this.waveWithDelayTimeQueue.Clear();
             this.isActiveWave = false;
-            this.gameStateMachine.TransitionTo<GameEndWaveState>();
+            this.GetCurrentContainer().Resolve<GameStateMachine>().TransitionTo<GameEndWaveState>();
         }
 
         public void Dispose() { this.signalBus.Unsubscribe<TimeCooldownSignal>(this.OnTimeCooldown); }
