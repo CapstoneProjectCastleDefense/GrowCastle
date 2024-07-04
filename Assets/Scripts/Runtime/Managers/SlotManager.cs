@@ -2,29 +2,27 @@
 
 namespace Runtime.Managers
 {
+    using System.Linq;
     using Cysharp.Threading.Tasks;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Slot;
-    using Runtime.Interfaces.Entities;
     using Runtime.Managers.Base;
-    using System;
-    using System.Linq;
-    using Runtime.Elements.Entities.Hero;
 
     public class SlotManager : BaseElementManager<SlotModel, SlotPresenter, SlotView>
     {
         private readonly SlotLocalDataController slotLocalDataController;
         private readonly HeroManager             heroManager;
         private readonly LeaderManager           leaderManager;
-        private readonly TowerManager towerManager;
+        private readonly TowerManager            towerManager;
         private readonly HeroLocalDataController heroLocalDataController;
         private          SlotPresenter           currentSelectedSlot;
 
         public SlotManager(BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory, SlotLocalDataController slotLocalDataController, HeroManager heroManager,
-            LeaderManager leaderManager, TowerManager towerManager, HeroLocalDataController heroLocalDataController)
-            : base(factory) {
+                           LeaderManager leaderManager, TowerManager towerManager, HeroLocalDataController heroLocalDataController)
+            : base(factory)
+        {
             this.slotLocalDataController = slotLocalDataController;
             this.heroManager             = heroManager;
             this.leaderManager           = leaderManager;
@@ -34,7 +32,7 @@ namespace Runtime.Managers
 
         public override void Initialize() { }
 
-        public SlotModel GetCurrentSelectedSlotModel() => (SlotModel)this.currentSelectedSlot.GetModel();
+        public SlotModel GetCurrentSelectedSlotModel() => this.currentSelectedSlot.Model;
 
         public void EquipHero(string heroId)
         {
@@ -43,7 +41,7 @@ namespace Runtime.Managers
 
             if (currentSlotData.DeployObjectId != null)
             {
-                this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(currentSlotData.DeployObjectId)).Dispose();
+                this.heroManager.entities.First(hero => hero.Model.Id.Equals(currentSlotData.DeployObjectId)).Dispose();
                 this.heroLocalDataController.UnEquipHero(currentSlotData.DeployObjectId);
             }
             else
@@ -52,12 +50,12 @@ namespace Runtime.Managers
                 if (slotHoldHero != null)
                 {
                     this.slotLocalDataController.UnEquipCharacter(slotHoldHero.SlotId);
-                    this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(heroId)).Dispose();
+                    this.heroManager.entities.First(hero => hero.Model.Id.Equals(heroId)).Dispose();
                     this.heroLocalDataController.UnEquipHero(heroId);
                 }
             }
 
-            this.slotLocalDataController.EquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id,heroId);
+            this.slotLocalDataController.EquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id, heroId);
             this.heroLocalDataController.EquipHero(heroId);
             this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
         }
@@ -70,10 +68,11 @@ namespace Runtime.Managers
             {
                 if (currentSlotModel.SlotRecord.SlotType == SlotType.Hero)
                 {
-                    this.heroManager.entities.First(hero=>hero.GetModelGeneric<HeroModel>().Id.Equals(currentSlotData.DeployObjectId)).Dispose();
+                    this.heroManager.entities.First(hero => hero.Model.Id.Equals(currentSlotData.DeployObjectId)).Dispose();
                     this.heroLocalDataController.UnEquipHero(currentSlotData.DeployObjectId);
                 }
             }
+
             this.slotLocalDataController.UnEquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id);
         }
 
@@ -103,7 +102,8 @@ namespace Runtime.Managers
             else if (slotData.SlotType == SlotType.Leader)
             {
                 this.leaderManager.CreateSingleLeader(slotData.DeployObjectId, slotPresenter.GetSlotView.heroPos);
-            }else if (slotData.SlotType == SlotType.Tower)
+            }
+            else if (slotData.SlotType == SlotType.Tower)
             {
                 this.towerManager.CreateSingleTower(slotData.DeployObjectId, slotPresenter.GetSlotView.heroPos);
             }
@@ -113,15 +113,15 @@ namespace Runtime.Managers
 
         public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
 
-        public void UpdateAllSlots(int currentLevel) {
-
+        public void UpdateAllSlots(int currentLevel)
+        {
             this.entities.ForEach(presenter =>
             {
                 presenter.UpdateSlotBaseOnCurrentLevel();
             });
             if (currentLevel == 6)
             {
-                this.towerManager.CreateSingleTower("Xel'Naga", this.entities.First(slot => slot.GetModel().Id == "10").GetSlotView.heroPos);
+                this.towerManager.CreateSingleTower("Xel'Naga", this.entities.First(slot => slot.Model.Id == "10").GetSlotView.heroPos);
             }
         }
     }

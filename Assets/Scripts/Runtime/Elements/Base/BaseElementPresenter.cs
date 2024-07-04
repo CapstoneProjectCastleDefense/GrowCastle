@@ -18,7 +18,7 @@
         }
 
         protected bool   IsViewInit { get; set; }
-        protected TModel Model      { get; }
+        public    TModel Model      { get; }
         protected TView  View       { get; private set; }
 
         public virtual void Initialize() { }
@@ -34,10 +34,9 @@
                 this.IsViewInit = true;
             }
         }
-        public          T               GetModelGeneric<T>() { return (T)(object)this.Model; }
-        public          T               GetViewGeneric<T>()  { return (T)(object)this.View; }
-        public          IElementModel   GetModel()           => this.Model;
-        public          BaseElementView GetView()            => this.View;
+
+        public T               GetViewGeneric<T>() { return (T)(object)this.View; }
+        public BaseElementView GetView()           => this.View;
 
         protected abstract UniTask<GameObject> CreateView();
 

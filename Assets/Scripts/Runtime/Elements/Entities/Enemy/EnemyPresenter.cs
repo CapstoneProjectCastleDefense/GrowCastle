@@ -24,14 +24,15 @@
         private          EnemyManager     enemyManager;
         private readonly FindTargetSystem findTargetSystem;
 
-        public virtual Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
-        public virtual string[] GetTags() { return new[] { "Ally", "Building" }; }
+        public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
+        public virtual string[] GetTags()         { return new[] { "Ally", "Building" }; }
 
         protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem)
             : base(model, objectPoolManager)
         {
             this.findTargetSystem = findTargetSystem;
         }
+
         public void SetManager(EnemyManager manager) => this.enemyManager = manager;
 
         public override async UniTask UpdateView()
@@ -47,15 +48,18 @@
 
         private void DoMove(Vector3 endPos, float distance)
         {
-            if(this.isMoving) return;
+            if (this.isMoving) return;
             this.isMoving = true;
             this.View.transform.DOKill();
             this.View.transform.DOMoveX(endPos.x, distance / this.Model.GetStat<float>(StatEnum.MoveSpeed));
         }
+
         public void Attack(ITargetable target) //TODO : Replace with a skill called attack
         {
             this.isMoving = false;
-            if (!AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation && Time.time >= this.AttackCooldownTime)
+            if (!AttackAnimName.IsNullOrEmpty() &&
+                this.View.SkeletonAnimation &&
+                Time.time >= this.AttackCooldownTime)
             {
                 this.View.transform.DOKill();
                 this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
@@ -77,13 +81,14 @@
             }
 
             return this.TargetThatImAttacking is { IsDead: false }
-                    ? this.TargetThatImAttacking
-                    : this.TargetThatAttackingMe is { IsDead: false }
-                        ? this.TargetThatAttackingMe
-                        : this.TargetThatImLookingAt is { IsDead: false }
-                            ? this.TargetThatImLookingAt
-                            : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes());
+                ? this.TargetThatImAttacking
+                : this.TargetThatAttackingMe is { IsDead: false }
+                    ? this.TargetThatAttackingMe
+                    : this.TargetThatImLookingAt is { IsDead: false }
+                        ? this.TargetThatImLookingAt
+                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes());
         }
+
         public float AttackCooldownTime { get; private set; }
 
         private void UpdateHealthView()
@@ -129,13 +134,13 @@
                 this.Model.SetStat(StatEnum.TargetThatImAttacking, value);
             }
         }
-        
+
         public ITargetable TargetThatImLookingAt
         {
             get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatImLookingAt);
             set
             {
-                if(value == this.Model.GetStat<ITargetable>(StatEnum.TargetThatImLookingAt)) return;
+                if (value == this.Model.GetStat<ITargetable>(StatEnum.TargetThatImLookingAt)) return;
                 this.Model.SetStat(StatEnum.TargetThatImLookingAt, value);
             }
         }
@@ -150,8 +155,9 @@
             }
         }
 
-        public bool                                 IsDead     { get; private set; }
-        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats; }
+        public bool                                 IsDead            { get; private set; }
+        public Dictionary<StatEnum, (Type, object)> GetStats()        { return this.Model.Stats; }
+        public GameObject                           GetGameObject() { return this.View.gameObject; }
 
         protected override UniTask<GameObject> CreateView()
         {
@@ -175,7 +181,8 @@
                 return;
             }
 
-            if (this.TargetThatImAttacking == null || this.TargetThatImAttacking.IsDead)
+            if (this.TargetThatImAttacking == null ||
+                this.TargetThatImAttacking.IsDead)
             {
                 this.TargetThatImLookingAt = this.FindTarget();
             }

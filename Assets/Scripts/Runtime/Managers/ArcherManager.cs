@@ -65,10 +65,10 @@
             var newArcher = this.archerLocalDataController.UnlockArcher();
 
             if (newArcher == null) return;
-            var hasOldArcher = this.entities.Any(e => ((ArcherModel)e.GetModel()).Index == newArcher.index);
+            var hasOldArcher = this.entities.Any(e => e.Model.Index == newArcher.index);
             if (hasOldArcher)
             {
-                var archerPresenter = this.entities.First(e => ((ArcherModel)e.GetModel()).Index == newArcher.index);
+                var archerPresenter = this.entities.First(e => e.Model.Index == newArcher.index);
                 archerPresenter.Dispose();
                 this.entities.Remove(archerPresenter);
             }

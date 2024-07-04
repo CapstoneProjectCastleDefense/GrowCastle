@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Runtime.Enums;
+    using UnityEngine;
 
     public interface ITargetable
     {
@@ -13,5 +14,6 @@
         ITargetable                          TargetThatAttackingMe { get; set; }
         bool                                 IsDead                { get; }
         Dictionary<StatEnum, (Type, object)> GetStats();
+        GameObject                           GetGameObject();
     }
 }
