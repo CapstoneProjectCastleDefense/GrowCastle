@@ -36,6 +36,7 @@
                 this.IsViewInit = true;
             }
         }
+
         public BaseElementView GetView() => this.View;
 
         protected abstract UniTask<GameObject> CreateView();

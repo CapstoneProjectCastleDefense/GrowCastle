@@ -7,7 +7,7 @@
         EntitySkillType SkillType { get; set; }
         void            Activate(IEntitySkillModel baseSkillModel);
     }
-
+    
     public abstract class BaseEntitySkillPresenter<TModel> : IEntitySkillPresenter where TModel : IEntitySkillModel
     {
         public abstract EntitySkillType SkillType { get; set; }

@@ -87,16 +87,15 @@
             target ??= this.FindTarget();
 
             if (target == null) return;
-            var enemy = (IElementPresenter)target;
 
             var skillId = heroDataRecord.SkillToAnimationRecords.ElementAt(1).Key;
             this.CastSkillInternal(skillId, target, new ProjectileSkillModel()
             {
                 Id         = skillId,
                 StartPoint = this.View.spawnProjectilePos.position,
-                EndPoint   = enemy.GetView().transform.position,
+                EndPoint   = target.GetGameObject().transform.position,
                 Target     = target,
-                damage     = this.Model.GetStat<float>(StatEnum.Attack),
+                Damage     = this.Model.GetStat<float>(StatEnum.Attack),
             });
         }
 

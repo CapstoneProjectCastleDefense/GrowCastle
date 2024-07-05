@@ -205,7 +205,7 @@
                 this.TargetThatImLookingAt = this.FindTarget();
             }
 
-            var endPos   = ((IElementPresenter)this.TargetThatImLookingAt).GetView().transform.position;
+            var endPos   = this.TargetThatImLookingAt.GetGameObject().transform.position;
             var distance = Vector3.Distance(this.View.transform.position, endPos);
             var range    = this.Model.GetStat<float>(StatEnum.AttackRange);
             if (distance > range)

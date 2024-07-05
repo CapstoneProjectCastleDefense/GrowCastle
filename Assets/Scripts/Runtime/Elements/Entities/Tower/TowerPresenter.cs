@@ -50,16 +50,15 @@
             target ??= this.FindTarget();
 
             if (target == null) return;
-            var enemy = (IElementPresenter)target;
 
             var skillId = towerDataRecord.SkillToAnimationRecords.ElementAt(0).Key;
             this.entitySkillSystem.CastSkill(skillId, new ProjectileSkillModel()
             {
                 Id         = skillId,
                 StartPoint = this.View.spawnProjectilePos.position,
-                EndPoint   = enemy.GetView().transform.position,
+                EndPoint   = target.GetGameObject().transform.position,
                 Target     = target,
-                damage     = this.Model.GetStat<float>(StatEnum.Attack),
+                Damage     = this.Model.GetStat<float>(StatEnum.Attack),
             });
         }
         public ITargetable FindTarget()

@@ -14,12 +14,11 @@
     using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
+    using UnityEngine.Serialization;
 
     public class ProjectileSkill : BaseEntitySkillPresenter<ProjectileSkillModel>
     {
         private readonly ProjectileManager   projectileManager;
-        private readonly IGameAssets         gameAssets;
-        private readonly ProjectileBlueprint projectileBlueprint;
         private readonly AbilitySystem       abilitySystem;
         private readonly AffectManager       affectManager;
 
@@ -29,8 +28,6 @@
             AbilitySystem abilitySystem, AffectManager affectManager)
         {
             this.projectileManager   = projectileManager;
-            this.gameAssets          = gameAssets;
-            this.projectileBlueprint = projectileBlueprint;
             this.abilitySystem       = abilitySystem;
             this.affectManager       = affectManager;
         }
@@ -41,30 +38,38 @@
 
         private async UniTaskVoid FireProjectile()
         {
-            var projectileSkillRecord = this.projectileBlueprint.GetDataById(this.Model.Id);
             var projectile = this.projectileManager.CreateElement(new()
             {
                 Id              = this.Model.Id,
                 AddressableName = this.Model.AddressableName,
-                Prefab          = this.gameAssets.LoadAssetAsync<GameObject>(projectileSkillRecord.PrefabName).WaitForCompletion(),
                 StartPoint      = this.Model.StartPoint,
                 EndPoint        = this.Model.EndPoint,
-                Damage          = this.Model.damage,
+                Damage          = this.Model.Damage,
+                OnProjectileHit = this.OnProjectileHit
             });
 
             await projectile.UpdateView();
-            projectile.FlyToTarget().onComplete += this.OnProjectileHit;
+            projectile.FlyToTarget().onComplete += this.OnFlyToTarget;
         }
 
-        public virtual void OnProjectileHit()
+        private void OnFlyToTarget()
         {
-            this.Model.Target.OnGetHit(this.Model.damage);
+            this.Model.Target.OnGetHit(this.Model.Damage);
             this.abilitySystem.Execute(AbilityName.DealDamage, this.Model.Target, new Dictionary<StatEnum, (Type, object)>()
             {
-                { StatEnum.Attack, (typeof(float), this.Model.damage) }
+                { StatEnum.Attack, (typeof(float), this.Model.Damage) }
             });
             this.affectManager.AddAffectToTarget(this.Model.Target,new BleedTag(){Duration = 0.2f,TimeDelay = 0.1f,Timer = 0});
             Debug.Log("Hit enemy with damage: " + this.Model.damage);
+        }
+        
+        public virtual void OnProjectileHit(Collider2D collider2D)
+        {
+            this.Model.Target.OnGetHit(this.Model.Damage);
+            this.abilitySystem.Execute(AbilityName.DealDamage, this.Model.Target, new Dictionary<StatEnum, (Type, object)>()
+            {
+                { StatEnum.Attack, (typeof(float), this.Model.Damage) }
+            });
         }
     }
 
@@ -77,6 +82,6 @@
         public Vector3     StartPoint;
         public Vector3     EndPoint;
         public ITargetable Target;
-        public float       damage;
+        public float       Damage;
     }
 }

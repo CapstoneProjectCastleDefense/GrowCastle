@@ -30,8 +30,7 @@
 
         protected override UniTask<GameObject> CreateView()
         {
-            var projectileRecord = this.projectileBlueprint[this.Model.Id];
-            return this.ObjectPoolManager.Spawn(projectileRecord.PrefabName);
+            return this.ObjectPoolManager.Spawn(this.Model.AddressableName);
         }
 
         public Tween FlyToTarget()

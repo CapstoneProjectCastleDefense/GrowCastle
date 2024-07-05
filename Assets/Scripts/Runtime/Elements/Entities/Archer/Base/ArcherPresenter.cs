@@ -3,10 +3,8 @@
     using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
-    using DG.Tweening;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Runtime.Elements.Base;
-    using Runtime.Elements.Entities.Enemy;
     using Runtime.Elements.EntitySkills;
     using Runtime.Enums;
     using Runtime.Extensions;
@@ -70,7 +68,6 @@
             target ??= this.FindTarget();
 
             if (target == null) return;
-            Debug.Log("LVT - ArcherPresenter - target: " + (target as IElementPresenter).GetView().name);
             var enemy = (IElementPresenter)target;
 
             this.View.skeletonAnimation.SetAnimation("attack", false);
@@ -78,9 +75,9 @@
             {
                 Id         = "archer_normal_attack",
                 StartPoint = this.View.spawnArrowPos.position,
-                EndPoint   = enemy.GetView().transform.position,
+                EndPoint   = target.GetGameObject().transform.position,
                 Target     = target,
-                damage     = this.Model.GetStat<float>(StatEnum.Attack),
+                Damage     = this.Model.GetStat<float>(StatEnum.Attack),
             });
         }
 
