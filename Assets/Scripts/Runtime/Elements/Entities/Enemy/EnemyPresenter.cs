@@ -15,6 +15,7 @@
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
     using Runtime.Systems;
+    using TMPro;
     using UnityEngine;
 
     public class EnemyPresenter : BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
@@ -111,10 +112,12 @@
         public void OnDeath()
         {
             if (this.IsDead) return;
-            this.resourceLocalDataController.ReceiveResource(ResourceType.Gold,this.Model.GetStat<float>(StatEnum.Gold));
+            float goldDrop = this.Model.GetStat<float>(StatEnum.Gold);
+            this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
             this.IsDead = true;
             this.View.HealthBarContainer.gameObject.SetActive(false);
             var wait = 0f;
+            this.CoinPopUp(goldDrop);
             if (!DeathAnimName.IsNullOrEmpty() &&
                 this.View.SkeletonAnimation != null)
             {
@@ -123,6 +126,18 @@
             }
 
             UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
+        }
+
+        public void CoinPopUp(float goldDrop) {
+            this.View.CoinPopupCanvas.alpha = 0;
+            this.View.CoinPopup.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, 5.55f);
+            this.View.CoinPopup.GetComponentInChildren<TextMeshProUGUI>().SetText("+ " + goldDrop);
+            this.View.CoinPopup.SetActive(true);
+            this.View.CoinPopup.GetComponent<RectTransform>().DOAnchorPosY(6.55f, 0.3f);
+            this.View.CoinPopupCanvas.DOFade(1f, 0.3f).OnComplete(() =>
+            {
+                this.View.CoinPopupCanvas.DOFade(0f, 0.3f);
+            });
         }
 
         public ITargetable TargetThatImAttacking

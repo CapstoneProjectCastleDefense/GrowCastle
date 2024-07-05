@@ -13,5 +13,7 @@
         [field: SerializeField] public Rigidbody2D       Rigidbody2D           { get; private set; }
         [field: SerializeField] public Image             HealthBar             { get; private set; }
         [field: SerializeField] public GameObject        HealthBarContainer    { get; private set; }
+        [field: SerializeField]public GameObject CoinPopup { get; private set; }
+        [field: SerializeField] public CanvasGroup CoinPopupCanvas { get; private set; }
     }
 }
