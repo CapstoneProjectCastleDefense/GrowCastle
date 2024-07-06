@@ -5,6 +5,7 @@
     using Models.Tags;
     using Runtime.Interfaces.Entities;
     using Runtime.Systems.Effects;
+    using UnityEngine;
 
     public class AffectManager
     {
@@ -33,11 +34,12 @@
 
         public void RemoveAffectOfTarget(ITargetable target, Type tagType)
         {
-            if (!target.CurrentTag.ContainsKey(typeof(Tag))) return;
+            if (!target.CurrentTag.ContainsKey(tagType)) return;
             target.CurrentTag.Remove(tagType);
             if (this.affectSystems[tagType].AffectedElements.Contains(target))
             {
                 this.affectSystems[tagType].AffectedElements.Remove(target);
+                Debug.Log($"Remove Affect {tagType.Name} from {target.GetType()}");
             }
         }
     }

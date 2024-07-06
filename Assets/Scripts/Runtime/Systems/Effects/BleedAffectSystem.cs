@@ -53,8 +53,9 @@
 
         public void Filter()
         {
-            foreach (var target in this.AffectedElements)
+            for (var index = 0; index < this.AffectedElements.Count; index++)
             {
+                var target = this.AffectedElements[index];
                 if (((BleedTag)target.CurrentTag[this.ConditionFilterTag]).Duration <= 0)
                 {
                     this.AffectManager.RemoveAffectOfTarget(target, typeof(BleedTag));

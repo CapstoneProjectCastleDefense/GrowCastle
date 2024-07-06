@@ -63,7 +63,7 @@
             {
                 { StatEnum.Attack, (typeof(float), this.Model.damage) }
             });
-            this.affectManager.AddAffectToTarget(this.Model.Target,new BleedTag(){Duration = 3,TimeDelay = 0.2f,Timer = 0});
+            this.affectManager.AddAffectToTarget(this.Model.Target,new BleedTag(){Duration = 0.2f,TimeDelay = 0.1f,Timer = 0});
             Debug.Log("Hit enemy with damage: " + this.Model.damage);
         }
     }
