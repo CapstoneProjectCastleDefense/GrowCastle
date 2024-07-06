@@ -3,29 +3,24 @@
     using System.Collections.Generic;
     using System.Linq;
     using Models.Blueprints;
-    using Runtime.Enums;
     using Runtime.Interfaces.Skills;
     using UnityEngine;
 
     public class EntitySkillSystem : IGameSystem
     {
-        private readonly SkillBlueprint                                     skillBlueprint;
-        private readonly Dictionary<EntitySkillType, IEntitySkillPresenter> entitySkills;
+        private readonly SkillBlueprint                            skillBlueprint;
+        private readonly Dictionary<string, IEntitySkillPresenter> entitySkills;
 
         public EntitySkillSystem(List<IEntitySkillPresenter> entitySkillPresenters, SkillBlueprint skillBlueprint)
         {
             this.skillBlueprint = skillBlueprint;
-            this.entitySkills   = entitySkillPresenters.ToDictionary(entity => entity.SkillType, entity => entity);
+            this.entitySkills   = entitySkillPresenters.ToDictionary(entity => entity.SkillId, entity => entity);
         }
 
-        private EntitySkillType GetSkillType(string skillId)
-        {
-            return this.skillBlueprint.GetDataById(skillId).Type;
-        }
 
         public void CastSkill(string skillId, IEntitySkillModel skillModel)
         {
-            if (this.entitySkills.TryGetValue(this.GetSkillType(skillId), out var entitySkill))
+            if (this.entitySkills.TryGetValue(skillId, out var entitySkill))
             {
                 entitySkill.Activate(skillModel);
             }

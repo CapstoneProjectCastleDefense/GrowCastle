@@ -19,7 +19,7 @@
     using TMPro;
     using UnityEngine;
 
-    public class EnemyPresenter : BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
+    public class EnemyPresenter : BaseCombatantPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
     {
         private const    string                      AttackAnimName = "atk";
         private const    string                      DeathAnimName  = "dead";

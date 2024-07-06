@@ -3,15 +3,11 @@
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
-    using Runtime.Enums;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
-    using UnityEngine;
 
-    public class SummonSkill : BaseEntitySkillPresenter<BasicSkillModel>
+    public abstract class SummonSkill : BaseEntitySkillPresenter<BasicSkillModel>
     {
-        public override EntitySkillType SkillType { get; set; } = EntitySkillType.Summon;
-
         private readonly ObjectPoolManager    objectPoolManager;
         private readonly SkillSummonBlueprint skillSummonBlueprint;
         private readonly SummonerManager      summonerManager;

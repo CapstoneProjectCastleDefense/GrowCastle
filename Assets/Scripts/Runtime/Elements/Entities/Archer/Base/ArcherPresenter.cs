@@ -13,7 +13,7 @@
     using Runtime.Systems;
     using UnityEngine;
 
-    public class ArcherPresenter : BaseElementPresenter<ArcherModel, ArcherView, ArcherPresenter>, IArcherPresenter
+    public class ArcherPresenter : BaseCombatantPresenter<ArcherModel, ArcherView, ArcherPresenter>, IArcherPresenter
     {
         private readonly EnemyManager      enemyManager;
         private readonly FindTargetSystem  findTargetSystem;
@@ -71,7 +71,7 @@
             var enemy = (IElementPresenter)target;
 
             this.View.skeletonAnimation.SetAnimation("attack", false);
-            this.entitySkillSystem.CastSkill("archer_normal_attack", new ProjectileSkillModel()
+            this.entitySkillSystem.CastSkill("archer_normal_attack", new BaseProjectileSkillModel()
             {
                 Id         = "archer_normal_attack",
                 StartPoint = this.View.spawnArrowPos.position,
@@ -95,7 +95,7 @@
             return res;
         }
 
-        public float AttackCooldownTime { get; } = 0;
+        public float AttackCooldownTime => 0;
 
         public void CastSkill(string skillId, ITargetable target) { }
 

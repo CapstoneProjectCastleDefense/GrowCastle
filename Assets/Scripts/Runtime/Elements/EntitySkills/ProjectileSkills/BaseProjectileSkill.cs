@@ -14,25 +14,23 @@
     using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
-    using UnityEngine.Serialization;
 
-    public class ProjectileSkill : BaseEntitySkillPresenter<ProjectileSkillModel>
+    public abstract class BaseProjectileSkill<TModel> : BaseEntitySkillPresenter<TModel>
+        where TModel : BaseProjectileSkillModel
     {
         private readonly ProjectileManager   projectileManager;
         private readonly AbilitySystem       abilitySystem;
         private readonly AffectManager       affectManager;
 
-        public ProjectileSkill(ProjectileManager projectileManager,
-            IGameAssets gameAssets,
-            ProjectileBlueprint projectileBlueprint,
-            AbilitySystem abilitySystem, AffectManager affectManager)
+        public BaseProjectileSkill(ProjectileManager projectileManager,
+                                   IGameAssets gameAssets,
+                                   ProjectileBlueprint projectileBlueprint,
+                                   AbilitySystem abilitySystem, AffectManager affectManager)
         {
             this.projectileManager   = projectileManager;
             this.abilitySystem       = abilitySystem;
             this.affectManager       = affectManager;
         }
-
-        public override EntitySkillType SkillType { get; set; } = EntitySkillType.Projectile;
 
         protected override void InternalActivate() { this.FireProjectile().Forget(); }
 
@@ -62,7 +60,7 @@
             this.affectManager.AddAffectToTarget(this.Model.Target,new BleedTag(){Duration = 0.2f,TimeDelay = 0.1f,Timer = 0});
             Debug.Log("Hit enemy with damage: " + this.Model.damage);
         }
-        
+
         public virtual void OnProjectileHit(Collider2D collider2D)
         {
             this.Model.Target.OnGetHit(this.Model.Damage);
@@ -73,7 +71,7 @@
         }
     }
 
-    public class ProjectileSkillModel : IEntitySkillModel
+    public class BaseProjectileSkillModel : IEntitySkillModel
     {
         public string      Id              { get; set; }
         public string      AddressableName { get; set; }

@@ -17,7 +17,7 @@
     using Runtime.Systems;
     using UnityEngine;
 
-    public class LeaderPresenter : BaseElementPresenter<LeaderModel, LeaderView, LeaderPresenter>, ILeaderPresenter
+    public class LeaderPresenter : BaseCombatantPresenter<LeaderModel, LeaderView, LeaderPresenter>, ILeaderPresenter
     {
         private readonly FindTargetSystem findTargetSystem;
         private const    string           AttackAnimName = "atk";

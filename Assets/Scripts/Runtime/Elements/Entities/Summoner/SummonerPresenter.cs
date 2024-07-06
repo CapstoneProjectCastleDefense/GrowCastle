@@ -11,13 +11,12 @@
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
-    using Runtime.Interfaces;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
     using Runtime.Systems;
     using UnityEngine;
 
-    public class SummonerPresenter : BaseElementPresenter<SummonerModel, SummonerView, SummonerPresenter>, ISummonBeingPresenter
+    public class SummonerPresenter : BaseCombatantPresenter<SummonerModel, SummonerView, SummonerPresenter>, ISummonBeingPresenter
     {
         private const    string           AttackAnimName = "atk";
         private const    string           DeathAnimName  = "dead";
@@ -199,7 +198,7 @@
         }
     }
 
-    public class SummonerModel : IElementModel, IHaveStats
+    public class SummonerModel : ICombatant
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }

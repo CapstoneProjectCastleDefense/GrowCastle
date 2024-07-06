@@ -14,7 +14,7 @@
     using Runtime.Systems;
     using UnityEngine;
 
-    public class TowerPresenter : BaseElementPresenter<TowerModel, TowerView, TowerPresenter>, ITowerPresenter
+    public class TowerPresenter : BaseCombatantPresenter<TowerModel, TowerView, TowerPresenter>, ITowerPresenter
     {
         private readonly EntitySkillSystem entitySkillSystem;
         private readonly TowerBlueprint    towerBlueprint;
@@ -52,7 +52,7 @@
             if (target == null) return;
 
             var skillId = towerDataRecord.SkillToAnimationRecords.ElementAt(0).Key;
-            this.entitySkillSystem.CastSkill(skillId, new ProjectileSkillModel()
+            this.entitySkillSystem.CastSkill(skillId, new BaseProjectileSkillModel()
             {
                 Id         = skillId,
                 StartPoint = this.View.spawnProjectilePos.position,
