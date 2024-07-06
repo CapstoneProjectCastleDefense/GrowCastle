@@ -7,6 +7,7 @@
     using DG.Tweening;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using global::Extensions;
+    using Models.Tags;
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
@@ -158,7 +159,8 @@
         public bool                                 IsDead     { get; private set; } = false;
         public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats; }
 
-        public GameObject GetGameObject() { return this.View.gameObject; }
+        public GameObject                    GetGameObject() { return this.View.gameObject; }
+        public Dictionary<Type, IElementTag> CurrentTag      { get; set; }
 
         protected override UniTask<GameObject> CreateView()
         {

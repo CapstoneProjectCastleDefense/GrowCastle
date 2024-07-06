@@ -5,10 +5,12 @@
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
     using Models.Blueprints;
+    using Models.Tags;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Enums;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Skills;
+    using Runtime.Managers;
     using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
@@ -19,16 +21,18 @@
         private readonly IGameAssets         gameAssets;
         private readonly ProjectileBlueprint projectileBlueprint;
         private readonly AbilitySystem       abilitySystem;
+        private readonly AffectManager       affectManager;
 
         public ProjectileSkill(ProjectileManager projectileManager,
             IGameAssets gameAssets,
             ProjectileBlueprint projectileBlueprint,
-            AbilitySystem abilitySystem)
+            AbilitySystem abilitySystem, AffectManager affectManager)
         {
             this.projectileManager   = projectileManager;
             this.gameAssets          = gameAssets;
             this.projectileBlueprint = projectileBlueprint;
             this.abilitySystem       = abilitySystem;
+            this.affectManager       = affectManager;
         }
 
         public override EntitySkillType SkillType { get; set; } = EntitySkillType.Projectile;
@@ -59,6 +63,7 @@
             {
                 { StatEnum.Attack, (typeof(float), this.Model.damage) }
             });
+            this.affectManager.AddAffectToTarget(this.Model.Target,new BleedTag(){Duration = 3,TimeDelay = 0.2f,Timer = 0});
             Debug.Log("Hit enemy with damage: " + this.Model.damage);
         }
     }

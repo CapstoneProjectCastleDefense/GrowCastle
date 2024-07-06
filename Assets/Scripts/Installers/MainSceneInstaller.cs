@@ -80,6 +80,8 @@
                     this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
                 }
             }
+
+            this.Container.Bind<AffectManager>().AsCached();
         }
 
         private void BindAllSystem()
