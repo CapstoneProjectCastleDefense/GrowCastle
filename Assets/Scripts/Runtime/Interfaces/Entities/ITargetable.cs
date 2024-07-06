@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Models.Tags;
     using Runtime.Enums;
     using UnityEngine;
 
@@ -15,5 +16,6 @@
         bool                                 IsDead                { get; }
         Dictionary<StatEnum, (Type, object)> GetStats();
         GameObject                           GetGameObject();
+        public Dictionary<Type, IElementTag> CurrentTag { get; set; }
     }
 }

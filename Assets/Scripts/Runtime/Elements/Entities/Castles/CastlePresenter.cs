@@ -8,6 +8,7 @@
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Models.LocalData.LocalDataController;
+    using Models.Tags;
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
@@ -91,12 +92,13 @@
             Debug.Log("Lose");
             this.GetCurrentContainer().Resolve<GameStateMachine>().TransitionTo<GameEndWaveState>();
         }
-        public ITargetable TargetThatImAttacking { get; set; }
-        public ITargetable TargetThatImLookingAt { get; set; }
-        public ITargetable TargetThatAttackingMe { get; set; }
-        public bool        IsDead                { get; }
+        public ITargetable                          TargetThatImAttacking { get; set; }
+        public ITargetable                          TargetThatImLookingAt { get; set; }
+        public ITargetable                          TargetThatAttackingMe { get; set; }
+        public bool                                 IsDead                { get; }
         public Dictionary<StatEnum, (Type, object)> GetStats()            { return this.Model.Stats; }
-        public GameObject                           GetGameObject()     { return this.View.gameObject; }
+        public GameObject                           GetGameObject()       { return this.View.gameObject; }
+        public Dictionary<Type, IElementTag>        CurrentTag            { get; set; }
     }
 
     public class CastleModel : IElementModel, IHaveStats

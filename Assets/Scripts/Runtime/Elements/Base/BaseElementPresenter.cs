@@ -1,8 +1,10 @@
 ﻿namespace Runtime.Elements.Base
 {
     using System;
+    using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using Models.Tags;
     using Runtime.Managers.Base;
     using UnityEngine;
     using Zenject;
@@ -18,12 +20,12 @@
             this.ObjectPoolManager = objectPoolManager;
         }
 
-        protected      bool   IsViewInit                                                        { get; set; }
-        public         TModel Model                                                             { get; }
-        protected      TView  View                                                              { get; private set; }
-        public         void   SetManager(BaseElementManager<TModel, TPresenter, TView> manager) => this.ElementManager = manager;
-        public virtual void   Initialize()                                                      { }
-        public virtual void   Tick()                                                            { }
+        protected      bool              IsViewInit                                                        { get; set; }
+        public         TModel            Model                                                             { get; }
+        protected      TView             View                                                              { get; private set; }
+        public         void              SetManager(BaseElementManager<TModel, TPresenter, TView> manager) => this.ElementManager = manager;
+        public virtual void              Initialize()                                                      { }
+        public virtual void              Tick()                                                            { }
 
         public virtual async UniTask UpdateView()
         {
@@ -34,7 +36,6 @@
                 this.IsViewInit = true;
             }
         }
-
         public BaseElementView GetView() => this.View;
 
         protected abstract UniTask<GameObject> CreateView();

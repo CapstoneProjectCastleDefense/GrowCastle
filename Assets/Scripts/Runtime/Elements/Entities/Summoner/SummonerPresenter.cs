@@ -7,6 +7,7 @@
     using DG.Tweening;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using global::Extensions;
+    using Models.Tags;
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
@@ -107,9 +108,10 @@
             }
         }
 
-        public bool                                 IsDead            { get; private set; }
-        public Dictionary<StatEnum, (Type, object)> GetStats()        { return this.Model.Stats; }
+        public bool                                 IsDead          { get; private set; }
+        public Dictionary<StatEnum, (Type, object)> GetStats()      { return this.Model.Stats; }
         public GameObject                           GetGameObject() { return this.View.gameObject; }
+        public Dictionary<Type, IElementTag>        CurrentTag      { get; set; }
 
         private void DoMove(Vector3 endPos, float distance)
         {
