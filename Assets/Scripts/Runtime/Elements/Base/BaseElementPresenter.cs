@@ -14,6 +14,9 @@
     {
         protected readonly ObjectPoolManager                             ObjectPoolManager;
         protected          BaseElementManager<TModel, TPresenter, TView> ElementManager;
+        
+        public void SetManager(BaseElementManager<TModel, TPresenter, TView> manager) => this.ElementManager = manager;
+        
         protected BaseElementPresenter(TModel model, ObjectPoolManager objectPoolManager)
         {
             this.Model             = model;
@@ -36,6 +39,7 @@
                 this.IsViewInit = true;
             }
         }
+        public BaseElementView GetView() { return this.View;}
 
         public BaseElementView GetView() => this.View;
 
