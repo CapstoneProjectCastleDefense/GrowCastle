@@ -29,9 +29,6 @@
 
             if (!isForce) return;
             target.CurrentTag[tag.GetType()] = tag;
-            if (!this.affectSystems[tag.GetType()].AffectedElements.Contains(target)) return;
-            var index = this.affectSystems[tag.GetType()].AffectedElements.IndexOf(target);
-            this.affectSystems[tag.GetType()].AffectedElements[index] = target;
         }
 
         public void RemoveAffectOfTarget(ITargetable target, Type tagType)
