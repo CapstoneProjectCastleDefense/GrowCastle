@@ -112,6 +112,7 @@ namespace Runtime.Managers
         public void UpdateCurrentSelectedSlot(SlotPresenter slotPresenter) { this.currentSelectedSlot = slotPresenter; }
 
         public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
+        public void ActiveAllSlot() => this.entities.ForEach(e => e.ActiveView());
 
         public void UpdateAllSlots(int currentLevel)
         {

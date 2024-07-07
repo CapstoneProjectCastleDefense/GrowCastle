@@ -93,6 +93,11 @@
             this.View.image.GetComponent<BoxCollider2D>().enabled = false;
         }
 
+        public void ActiveView() {
+            this.View.image.DOFade(1, 0.1f);
+            this.View.image.GetComponent<BoxCollider2D>().enabled = true;
+        }
+
         public void UnLoadHero() { }
 
         private async void ShowCharacterInfo(string characterId)
