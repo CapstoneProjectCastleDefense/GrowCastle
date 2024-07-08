@@ -9,9 +9,9 @@
 
     public class AffectManager
     {
-        private readonly Dictionary<Type, IAffectSystem> affectSystems = new();
+        private readonly Dictionary<Type, IEffectSystem> affectSystems = new();
 
-        public AffectManager(List<IAffectSystem> affectSystems)
+        public AffectManager(List<IEffectSystem> affectSystems)
         {
             affectSystems.ForEach(affect =>
             {

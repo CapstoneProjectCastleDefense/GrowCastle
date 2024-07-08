@@ -53,12 +53,11 @@
         private void OnFlyToTarget()
         {
             this.Model.Target.OnGetHit(this.Model.Damage);
-            this.abilitySystem.Execute(AbilityName.DealDamage, this.Model.Target, new Dictionary<StatEnum, (Type, object)>()
+            this.abilitySystem.Execute(AbilityName.DealDamage, this.Model.Target, new Dictionary<StatEnum, (Type, object)>
             {
                 { StatEnum.Attack, (typeof(float), this.Model.Damage) }
             });
             this.affectManager.AddAffectToTarget(this.Model.Target,new BleedTag(){Duration = 0.2f,TimeDelay = 0.1f,Timer = 0});
-            Debug.Log("Hit enemy with damage: " + this.Model.damage);
         }
 
         public virtual void OnProjectileHit(Collider2D collider2D)

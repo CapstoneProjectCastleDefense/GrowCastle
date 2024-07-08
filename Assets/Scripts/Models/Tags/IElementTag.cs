@@ -16,5 +16,6 @@
         BleedAffect,
         StunEffect,
         FearEffect,
+        InstantDamageEffect,
     }
 }

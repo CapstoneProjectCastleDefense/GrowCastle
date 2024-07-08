@@ -9,7 +9,7 @@
     using Runtime.Managers;
     using UnityEngine;
 
-    public class BleedAffectSystem : IAffectSystem
+    public class BleedEffectSystem : IEffectSystem
     {
         public Type              ConditionFilterTag => typeof(BleedTag);
         public List<ITargetable> AffectedElements   { get; set; } = new();
