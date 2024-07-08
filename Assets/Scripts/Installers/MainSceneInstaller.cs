@@ -23,6 +23,7 @@
     using Runtime.Signals;
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.Systems;
+    using Runtime.Systems.Effects;
     using Runtime.Systems.Waves;
     using UnityEngine.EventSystems;
     using Zenject;
@@ -40,6 +41,7 @@
             this.BindAllManager();
             this.BindElement();
             this.BindService();
+            this.BindEffect();
             GameStateMachineInstaller.Install(this.Container);
 
             WaveInstaller.Install(this.Container);
@@ -80,8 +82,6 @@
                     this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
                 }
             }
-
-            this.Container.BindInterfacesAndSelfTo<EffectManager>().AsCached();
         }
 
         private void BindAllSystem()
@@ -97,6 +97,12 @@
         private void BindService()
         {
             this.Container.BindInterfacesAndSelfTo<TimeCoolDownService>().AsCached();
+        }
+
+        private void BindEffect()
+        {
+            this.Container.BindInterfacesAndSelfTo<EffectManager>().AsCached();
+            this.Container.Bind<IEffect>().To(convention => convention.AllNonAbstractClasses()).WhenInjectedInto<EffectManager>().NonLazy();
         }
 
         private void DeclareSignals()
