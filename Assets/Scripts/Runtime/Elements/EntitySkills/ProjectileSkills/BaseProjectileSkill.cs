@@ -20,16 +20,16 @@
     {
         private readonly ProjectileManager   projectileManager;
         private readonly AbilitySystem       abilitySystem;
-        private readonly AffectManager       affectManager;
+        private readonly EffectManager       effectManager;
 
         public BaseProjectileSkill(ProjectileManager projectileManager,
                                    IGameAssets gameAssets,
                                    ProjectileBlueprint projectileBlueprint,
-                                   AbilitySystem abilitySystem, AffectManager affectManager)
+                                   AbilitySystem abilitySystem, EffectManager effectManager)
         {
             this.projectileManager   = projectileManager;
             this.abilitySystem       = abilitySystem;
-            this.affectManager       = affectManager;
+            this.effectManager       = effectManager;
         }
 
         protected override void InternalActivate() { this.FireProjectile().Forget(); }
@@ -57,7 +57,7 @@
             {
                 { StatEnum.Attack, (typeof(float), this.Model.Damage) }
             });
-            this.affectManager.AddAffectToTarget(this.Model.Target,new BleedTag(){Duration = 0.2f,TimeDelay = 0.1f,Timer = 0});
+            this.effectManager.Execute(this.Model.Target,new BleedTag(){Duration = 0.2f,TimeDelay = 0.1f,Timer = 0});
         }
 
         public virtual void OnProjectileHit(Collider2D collider2D)

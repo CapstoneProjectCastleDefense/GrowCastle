@@ -81,7 +81,7 @@
                 }
             }
 
-            this.Container.Bind<AffectManager>().AsCached();
+            this.Container.BindInterfacesAndSelfTo<EffectManager>().AsCached();
         }
 
         private void BindAllSystem()

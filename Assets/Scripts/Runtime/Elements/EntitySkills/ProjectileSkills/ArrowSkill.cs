@@ -15,8 +15,8 @@
                           IGameAssets gameAssets, 
                           ProjectileBlueprint projectileBlueprint, 
                           AbilitySystem abilitySystem, 
-                          AffectManager affectManager)
-            : base(projectileManager, gameAssets, projectileBlueprint, abilitySystem, affectManager) { }
+                          EffectManager effectManager)
+            : base(projectileManager, gameAssets, projectileBlueprint, abilitySystem, effectManager) { }
 
         public override void OnProjectileHit(Collider2D collider2D)
         {
