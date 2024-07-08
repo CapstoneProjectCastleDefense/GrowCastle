@@ -6,16 +6,7 @@
 
     public class ProjectileView : BaseElementView
     {
-        public Action<Collider2D> ProjectileHit;
-        
-        private void OnCollisionEnter2D(Collision2D other)
-        {
-            Debug.Log("Projectile hit");
-        }
-
-        private void OnTriggerEnter2D(Collider2D other)
-        {
-            this.ProjectileHit?.Invoke(other);
-        }
+        [HideInInspector] public Action<Collider2D> projectileHitTrigger;
+        private void OnTriggerEnter2D(Collider2D other) { this.projectileHitTrigger?.Invoke(other); }
     }
 }

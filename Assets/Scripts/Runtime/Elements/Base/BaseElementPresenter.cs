@@ -14,9 +14,9 @@
     {
         protected readonly ObjectPoolManager                             ObjectPoolManager;
         protected          BaseElementManager<TModel, TPresenter, TView> ElementManager;
-        
+
         public void SetManager(BaseElementManager<TModel, TPresenter, TView> manager) => this.ElementManager = manager;
-        
+
         protected BaseElementPresenter(TModel model, ObjectPoolManager objectPoolManager)
         {
             this.Model             = model;
@@ -35,15 +35,19 @@
             if (!this.IsViewInit)
             {
                 var viewObject = await this.CreateView();
-                this.View       = viewObject.GetComponent<TView>();
+                this.View = viewObject.GetComponent<TView>();
+                await this.InitView();
                 this.IsViewInit = true;
             }
         }
-        public BaseElementView GetView() { return this.View;}
+
+        public BaseElementView GetView() { return this.View; }
 
         public BaseElementView GetView() => this.View;
 
         protected abstract UniTask<GameObject> CreateView();
+
+        protected virtual async UniTask InitView() { }
 
         public class Factory : PlaceholderFactory<TModel, TPresenter>
         {

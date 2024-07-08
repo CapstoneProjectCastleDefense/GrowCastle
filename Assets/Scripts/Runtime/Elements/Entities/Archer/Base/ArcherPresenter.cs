@@ -10,6 +10,7 @@
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
+    using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
 
@@ -68,12 +69,11 @@
             target ??= this.FindTarget();
 
             if (target == null) return;
-            var enemy = (IElementPresenter)target;
 
             this.View.skeletonAnimation.SetAnimation("attack", false);
-            this.entitySkillSystem.CastSkill("archer_normal_attack", new BaseProjectileSkillModel()
+            this.entitySkillSystem.CastSkill(EntitySkillName.Arrow, new ArrowSkillModel()
             {
-                Id         = "archer_normal_attack",
+                Id         = EntitySkillName.Arrow,
                 StartPoint = this.View.spawnArrowPos.position,
                 EndPoint   = target.GetGameObject().transform.position,
                 Target     = target,
