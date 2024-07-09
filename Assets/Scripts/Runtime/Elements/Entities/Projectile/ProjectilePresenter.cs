@@ -11,7 +11,7 @@
     public class ProjectilePresenter : BaseElementPresenter<ProjectileModel, ProjectileView, ProjectilePresenter>
     {
         private Tween flyTween;
-        
+
         private readonly ProjectileBlueprint projectileBlueprint;
 
         public ProjectilePresenter(
@@ -29,10 +29,7 @@
             this.View.transform.position = this.Model.StartPoint;
         }
 
-        protected override UniTask<GameObject> CreateView()
-        {
-            return this.ObjectPoolManager.Spawn(this.projectileBlueprint[this.Model.Id].PrefabName);
-        }
+        protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.projectileBlueprint[this.Model.Id].PrefabName); }
 
         protected override UniTask InitView()
         {
@@ -45,11 +42,11 @@
             var id               = this.Model.Id;
             var projectileRecord = this.projectileBlueprint[id];
             this.flyTween = this.View.transform.Fly(this.Model.StartPoint,
-                                              this.Model.EndPoint,
-                                              projectileRecord.Fragment,
-                                              projectileRecord.ProjectileSpeed,
-                                              projectileRecord.Delay,
-                                              projectileRecord.VectorOrientation);
+                this.Model.EndPoint,
+                projectileRecord.Fragment,
+                projectileRecord.ProjectileSpeed,
+                projectileRecord.Delay,
+                projectileRecord.VectorOrientation);
 
             this.flyTween.onComplete += () =>
             {
@@ -62,8 +59,12 @@
 
         private void OnProjectileHit(Collider2D collider2D)
         {
-            this.flyTween?.Kill();
-            this.View.Recycle();
+            if (collider2D.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                this.View.projectileHitTrigger -= this.OnProjectileHit;
+                this.flyTween?.Kill();
+                this.View.Recycle();
+            }
         }
 
         public override void Dispose() { }
