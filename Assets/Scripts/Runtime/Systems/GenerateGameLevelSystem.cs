@@ -40,7 +40,7 @@
 
         private void GenerateMapLevel()
         {
-            var currentLevelRecord = this.levelBlueprint.GetDataById(this.levelLocalDataController.CurrentLevel);
+            var currentLevelRecord = this.levelBlueprint.GetDataById(this.levelLocalDataController.CurrentLevelValue);
             this.mapLevelManager.CreateElement(new() { LevelRecord = currentLevelRecord });
         }
 

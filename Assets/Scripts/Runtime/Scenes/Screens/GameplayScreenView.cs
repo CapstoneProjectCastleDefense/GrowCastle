@@ -1,40 +1,39 @@
-﻿namespace Runtime.Scenes
+﻿namespace Runtime.Scenes.Screens
 {
     using System;
+    using System.Globalization;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
+    using GameFoundation.Scripts.Utilities.Extension;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
+    using R3;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Managers;
+    using Runtime.Scenes.Popups;
     using Runtime.Signals;
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.StateMachines.GameStateMachine.States;
+    using Runtime.StateMachines.StateMachineBase.Signals;
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
-    using R3;
-    using Runtime.StateMachines.StateMachineBase.Signals;
-    using Runtime.Scenes.Popups;
-    using Sirenix.Serialization;
-    using System.Threading.Tasks;
-    using System.Collections.Generic;
 
     public class GameplayScreenView : BaseView
     {
-        public Image backGround;
-        public Button startWaveButton;
-        public Button upgradeCastle;
-        public Button upgradeArcher;
-        public Button dailyRewardButton;
-        public Image castleHealthBar;
-        public Image castleManaBar;
-        public Image waveBar;
+        public Image      backGround;
+        public Button     startWaveButton;
+        public Button     upgradeCastle;
+        public Button     upgradeArcher;
+        public Button     dailyRewardButton;
+        public Image      castleHealthBar;
+        public Image      castleManaBar;
+        public Image      waveBar;
         public GameObject waveIndicator;
         public GameObject upgradeField;
 
@@ -48,33 +47,45 @@
     [ScreenInfo(nameof(GameplayScreenView))]
     public class GameplayScreenPresenter : BaseScreenPresenter<GameplayScreenView>
     {
-        private readonly GameStateMachine gameStateMachine;
-        private readonly CastleManager castleManager;
-        private readonly ArcherManager archerManager;
+        private readonly GameStateMachine            gameStateMachine;
+        private readonly CastleManager               castleManager;
+        private readonly ArcherManager               archerManager;
         private readonly ResourceLocalDataController resourceLocalDataController;
-        private readonly ScreenManager screenManager;
-        private readonly SignalBus signalBus;
+        private readonly ScreenManager               screenManager;
+        private readonly LevelLocalDataController    levelLocalDataController;
+        private readonly CastleLocalDataController   castleLocalDataController;
+        private readonly ArcherLocalDataController   archerLocalDataController;
+        private readonly SignalBus                   signalBus;
         public GameplayScreenPresenter(
             SignalBus signalBus,
             GameStateMachine gameStateMachine,
             CastleManager castleManager,
             ArcherManager archerManager,
             ResourceLocalDataController resourceLocalDataController,
-            ScreenManager screenManager)
-            : base(signalBus) {
-            this.gameStateMachine = gameStateMachine;
-            this.castleManager = castleManager;
-            this.archerManager = archerManager;
+            ScreenManager screenManager,
+            LevelLocalDataController levelLocalDataController,
+            CastleLocalDataController castleLocalDataController,
+            ArcherLocalDataController archerLocalDataController)
+            : base(signalBus)
+        {
+            this.gameStateMachine            = gameStateMachine;
+            this.castleManager               = castleManager;
+            this.archerManager               = archerManager;
             this.resourceLocalDataController = resourceLocalDataController;
-            this.screenManager = screenManager;
-            this.signalBus = signalBus;
+            this.screenManager               = screenManager;
+            this.levelLocalDataController    = levelLocalDataController;
+            this.castleLocalDataController   = castleLocalDataController;
+            this.archerLocalDataController   = archerLocalDataController;
+            this.signalBus                   = signalBus;
         }
 
-        protected override void OnViewReady() {
+        protected override void OnViewReady()
+        {
             base.OnViewReady();
             this.OpenViewAsync().Forget();
             this.signalBus.Subscribe<UpdateCastleStatSignal>(this.OnCastleStatChange);
             this.signalBus.Subscribe<OnStateEnterSignal>(this.OnEnterNewGameState);
+            
             this.View.startWaveButton.onClick.AddListener(this.OnStartWaveButtonClick);
             this.View.upgradeCastle.onClick.AddListener(this.OnUpgradeCastleButtonClick);
             this.View.upgradeArcher.onClick.AddListener(this.OnUpgradeArcherButtonClick);
@@ -84,54 +95,69 @@
             this.resourceLocalDataController.GetResource(ResourceType.Diamond).Subscribe(this.OnDiamondValueChange);
             this.View.waveIndicator.SetActive(false);
 
+            this.levelLocalDataController.CurrentLevel.SubscribeToText(this.View.waveValue);
         }
 
-        private void OnCastleStatChange(UpdateCastleStatSignal signal) {
+        private void OnCastleStatChange(UpdateCastleStatSignal signal)
+        {
             this.View.castleHealthBar.DOFillAmount(signal.CastleStats.GetStat<float>(StatEnum.Health) * 1.0f / signal.CastleStats.GetStat<float>(StatEnum.MaxHealth), 0.1f);
         }
 
-        private void OnUpgradeCastleButtonClick() {
+        private void OnUpgradeCastleButtonClick()
+        {
             this.castleManager.UpgradeCastle();
+            this.View.castleCoinUpgradeValue.text = this.castleLocalDataController.GetGoldToUpgrade().ToString(CultureInfo.InvariantCulture);
         }
 
-        private void OnUpgradeArcherButtonClick() { this.archerManager.UpgradeArcher(); }
-        private async void OnDailyRewardClick() { await this.screenManager.OpenScreen<DailyRewardPopupPresenter>(); }
-
-        private void OnStartWaveButtonClick() {
-            this.gameStateMachine.TransitionTo<GameStartWaveState>();
+        private void OnUpgradeArcherButtonClick()
+        {
+            this.archerManager.UpgradeArcher();
+            this.View.archerCoinUpgradeValue.text = this.archerLocalDataController.GetGoldNeedToUpgrade().ToString(CultureInfo.InvariantCulture);
         }
+        private async void OnDailyRewardClick()         { await this.screenManager.OpenScreen<DailyRewardPopupPresenter>(); }
 
-        private async void OnEnterNewGameState(OnStateEnterSignal signal) {
-            float fadeTime = 0.7f;
+        private void OnStartWaveButtonClick() { this.gameStateMachine.TransitionTo<GameStartWaveState>(); }
+
+        private void OnEnterNewGameState(OnStateEnterSignal signal)
+        {
             switch (signal.State)
             {
                 case GamePrepareState:
-                    //this.View.backGround.DOFade(1, 0);
-                    //this.View.backGround.DOFade(0, 3).SetEase(Ease.OutQuad);
-
-                    this.View.upgradeField.GetComponent<RectTransform>().DOAnchorPosX(-420f, fadeTime).SetEase(Ease.OutElastic);
-                    this.View.startWaveButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(178f, fadeTime).SetEase(Ease.OutElastic);
-                    this.View.dailyRewardButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(157f, fadeTime).SetEase(Ease.OutElastic);
-                    this.View.waveIndicator.SetActive(false);
+                    this.DoPrepareStateAnim(1f);
                     return;
                 case GameStartWaveState:
-                    this.View.upgradeField.GetComponent<RectTransform>().DOAnchorPosX(1000f, fadeTime).SetEase(Ease.InOutQuint);
-                    this.View.startWaveButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(-1000f, fadeTime).SetEase(Ease.InOutQuint);
-                    this.View.dailyRewardButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(-1000f, fadeTime).SetEase(Ease.InOutQuint);
-                    this.View.waveIndicator.SetActive(true);
+                    this.DoStartWaveAnim(1f);
                     break;
             }
         }
 
-        private void OnGoldValueChange(float value) => this.View.goldValue.text = $"{value}";
+        private void DoPrepareStateAnim(float fadeTime)
+        {
+            this.View.upgradeField.GetComponent<RectTransform>().DOAnchorPosX(-420f, fadeTime).SetEase(Ease.OutElastic);
+            this.View.startWaveButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(178f, fadeTime).SetEase(Ease.OutElastic);
+            this.View.dailyRewardButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(157f, fadeTime).SetEase(Ease.OutElastic);
+            this.View.waveIndicator.SetActive(false);
+        }
+
+        private void DoStartWaveAnim(float fadeTime)
+        {
+            this.View.upgradeField.GetComponent<RectTransform>().DOAnchorPosX(1000f, fadeTime).SetEase(Ease.InOutQuint);
+            this.View.startWaveButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(-1000f, fadeTime).SetEase(Ease.InOutQuint);
+            this.View.dailyRewardButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(-1000f, fadeTime).SetEase(Ease.InOutQuint);
+            this.View.waveIndicator.SetActive(true);
+        }
+
+        private void OnGoldValueChange(float value)    => this.View.goldValue.text = $"{value}";
         private void OnDiamondValueChange(float value) => this.View.diamondValue.text = $"{value}";
 
-        public override UniTask BindData() {
-            this.View.goldValue.text = $"{this.resourceLocalDataController.GetResource(ResourceType.Gold).Value}";
-            this.View.diamondValue.text = $"{this.resourceLocalDataController.GetResource(ResourceType.Diamond).Value}";
+        public override UniTask BindData()
+        {
+            this.View.goldValue.text              = $"{this.resourceLocalDataController.GetResource(ResourceType.Gold).Value}";
+            this.View.diamondValue.text           = $"{this.resourceLocalDataController.GetResource(ResourceType.Diamond).Value}";
+            this.View.castleCoinUpgradeValue.text = this.castleLocalDataController.GetGoldToUpgrade().ToString(CultureInfo.InvariantCulture);
+            this.View.archerCoinUpgradeValue.text = this.archerLocalDataController.GetGoldNeedToUpgrade().ToString(CultureInfo.InvariantCulture);
             UniTask.Delay(TimeSpan.FromSeconds(1)).ContinueWith(() => { this.View.backGround.DOFade(0, 3).SetEase(Ease.OutQuad); });
             return UniTask.CompletedTask;
         }
-
     }
 }

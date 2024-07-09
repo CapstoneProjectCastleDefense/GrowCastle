@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Codice.Client.BaseCommands.BranchExplorer;
     using GameFoundation.Scripts.Utilities.Extension;
     using Models.Blueprints;
     using Runtime.Enums;
@@ -43,14 +44,18 @@
             {
                 return;
             }
-            if(!this.resourceLocalDataController.SpendResource(ResourceType.Gold,this.castleConfigBlueprint.BaseGoldNeedToUpgrade)) return;
+            if(!this.resourceLocalDataController.SpendResource(ResourceType.Gold,this.GetGoldToUpgrade())) return;
             this.castleLocalData.Level++;
             var newBlockUnlockId    = this.castleBlueprint.GetDataById(this.castleLocalData.Level).BlockUnlock;
             var newBlockUnlockLevel = this.castleBlueprint.GetDataById(this.castleLocalData.Level).BlockUnlockLevel;
             this.UnlockNewBlock(newBlockUnlockId, newBlockUnlockLevel);
             this.UnlockNewSlot(this.castleBlueprint.GetDataById(this.castleLocalData.Level).SlotUnlock);
         }
-
+        public float GetGoldToUpgrade()
+        {
+            return this.castleConfigBlueprint.BaseGoldNeedToUpgrade * this.castleLocalData.Level * this.castleConfigBlueprint.CoefficientGold;
+        }
+        
         #endregion
 
         #region Slot

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using GameFoundation.Scripts.Utilities.Extension;
     using Models.Blueprints;
+    using Models.LocalData.LocalDataController;
     using Runtime.Managers;
     using Runtime.Services;
     using Runtime.Signals;
@@ -17,22 +18,24 @@
         private          float                               waveLoadCoolDown;
         private readonly List<(int waveId, float delayTime)> waveWithDelayTimeQueue = new();
 
-        private readonly EnemyGroupLoaderService enemyGroupLoaderService;
-        private readonly LevelBlueprint          levelBlueprint;
-        private readonly SignalBus               signalBus;
-        private readonly EnemyManager            enemyManager;
-        private readonly WaveBlueprint           waveBlueprint;
+        private readonly EnemyGroupLoaderService  enemyGroupLoaderService;
+        private readonly LevelBlueprint           levelBlueprint;
+        private readonly SignalBus                signalBus;
+        private readonly EnemyManager             enemyManager;
+        private readonly WaveBlueprint            waveBlueprint;
+        private readonly LevelLocalDataController levelLocalDataController;
 
         public WaveSystem(
             EnemyGroupLoaderService enemyGroupLoaderService,
             LevelBlueprint levelBlueprint,
-            SignalBus signalBus, EnemyManager enemyManager,WaveBlueprint waveBlueprint)
+            SignalBus signalBus, EnemyManager enemyManager,WaveBlueprint waveBlueprint, LevelLocalDataController levelLocalDataController)
         {
-            this.enemyGroupLoaderService = enemyGroupLoaderService;
-            this.levelBlueprint          = levelBlueprint;
-            this.signalBus               = signalBus;
-            this.enemyManager            = enemyManager;
-            this.waveBlueprint           = waveBlueprint;
+            this.enemyGroupLoaderService  = enemyGroupLoaderService;
+            this.levelBlueprint           = levelBlueprint;
+            this.signalBus                = signalBus;
+            this.enemyManager             = enemyManager;
+            this.waveBlueprint            = waveBlueprint;
+            this.levelLocalDataController = levelLocalDataController;
         }
 
         public void Initialize() { this.signalBus.Subscribe<TimeCooldownSignal>(this.OnTimeCooldown); }
@@ -61,7 +64,7 @@
         {
             this.InitWaveQueue(level);
             this.isActiveWave = true;
-            this.enemyManager.StartCounterDeathEnemy(this.CountEnemyInWave(level),this.EndCurrentWave);
+            this.enemyManager.StartCounterDeathEnemy(this.CountEnemyInWave(level),this.CompleteCurrentWave);
         }
 
         private int CountEnemyInWave(int level)
@@ -87,10 +90,11 @@
             }
         }
 
-        private void EndCurrentWave()
+        private void CompleteCurrentWave()
         {
             this.waveWithDelayTimeQueue.Clear();
             this.isActiveWave = false;
+            this.levelLocalDataController.PassCurrentLevel();
             this.GetCurrentContainer().Resolve<GameStateMachine>().TransitionTo<GameEndWaveState>();
         }
 

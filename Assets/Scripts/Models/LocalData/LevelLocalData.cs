@@ -1,15 +1,15 @@
 ﻿namespace Models.LocalData
 {
     using Models.LocalData.LocalDataController;
+    using R3;
 
     public class LevelLocalData : ILocalDataHaveController<LevelLocalDataController>
     {
-        public int CurrentLevel = 1;
-        public int CurrentWave  = 1;
+        public ReactiveProperty<int> CurrentLevel { get; set; } = new(1);
+        public ReactiveProperty<int> CurrentWave  { get; set; } = new(1);
         public void Init()
         {
-            this.CurrentLevel = 1;
-            this.CurrentWave  = 1;
+            
         }
     }
 }
