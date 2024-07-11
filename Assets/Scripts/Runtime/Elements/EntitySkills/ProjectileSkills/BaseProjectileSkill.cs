@@ -32,6 +32,8 @@
             this.effectManager     = effectManager;
         }
 
+        protected readonly List<ProjectilePresenter> firedProjectiles = new();
+
         protected override void InternalActivate() { this.FireProjectile().Forget(); }
 
         private async UniTaskVoid FireProjectile()
@@ -47,26 +49,26 @@
             });
 
             await projectile.UpdateView();
-            projectile.FlyToTarget().onComplete += this.OnFlyToTarget;
+            this.firedProjectiles.Add(projectile);
+            projectile.FlyToTarget().onComplete += () => this.OnFlyToTarget(projectile);
         }
 
-        private void OnFlyToTarget()
+        protected virtual void OnFlyToTarget(ProjectilePresenter projectile)
         {
-            this.Model.Target.OnGetHit(this.Model.Damage);
-            this.abilitySystem.Execute(AbilityName.DealDamage, this.Model.Target, new Dictionary<StatEnum, (Type, object)>
-            {
-                { StatEnum.Attack, (typeof(float), this.Model.Damage) }
-            });
-            this.effectManager.Execute(this.Model.Target, new BleedTag() { Duration = 0.2f, TimeDelay = 0.1f, Timer = 0 });
+            this.RemoveProjectile(projectile);
         }
 
-        public virtual void OnProjectileHit(Collider2D collider2D)
+        protected virtual void OnProjectileHit(Collider2D collider2D, ProjectilePresenter projectile)
         {
-            this.Model.Target.OnGetHit(this.Model.Damage);
-            this.abilitySystem.Execute(AbilityName.DealDamage, this.Model.Target, new Dictionary<StatEnum, (Type, object)>()
+            
+        }
+
+        protected void RemoveProjectile(ProjectilePresenter projectile)
+        {
+            if (this.firedProjectiles.Contains(projectile))
             {
-                { StatEnum.Attack, (typeof(float), this.Model.Damage) }
-            });
+                this.firedProjectiles.Remove(projectile);
+            } 
         }
     }
 

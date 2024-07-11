@@ -24,6 +24,7 @@
         private const    string                      AttackAnimName = "atk";
         private const    string                      DeathAnimName  = "dead";
         private const    string                      MoveAnimName   = "animation2";
+        
         private readonly FindTargetSystem            findTargetSystem;
         private readonly ResourceLocalDataController resourceLocalDataController;
 
@@ -121,10 +122,18 @@
             if (this.IsDead) return;
             float goldDrop = this.Model.GetStat<float>(StatEnum.Gold);
             this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
+            
+            this.TargetThatImLookingAt = null;
             this.IsDead = true;
+            
             this.View.HealthBarContainer.gameObject.SetActive(false);
+            
+            this.DropCoin();
+            
+            this.ElementManager.entities.Remove(this);
+            ((EnemyManager)this.ElementManager).UpdateEnemyDeathCounter();
+            
             var wait = 0f;
-            this.CoinPopUp(goldDrop);
             if (!DeathAnimName.IsNullOrEmpty() &&
                 this.View.SkeletonAnimation != null)
             {
@@ -132,10 +141,19 @@
                 wait = this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
             }
 
+            this.View.transform.DOKill();
+
             UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
         }
 
-        public void CoinPopUp(float goldDrop)
+        private void DropCoin()
+        {
+            var goldDrop = this.Model.GetStat<float>(StatEnum.Gold);
+            this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
+            this.CoinPopUp(goldDrop);
+        }
+
+        private void CoinPopUp(float goldDrop)
         {
             this.View.CoinPopupCanvas.alpha                                    = 0;
             this.View.CoinPopup.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, 5.55f);
@@ -174,11 +192,6 @@
                 this.Model.SetStat(StatEnum.TargetThatAttackingMe, value);
             }
         }
-
-        public bool                                 IsDead          { get; private set; }
-        public Dictionary<StatEnum, (Type, object)> GetStats()      { return this.Model.Stats; }
-        public GameObject                           GetGameObject() { return this.View.gameObject; }
-        public Dictionary<Type, IEffectTag>         CurrentTag      { get; set; } = new();
 
         protected override UniTask<GameObject> CreateView()
         {
