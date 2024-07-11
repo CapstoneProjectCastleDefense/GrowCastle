@@ -99,8 +99,8 @@
 
         public void CastSkill(string skillId, ITargetable target) { }
 
-        public virtual Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
-        public virtual string[] GetTags() { return new[] { "Fly", "Ground", "Boss", "Building" }; }
+        public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
+        public virtual string[] GetTags()         { return new[] { "Fly", "Ground", "Boss", "Building" }; }
 
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 

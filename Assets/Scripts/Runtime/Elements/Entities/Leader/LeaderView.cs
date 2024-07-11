@@ -5,7 +5,7 @@
     using UnityEngine;
     using UnityEngine.UI;
 
-    public class LeaderView : BaseElementView
+    public class LeaderView : BaseCombatantView
     {
         [field: SerializeField] public SkeletonAnimation SkeletonAnimation     { get; private set; }
         [field: SerializeField] public Collider2D        GraphicCollider2D     { get; private set; }

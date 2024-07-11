@@ -98,7 +98,13 @@
             this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / this.Model.GetStat<float>(StatEnum.MaxHealth), 0.1f);
         }
 
-        public void OnGetHit(float damage)
+        public override void UpdateStats()
+        {
+            base.UpdateStats();
+            this.UpdateHpStat();
+        }
+        
+        private void UpdateHpStat()
         {
             if (this.IsDead) return;
             var currentHealth = this.Model.GetStat<float>(StatEnum.Health);
@@ -174,7 +180,7 @@
         public bool                                 IsDead          { get; private set; }
         public Dictionary<StatEnum, (Type, object)> GetStats()      { return this.Model.Stats; }
         public GameObject                           GetGameObject() { return this.View.gameObject; }
-        public Dictionary<Type, IElementTag>        CurrentTag      { get; set; } = new();
+        public Dictionary<Type, IEffectTag>        CurrentTag      { get; set; } = new();
 
         protected override UniTask<GameObject> CreateView()
         {

@@ -13,7 +13,7 @@
         void              Initialize();
         void              Tick();
         void              Dispose();
-        void              Execute(ITargetable target, IElementTag tag);
+        void              Execute(ITargetable target, IEffectTag tag);
     }
 
     public abstract class BaseEffect : IEffect
@@ -25,9 +25,9 @@
 
         public abstract Type              EffectTagType    { get; }
         public          List<ITargetable> AffectedElements { get; set; } = new();
-        public abstract void              Execute(ITargetable target, IElementTag tag);
+        public abstract void              Execute(ITargetable target, IEffectTag tag);
 
-        public void AddEffectToTarget(ITargetable target, IElementTag tag)
+        public void AddEffectToTarget(ITargetable target, IEffectTag tag)
         {
             if (!target.CurrentTag.ContainsKey(this.EffectTagType))
             {

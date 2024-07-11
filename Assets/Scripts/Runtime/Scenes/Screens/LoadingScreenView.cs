@@ -50,10 +50,10 @@
             return this.tween.AsyncWaitForCompletion().AsUniTask();
         }
     }
+
     [ScreenInfo(nameof(LoadingScreenView))]
     public class LoadingScreenPresenter : BaseScreenPresenter<LoadingScreenView>
     {
-
         #region Inject
 
         protected readonly BlueprintReaderManager     blueprintManager;
@@ -114,17 +114,20 @@
             this.loadingSteps    = 1;
 
             UniTask.WhenAll(
-                this.CreateObjectPool(AudioService.AudioSourceKey, 3),
-                this.Preload(),
-                UniTask.WhenAll(
-                    this.LoadBlueprint().ContinueWith(this.OnBlueprintLoaded)
-                ).ContinueWith(this.OnBlueprintAndUserDataLoaded)
-            ).ContinueWith(this.OnLoadingCompleted).ContinueWith(this.LoadNextScene);
+                       this.CreateObjectPool(AudioService.AudioSourceKey, 3),
+                       this.Preload(),
+                       UniTask.WhenAll(
+                                  this.LoadBlueprint().ContinueWith(this.OnBlueprintLoaded)
+                              )
+                              .ContinueWith(this.OnBlueprintAndUserDataLoaded)
+                   )
+                   .ContinueWith(this.OnLoadingCompleted)
+                   .ContinueWith(this.LoadNextScene)
+                   .Forget();
 
             return UniTask.CompletedTask;
         }
 
-    
         protected virtual async UniTask LoadNextScene()
         {
             SceneDirector.CurrentSceneName = this.NextSceneName;
@@ -139,7 +142,6 @@
             this.OnAfterLoading();
         }
 
-      
         protected virtual void OnAfterLoading() { }
 
         protected virtual AsyncOperationHandle<SceneInstance> LoadSceneAsync() { return this.gameAssets.LoadSceneAsync(this.NextSceneName, LoadSceneMode.Single, false); }
@@ -154,10 +156,7 @@
 
         private UniTask LoadUserData() { return this.TrackProgress(this.userDataManager.LoadUserData()); }
 
-        protected virtual UniTask OnBlueprintLoaded()
-        {
-            return this.LoadUserData().ContinueWith(this.OnUserDataLoaded);
-        }
+        protected virtual UniTask OnBlueprintLoaded() { return this.LoadUserData().ContinueWith(this.OnUserDataLoaded); }
 
         protected virtual UniTask OnUserDataLoaded() { return UniTask.CompletedTask; }
 
@@ -165,7 +164,7 @@
 
         protected virtual UniTask OnLoadingCompleted()
         {
-            this.localDataControllers.ForEach(e=>e.InitData());
+            this.localDataControllers.ForEach(e => e.InitData());
             return UniTask.CompletedTask;
         }
 
@@ -174,7 +173,7 @@
         protected UniTask PreloadAssets<T>(params object[] keys)
         {
             return UniTask.WhenAll(this.gameAssets.PreloadAsync<T>(this.NextSceneName, keys)
-                .Select(this.TrackProgress));
+                                       .Select(this.TrackProgress));
         }
 
         protected UniTask CreateObjectPool(string prefabName, int initialPoolSize = 1)
@@ -202,12 +201,12 @@
             }
 
             return aoh.ToUniTask(Progress.CreateOnlyValueChanged<float>(UpdateProgress))
-                .ContinueWith(result =>
-                {
-                    UpdateProgress(1f);
+                      .ContinueWith(result =>
+                      {
+                          UpdateProgress(1f);
 
-                    return result;
-                });
+                          return result;
+                      });
         }
 
         protected void TrackProgress<T>() where T : IProgressPercent

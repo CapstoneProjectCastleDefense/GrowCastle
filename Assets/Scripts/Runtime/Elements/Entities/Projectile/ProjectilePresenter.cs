@@ -62,6 +62,7 @@
             if (collider2D.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 this.View.projectileHitTrigger -= this.OnProjectileHit;
+                this.Model.OnProjectileHit?.Invoke(collider2D);
                 this.flyTween?.Kill();
                 this.View.Recycle();
             }

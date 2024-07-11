@@ -1,8 +1,8 @@
 ﻿namespace Models.Tags
 {
-    public class BleedTag : IElementTag
+    public class BleedTag : IEffectTag
     {
-        public Tag   ElementTag => Tag.BleedAffect;
+        public EffectTagEnum   ElementEffectTagEnum => EffectTagEnum.BleedAffect;
         public float Duration;
         public float TimeDelay;
         public float Timer;

@@ -6,7 +6,7 @@
     using Runtime.Enums;
     using UnityEngine;
 
-    public interface ITargetable
+    public interface ITargetable : IHaveStats
     {
         void                                 OnGetHit(float damage);
         void                                 OnDeath();
@@ -14,8 +14,12 @@
         ITargetable                          TargetThatImLookingAt { get; set; }
         ITargetable                          TargetThatAttackingMe { get; set; }
         bool                                 IsDead                { get; }
-        Dictionary<StatEnum, (Type, object)> GetStats();
         GameObject                           GetGameObject();
-        public Dictionary<Type, IElementTag> CurrentTag { get; set; }
+        public Dictionary<Type, IEffectTag> CurrentTag { get; set; }
+    }
+
+    public interface ITargetableView
+    {
+        public ITargetable GetTargetablePresenter();
     }
 }
