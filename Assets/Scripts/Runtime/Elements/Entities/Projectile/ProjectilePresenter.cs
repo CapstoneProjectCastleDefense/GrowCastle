@@ -11,6 +11,7 @@
     public class ProjectilePresenter : BaseElementPresenter<ProjectileModel, ProjectileView, ProjectilePresenter>
     {
         private Tween flyTween;
+        private bool  isFlyComplete;
 
         private readonly ProjectileBlueprint projectileBlueprint;
 
@@ -39,19 +40,22 @@
 
         public Tween FlyToTarget()
         {
+            this.isFlyComplete = false;
             var id               = this.Model.Id;
             var projectileRecord = this.projectileBlueprint[id];
             this.flyTween = this.View.transform.Fly(this.Model.StartPoint,
-                this.Model.EndPoint,
-                projectileRecord.Fragment,
-                projectileRecord.ProjectileSpeed,
-                projectileRecord.Delay,
-                projectileRecord.VectorOrientation);
+                                                    this.Model.EndPoint,
+                                                    projectileRecord.Fragment,
+                                                    projectileRecord.ProjectileSpeed,
+                                                    projectileRecord.Delay,
+                                                    projectileRecord.VectorOrientation);
 
             this.flyTween.onComplete += () =>
             {
+                if(this.isFlyComplete) return;
                 this.View.Recycle();
                 DOTween.Kill(this.View.transform);
+                this.isFlyComplete = true;
             };
 
             return this.flyTween;
@@ -59,12 +63,14 @@
 
         private void OnProjectileHit(Collider2D collider2D)
         {
+            if (this.isFlyComplete) return;
             if (collider2D.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 this.View.projectileHitTrigger -= this.OnProjectileHit;
                 this.Model.OnProjectileHit?.Invoke(collider2D);
                 this.flyTween?.Kill();
                 this.View.Recycle();
+                this.isFlyComplete = true;
             }
         }
 
