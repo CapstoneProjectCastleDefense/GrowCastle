@@ -27,8 +27,8 @@
         private readonly FindTargetSystem            findTargetSystem;
         private readonly ResourceLocalDataController resourceLocalDataController;
 
-        public virtual Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
-        public virtual string[] GetTags() { return new[] { "Ally", "Building" }; }
+        public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
+        public virtual string[] GetTags()         { return new[] { "Ally", "Building" }; }
 
         protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem, ResourceLocalDataController resourceLocalDataController)
             : base(model, objectPoolManager)
@@ -49,7 +49,7 @@
 
         private void DoMove(Vector3 endPos, float distance)
         {
-            if(this.isMoving) return;
+            if (this.isMoving) return;
             this.isMoving = true;
             this.View.transform.DOKill();
             this.View.transform.DOMoveX(endPos.x, distance / this.Model.GetStat<float>(StatEnum.MoveSpeed));
@@ -103,7 +103,7 @@
             base.UpdateStats();
             this.UpdateHpStat();
         }
-        
+
         private void UpdateHpStat()
         {
             if (this.IsDead) return;
@@ -119,6 +119,7 @@
         public void OnDeath()
         {
             if (this.IsDead) return;
+            this.TargetThatImLookingAt = null;
             float goldDrop = this.Model.GetStat<float>(StatEnum.Gold);
             this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
             this.IsDead = true;
@@ -135,16 +136,14 @@
             UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
         }
 
-        public void CoinPopUp(float goldDrop) {
-            this.View.CoinPopupCanvas.alpha = 0;
+        public void CoinPopUp(float goldDrop)
+        {
+            this.View.CoinPopupCanvas.alpha                                    = 0;
             this.View.CoinPopup.GetComponent<RectTransform>().anchoredPosition = new Vector2(0f, 5.55f);
             this.View.CoinPopup.GetComponentInChildren<TextMeshProUGUI>().SetText("+ " + goldDrop);
             this.View.CoinPopup.SetActive(true);
             this.View.CoinPopup.GetComponent<RectTransform>().DOAnchorPosY(6.55f, 0.3f);
-            this.View.CoinPopupCanvas.DOFade(1f, 0.3f).OnComplete(() =>
-            {
-                this.View.CoinPopupCanvas.DOFade(0f, 0.3f);
-            });
+            this.View.CoinPopupCanvas.DOFade(1f, 0.3f).OnComplete(() => { this.View.CoinPopupCanvas.DOFade(0f, 0.3f); });
         }
 
         public ITargetable TargetThatImAttacking
@@ -180,7 +179,7 @@
         public bool                                 IsDead          { get; private set; }
         public Dictionary<StatEnum, (Type, object)> GetStats()      { return this.Model.Stats; }
         public GameObject                           GetGameObject() { return this.View.gameObject; }
-        public Dictionary<Type, IEffectTag>        CurrentTag      { get; set; } = new();
+        public Dictionary<Type, IEffectTag>         CurrentTag      { get; set; } = new();
 
         protected override UniTask<GameObject> CreateView()
         {
@@ -211,6 +210,7 @@
                 this.TargetThatImLookingAt = this.FindTarget();
             }
 
+            if (this.TargetThatImLookingAt == null) return;
             var endPos   = this.TargetThatImLookingAt.GetGameObject().transform.position;
             var distance = Vector3.Distance(this.View.transform.position, endPos);
             var range    = this.Model.GetStat<float>(StatEnum.AttackRange);

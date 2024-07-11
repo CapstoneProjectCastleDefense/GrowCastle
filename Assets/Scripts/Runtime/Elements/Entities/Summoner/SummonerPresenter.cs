@@ -19,8 +19,8 @@
     public class SummonerPresenter : BaseCombatantPresenter<SummonerModel, SummonerView, SummonerPresenter>, ISummonBeingPresenter
     {
         private const    string           AttackAnimName = "atk";
-        private const    string           DeathAnimName  = "dead";
-        private const    string           MoveAnimName   = "animation2";
+        private const    string           DeathAnimName  = "idle";
+        private const    string           MoveAnimName   = "run";
         private readonly FindTargetSystem findTargetSystem;
 
         public SummonerPresenter(SummonerModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem)

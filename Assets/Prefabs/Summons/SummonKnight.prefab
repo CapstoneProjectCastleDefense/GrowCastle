@@ -410,7 +410,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: f86e8ce69770ed347ad2148d1bd8a7dd, type: 2}
+  - {fileID: 2100000, guid: 905ef29fdadf08d47aaad4b7d197d2e2, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -452,8 +452,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d247ba06193faa74d9335f5481b2b56c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  skeletonDataAsset: {fileID: 11400000, guid: 9a21d988c8786c042b5731b78f1bb45e, type: 2}
-  initialSkinName: 
+  skeletonDataAsset: {fileID: 11400000, guid: 2ddf1a6994406ae47ab0b229dd1f8059, type: 2}
+  initialSkinName: 1
   initialFlipX: 0
   initialFlipY: 0
   updateWhenInvisible: 3
@@ -474,7 +474,7 @@ MonoBehaviour:
     materialsInsideMask: []
     materialsOutsideMask: []
   disableRenderingOnOverride: 1
-  _animationName: animation2
+  _animationName: run
   loop: 1
   timeScale: 1
 --- !u!1 &7991563882657363595

@@ -1,4 +1,4 @@
-﻿namespace Runtime.Elements.EntitySkills
+﻿namespace Runtime.Elements.EntitySkills.ProjectileSkills
 {
     using GameFoundation.Scripts.AssetLibrary;
     using Models.Blueprints;

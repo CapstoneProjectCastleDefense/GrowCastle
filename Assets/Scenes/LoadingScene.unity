@@ -269,11 +269,6 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1943710968}
     m_Modifications:
-    - target: {fileID: 2490817525956923685, guid: 6bd68deb02971bb4f87c4b4715def2be,
-        type: 3}
-      propertyPath: m_AnchorMax.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 4584480146450338947, guid: 6bd68deb02971bb4f87c4b4715def2be,
         type: 3}
       propertyPath: m_Pivot.x
@@ -378,6 +373,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: LoadingScreenView
+      objectReference: {fileID: 0}
+    - target: {fileID: 7154513794950581536, guid: 6bd68deb02971bb4f87c4b4715def2be,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7154513794950581536, guid: 6bd68deb02971bb4f87c4b4715def2be,
         type: 3}

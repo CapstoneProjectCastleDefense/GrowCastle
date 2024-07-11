@@ -1,5 +1,6 @@
 ﻿namespace Runtime.StateMachines.GameStateMachine.States
 {
+    using Codice.CM.Common;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using Runtime.Managers;
     using Runtime.Scenes;
@@ -35,6 +36,7 @@
             this.heroManager.ChangeAttackStatusOfAllHero(false);
             this.towerManager.ChangeAttackStatusOfAllTower(false);
             this.castleManager.ResetCurrentCastleHealth();
+            this.slotManager.ActiveAllSlot();
         }
 
         public override void Exit() { }

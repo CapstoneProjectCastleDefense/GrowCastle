@@ -37,7 +37,6 @@
             this.timeCoolDownService.Resume();
             this.waveSystem.StartCurrentWave(1);
             this.slotManager.DeActiveAllSlot();
-            this.summonerManager.CreateSingleSummoner("SummonKnight", new(2, -2, 0), 1);
             this.archerManager.ChangeAttackStatusOfAllArcher(true);
             this.heroManager.ChangeAttackStatusOfAllHero(true);
             this.towerManager.ChangeAttackStatusOfAllTower(true);

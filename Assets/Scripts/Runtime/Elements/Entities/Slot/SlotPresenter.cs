@@ -33,7 +33,13 @@
         private readonly HeroLocalDataController heroLocalDataController;
         public           SlotManager             slotManager;
 
-        public SlotPresenter(SlotModel model, ObjectPoolManager objectPoolManager, IGameAssets gameAssets, SlotLocalDataController slotLocalDataController, ScreenManager screenManager, HeroLocalDataController heroLocalDataController)
+        public SlotPresenter(
+            SlotModel model,
+            ObjectPoolManager objectPoolManager,
+            IGameAssets gameAssets,
+            SlotLocalDataController slotLocalDataController,
+            ScreenManager screenManager,
+            HeroLocalDataController heroLocalDataController)
             : base(model, objectPoolManager)
         {
             this.gameAssets              = gameAssets;
@@ -93,7 +99,9 @@
             this.View.image.GetComponent<BoxCollider2D>().enabled = false;
         }
 
-        public void ActiveView() {
+        public async void ActiveView()
+        {
+            await UniTask.WaitUntil(() => this.View != null);
             this.View.image.DOFade(1, 0.1f);
             this.View.image.GetComponent<BoxCollider2D>().enabled = true;
         }
@@ -102,13 +110,11 @@
 
         private async void ShowCharacterInfo(string characterId)
         {
-            await this.screenManager.OpenScreen<CharacterInfoPopupPresenter, CharacterInfoPopupModel>(new() { heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(characterId), currentSelectedSlotType = this.slotManager.GetCurrentSelectedSlotModel().SlotRecord.SlotType });
+            await this.screenManager.OpenScreen<CharacterInfoPopupPresenter, CharacterInfoPopupModel>(new()
+                { heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(characterId), currentSelectedSlotType = this.slotManager.GetCurrentSelectedSlotModel().SlotRecord.SlotType });
         }
 
-        private async void ShowInventory()
-        {
-            await this.screenManager.OpenScreen<CharacterInventoryPopupPresenter>();
-        }
+        private async void ShowInventory() { await this.screenManager.OpenScreen<CharacterInventoryPopupPresenter>(); }
 
         public override void Dispose() { }
     }

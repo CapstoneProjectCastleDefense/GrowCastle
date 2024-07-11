@@ -5,13 +5,15 @@
     using Models.Blueprints;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
+    using Runtime.StaticValues;
 
-    public abstract class SummonSkill : BaseEntitySkillPresenter<BasicSkillModel>
+    public class SummonSkill : BaseEntitySkillPresenter<BasicSkillModel>
     {
         private readonly ObjectPoolManager    objectPoolManager;
         private readonly SkillSummonBlueprint skillSummonBlueprint;
         private readonly SummonerManager      summonerManager;
 
+        public override string SkillId { get; set; } = EntitySkillName.SummonSkill;
         public SummonSkill(ObjectPoolManager objectPoolManager, SkillSummonBlueprint skillSummonBlueprint,SummonerManager summonerManager)
         {
             this.objectPoolManager    = objectPoolManager;
