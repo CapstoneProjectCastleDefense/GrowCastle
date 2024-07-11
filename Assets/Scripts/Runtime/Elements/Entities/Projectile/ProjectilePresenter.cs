@@ -28,8 +28,7 @@
         {
             await base.UpdateView();
             this.View.transform.position   = this.Model.StartPoint;
-            this.View.projectileHitTrigger = null;
-            this.View.projectileHitTrigger += this.OnProjectileHit;
+            this.View.projectileHitTrigger = this.OnProjectileHit;
         }
 
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.projectileBlueprint[this.Model.Id].PrefabName); }
@@ -40,15 +39,15 @@
             var id               = this.Model.Id;
             var projectileRecord = this.projectileBlueprint[id];
             this.flyTween = this.View.transform.Fly(this.Model.StartPoint,
-                                                    this.Model.EndPoint,
-                                                    projectileRecord.Fragment,
-                                                    projectileRecord.ProjectileSpeed,
-                                                    projectileRecord.Delay,
-                                                    projectileRecord.VectorOrientation);
+                this.Model.EndPoint,
+                projectileRecord.Fragment,
+                projectileRecord.ProjectileSpeed,
+                projectileRecord.Delay,
+                projectileRecord.VectorOrientation);
 
             this.flyTween.onComplete += () =>
             {
-                if(this.isFlyComplete) return;
+                if (this.isFlyComplete) return;
                 this.View.Recycle();
                 DOTween.Kill(this.View.transform);
                 this.isFlyComplete = true;
@@ -62,7 +61,6 @@
             if (this.isFlyComplete) return;
             if (collider2D.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                this.View.projectileHitTrigger -= this.OnProjectileHit;
                 this.Model.OnProjectileHit?.Invoke(collider2D, this);
             }
         }

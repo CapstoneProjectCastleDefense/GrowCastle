@@ -54,7 +54,7 @@
                 this.View.Rigidbody2D.velocity = Vector2.zero;
                 return;
             }
-            this.View.Rigidbody2D.velocity = new Vector2(-1 * this.GetStats().GetStat<float>(StatEnum.MoveSpeed), 0);
+            this.View.Rigidbody2D.velocity = new Vector2(-1 * this.Model.GetStat<float>(StatEnum.MoveSpeed), 0);
         }
 
         public void Attack(ITargetable target) //TODO : Replace with a skill called attack
