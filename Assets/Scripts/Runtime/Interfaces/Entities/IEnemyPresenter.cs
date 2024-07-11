@@ -1,6 +1,6 @@
 ﻿namespace Runtime.Interfaces.Entities
 {
-    public interface IEnemyPresenter : IAttackable, ITargetable
+    public interface IEnemyPresenter : IAttackable
     {
         
     }

@@ -4,7 +4,7 @@
     using Spine.Unity;
     using UnityEngine;
 
-    public class ArcherView : BaseElementView
+    public class ArcherView : BaseCombatantView
     {
         public SkeletonAnimation skeletonAnimation;
         public GameObject        arrowPrefab;

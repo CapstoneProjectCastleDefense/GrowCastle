@@ -20,7 +20,7 @@
             });
         }
 
-        public void Execute(ITargetable target, IElementTag tag)
+        public void Execute(ITargetable target, IEffectTag tag)
         {
             if (this.tagTypeToEffect.TryGetValue(tag.GetType(), out var effect))
             {

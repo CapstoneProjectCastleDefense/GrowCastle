@@ -5,7 +5,7 @@
     using Spine.Unity;
     using UnityEngine;
 
-    public class HeroView : BaseElementView
+    public class HeroView : BaseCombatantView
     {
         public SkeletonAnimation skeletonAnimation;
         public Transform         spawnProjectilePos;

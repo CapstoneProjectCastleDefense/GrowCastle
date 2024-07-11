@@ -16,6 +16,11 @@
         bool                                 IsDead                { get; }
         Dictionary<StatEnum, (Type, object)> GetStats();
         GameObject                           GetGameObject();
-        public Dictionary<Type, IElementTag> CurrentTag { get; set; }
+        public Dictionary<Type, IEffectTag> CurrentTag { get; set; }
+    }
+
+    public interface ITargetableView
+    {
+        public ITargetable GetTargetablePresenter();
     }
 }

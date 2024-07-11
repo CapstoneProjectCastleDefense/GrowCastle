@@ -1,7 +1,8 @@
 ﻿namespace Models.Tags
 {
-    public class InstantDamageTag
+    public class InstantDamageTag : IEffectTag
     {
-        public Tag ElementTag => Tag.InstantDamageEffect;
+        public EffectTagEnum   ElementEffectTagEnum => EffectTagEnum.InstantDamageEffect;
+        public float Damage;
     }
 }

@@ -110,7 +110,7 @@
         public bool                                 IsDead          { get; private set; }
         public Dictionary<StatEnum, (Type, object)> GetStats()      { return this.Model.Stats; }
         public GameObject                           GetGameObject() { return this.View.gameObject; }
-        public Dictionary<Type, IElementTag>        CurrentTag      { get; set; }
+        public Dictionary<Type, IEffectTag>        CurrentTag      { get; set; }
 
         private void DoMove(Vector3 endPos, float distance)
         {

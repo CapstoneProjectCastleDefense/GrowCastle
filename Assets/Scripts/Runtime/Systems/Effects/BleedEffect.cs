@@ -63,7 +63,7 @@
             }
         }
 
-        public override void Execute(ITargetable target, IElementTag tag) { this.AddEffectToTarget(target, tag); }
+        public override void Execute(ITargetable target, IEffectTag tag) { this.AddEffectToTarget(target, tag); }
 
         public override void Dispose() { }
     }

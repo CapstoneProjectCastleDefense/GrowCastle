@@ -1,8 +1,9 @@
 ﻿namespace Runtime.Elements.Base
 {
-    using UnityEngine;
+    using Runtime.Interfaces.Entities;
 
-    public class BaseCombatantView : MonoBehaviour
+    public class BaseCombatantView : BaseElementView, ITargetableView
     {
+        public ITargetable GetTargetablePresenter() => (ITargetable)this.Presenter;
     }
 }
