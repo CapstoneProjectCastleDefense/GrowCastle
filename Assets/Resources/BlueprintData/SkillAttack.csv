@@ -1,3 +1,4 @@
 Id,Level,PrefabName,Damage
 lighting_skill,1,Lighting,10
 green_leaf_attack,1,vfx-attack,5
+gray_mage_attack,1,vfx-death-shear,5

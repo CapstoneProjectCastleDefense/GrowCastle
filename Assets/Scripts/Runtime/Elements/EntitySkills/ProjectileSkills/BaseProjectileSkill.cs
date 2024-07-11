@@ -14,18 +14,20 @@
     public abstract class BaseProjectileSkill<TModel> : BaseEntitySkillPresenter<TModel>
         where TModel : BaseProjectileSkillModel
     {
-        protected readonly ProjectileManager projectileManager;
-        protected readonly AbilitySystem     abilitySystem;
-        protected readonly EffectManager     effectManager;
+        protected readonly ProjectileManager   projectileManager;
+        private readonly   ProjectileBlueprint projectileBlueprint;
+        protected readonly AbilitySystem       abilitySystem;
+        protected readonly EffectManager       effectManager;
 
         public BaseProjectileSkill(ProjectileManager projectileManager,
             IGameAssets gameAssets,
             ProjectileBlueprint projectileBlueprint,
             AbilitySystem abilitySystem, EffectManager effectManager)
         {
-            this.projectileManager = projectileManager;
-            this.abilitySystem     = abilitySystem;
-            this.effectManager     = effectManager;
+            this.projectileManager   = projectileManager;
+            this.projectileBlueprint = projectileBlueprint;
+            this.abilitySystem       = abilitySystem;
+            this.effectManager       = effectManager;
         }
 
         protected readonly List<ProjectilePresenter> firedProjectiles = new();
@@ -34,10 +36,11 @@
 
         private async UniTaskVoid FireProjectile()
         {
+            var projectileRecord = this.projectileBlueprint.GetDataById(this.Model.Id);
             var projectile = this.projectileManager.CreateElement(new()
             {
                 Id              = this.Model.Id,
-                AddressableName = this.Model.AddressableName,
+                AddressableName = projectileRecord.PrefabName,
                 StartPoint      = this.Model.StartPoint,
                 EndPoint        = this.Model.EndPoint,
                 Damage          = this.Model.Damage,

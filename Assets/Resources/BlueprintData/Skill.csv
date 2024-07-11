@@ -5,3 +5,4 @@ wizard_normal_attack,Projectile,0,0,
 fire_lighting_ball,InstantHit,10,10,Summon 2 lighting ball
 lightning_rod,Projectile,0,0, Summon lighting rod
 green_leaf_attack,InstantHit,10,3, Summon lighting rod
+gray_mage_attack,InstantHit,10,3, Summon lighting rod

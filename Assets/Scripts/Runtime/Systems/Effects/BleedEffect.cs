@@ -24,7 +24,7 @@
             {
                 var targetStats = target.GetStats();
                 var health      = targetStats.GetStat<float>(StatEnum.Health);
-                var damage      = health * 0.02f;
+                var damage      = health * 0.1f;
                 if (health <= 0)
                 {
                     return;
