@@ -12,6 +12,6 @@
         public Vector3            StartPoint      { get; set; }
         public Vector3            EndPoint        { get; set; }
         public float              Damage          { get; set; }
-        public Action<Collider2D> OnProjectileHit { get; set; }
+        public Action<Collider2D, ProjectilePresenter> OnProjectileHit { get; set; }
     }
 }

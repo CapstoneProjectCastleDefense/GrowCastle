@@ -10,8 +10,8 @@
 
     public class ProjectilePresenter : BaseElementPresenter<ProjectileModel, ProjectileView, ProjectilePresenter>
     {
-        private Tween flyTween;
-        private bool  isFlyComplete;
+        public Tween flyTween;
+        public bool  isFlyComplete;
 
         private readonly ProjectileBlueprint projectileBlueprint;
 
@@ -67,10 +67,7 @@
             if (collider2D.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
                 this.View.projectileHitTrigger -= this.OnProjectileHit;
-                this.Model.OnProjectileHit?.Invoke(collider2D);
-                this.flyTween?.Kill();
-                this.View.Recycle();
-                this.isFlyComplete = true;
+                this.Model.OnProjectileHit?.Invoke(collider2D, this);
             }
         }
 
