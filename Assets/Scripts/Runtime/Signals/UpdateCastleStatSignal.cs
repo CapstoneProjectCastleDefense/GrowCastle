@@ -4,6 +4,6 @@
 
     public class UpdateCastleStatSignal
     {
-        public IHaveStats CastleStats;
+        public IHaveStatsModel CastleStats;
     }
 }

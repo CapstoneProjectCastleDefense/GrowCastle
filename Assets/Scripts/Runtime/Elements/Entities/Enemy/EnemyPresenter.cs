@@ -98,7 +98,13 @@
             this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / this.Model.GetStat<float>(StatEnum.MaxHealth), 0.1f);
         }
 
-        public void OnGetHit(float damage)
+        public override void UpdateStats()
+        {
+            base.UpdateStats();
+            this.UpdateHpStat();
+        }
+        
+        private void UpdateHpStat()
         {
             if (this.IsDead) return;
             var currentHealth = this.Model.GetStat<float>(StatEnum.Health);

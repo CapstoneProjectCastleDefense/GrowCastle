@@ -17,6 +17,7 @@
             if (targetHp < 0) return;
             targetHp -= instantDamageTag.Damage;
             targetStat.SetStat(StatEnum.Health, targetHp);
+            target.UpdateStats();
         }
     }
 }

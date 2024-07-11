@@ -26,6 +26,7 @@
         {
             base.OnProjectileHit(collider2D);
             var objHit = collider2D.gameObject;
+            //todo: check target layer mask from model instead of static input
             if (objHit.layer == LayerMask.NameToLayer("Enemy"))
             {
                 var targetableView = objHit.GetComponentInParent<ITargetableView>();
