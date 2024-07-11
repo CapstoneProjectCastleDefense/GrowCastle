@@ -45,19 +45,19 @@
             this.View.transform.position   = this.Model.StartPos;
         }
 
-        private bool isMoving;
 
-        private void DoMove(Vector3 endPos, float distance)
+        private void DoMove(float range, float distance)
         {
-            if (this.isMoving) return;
-            this.isMoving = true;
-            this.View.transform.DOKill();
-            this.View.transform.DOMoveX(endPos.x, distance / this.Model.GetStat<float>(StatEnum.MoveSpeed));
+            if (distance <= range)
+            {
+                this.View.Rigidbody2D.velocity = Vector2.zero;
+                return;
+            }
+            this.View.Rigidbody2D.velocity = new Vector2(-1 * this.GetStats().GetStat<float>(StatEnum.MoveSpeed), 0);
         }
 
         public void Attack(ITargetable target) //TODO : Replace with a skill called attack
         {
-            this.isMoving = false;
             if (!AttackAnimName.IsNullOrEmpty() &&
                 this.View.SkeletonAnimation &&
                 Time.time >= this.AttackCooldownTime)
@@ -119,7 +119,6 @@
         public void OnDeath()
         {
             if (this.IsDead) return;
-            this.TargetThatImLookingAt = null;
             float goldDrop = this.Model.GetStat<float>(StatEnum.Gold);
             this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
             this.IsDead = true;
@@ -200,7 +199,7 @@
             if (!this.IsViewInit) return;
             if (this.IsDead)
             {
-                this.View.transform.DOKill();
+                this.View.Rigidbody2D.velocity = Vector2.zero;
                 return;
             }
 
@@ -215,9 +214,10 @@
             var distance = Vector3.Distance(this.View.transform.position, endPos);
             var range    = this.Model.GetStat<float>(StatEnum.AttackRange);
             if (distance > range)
-                this.DoMove(endPos, distance);
+                this.DoMove(range, distance);
             else
             {
+                this.View.Rigidbody2D.velocity = Vector2.zero;
                 this.Attack(this.TargetThatImLookingAt);
             }
         }

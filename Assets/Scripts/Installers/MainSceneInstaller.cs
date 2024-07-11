@@ -93,11 +93,16 @@
                 if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
             }
         }
-        
+
 
         private void BindService()
         {
             this.Container.BindInterfacesAndSelfTo<TimeCoolDownService>().AsCached();
+            this.Container
+                .Bind<VFXService>()
+                .FromNewComponentOnNewGameObject()
+                .AsCached()
+                .NonLazy();
         }
 
         private void BindEffect()

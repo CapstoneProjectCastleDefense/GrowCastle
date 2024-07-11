@@ -8,7 +8,15 @@
 
     public class InstantDamageEffect : BaseEffect
     {
-        public override Type EffectTagType { get; } = typeof(InstantDamageTag);
+        protected override void Filter()
+        {
+            
+        }
+        protected override void ActiveEffect(ITargetable target)
+        {
+            
+        }
+        public override    Type EffectTagType                    { get; } = typeof(InstantDamageTag);
         public override void Execute(ITargetable target, IEffectTag tag)
         {
             var instantDamageTag = (InstantDamageTag)tag;

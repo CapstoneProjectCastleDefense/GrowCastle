@@ -26,16 +26,12 @@
         public override async UniTask UpdateView()
         {
             await base.UpdateView();
-            this.View.transform.position = this.Model.StartPoint;
+            this.View.transform.position   = this.Model.StartPoint;
+            this.View.projectileHitTrigger = null;
+            this.View.projectileHitTrigger += this.OnProjectileHit;
         }
 
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.projectileBlueprint[this.Model.Id].PrefabName); }
-
-        protected override UniTask InitView()
-        {
-            this.View.projectileHitTrigger += this.OnProjectileHit;
-            return base.InitView();
-        }
 
         public Tween FlyToTarget()
         {
@@ -61,7 +57,7 @@
         {
             if (collider2D.transform.gameObject.layer == LayerMask.NameToLayer("Enemy"))
             {
-                this.View.projectileHitTrigger -= this.OnProjectileHit;
+                this.View.projectileHitTrigger = null;
                 this.Model.OnProjectileHit?.Invoke(collider2D);
                 this.flyTween?.Kill();
                 this.View.Recycle();

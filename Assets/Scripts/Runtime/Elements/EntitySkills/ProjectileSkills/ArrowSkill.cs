@@ -32,7 +32,7 @@
                 var targetableView = objHit.GetComponentInParent<ITargetableView>();
                 if (targetableView != null)
                 {
-                    this.effectManager.Execute(targetableView.GetTargetablePresenter(), new InstantDamageTag() { Damage = 10 });
+                    this.effectManager.Execute(targetableView.GetTargetablePresenter(), new InstantDamageTag() { Damage = 2 });
                 }
             }
         }

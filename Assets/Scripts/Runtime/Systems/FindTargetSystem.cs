@@ -7,14 +7,15 @@
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
+    using Runtime.Managers;
     using Runtime.Managers.Entity;
     using UnityEngine;
 
     public class FindTargetSystem : IGameSystem
     {
-        public           void                     Initialize() { }
-        public           void                     Tick()       { }
-        public           void                     Dispose()    { }
+        public void Initialize() { }
+        public void Tick()       { }
+        public void Dispose()    { }
 
         private readonly GetCustomPresenterSystem getCustomPresenterSystem;
         public FindTargetSystem(GetCustomPresenterSystem getCustomPresenterSystem) { this.getCustomPresenterSystem = getCustomPresenterSystem; }
@@ -23,14 +24,23 @@
         {
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(managerTypes);
             var targets = cache.Where(x =>
-                                          x is ITargetable { IsDead: false } t
-                                          && (t.TargetThatAttackingMe == null || t.TargetThatAttackingMe.IsDead) 
-                                          && x.GetView().LayerMask != host.GetView().LayerMask 
-                                          && x != host 
-                                          && tagList.Contains(x.GetView().gameObject.tag))
-                               .Select(x => x as ITargetable)
-                               .ToList();
+                    x is ITargetable { IsDead: false } t
+                    && (t.TargetThatAttackingMe == null || t.TargetThatAttackingMe.IsDead)
+                    && x.GetView().LayerMask != host.GetView().LayerMask
+                    && x != host
+                    && tagList.Contains(x.GetView().gameObject.tag))
+                .Select(x => x as ITargetable)
+                .ToList();
             return cache.Count == 0 ? null : this.GetTaggedTarget(host, priority, tagList, targets);
+        }
+
+        public List<ITargetable> GetAllEnemyTarget()
+        {
+            var cache = this.getCustomPresenterSystem.GetAllElementPresenters(typeof(EnemyManager));
+            return cache.Where(x =>
+                    x is ITargetable { IsDead: false })
+                .Select(x => x as ITargetable)
+                .ToList();
         }
 
         private ITargetable GetTaggedTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, List<ITargetable> cache)

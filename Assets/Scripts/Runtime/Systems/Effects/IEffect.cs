@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using Models.Tags;
     using Runtime.Interfaces.Entities;
+    using Runtime.StaticValues;
     using UnityEngine;
 
     public interface IEffect
@@ -19,7 +20,17 @@
     public abstract class BaseEffect : IEffect
     {
         public virtual void Initialize() { }
-        public virtual void Tick()       { }
+        public virtual void Tick()
+        {
+            this.Filter();
+            for (int i = 0; i < this.AffectedElements.Count; i++)
+            {
+                this.ActiveEffect(this.AffectedElements[i]);
+            }
+        }
+
+        protected abstract void Filter();
+        protected abstract void ActiveEffect(ITargetable target);
 
         public virtual void Dispose() { }
 

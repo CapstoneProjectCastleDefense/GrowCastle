@@ -12,7 +12,7 @@
 
         protected TModel Model;
 
-        public void Activate(IEntitySkillModel baseSkillModel)
+        public virtual void Activate(IEntitySkillModel baseSkillModel)
         {
             if (baseSkillModel is TModel model)
             {

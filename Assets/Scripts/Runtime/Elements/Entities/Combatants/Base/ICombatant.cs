@@ -35,11 +35,11 @@
         public virtual void UpdateStats() { }
 
         public virtual GameObject                   GetGameObject() { return this.View.gameObject; }
-        public         Dictionary<Type, IEffectTag> CurrentTag      { get; set; }
+        public         Dictionary<Type, IEffectTag> CurrentTag      { get; set; } = new();
 
-        protected override async UniTask InitView()
+        public override async UniTask UpdateView()
         {
-            await base.InitView();
+            await base.UpdateView();
             this.View.Presenter = this;
         }
     }

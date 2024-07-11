@@ -64,6 +64,10 @@
 
         public void ResetHealth()
         {
+            this.TargetThatAttackingMe = null;
+            this.TargetThatImLookingAt = null;
+            this.TargetThatImAttacking = null;
+            
             var maxHp = this.Model.GetStat<float>(StatEnum.MaxHealth);
             this.Model.SetStat(StatEnum.Health, maxHp);
             this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });

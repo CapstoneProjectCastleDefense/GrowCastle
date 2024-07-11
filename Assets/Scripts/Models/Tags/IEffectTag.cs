@@ -7,9 +7,10 @@
 
     public enum EffectTagEnum
     {
-        BleedAffect,
+        BleedEffect,
         StunEffect,
         FearEffect,
         InstantDamageEffect,
+        SlowEffect
     }
 }

@@ -2,3 +2,5 @@
 Knight,HeroKnight,Summon,KnightEvol_1,10,summon_skill,summon,knight hero_SkeletonData
 Wizard,HeroWizard,Attack,WizardEvol_1,10,fire_lighting_ball,summon,wizard_SkeletonData
 ,,,,,wizard_normal_attack,atk,
+GreenLeaf,GreenLeaf,Attack,WizardEvol_1,10,green_leaf_attack,attack2,archer_SkeletonData
+,,,,,arrow_skill,attack,

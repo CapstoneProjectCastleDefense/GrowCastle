@@ -16,16 +16,8 @@
 
         public override void Initialize() { }
 
-        public override void Tick()
-        {
-            this.Filter();
-            foreach (var t in this.AffectedElements)
-            {
-                this.Bleed(t);
-            }
-        }
 
-        private void Bleed(ITargetable target)
+        protected override void ActiveEffect(ITargetable target)
         {
             var tagData = (BleedTag)target.CurrentTag[this.EffectTagType];
             if (tagData.Timer >= tagData.TimeDelay)
@@ -50,7 +42,7 @@
             tagData.Timer += Time.deltaTime;
         }
 
-        private void Filter()
+        protected override void Filter()
         {
             //k convert sang foreach
             for (var index = 0; index < this.AffectedElements.Count; index++)

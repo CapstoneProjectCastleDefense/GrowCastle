@@ -2,7 +2,7 @@
 {
     public class BleedTag : IEffectTag
     {
-        public EffectTagEnum   ElementEffectTagEnum => EffectTagEnum.BleedAffect;
+        public EffectTagEnum   ElementEffectTagEnum => EffectTagEnum.BleedEffect;
         public float Duration;
         public float TimeDelay;
         public float Timer;

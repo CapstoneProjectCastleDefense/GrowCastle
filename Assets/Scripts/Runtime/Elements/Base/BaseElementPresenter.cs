@@ -31,7 +31,6 @@
             {
                 var viewObject = await this.CreateView();
                 this.View = viewObject.GetComponent<TView>();
-                await this.InitView();
                 this.IsViewInit = true;
             }
         }
@@ -39,8 +38,6 @@
         public BaseElementView GetView() => this.View;
 
         protected abstract UniTask<GameObject> CreateView();
-
-        protected virtual async UniTask InitView() { }
 
         public class Factory : PlaceholderFactory<TModel, TPresenter>
         {

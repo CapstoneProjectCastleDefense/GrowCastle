@@ -1,0 +1,41 @@
+
+gray mage.png
+size: 457,505
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 119, 6
+  size: 159, 188
+  orig: 159, 188
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 119, 167
+  size: 336, 336
+  orig: 336, 336
+  offset: 0, 0
+  index: -1
+leg 1
+  rotate: false
+  xy: 2, 2
+  size: 23, 73
+  orig: 23, 73
+  offset: 0, 0
+  index: -1
+leg 2
+  rotate: false
+  xy: 27, 2
+  size: 21, 73
+  orig: 21, 73
+  offset: 0, 0
+  index: -1
+wand
+  rotate: false
+  xy: 2, 77
+  size: 115, 426
+  orig: 115, 426
+  offset: 0, 0
+  index: -1

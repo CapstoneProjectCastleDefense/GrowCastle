@@ -1,2 +1,3 @@
-Id,Level,TargetNumber,PrefabName,Damage
-lighting_skill,1,2,Lighting,10
+Id,Level,PrefabName,Damage
+lighting_skill,1,Lighting,10
+green_leaf_attack,1,vfx-attack,5
