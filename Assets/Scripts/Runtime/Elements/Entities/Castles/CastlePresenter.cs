@@ -46,7 +46,7 @@
         {
             await base.UpdateView();
             await UniTask.WaitUntil(() => this.View != null);
-            this.View.transform.position = new(-8.54f, -1.33f, 0);
+            this.View.transform.position = new(-6.5f, -0.75f, 0);
             this.UpdateBlockBaseOnCurrentLevel();
         }
 

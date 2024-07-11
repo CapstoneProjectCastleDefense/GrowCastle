@@ -16,6 +16,7 @@
     }
     public class DailyRewardItemView : TViewMono
     {
+        public TextMeshProUGUI day;
         public Image           rewardImage;
         public TextMeshProUGUI rewardValue;
         public GameObject      claimedBg;
@@ -41,7 +42,7 @@
             var rewardRecord    = this.rewardBlueprint.GetDataById(param.Day);
             this.View.rewardImage.sprite = this.GameAssets.LoadAssetAsync<Sprite>(rewardRecord.RewardImage).WaitForCompletion();
             this.View.rewardValue.text   = $"{rewardRecord.RewardValue}";
-            
+            this.View.day.text = $"DAY {this.model.Day}";
             this.View.claimedBg.SetActive(false);
             this.View.lockBg.SetActive(false);
             this.View.readyToClaimBg.SetActive(false);

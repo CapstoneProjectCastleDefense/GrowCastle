@@ -1,8 +1,8 @@
 Day,RewardId,RewardValue,RewardImage,RewardType
-1,Gold,200,GoldIcon,Resource
-2,Diamond,1,DiamondIcon,Resource
-3,Diamond,2,DiamondIcon,Resource
-4,Gold,500,GoldIcon,Resource
-5,Diamond,3,DiamondIcon,Resource
-6,Diamond,4,DiamondIcon,Resource
-7,Gold,500,GoldIcon,Resource
+1,Gold,200,tuivang,Resource
+2,Diamond,1,tuikc,Resource
+3,Diamond,2,tuikc,Resource
+4,Gold,500,tuivang,Resource
+5,Diamond,3,tuikc,Resource
+6,Diamond,4,tuikc,Resource
+7,Gold,500,tuivang,Resource
