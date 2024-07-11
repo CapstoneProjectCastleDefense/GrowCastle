@@ -85,7 +85,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8823434734986036782}
   - component: {fileID: 8545812533721910782}
-  - component: {fileID: 5352632078692599770}
+  - component: {fileID: 3295847190737017170}
   m_Layer: 9
   m_Name: BaseEnemy
   m_TagString: Untagged
@@ -126,12 +126,12 @@ MonoBehaviour:
   <SkeletonAnimation>k__BackingField: {fileID: 5890850458954612675}
   <GraphicCollider2D>k__BackingField: {fileID: 7612229669187565593}
   <AttackRangeCollider2D>k__BackingField: {fileID: 497148970014649306}
-  <Rigidbody2D>k__BackingField: {fileID: 5352632078692599770}
+  <Rigidbody2D>k__BackingField: {fileID: 3295847190737017170}
   <HealthBar>k__BackingField: {fileID: 2551546863798378409}
   <HealthBarContainer>k__BackingField: {fileID: 8023521517934226890}
   <CoinPopup>k__BackingField: {fileID: 5696294145884005621}
   <CoinPopupCanvas>k__BackingField: {fileID: 7420531075087732056}
---- !u!50 &5352632078692599770
+--- !u!50 &3295847190737017170
 Rigidbody2D:
   serializedVersion: 4
   m_ObjectHideFlags: 0
@@ -143,10 +143,10 @@ Rigidbody2D:
   m_Simulated: 1
   m_UseFullKinematicContacts: 0
   m_UseAutoMass: 0
-  m_Mass: 0.0001
+  m_Mass: 1
   m_LinearDrag: 0
   m_AngularDrag: 0.05
-  m_GravityScale: 1
+  m_GravityScale: 0
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -157,7 +157,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 2
+  m_Constraints: 4
 --- !u!1 &965742477820546368
 GameObject:
   m_ObjectHideFlags: 0
@@ -318,7 +318,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2109597635994609054}
   - component: {fileID: 497148970014649306}
-  m_Layer: 9
+  m_Layer: 14
   m_Name: SearchRange
   m_TagString: Untagged
   m_Icon: {fileID: 0}

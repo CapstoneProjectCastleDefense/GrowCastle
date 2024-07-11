@@ -7,7 +7,7 @@
     using Runtime.Interfaces;
     using UnityEngine;
 
-    public class ArcherModel : IElementModel, IHaveStats
+    public class ArcherModel : ICombatant
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }

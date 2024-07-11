@@ -1,6 +1,5 @@
 ﻿namespace Runtime.Elements.Entities.Camera
 {
-    using System;
     using UnityEngine;
 
     [RequireComponent(typeof(Camera))]

@@ -7,9 +7,9 @@
 
     public interface IElementPresenter
     {
-        void                 Initialize();
-        void                 Dispose();
-        UniTask              UpdateView();
+        void            Initialize();
+        void            Dispose();
+        UniTask         UpdateView();
         BaseElementView GetView();
     }
 }

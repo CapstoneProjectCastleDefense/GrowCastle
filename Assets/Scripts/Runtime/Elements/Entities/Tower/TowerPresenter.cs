@@ -14,7 +14,7 @@
     using Runtime.Systems;
     using UnityEngine;
 
-    public class TowerPresenter : BaseElementPresenter<TowerModel, TowerView, TowerPresenter>, ITowerPresenter
+    public class TowerPresenter : BaseCombatantPresenter<TowerModel, TowerView, TowerPresenter>, ITowerPresenter
     {
         private readonly EntitySkillSystem entitySkillSystem;
         private readonly TowerBlueprint    towerBlueprint;
@@ -50,16 +50,15 @@
             target ??= this.FindTarget();
 
             if (target == null) return;
-            var enemy = (IElementPresenter)target;
 
             var skillId = towerDataRecord.SkillToAnimationRecords.ElementAt(0).Key;
-            this.entitySkillSystem.CastSkill(skillId, new ProjectileSkillModel()
+            this.entitySkillSystem.CastSkill(skillId, new BaseProjectileSkillModel()
             {
                 Id         = skillId,
                 StartPoint = this.View.spawnProjectilePos.position,
-                EndPoint   = enemy.GetView().transform.position,
+                EndPoint   = target.GetGameObject().transform.position,
                 Target     = target,
-                damage     = this.Model.GetStat<float>(StatEnum.Attack),
+                Damage     = this.Model.GetStat<float>(StatEnum.Attack),
             });
         }
         public ITargetable FindTarget()

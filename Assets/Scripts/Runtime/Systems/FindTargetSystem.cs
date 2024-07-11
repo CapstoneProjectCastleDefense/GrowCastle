@@ -30,7 +30,7 @@
                                           && tagList.Contains(x.GetView().gameObject.tag))
                                .Select(x => x as ITargetable)
                                .ToList();
-            return cache.Count == 0 ? null : this.GetTaggedTarget(host, priority, tagList, targets) as ITargetable;
+            return cache.Count == 0 ? null : this.GetTaggedTarget(host, priority, tagList, targets);
         }
 
         private ITargetable GetTaggedTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, List<ITargetable> cache)

@@ -15,60 +15,62 @@
     using Runtime.Systems;
     using UnityEngine;
 
-    public class ProjectileSkill : BaseEntitySkillPresenter<ProjectileSkillModel>
+    public abstract class BaseProjectileSkill<TModel> : BaseEntitySkillPresenter<TModel>
+        where TModel : BaseProjectileSkillModel
     {
         private readonly ProjectileManager   projectileManager;
-        private readonly IGameAssets         gameAssets;
-        private readonly ProjectileBlueprint projectileBlueprint;
         private readonly AbilitySystem       abilitySystem;
-        private readonly AffectManager       affectManager;
+        private readonly EffectManager       effectManager;
 
-        public ProjectileSkill(ProjectileManager projectileManager,
-            IGameAssets gameAssets,
-            ProjectileBlueprint projectileBlueprint,
-            AbilitySystem abilitySystem, AffectManager affectManager)
+        public BaseProjectileSkill(ProjectileManager projectileManager,
+                                   IGameAssets gameAssets,
+                                   ProjectileBlueprint projectileBlueprint,
+                                   AbilitySystem abilitySystem, EffectManager effectManager)
         {
             this.projectileManager   = projectileManager;
-            this.gameAssets          = gameAssets;
-            this.projectileBlueprint = projectileBlueprint;
             this.abilitySystem       = abilitySystem;
-            this.affectManager       = affectManager;
+            this.effectManager       = effectManager;
         }
-
-        public override EntitySkillType SkillType { get; set; } = EntitySkillType.Projectile;
 
         protected override void InternalActivate() { this.FireProjectile().Forget(); }
 
         private async UniTaskVoid FireProjectile()
         {
-            var projectileSkillRecord = this.projectileBlueprint.GetDataById(this.Model.Id);
             var projectile = this.projectileManager.CreateElement(new()
             {
                 Id              = this.Model.Id,
                 AddressableName = this.Model.AddressableName,
-                Prefab          = this.gameAssets.LoadAssetAsync<GameObject>(projectileSkillRecord.PrefabName).WaitForCompletion(),
                 StartPoint      = this.Model.StartPoint,
                 EndPoint        = this.Model.EndPoint,
-                Damage          = this.Model.damage,
+                Damage          = this.Model.Damage,
+                OnProjectileHit = this.OnProjectileHit
             });
 
             await projectile.UpdateView();
-            projectile.FlyToTarget().onComplete += this.OnProjectileHit;
+            projectile.FlyToTarget().onComplete += this.OnFlyToTarget;
         }
 
-        public virtual void OnProjectileHit()
+        private void OnFlyToTarget()
         {
-            this.Model.Target.OnGetHit(this.Model.damage);
+            this.Model.Target.OnGetHit(this.Model.Damage);
+            this.abilitySystem.Execute(AbilityName.DealDamage, this.Model.Target, new Dictionary<StatEnum, (Type, object)>
+            {
+                { StatEnum.Attack, (typeof(float), this.Model.Damage) }
+            });
+            this.effectManager.Execute(this.Model.Target,new BleedTag(){Duration = 0.2f,TimeDelay = 0.1f,Timer = 0});
+        }
+
+        public virtual void OnProjectileHit(Collider2D collider2D)
+        {
+            this.Model.Target.OnGetHit(this.Model.Damage);
             this.abilitySystem.Execute(AbilityName.DealDamage, this.Model.Target, new Dictionary<StatEnum, (Type, object)>()
             {
-                { StatEnum.Attack, (typeof(float), this.Model.damage) }
+                { StatEnum.Attack, (typeof(float), this.Model.Damage) }
             });
-            this.affectManager.AddAffectToTarget(this.Model.Target,new BleedTag(){Duration = 0.2f,TimeDelay = 0.1f,Timer = 0});
-            Debug.Log("Hit enemy with damage: " + this.Model.damage);
         }
     }
 
-    public class ProjectileSkillModel : IEntitySkillModel
+    public class BaseProjectileSkillModel : IEntitySkillModel
     {
         public string      Id              { get; set; }
         public string      AddressableName { get; set; }
@@ -77,6 +79,6 @@
         public Vector3     StartPoint;
         public Vector3     EndPoint;
         public ITargetable Target;
-        public float       damage;
+        public float       Damage;
     }
 }

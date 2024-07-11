@@ -19,7 +19,7 @@
     using TMPro;
     using UnityEngine;
 
-    public class EnemyPresenter : BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
+    public class EnemyPresenter : BaseCombatantPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
     {
         private const    string                      AttackAnimName = "atk";
         private const    string                      DeathAnimName  = "dead";
@@ -205,7 +205,7 @@
                 this.TargetThatImLookingAt = this.FindTarget();
             }
 
-            var endPos   = ((IElementPresenter)this.TargetThatImLookingAt).GetView().transform.position;
+            var endPos   = this.TargetThatImLookingAt.GetGameObject().transform.position;
             var distance = Vector3.Distance(this.View.transform.position, endPos);
             var range    = this.Model.GetStat<float>(StatEnum.AttackRange);
             if (distance > range)

@@ -1,7 +1,6 @@
 ﻿namespace Runtime.Systems.Effects
 {
     using System;
-    using System.Collections.Generic;
     using Models.Tags;
     using Runtime.Enums;
     using Runtime.Extensions;
@@ -9,26 +8,26 @@
     using Runtime.Managers;
     using UnityEngine;
 
-    public class BleedAffectSystem : IAffectSystem
+    public class BleedEffect : BaseEffect
     {
-        public Type              ConditionFilterTag => typeof(BleedTag);
-        public List<ITargetable> AffectedElements   { get; set; } = new();
+        public override Type EffectTagType => typeof(BleedTag);
 
-        public AffectManager AffectManager { get; set; }
+        public EffectManager EffectManager { get; set; }
 
-        public void Initialize() { }
+        public override void Initialize() { }
 
-        public void Tick()
+        public override void Tick()
         {
             this.Filter();
             foreach (var t in this.AffectedElements)
             {
-                this.TriggerEffect(t);
+                this.Bleed(t);
             }
         }
-        public void TriggerEffect(ITargetable target)
+
+        private void Bleed(ITargetable target)
         {
-            var tagData = (BleedTag)target.CurrentTag[this.ConditionFilterTag];
+            var tagData = (BleedTag)target.CurrentTag[this.EffectTagType];
             if (tagData.Timer >= tagData.TimeDelay)
             {
                 var targetStats = target.GetStats();
@@ -45,23 +44,27 @@
                 target.OnGetHit(0f);
                 tagData.Duration -= tagData.TimeDelay;
                 tagData.Timer    =  0;
-                Debug.Log("Bleed: "+damage);
+                Debug.Log("Bleed: " + damage);
             }
 
             tagData.Timer += Time.deltaTime;
         }
 
-        public void Filter()
+        private void Filter()
         {
+            //k convert sang foreach
             for (var index = 0; index < this.AffectedElements.Count; index++)
             {
                 var target = this.AffectedElements[index];
-                if (((BleedTag)target.CurrentTag[this.ConditionFilterTag]).Duration <= 0)
+                if (((BleedTag)target.CurrentTag[this.EffectTagType]).Duration <= 0)
                 {
-                    this.AffectManager.RemoveAffectOfTarget(target, typeof(BleedTag));
+                    this.RemoveEffectOnTarget(target);
                 }
             }
         }
-        public void Dispose() { }
+
+        public override void Execute(ITargetable target, IElementTag tag) { this.AddEffectToTarget(target, tag); }
+
+        public override void Dispose() { }
     }
 }

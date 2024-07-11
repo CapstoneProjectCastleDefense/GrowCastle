@@ -20,7 +20,7 @@
     using UnityEngine;
     using Zenject;
 
-    public class CastlePresenter : BaseElementPresenter<CastleModel, CastleView, CastlePresenter>, ICastlePresenter
+    public class CastlePresenter : BaseCombatantPresenter<CastleModel, CastleView, CastlePresenter>, ICastlePresenter
     {
         private readonly CastleLocalDataController castleLocalDataController;
         private readonly IGameAssets               gameAssets;
@@ -68,7 +68,7 @@
         public void ResetHealth()
         {
             var maxHp = this.Model.GetStat<float>(StatEnum.MaxHealth);
-            this.Model.SetStat(StatEnum.Health,maxHp);
+            this.Model.SetStat(StatEnum.Health, maxHp);
             this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
         }
         public void OnGetHit(float damage)
@@ -101,10 +101,10 @@
         public Dictionary<Type, IElementTag>        CurrentTag            { get; set; }
     }
 
-    public class CastleModel : IElementModel, IHaveStats
+    public class CastleModel : ICombatant
     {
-        public string Id              { get; set; }
-        public string AddressableName { get; set; }
-        public Dictionary<StatEnum, (Type, object)> Stats { get; set; }
+        public string                               Id              { get; set; }
+        public string                               AddressableName { get; set; }
+        public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
     }
 }

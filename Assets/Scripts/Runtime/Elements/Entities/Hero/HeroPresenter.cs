@@ -3,11 +3,9 @@
     using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
-    using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Runtime.Elements.Base;
-    using Runtime.Elements.Entities.Enemy;
     using Runtime.Elements.EntitySkills;
     using Runtime.Enums;
     using Runtime.Extensions;
@@ -18,7 +16,7 @@
     using Runtime.Systems;
     using UnityEngine;
 
-    public class HeroPresenter : BaseElementPresenter<HeroModel, HeroView, HeroPresenter>, IHeroPresenter
+    public class HeroPresenter : BaseCombatantPresenter<HeroModel, HeroView, HeroPresenter>, IHeroPresenter
     {
         private readonly EntitySkillSystem entitySkillSystem;
         private readonly HeroBlueprint     heroBlueprint;
@@ -87,16 +85,15 @@
             target ??= this.FindTarget();
 
             if (target == null) return;
-            var enemy = (IElementPresenter)target;
 
             var skillId = heroDataRecord.SkillToAnimationRecords.ElementAt(1).Key;
-            this.CastSkillInternal(skillId, target, new ProjectileSkillModel()
+            this.CastSkillInternal(skillId, target, new BaseProjectileSkillModel()
             {
                 Id         = skillId,
                 StartPoint = this.View.spawnProjectilePos.position,
-                EndPoint   = enemy.GetView().transform.position,
+                EndPoint   = target.GetGameObject().transform.position,
                 Target     = target,
-                damage     = this.Model.GetStat<float>(StatEnum.Attack),
+                Damage     = this.Model.GetStat<float>(StatEnum.Attack),
             });
         }
 

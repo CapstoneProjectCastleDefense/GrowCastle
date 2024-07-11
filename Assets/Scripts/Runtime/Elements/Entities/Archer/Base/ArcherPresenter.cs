@@ -3,19 +3,18 @@
     using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
-    using DG.Tweening;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Runtime.Elements.Base;
-    using Runtime.Elements.Entities.Enemy;
     using Runtime.Elements.EntitySkills;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
+    using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
 
-    public class ArcherPresenter : BaseElementPresenter<ArcherModel, ArcherView, ArcherPresenter>, IArcherPresenter
+    public class ArcherPresenter : BaseCombatantPresenter<ArcherModel, ArcherView, ArcherPresenter>, IArcherPresenter
     {
         private readonly EnemyManager      enemyManager;
         private readonly FindTargetSystem  findTargetSystem;
@@ -70,17 +69,15 @@
             target ??= this.FindTarget();
 
             if (target == null) return;
-            Debug.Log("LVT - ArcherPresenter - target: " + (target as IElementPresenter).GetView().name);
-            var enemy = (IElementPresenter)target;
 
             this.View.skeletonAnimation.SetAnimation("attack", false);
-            this.entitySkillSystem.CastSkill("archer_normal_attack", new ProjectileSkillModel()
+            this.entitySkillSystem.CastSkill(EntitySkillName.Arrow, new ArrowSkillModel()
             {
-                Id         = "archer_normal_attack",
+                Id         = EntitySkillName.Arrow,
                 StartPoint = this.View.spawnArrowPos.position,
-                EndPoint   = enemy.GetView().transform.position,
+                EndPoint   = target.GetGameObject().transform.position,
                 Target     = target,
-                damage     = this.Model.GetStat<float>(StatEnum.Attack),
+                Damage     = this.Model.GetStat<float>(StatEnum.Attack),
             });
         }
 
@@ -98,7 +95,7 @@
             return res;
         }
 
-        public float AttackCooldownTime { get; } = 0;
+        public float AttackCooldownTime => 0;
 
         public void CastSkill(string skillId, ITargetable target) { }
 

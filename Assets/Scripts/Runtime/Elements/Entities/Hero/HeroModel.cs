@@ -7,7 +7,7 @@
     using Runtime.Interfaces;
     using UnityEngine;
 
-    public class HeroModel : IElementModel, IHaveStats
+    public class HeroModel : ICombatant
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }
