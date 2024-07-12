@@ -10,7 +10,17 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 533255370037521163, guid: 85144d5c5cfb81c489249bb247b21151,
         type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 533255370037521163, guid: 85144d5c5cfb81c489249bb247b21151,
+        type: 3}
       propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 65b3d2a69335e80409f9ede17393a36c, type: 2}
+    - target: {fileID: 533255370037521163, guid: 85144d5c5cfb81c489249bb247b21151,
+        type: 3}
+      propertyPath: m_Materials.Array.data[1]
       value: 
       objectReference: {fileID: 2100000, guid: 65b3d2a69335e80409f9ede17393a36c, type: 2}
     - target: {fileID: 1360695526884187459, guid: 85144d5c5cfb81c489249bb247b21151,
