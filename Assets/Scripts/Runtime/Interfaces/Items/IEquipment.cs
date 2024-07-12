@@ -2,11 +2,11 @@
 {
     using Runtime.Enums;
 
-    public interface IEquipment : IItem
+    public interface IEquipment : IItem, IHaveStats
     {
         EquipmentType EquipmentType { get; }
         
-        void OnEquip(IHaveStats target);
-        void OnUnEquip(IHaveStats target);
+        void OnEquip(IHaveStatsModel target);
+        void OnUnEquip(IHaveStatsModel target);
     }
 }

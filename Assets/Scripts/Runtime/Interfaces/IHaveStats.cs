@@ -15,7 +15,7 @@
     {
         Dictionary<StatEnum, (Type, object)> Stats { get; set; }
         
-        public static IHaveStats operator +(IHaveStats a, IHaveStats b)
+        public static IHaveStatsModel operator +(IHaveStatsModel a, IHaveStatsModel b)
         {
             foreach (var stat in b.Stats)
             {

@@ -6,7 +6,7 @@
     using Runtime.Enums;
     using Runtime.Interfaces;
 
-    public class EquipmentModel : IElementModel, IHaveStats
+    public class EquipmentModel : IElementModel, IHaveStatsModel
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }

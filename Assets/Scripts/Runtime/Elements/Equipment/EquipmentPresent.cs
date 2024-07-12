@@ -1,5 +1,7 @@
 ﻿namespace Runtime.Elements.Equipment
 {
+    using System;
+    using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
@@ -18,9 +20,12 @@
             this.equipmentBlueprint = equipmentBlueprint;
         }
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.equipmentBlueprint.GetDataById(this.Model.Id).PrefabName); }
-        public override    void                Dispose() { }
-        public             EquipmentType       EquipmentType => this.Model.EquipmentType;
-        public             void                OnEquip(IHaveStats target) { target.Plus(this.Model); }
-        public             void                OnUnEquip(IHaveStats target) { target.Minus(this.Model); }
+        public override    void Dispose() { }
+        public             EquipmentType EquipmentType => this.Model.EquipmentType;
+        public             ItemType ItemType => ItemType.Equipment;
+        public             void OnEquip(IHaveStatsModel target) { target.Plus(this.Model); }
+        public             void OnUnEquip(IHaveStatsModel target) { target.Minus(this.Model); }
+        public             Dictionary<StatEnum, (Type, object)> GetStats() { throw new NotImplementedException(); }
+        public             void UpdateStats() { throw new NotImplementedException(); }
     }
 }

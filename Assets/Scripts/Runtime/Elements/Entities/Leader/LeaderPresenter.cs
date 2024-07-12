@@ -24,7 +24,10 @@
         private const    string           DeathAnimName  = "dead";
         private const    string           MoveAnimName   = "animation2";
         private          LeaderManager    leaderManager;
-        protected LeaderPresenter(LeaderModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem) : base(model, objectPoolManager) { this.findTargetSystem = findTargetSystem; }
+        protected LeaderPresenter(LeaderModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
+        {
+            this.findTargetSystem = findTargetSystem;
+        }
 
         public void SetManager(LeaderManager manager) => this.leaderManager = manager;
 
@@ -83,7 +86,8 @@
 
         public void CastSkill(string skillId,string animationName, ITargetable target) { throw new NotImplementedException(); }
 
-        public void Equip(IEquipment equipment) { throw new NotImplementedException(); }
+        public Dictionary<EquipmentType, IEquipment> Equipment                   { get; } = new();
+        public void                                  Equip(IEquipment equipment) { throw new NotImplementedException(); }
 
         public void UnEquip(IEquipment equipment) { throw new NotImplementedException(); }
 

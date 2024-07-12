@@ -32,7 +32,7 @@
             return (T) Enum.Parse(typeof(T), value, true);
         }
         
-        public static void PlusStat(this IHaveStats haveStats, StatEnum statEnum, (Type, object) value)
+        public static void PlusStat(this IHaveStatsModel haveStats, StatEnum statEnum, (Type, object) value)
         {
             var currentValue = haveStats.GetStat<object>(statEnum);
             if (currentValue is int intValue)
@@ -49,7 +49,7 @@
             }
         }
         
-        public static void MinusStat(this IHaveStats haveStats, StatEnum statEnum, (Type, object) value)
+        public static void MinusStat(this IHaveStatsModel haveStats, StatEnum statEnum, (Type, object) value)
         {
             var currentValue = haveStats.GetStat<object>(statEnum);
             if (currentValue is int intValue)
@@ -66,12 +66,12 @@
             }
         }
         
-        public static void Plus(this IHaveStats haveStats, IHaveStats otherStats)
+        public static void Plus(this IHaveStatsModel haveStats, IHaveStatsModel otherStats)
         {
             otherStats.Stats.ForEach(stat => haveStats.PlusStat(stat.Key, stat.Value));
         }
         
-        public static void Minus(this IHaveStats haveStats, IHaveStats otherStats)
+        public static void Minus(this IHaveStatsModel haveStats, IHaveStatsModel otherStats)
         {
             otherStats.Stats.ForEach(stat => haveStats.MinusStat(stat.Key, stat.Value));
         }

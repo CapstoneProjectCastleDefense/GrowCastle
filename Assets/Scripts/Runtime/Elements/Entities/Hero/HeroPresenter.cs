@@ -148,9 +148,17 @@
 
         public float AttackCooldownTime { get; }
 
+        #region Implement IEquipable
+
+        public Dictionary<EquipmentType, IEquipment> Equipment { get; } = new();
+
         public void Equip(IEquipment equipment) { equipment.OnEquip(this.Model); }
 
         public void UnEquip(IEquipment equipment) { equipment.OnUnEquip(this.Model); }
+
+        #endregion
+
+        #region Implement IElementPresenter
 
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.heroBlueprint.GetDataById(this.Model.Id).PrefabName); }
 
@@ -170,5 +178,7 @@
             if (this.View != null) this.View.Recycle();
             this.heroManager.entities.Remove(this);
         }
+
+        #endregion
     }
 }

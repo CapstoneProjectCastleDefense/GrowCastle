@@ -2,5 +2,5 @@
 TestEquipment,EquipmentTest,Weapon
 TestEquipment1,EquipmentTest,Weapon
 TestEquipment2,EquipmentTest,Weapon
-TestEquipmente,EquipmentTest,Weapon
-TestEquipmentf,EquipmentTest,Weapon
+TestEquipmente,EquipmentTest,Accessory
+TestEquipmentf,EquipmentTest,Accessory
