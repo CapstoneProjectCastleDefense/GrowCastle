@@ -6,3 +6,4 @@ fire_lighting_ball,InstantHit,10,2,Summon 2 lighting ball
 lightning_rod,Projectile,0,0, Summon lighting rod
 green_leaf_attack,InstantHit,200,3, Summon lighting rod
 gray_mage_attack,InstantHit,200,3, Summon lighting rod
+wizard_attack_skill,InstantHit,400,3, Summon lighting rod
