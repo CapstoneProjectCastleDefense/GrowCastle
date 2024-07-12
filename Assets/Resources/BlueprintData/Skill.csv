@@ -1,8 +1,8 @@
 Id,Type,Mana,Cooldown,Description
-archer_normal_attack,Projectile,10,10,
-summon_skill,Summon,15,15,Summon 2 knight
+archer_normal_attack,Projectile,10,2,
+summon_skill,Summon,15,2,Summon 2 knight
 wizard_normal_attack,Projectile,0,0,
-fire_lighting_ball,InstantHit,10,10,Summon 2 lighting ball
+fire_lighting_ball,InstantHit,10,2,Summon 2 lighting ball
 lightning_rod,Projectile,0,0, Summon lighting rod
 green_leaf_attack,InstantHit,10,3, Summon lighting rod
 gray_mage_attack,InstantHit,10,3, Summon lighting rod

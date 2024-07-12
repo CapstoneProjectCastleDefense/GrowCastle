@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Runtime.Elements.Base;
@@ -21,17 +22,25 @@
         private readonly EntitySkillSystem entitySkillSystem;
         private readonly HeroBlueprint     heroBlueprint;
         private readonly FindTargetSystem  findTargetSystem;
+        private readonly SkillBlueprint    skillBlueprint;
 
         private HeroManager heroManager;
         private bool        canAttack;
         private float       timer;
 
-        protected HeroPresenter(HeroModel model, ObjectPoolManager objectPoolManager, EntitySkillSystem entitySkillSystem, HeroBlueprint heroBlueprint,
-            FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
+        protected HeroPresenter(
+            HeroModel model,
+            ObjectPoolManager objectPoolManager,
+            EntitySkillSystem entitySkillSystem,
+            HeroBlueprint heroBlueprint,
+            FindTargetSystem findTargetSystem,
+            SkillBlueprint skillBlueprint)
+            : base(model, objectPoolManager)
         {
             this.entitySkillSystem = entitySkillSystem;
             this.heroBlueprint     = heroBlueprint;
             this.findTargetSystem  = findTargetSystem;
+            this.skillBlueprint    = skillBlueprint;
         }
 
         public void SetManager(HeroManager heroManager) => this.heroManager = heroManager;
@@ -58,15 +67,24 @@
 
         public void CastSkill(string skillId, ITargetable target)
         {
+            if (this.View.cooldownSkillBar.fillAmount < 1) return;
             this.CastSkillInternal(skillId, target, new BasicSkillModel()
             {
                 Id    = skillId,
                 Level = 1,
             });
+            this.View.cooldownSkillBar.fillAmount = 0;
+            this.StartRefillCooldown(this.skillBlueprint.GetDataById(skillId).Cooldown);
+        }
+
+        private void StartRefillCooldown(float cooldownTime)
+        {
+            DOTween.Kill(this.View.cooldownSkillBar);
+            this.View.cooldownSkillBar.DOFillAmount(1, cooldownTime).SetEase(Ease.Linear);
         }
 
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(CastleManager), typeof(EnemyManager) }; }
-        public virtual string[] GetTags()         { return new[] { "Fly", "Ground", "Boss",}; }
+        public virtual string[] GetTags()         { return new[] { "Fly", "Ground", "Boss", }; }
 
         public void SetAttackStatus(bool attackStatus)
         {

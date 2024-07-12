@@ -171,6 +171,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   skeletonAnimation: {fileID: 3905654151588798908}
   spawnProjectilePos: {fileID: 7491476682616624875}
+  cooldownSkillBar: {fileID: 7465179029085095635}
 --- !u!61 &922951665248940081
 BoxCollider2D:
   m_ObjectHideFlags: 0

@@ -44,7 +44,6 @@
 
         protected override void Filter()
         {
-            //k convert sang foreach
             for (var index = 0; index < this.AffectedElements.Count; index++)
             {
                 var target = this.AffectedElements[index];
