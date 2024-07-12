@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
@@ -14,6 +15,7 @@
     using Runtime.Signals;
     using Spine.Unity;
     using TMPro;
+    using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
 
@@ -34,6 +36,10 @@
         public TextMeshProUGUI attackInfo;
         public TextMeshProUGUI attackSpeedInfo;
         public Button          exitBtn;
+
+        public GameObject viewField;
+        public Transform  startPos;
+        public Transform  endPos;
     }
 
     [PopupInfo(nameof(CharacterInfoPopupView),isOverlay:true)]
@@ -62,6 +68,14 @@
         }
 
         public override UniTask BindData(CharacterInfoPopupModel popupModel)
+        {
+            this.View.viewField.transform.position = this.View.startPos.position;
+            this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
+            this.UpdateView(popupModel);
+            return UniTask.CompletedTask;
+        }
+
+        private void UpdateView(CharacterInfoPopupModel popupModel)
         {
             this.Model = popupModel;
             var skeletonDataAsset = this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(popupModel.heroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion();
@@ -94,7 +108,6 @@
                 default:
                     throw new ArgumentOutOfRangeException();
             }
-            return UniTask.CompletedTask;
         }
 
         private void OnEquipButtonClick()
@@ -134,13 +147,19 @@
             }
         }
 
-        private async void ReBindData()
+        private void ReBindData()
         {
             var heroId = this.Model.heroRuntimeData.heroRecord.HeroId;
             this.Model.heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(heroId);
-            await this.BindData(this.Model);
+            this.UpdateView(this.Model);
         }
 
-
+        public override void CloseView()
+        {
+            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
+            {
+                base.CloseView();
+            };
+        }
     }
 }

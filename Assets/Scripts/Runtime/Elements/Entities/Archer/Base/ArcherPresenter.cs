@@ -72,7 +72,7 @@
             if (target == null) return;
 
             this.View.skeletonAnimation.SetAnimation("attack", false);
-            this.entitySkillSystem.CastSkill(EntitySkillName.Arrow, new ArrowSkillModel()
+            this.entitySkillSystem.CastSkill(EntitySkillName.Arrow, new BaseProjectileSkillModel()
             {
                 Id         = EntitySkillName.Arrow,
                 StartPoint = this.View.spawnArrowPos.position,

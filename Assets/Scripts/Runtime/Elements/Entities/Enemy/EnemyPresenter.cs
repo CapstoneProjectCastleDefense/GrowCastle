@@ -42,8 +42,9 @@
             await base.UpdateView();
             this.View.SkeletonAnimation.SetAnimation(MoveAnimName);
             this.View.HealthBarContainer.gameObject.SetActive(true);
-            this.View.HealthBar.fillAmount = 1;
-            this.View.transform.position   = this.Model.StartPos;
+            this.View.HealthBar.fillAmount    = 1;
+            this.View.transform.position      = this.Model.StartPos;
+            this.View.Rigidbody2D.constraints = RigidbodyConstraints2D.None;
         }
 
 
@@ -120,6 +121,7 @@
         public void OnDeath()
         {
             if (this.IsDead) return;
+            this.View.Rigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition;
             float goldDrop = this.Model.GetStat<float>(StatEnum.Gold);
             this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
             

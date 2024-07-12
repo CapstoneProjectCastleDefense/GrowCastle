@@ -12,7 +12,7 @@
     using Runtime.Systems;
     using UnityEngine;
 
-    public class ArrowSkill : BaseProjectileSkill<ArrowSkillModel>
+    public class ArrowSkill : BaseProjectileSkill<BaseProjectileSkillModel>
     {
         public override string SkillId { get; set; } = EntitySkillName.Arrow;
 
@@ -44,9 +44,5 @@
                 }
             }
         }
-    }
-
-    public class ArrowSkillModel : BaseProjectileSkillModel
-    {
     }
 }
