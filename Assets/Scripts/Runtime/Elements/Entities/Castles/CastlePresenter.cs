@@ -11,6 +11,7 @@
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
+    using Runtime.Managers;
     using Runtime.Signals;
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.StateMachines.GameStateMachine.States;
@@ -23,6 +24,7 @@
         private readonly IGameAssets               gameAssets;
         private readonly BlockBlueprint            blueprint;
         private readonly SignalBus                 signalBus;
+        private readonly EnemyManager              enemyManager;
 
         public CastlePresenter(
             CastleModel model,
@@ -30,13 +32,15 @@
             CastleLocalDataController castleLocalDataController,
             IGameAssets gameAssets,
             BlockBlueprint blueprint,
-            SignalBus signalBus)
+            SignalBus signalBus,
+            EnemyManager enemyManager)
             : base(model, objectPoolManager)
         {
             this.castleLocalDataController = castleLocalDataController;
             this.gameAssets                = gameAssets;
             this.blueprint                 = blueprint;
             this.signalBus                 = signalBus;
+            this.enemyManager              = enemyManager;
         }
 
         public             CastleView          CastleView   => this.View;
@@ -61,35 +65,33 @@
             });
         }
         public override void Dispose() { }
-        
+
         public bool UseManaForSkill(float manaValue)
         {
             var currentMana = this.Model.GetStat<float>(StatEnum.Mana);
             if (currentMana >= manaValue)
             {
                 currentMana -= manaValue;
-                this.Model.SetStat(StatEnum.Mana,currentMana);
+                this.Model.SetStat(StatEnum.Mana, currentMana);
                 this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
                 return true;
             }
 
             return false;
         }
-        public void ResetMana()
-        {
-            var maxMana = this.Model.GetStat<float>(StatEnum.MaxMana);
-            this.Model.SetStat(StatEnum.Mana, maxMana);
-            this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
-        }
 
-        public void ResetHealth()
+        public void ResetHealthAndMana()
         {
             this.TargetThatAttackingMe = null;
             this.TargetThatImLookingAt = null;
             this.TargetThatImAttacking = null;
-            
+            this.IsDead                = false;
             var maxHp = this.Model.GetStat<float>(StatEnum.MaxHealth);
             this.Model.SetStat(StatEnum.Health, maxHp);
+
+            var maxMana = this.Model.GetStat<float>(StatEnum.MaxMana);
+            this.Model.SetStat(StatEnum.Mana, maxMana);
+
             this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
         }
         public override void OnGetHit(float damage)
@@ -102,7 +104,9 @@
             if (hp <= 0)
             {
                 hp = 0;
+                this.Model.SetStat(StatEnum.Health, hp);
                 this.OnDeath();
+                return;
             }
 
             this.Model.SetStat(StatEnum.Health, hp);

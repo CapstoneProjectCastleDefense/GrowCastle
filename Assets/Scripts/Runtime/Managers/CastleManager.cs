@@ -40,8 +40,7 @@
         public void ResetCurrentCastleHealthAndMana()
         {
             if(this.entities.Count==0) return;
-            this.entities.First().ResetHealth();
-            this.entities.First().ResetMana();
+            this.entities.First().ResetHealthAndMana();
         }
 
         public List<ArcherSlot> GetAllArcherSlot() => this.entities[0].CastleView.listArcherSlot;
