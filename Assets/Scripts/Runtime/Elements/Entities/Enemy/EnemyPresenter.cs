@@ -132,9 +132,6 @@
             
             this.DropCoin();
             
-            this.ElementManager.entities.Remove(this);
-            ((EnemyManager)this.ElementManager).UpdateEnemyDeathCounter();
-            
             var wait = 0f;
             if (!DeathAnimName.IsNullOrEmpty() &&
                 this.View.SkeletonAnimation != null)
