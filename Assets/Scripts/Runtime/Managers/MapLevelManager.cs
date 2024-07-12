@@ -32,13 +32,13 @@
             }
             this.currentMapLevel = this.Factory.Create(model);
             this.currentMapLevel.UpdateView().Forget();
-            this.CreateEnvironmentInternal(model.LevelRecord.LevelToWaveRecords.First());
+            this.CreateEnvironmentInternal(model.LevelRecord.LevelToWaveRecords.First().WaveId);
             return this.currentMapLevel;
         }
-        private async void CreateEnvironmentInternal(KeyValuePair<int, LevelToWaveRecord> environment)
+        private async void CreateEnvironmentInternal(int waveId)
         {
             //await UniTask.Delay(TimeSpan.FromSeconds(environment.Value.Delay));
-            this.currentMapLevel.SpawnEnvironment(environment.Key);
+            this.currentMapLevel.SpawnEnvironment(waveId);
         }
     }
 }

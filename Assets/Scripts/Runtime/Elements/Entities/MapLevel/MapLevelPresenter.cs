@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Elements.Entities.MapLevel
 {
     using System;
+    using System.Linq;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
@@ -29,7 +30,7 @@
         {
             await UniTask.WaitUntil(() => this.View != null);
             if (this.currentEnvi != null) Object.Destroy(this.currentEnvi);
-            var environmentPrefabName = this.environmentBlueprint.GetDataById(this.Model.LevelRecord.LevelToWaveRecords[waveId].EnvironmentId).PrefabName;
+            var environmentPrefabName = this.environmentBlueprint.GetDataById(this.Model.LevelRecord.LevelToWaveRecords.First().EnvironmentId).PrefabName;
             this.currentEnvi                    = await this.ObjectPoolManager.Spawn(environmentPrefabName, this.View.transform);
             this.currentEnvi.transform.position = this.View.environmentPos.position;
         }

@@ -72,7 +72,7 @@
             int totalEnemy = 0;
             this.levelBlueprint[level].LevelToWaveRecords.ForEach(e =>
             {
-                this.waveBlueprint[e.Value.WaveId].WaveToEnemy.ForEach(enemy =>
+                this.waveBlueprint[e.WaveId].WaveToEnemy.ForEach(enemy =>
                 {
                     totalEnemy+=enemy.Value.Quantity;
                 });
@@ -84,9 +84,9 @@
         {
             this.waveWithDelayTimeQueue.Clear();
             var waveRecord = this.levelBlueprint[level].LevelToWaveRecords;
-            foreach (var (waveId, record) in waveRecord)
+            foreach (var  record in waveRecord)
             {
-                this.waveWithDelayTimeQueue.Add((waveId, record.Delay));
+                this.waveWithDelayTimeQueue.Add((record.WaveId, record.Delay));
             }
         }
 

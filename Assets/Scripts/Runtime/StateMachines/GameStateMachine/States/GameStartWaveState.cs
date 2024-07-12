@@ -1,5 +1,7 @@
 ﻿namespace Runtime.StateMachines.GameStateMachine.States
 {
+    using Models.LocalData;
+    using Models.LocalData.LocalDataController;
     using Runtime.Managers;
     using Runtime.Scenes;
     using Runtime.Services;
@@ -7,13 +9,14 @@
 
     public class GameStartWaveState : BaseGameState
     {
-        private readonly WaveSystem          waveSystem;
-        private readonly SlotManager         slotManager;
-        private readonly TimeCoolDownService timeCoolDownService;
-        private readonly ArcherManager       archerManager;
-        private readonly HeroManager         heroManager;
-        private readonly SummonerManager     summonerManager;
-        private readonly TowerManager        towerManager;
+        private readonly WaveSystem               waveSystem;
+        private readonly SlotManager              slotManager;
+        private readonly TimeCoolDownService      timeCoolDownService;
+        private readonly ArcherManager            archerManager;
+        private readonly HeroManager              heroManager;
+        private readonly SummonerManager          summonerManager;
+        private readonly TowerManager             towerManager;
+        private readonly LevelLocalDataController levelLocalDataController;
 
         public GameStartWaveState(
             WaveSystem waveSystem,
@@ -22,20 +25,22 @@
             ArcherManager archerManager,
             HeroManager heroManager,
             SummonerManager summonerManager,
-            TowerManager towerManager)
+            TowerManager towerManager,
+            LevelLocalDataController levelLocalDataController)
         {
-            this.waveSystem          = waveSystem;
-            this.slotManager         = slotManager;
-            this.timeCoolDownService = timeCoolDownService;
-            this.archerManager       = archerManager;
-            this.heroManager         = heroManager;
-            this.summonerManager     = summonerManager;
-            this.towerManager        = towerManager;
+            this.waveSystem               = waveSystem;
+            this.slotManager              = slotManager;
+            this.timeCoolDownService      = timeCoolDownService;
+            this.archerManager            = archerManager;
+            this.heroManager              = heroManager;
+            this.summonerManager          = summonerManager;
+            this.towerManager             = towerManager;
+            this.levelLocalDataController = levelLocalDataController;
         }
         public override void Enter()
         {
             this.timeCoolDownService.Resume();
-            this.waveSystem.StartCurrentWave(1);
+            this.waveSystem.StartCurrentWave(this.levelLocalDataController.CurrentLevelValue);
             this.slotManager.DeActiveAllSlot();
             this.archerManager.ChangeAttackStatusOfAllArcher(true);
             this.heroManager.ChangeAttackStatusOfAllHero(true);
