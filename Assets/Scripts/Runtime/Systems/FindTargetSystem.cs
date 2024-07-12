@@ -40,7 +40,6 @@
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(managerTypes);
             var targets = cache.Where(x =>
                     x is ITargetable { IsDead: false } t
-                    && (t.TargetThatAttackingMe == null || t.TargetThatAttackingMe.IsDead)
                     && x.GetView().LayerMask != host.GetView().LayerMask
                     && x != host
                     && tagList.Contains(x.GetView().gameObject.tag)
