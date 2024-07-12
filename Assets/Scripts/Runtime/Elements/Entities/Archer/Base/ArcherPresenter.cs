@@ -5,6 +5,7 @@
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Runtime.Elements.Base;
+    using Runtime.Elements.Entities.Castles.ArcherSlots;
     using Runtime.Elements.EntitySkills;
     using Runtime.Elements.EntitySkills.ProjectileSkills;
     using Runtime.Enums;
@@ -44,6 +45,8 @@
             (transform = this.View.transform).SetParent(this.Model.ParentView);
             transform.localPosition                             = Vector3.zero;
             this.View.GetComponent<MeshRenderer>().sortingOrder = this.Model.Index + 1;
+            this.View.skeletonAnimation.GetComponent<MeshRenderer>().sortingOrder =
+                this.View.GetComponentInParent<ArcherSlot>().GetComponent<SpriteRenderer>().sortingOrder;
         }
 
         public override void Tick()
@@ -63,7 +66,7 @@
         {
             this.canAttack = attackStatus;
             this.timer     = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
-            if(!attackStatus) this.View.skeletonAnimation.SetAnimation("idle");
+            if (!attackStatus) this.View.skeletonAnimation.SetAnimation("idle");
         }
 
         public void Attack(ITargetable target = null)
