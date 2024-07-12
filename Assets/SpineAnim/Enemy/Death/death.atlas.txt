@@ -1,0 +1,62 @@
+
+death.png
+size: 912,466
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Layer 10
+  rotate: false
+  xy: 2, 443
+  size: 37, 21
+  orig: 37, 21
+  offset: 0, 0
+  index: -1
+Layer 5
+  rotate: false
+  xy: 338, 409
+  size: 114, 55
+  orig: 114, 55
+  offset: 0, 0
+  index: -1
+Layer 6
+  rotate: false
+  xy: 249, 425
+  size: 87, 39
+  orig: 87, 39
+  offset: 0, 0
+  index: -1
+Layer 7
+  rotate: false
+  xy: 167, 426
+  size: 80, 38
+  orig: 80, 38
+  offset: 0, 0
+  index: -1
+Layer 8
+  rotate: false
+  xy: 41, 436
+  size: 56, 28
+  orig: 56, 28
+  offset: 0, 0
+  index: -1
+Layer 9
+  rotate: false
+  xy: 99, 432
+  size: 66, 32
+  orig: 66, 32
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 476, 2
+  size: 434, 462
+  orig: 434, 462
+  offset: 0, 0
+  index: -1
+luoi hai
+  rotate: false
+  xy: 2, 11
+  size: 472, 396
+  orig: 472, 396
+  offset: 0, 0
+  index: -1

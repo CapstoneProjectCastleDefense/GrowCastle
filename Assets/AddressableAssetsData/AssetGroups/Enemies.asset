@@ -18,12 +18,62 @@ MonoBehaviour:
   m_GUID: f95ef3c593fd5044b84f6e4078875d9c
   m_SerializeEntries:
   - m_GUID: fd8131040f5ae944997cf2352d9ee89a
-    m_Address: goblin_1
+    m_Address: Goblin
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 293e86ae18d5b304a88f6b2ecab70821
-    m_Address: goblin_2
+  - m_GUID: 9d80d966d66666940a53538b9c17ad72
+    m_Address: Phantom
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5405bad56eeed86438599a563fcbc3fa
+    m_Address: Slime_0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a1e53f4e4e464784481842f1f14c9929
+    m_Address: Slime_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5067189dcb23cf14880e54515c30c6ab
+    m_Address: Slime_2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d810a9dbb106fe04aba8cea8472ea0eb
+    m_Address: Slime_3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e3e0e59f3992bef4a81b7ac8f364159d
+    m_Address: Slime_4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1f54149e6728be742910e8aad8adb7b9
+    m_Address: Wolf
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 653482ffecf4adf47a13035830c66c93
+    m_Address: Skeleton_0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9622e39ab6157a4c8bf61093336e0a3
+    m_Address: Skeleton_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f53ac47f0c114674293079e81cd5540a
+    m_Address: Eyes
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd0e0ab50ec7b2f42840e88fb936ffef
+    m_Address: Death
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

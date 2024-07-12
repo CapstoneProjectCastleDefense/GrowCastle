@@ -1,0 +1,146 @@
+
+eyes.png
+size: 2002,589
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: false
+  xy: 940, 293
+  size: 243, 294
+  orig: 243, 294
+  offset: 0, 0
+  index: -1
+cp1
+  rotate: true
+  xy: 2, 2
+  size: 210, 316
+  orig: 210, 316
+  offset: 0, 0
+  index: -1
+cp1 Copy
+  rotate: false
+  xy: 728, 271
+  size: 210, 316
+  orig: 210, 316
+  offset: 0, 0
+  index: -1
+cp2
+  rotate: false
+  xy: 314, 265
+  size: 205, 322
+  orig: 205, 322
+  offset: 0, 0
+  index: -1
+cp2 Copy
+  rotate: false
+  xy: 521, 265
+  size: 205, 322
+  orig: 205, 322
+  offset: 0, 0
+  index: -1
+cp3
+  rotate: true
+  xy: 1312, 21
+  size: 279, 271
+  orig: 279, 271
+  offset: 0, 0
+  index: -1
+cp3 Copy
+  rotate: true
+  xy: 1339, 308
+  size: 279, 271
+  orig: 279, 271
+  offset: 0, 0
+  index: -1
+cp4
+  rotate: true
+  xy: 1158, 6
+  size: 285, 152
+  orig: 285, 152
+  offset: 0, 0
+  index: -1
+cp4 Copy
+  rotate: true
+  xy: 1185, 302
+  size: 285, 152
+  orig: 285, 152
+  offset: 0, 0
+  index: -1
+cp5
+  rotate: true
+  xy: 702, 16
+  size: 247, 226
+  orig: 247, 226
+  offset: 0, 0
+  index: -1
+cp5 Copy
+  rotate: true
+  xy: 930, 22
+  size: 247, 226
+  orig: 247, 226
+  offset: 0, 0
+  index: -1
+cp6
+  rotate: false
+  xy: 2, 214
+  size: 154, 373
+  orig: 154, 373
+  offset: 0, 0
+  index: -1
+cp6 Copy
+  rotate: false
+  xy: 158, 214
+  size: 154, 373
+  orig: 154, 373
+  offset: 0, 0
+  index: -1
+cp7
+  rotate: false
+  xy: 1585, 33
+  size: 171, 273
+  orig: 171, 273
+  offset: 0, 0
+  index: -1
+cp7 Copy
+  rotate: false
+  xy: 1612, 314
+  size: 171, 273
+  orig: 171, 273
+  offset: 0, 0
+  index: -1
+cp8
+  rotate: false
+  xy: 320, 2
+  size: 189, 261
+  orig: 189, 261
+  offset: 0, 0
+  index: -1
+cp8 Copy
+  rotate: false
+  xy: 511, 2
+  size: 189, 261
+  orig: 189, 261
+  offset: 0, 0
+  index: -1
+cp9
+  rotate: true
+  xy: 1785, 345
+  size: 242, 203
+  orig: 242, 203
+  offset: 0, 0
+  index: -1
+cp9 Copy
+  rotate: false
+  xy: 1758, 109
+  size: 242, 203
+  orig: 242, 203
+  offset: 0, 0
+  index: -1
+eyes
+  rotate: true
+  xy: 1758, 27
+  size: 80, 127
+  orig: 80, 127
+  offset: 0, 0
+  index: -1

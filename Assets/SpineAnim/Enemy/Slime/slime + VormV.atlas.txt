@@ -1,0 +1,111 @@
+
+slime + VormV.png
+size: 1637,223
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Layer 3 Copy
+  rotate: true
+  xy: 2, 2
+  size: 219, 145
+  orig: 219, 145
+  offset: 0, 0
+  index: -1
+blue
+  rotate: true
+  xy: 149, 2
+  size: 219, 145
+  orig: 219, 145
+  offset: 0, 0
+  index: -1
+images/0
+  rotate: true
+  xy: 1160, 9
+  size: 81, 25
+  orig: 81, 25
+  offset: 0, 0
+  index: -1
+images/1
+  rotate: true
+  xy: 1481, 13
+  size: 100, 66
+  orig: 100, 66
+  offset: 0, 0
+  index: -1
+images/2
+  rotate: true
+  xy: 1549, 13
+  size: 100, 66
+  orig: 100, 66
+  offset: 0, 0
+  index: -1
+images/3
+  rotate: false
+  xy: 1310, 20
+  size: 103, 70
+  orig: 103, 70
+  offset: 0, 0
+  index: -1
+images/4
+  rotate: false
+  xy: 1187, 10
+  size: 121, 80
+  orig: 121, 80
+  offset: 0, 0
+  index: -1
+images/5
+  rotate: true
+  xy: 1415, 11
+  size: 102, 64
+  orig: 102, 64
+  offset: 0, 0
+  index: -1
+images/gai 1
+  rotate: true
+  xy: 737, 6
+  size: 215, 92
+  orig: 215, 92
+  offset: 0, 0
+  index: -1
+images/gai 2
+  rotate: false
+  xy: 1407, 115
+  size: 228, 106
+  orig: 228, 106
+  offset: 0, 0
+  index: -1
+images/gai 3
+  rotate: false
+  xy: 1160, 92
+  size: 245, 129
+  orig: 245, 129
+  offset: 0, 0
+  index: -1
+images/v
+  rotate: false
+  xy: 831, 17
+  size: 327, 204
+  orig: 327, 204
+  offset: 0, 0
+  index: -1
+slime do
+  rotate: true
+  xy: 296, 2
+  size: 219, 145
+  orig: 219, 145
+  offset: 0, 0
+  index: -1
+vang
+  rotate: true
+  xy: 443, 2
+  size: 219, 145
+  orig: 219, 145
+  offset: 0, 0
+  index: -1
+white
+  rotate: true
+  xy: 590, 2
+  size: 219, 145
+  orig: 219, 145
+  offset: 0, 0
+  index: -1
