@@ -1,0 +1,167 @@
+
+soi.png
+size: 1513,430
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1/body
+  rotate: true
+  xy: 823, 13
+  size: 162, 246
+  orig: 162, 246
+  offset: 0, 0
+  index: -1
+1/head
+  rotate: true
+  xy: 524, 154
+  size: 274, 257
+  orig: 274, 257
+  offset: 0, 0
+  index: -1
+1/left arm
+  rotate: false
+  xy: 956, 179
+  size: 81, 188
+  orig: 81, 188
+  offset: 0, 0
+  index: -1
+1/left leg
+  rotate: false
+  xy: 1168, 77
+  size: 107, 116
+  orig: 107, 116
+  offset: 0, 0
+  index: -1
+1/right arm
+  rotate: false
+  xy: 1136, 195
+  size: 58, 151
+  orig: 58, 151
+  offset: 0, 0
+  index: -1
+1/right leg
+  rotate: true
+  xy: 956, 369
+  size: 59, 112
+  orig: 59, 112
+  offset: 0, 0
+  index: -1
+1/shield
+  rotate: false
+  xy: 783, 177
+  size: 171, 251
+  orig: 171, 251
+  offset: 0, 0
+  index: -1
+1/sword
+  rotate: true
+  xy: 1071, 348
+  size: 80, 440
+  orig: 80, 440
+  offset: 0, 0
+  index: -1
+2/body
+  rotate: false
+  xy: 306, 5
+  size: 266, 120
+  orig: 266, 120
+  offset: 0, 0
+  index: -1
+2/head
+  rotate: true
+  xy: 1277, 126
+  size: 220, 233
+  orig: 220, 233
+  offset: 0, 0
+  index: -1
+2/hip
+  rotate: false
+  xy: 1168, 16
+  size: 107, 59
+  orig: 107, 59
+  offset: 0, 0
+  index: -1
+2/left hand
+  rotate: false
+  xy: 658, 8
+  size: 44, 144
+  orig: 44, 144
+  offset: 0, 0
+  index: -1
+2/left leg
+  rotate: false
+  xy: 704, 25
+  size: 117, 127
+  orig: 117, 127
+  offset: 0, 0
+  index: -1
+2/right hand
+  rotate: false
+  xy: 613, 7
+  size: 43, 145
+  orig: 43, 145
+  offset: 0, 0
+  index: -1
+2/right leg
+  rotate: false
+  xy: 240, 2
+  size: 64, 123
+  orig: 64, 123
+  offset: 0, 0
+  index: -1
+2/spine
+  rotate: false
+  xy: 574, 2
+  size: 37, 150
+  orig: 37, 150
+  offset: 0, 0
+  index: -1
+2/sword
+  rotate: false
+  xy: 2, 118
+  size: 43, 310
+  orig: 43, 310
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 315, 130
+  size: 207, 298
+  orig: 207, 298
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 47, 127
+  size: 266, 301
+  orig: 266, 301
+  offset: 0, 0
+  index: -1
+left arm
+  rotate: true
+  xy: 2, 2
+  size: 114, 236
+  orig: 114, 236
+  offset: 0, 0
+  index: -1
+left leg
+  rotate: false
+  xy: 1039, 195
+  size: 95, 151
+  orig: 95, 151
+  offset: 0, 0
+  index: -1
+right arm
+  rotate: true
+  xy: 1277, 9
+  size: 115, 224
+  orig: 115, 224
+  offset: 0, 0
+  index: -1
+right leg
+  rotate: false
+  xy: 1071, 42
+  size: 95, 151
+  orig: 95, 151
+  offset: 0, 0
+  index: -1

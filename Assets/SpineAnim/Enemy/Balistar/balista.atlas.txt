@@ -1,0 +1,62 @@
+
+balista.png
+size: 235,500
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+banh sau 1
+  rotate: false
+  xy: 2, 2
+  size: 92, 95
+  orig: 92, 95
+  offset: 0, 0
+  index: -1
+banh sau 2
+  rotate: true
+  xy: 96, 6
+  size: 91, 93
+  orig: 91, 93
+  offset: 0, 0
+  index: -1
+banh truoc 1
+  rotate: true
+  xy: 115, 269
+  size: 113, 115
+  orig: 113, 115
+  offset: 0, 0
+  index: -1
+banh truoc 2
+  rotate: true
+  xy: 115, 384
+  size: 114, 117
+  orig: 114, 117
+  offset: 0, 0
+  index: -1
+cung
+  rotate: false
+  xy: 2, 99
+  size: 170, 151
+  orig: 170, 151
+  offset: 0, 0
+  index: -1
+giu cung
+  rotate: false
+  xy: 174, 135
+  size: 54, 51
+  orig: 54, 51
+  offset: 0, 0
+  index: -1
+light banh truoc 2
+  rotate: true
+  xy: 174, 188
+  size: 79, 59
+  orig: 79, 59
+  offset: 0, 0
+  index: -1
+than
+  rotate: true
+  xy: 2, 252
+  size: 246, 111
+  orig: 246, 111
+  offset: 0, 0
+  index: -1

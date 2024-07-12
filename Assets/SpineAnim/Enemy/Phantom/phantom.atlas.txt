@@ -1,0 +1,34 @@
+
+phantom.png
+size: 888,929
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 2, 2
+  size: 737, 884
+  orig: 737, 884
+  offset: 0, 0
+  index: -1
+eye
+  rotate: false
+  xy: 2, 789
+  size: 260, 138
+  orig: 264, 141
+  offset: 2, 1
+  index: -1
+mouth
+  rotate: true
+  xy: 548, 741
+  size: 186, 225
+  orig: 186, 225
+  offset: 0, 0
+  index: -1
+upper mouth
+  rotate: false
+  xy: 264, 767
+  size: 282, 160
+  orig: 284, 162
+  offset: 1, 1
+  index: -1
