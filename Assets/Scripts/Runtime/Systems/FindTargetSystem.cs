@@ -34,6 +34,22 @@
             return cache.Count == 0 ? null : this.GetTaggedTarget(host, priority, tagList, targets);
         }
 
+        public List<ITargetable> GetTargetsInRange(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, Type[] managerTypes, Vector3 center,
+            float range)
+        {
+            var cache = this.getCustomPresenterSystem.GetAllElementPresenters(managerTypes);
+            var targets = cache.Where(x =>
+                    x is ITargetable { IsDead: false } t
+                    && (t.TargetThatAttackingMe == null || t.TargetThatAttackingMe.IsDead)
+                    && x.GetView().LayerMask != host.GetView().LayerMask
+                    && x != host
+                    && tagList.Contains(x.GetView().gameObject.tag)
+                    && Vector3.Distance(center, x.GetView().transform.position) <= range)
+                .Select(x => x as ITargetable)
+                .ToList();
+            return cache.Count == 0 ? null : targets;
+        }
+
         public List<ITargetable> GetAllEnemyTarget()
         {
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(typeof(EnemyManager));
