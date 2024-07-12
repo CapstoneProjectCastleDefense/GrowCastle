@@ -94,6 +94,31 @@ PrefabInstance:
       propertyPath: m_Offset.y
       value: 7.25
       objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: moveAnimation
+      value: run
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: deathAnimations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: attackAnimations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: deathAnimations.Array.data[0]
+      value: dead
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: attackAnimations.Array.data[0]
+      value: atk
+      objectReference: {fileID: 0}
     - target: {fileID: 8823434734986036782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_LocalScale.x

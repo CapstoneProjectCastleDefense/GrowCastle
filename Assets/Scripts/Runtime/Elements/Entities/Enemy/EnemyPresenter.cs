@@ -5,6 +5,7 @@
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
+    using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using global::Extensions;
     using Models.LocalData;
@@ -21,17 +22,18 @@
 
     public class EnemyPresenter : BaseCombatantPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
     {
-        private const    string                      AttackAnimName = "atk";
-        private const    string                      DeathAnimName  = "dead";
-        private const    string                      MoveAnimName   = "animation2";
-        
+        private string AttackAnimName => this.View.attackAnimations.RandomElement();
+        private string DeathAnimName  => this.View.deathAnimations.RandomElement();
+        private string MoveAnimName   => this.View.moveAnimation;
+
         private readonly FindTargetSystem            findTargetSystem;
         private readonly ResourceLocalDataController resourceLocalDataController;
 
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
         public virtual string[] GetTags()         { return new[] { "Ally", "Building" }; }
 
-        protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem, ResourceLocalDataController resourceLocalDataController)
+        protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem,
+            ResourceLocalDataController resourceLocalDataController)
             : base(model, objectPoolManager)
         {
             this.findTargetSystem            = findTargetSystem;
@@ -55,6 +57,7 @@
                 this.View.Rigidbody2D.velocity = Vector2.zero;
                 return;
             }
+
             this.View.Rigidbody2D.velocity = new Vector2(-1 * this.Model.GetStat<float>(StatEnum.MoveSpeed), 0);
         }
 
@@ -124,14 +127,14 @@
             this.View.Rigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition;
             float goldDrop = this.Model.GetStat<float>(StatEnum.Gold);
             this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
-            
+
             this.TargetThatImLookingAt = null;
-            this.IsDead = true;
-            
+            this.IsDead                = true;
+
             this.View.HealthBarContainer.gameObject.SetActive(false);
-            
+
             this.DropCoin();
-            
+
             var wait = 0f;
             if (!DeathAnimName.IsNullOrEmpty() &&
                 this.View.SkeletonAnimation != null)

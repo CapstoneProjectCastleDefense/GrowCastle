@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Elements.Entities.Enemy
 {
     using System;
+    using System.Collections.Generic;
     using Runtime.Elements.Base;
     using Spine.Unity;
     using UnityEngine;
