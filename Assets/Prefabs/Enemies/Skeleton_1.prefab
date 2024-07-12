@@ -58,10 +58,15 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4405516089750153845, guid: 653482ffecf4adf47a13035830c66c93,
+        type: 3}
+      propertyPath: initialSkinName
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 7470939561112442251, guid: 653482ffecf4adf47a13035830c66c93,
         type: 3}
       propertyPath: m_Name
-      value: Skeleton_0
+      value: Skeleton_1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

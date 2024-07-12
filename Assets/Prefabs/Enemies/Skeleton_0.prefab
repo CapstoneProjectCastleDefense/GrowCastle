@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 814328206612611133, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_Name
-      value: Wolf
+      value: Skeleton_0
       objectReference: {fileID: 0}
     - target: {fileID: 814328206612611133, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
@@ -41,8 +41,13 @@ PrefabInstance:
     - target: {fileID: 3701615186086625936, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_Materials.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 3701615186086625936, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d7321f4c4bd932c4887781d35aa4c7d8, type: 2}
     - target: {fileID: 4834788081406469895, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_TagString
@@ -66,7 +71,7 @@ PrefabInstance:
     - target: {fileID: 5890850458954612675, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: initialSkinName
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 5890850458954612675, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
@@ -74,6 +79,31 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 11400000, guid: dade892024eec074f98ad0747545c2c1,
         type: 2}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: moveAnimation
+      value: run
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: deathAnimations.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: attackAnimations.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: attackAnimations.Array.data[0]
+      value: atk soi (hoac undead)
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: attackAnimations.Array.data[1]
+      value: atk undead
+      objectReference: {fileID: 0}
     - target: {fileID: 8823434734986036782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_LocalScale.x
