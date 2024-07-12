@@ -52,14 +52,14 @@
             if (target == null) return;
 
             var skillId = towerDataRecord.SkillToAnimationRecords.ElementAt(0).Key;
-            this.entitySkillSystem.CastSkill(skillId, new BaseProjectileSkillModel()
-            {
-                Id         = skillId,
-                StartPoint = this.View.spawnProjectilePos.position,
-                EndPoint   = target.GetGameObject().transform.position,
-                Target     = target,
-                Damage     = this.Model.GetStat<float>(StatEnum.Attack),
-            });
+            // this.entitySkillSystem.CastSkill(skillId, new BaseProjectileSkillModel()
+            // {
+            //     Id         = skillId,
+            //     StartPoint = this.View.spawnProjectilePos.position,
+            //     EndPoint   = target.GetGameObject().transform.position,
+            //     Target     = target,
+            //     Damage     = this.Model.GetStat<float>(StatEnum.Attack),
+            // });
         }
         public ITargetable FindTarget()
         {
