@@ -63,7 +63,7 @@
                         { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Building) },
                         { StatEnum.Gold, (typeof(float), enemyRecord.Gold.baseValue) }
                     },
-                    StartPos = new(Random.Range(10f, 11f), Random.Range(-2.5f, -1.5f), 0)
+                    StartPos = new(Random.Range(15f, 20f), Random.Range(-2.5f, -1.5f), 0)
                 });
                 enemyPresenter.UpdateView().Forget();
                 enemyPresenter.SetManager(this);
