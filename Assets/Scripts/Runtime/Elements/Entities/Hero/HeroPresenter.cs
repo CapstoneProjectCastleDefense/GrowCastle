@@ -23,6 +23,7 @@
         private readonly HeroBlueprint     heroBlueprint;
         private readonly FindTargetSystem  findTargetSystem;
         private readonly SkillBlueprint    skillBlueprint;
+        private readonly CastleManager     castleManager;
 
         private HeroManager heroManager;
         private bool        canAttack;
@@ -34,13 +35,15 @@
             EntitySkillSystem entitySkillSystem,
             HeroBlueprint heroBlueprint,
             FindTargetSystem findTargetSystem,
-            SkillBlueprint skillBlueprint)
+            SkillBlueprint skillBlueprint,
+            CastleManager castleManager)
             : base(model, objectPoolManager)
         {
             this.entitySkillSystem = entitySkillSystem;
             this.heroBlueprint     = heroBlueprint;
             this.findTargetSystem  = findTargetSystem;
             this.skillBlueprint    = skillBlueprint;
+            this.castleManager     = castleManager;
         }
 
         public void SetManager(HeroManager heroManager) => this.heroManager = heroManager;
@@ -68,6 +71,7 @@
         public void CastSkill(string skillId, ITargetable target)
         {
             if (this.View.cooldownSkillBar.fillAmount < 1) return;
+            if (!this.castleManager.UseManaForSkill(this.skillBlueprint.GetDataById(skillId).Mana)) return;
             this.CastSkillInternal(skillId, target, new BasicSkillModel()
             {
                 Id    = skillId,
@@ -81,6 +85,11 @@
         {
             DOTween.Kill(this.View.cooldownSkillBar);
             this.View.cooldownSkillBar.DOFillAmount(1, cooldownTime).SetEase(Ease.Linear);
+        }
+        public void ResetCooldown()
+        {
+            DOTween.Kill(this.View.cooldownSkillBar);
+            this.View.cooldownSkillBar.fillAmount = 1;
         }
 
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(CastleManager), typeof(EnemyManager) }; }

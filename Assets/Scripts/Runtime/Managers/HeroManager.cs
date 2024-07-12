@@ -33,7 +33,11 @@
 
         public void ChangeAttackStatusOfAllHero(bool canAttack)
         {
-            this.entities.ForEach(e=>e.SetAttackStatus(canAttack));
+            this.entities.ForEach(e=>
+            {
+                if(!canAttack) e.ResetCooldown();
+                e.SetAttackStatus(canAttack);
+            });
         }
 
         public override void Initialize()

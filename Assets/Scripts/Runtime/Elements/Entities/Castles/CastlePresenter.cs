@@ -61,6 +61,26 @@
             });
         }
         public override void Dispose() { }
+        
+        public bool UseManaForSkill(float manaValue)
+        {
+            var currentMana = this.Model.GetStat<float>(StatEnum.Mana);
+            if (currentMana >= manaValue)
+            {
+                currentMana -= manaValue;
+                this.Model.SetStat(StatEnum.Mana,currentMana);
+                this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
+                return true;
+            }
+
+            return false;
+        }
+        public void ResetMana()
+        {
+            var maxMana = this.Model.GetStat<float>(StatEnum.MaxMana);
+            this.Model.SetStat(StatEnum.Mana, maxMana);
+            this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
+        }
 
         public void ResetHealth()
         {

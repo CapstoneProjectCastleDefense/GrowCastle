@@ -98,6 +98,7 @@
             result.Add(StatEnum.MaxHealth, (configData.BaseHP.GetType(), configData.BaseHP * 1));
             result.Add(StatEnum.Health, (configData.BaseHP.GetType(), configData.BaseHP * 1)); //TODO: *10000 for testing, change to local data later
             result.Add(StatEnum.Mana, (configData.BaseMP.GetType(), configData.BaseMP));
+            result.Add(StatEnum.MaxMana, (configData.BaseMP.GetType(), configData.BaseMP));
 
             return result;
         }

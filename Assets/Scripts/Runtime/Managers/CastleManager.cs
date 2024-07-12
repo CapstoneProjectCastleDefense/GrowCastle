@@ -6,7 +6,10 @@
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Castles;
     using Runtime.Elements.Entities.Castles.ArcherSlots;
+    using Runtime.Enums;
+    using Runtime.Extensions;
     using Runtime.Managers.Base;
+    using Sirenix.Utilities;
 
     public class CastleManager : BaseElementManager<CastleModel,CastlePresenter,CastleView>
     {
@@ -28,11 +31,17 @@
             this.entities.First().UpdateBlockBaseOnCurrentLevel();
             this.slotManager.UpdateAllSlots(castleLocalDataController.GetCurrentCastle().Level);
         }
+        public bool UseManaForSkill(float manaValue)
+        {
+            return this.entities.First().UseManaForSkill(manaValue);
+        }
+        
 
-        public void ResetCurrentCastleHealth()
+        public void ResetCurrentCastleHealthAndMana()
         {
             if(this.entities.Count==0) return;
             this.entities.First().ResetHealth();
+            this.entities.First().ResetMana();
         }
 
         public List<ArcherSlot> GetAllArcherSlot() => this.entities[0].CastleView.listArcherSlot;

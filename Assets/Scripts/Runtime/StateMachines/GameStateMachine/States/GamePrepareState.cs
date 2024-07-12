@@ -35,7 +35,7 @@
             this.archerManager.ChangeAttackStatusOfAllArcher(false);
             this.heroManager.ChangeAttackStatusOfAllHero(false);
             this.towerManager.ChangeAttackStatusOfAllTower(false);
-            this.castleManager.ResetCurrentCastleHealth();
+            this.castleManager.ResetCurrentCastleHealthAndMana();
             this.slotManager.ActiveAllSlot();
         }
 

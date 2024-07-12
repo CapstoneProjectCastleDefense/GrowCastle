@@ -101,6 +101,7 @@
         private void OnCastleStatChange(UpdateCastleStatSignal signal)
         {
             this.View.castleHealthBar.DOFillAmount(signal.CastleStats.GetStat<float>(StatEnum.Health) * 1.0f / signal.CastleStats.GetStat<float>(StatEnum.MaxHealth), 0.1f);
+            this.View.castleManaBar.DOFillAmount(signal.CastleStats.GetStat<float>(StatEnum.Mana) * 1.0f / signal.CastleStats.GetStat<float>(StatEnum.MaxMana), 0.1f);
         }
 
         private void OnUpgradeCastleButtonClick()

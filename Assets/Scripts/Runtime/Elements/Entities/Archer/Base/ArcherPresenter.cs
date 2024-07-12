@@ -63,6 +63,7 @@
         {
             this.canAttack = attackStatus;
             this.timer     = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
+            if(!attackStatus) this.View.skeletonAnimation.SetAnimation("idle");
         }
 
         public void Attack(ITargetable target = null)
