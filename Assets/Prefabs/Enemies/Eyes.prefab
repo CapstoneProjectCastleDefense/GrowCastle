@@ -16,7 +16,7 @@ PrefabInstance:
     - target: {fileID: 814328206612611133, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_TagString
-      value: Ground
+      value: Fly
       objectReference: {fileID: 0}
     - target: {fileID: 2025880399275592623, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}

@@ -17,6 +17,7 @@
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
     using Runtime.Systems;
+    using Spine.Unity;
     using TMPro;
     using UnityEngine;
 
@@ -42,11 +43,12 @@
         public override async UniTask UpdateView()
         {
             await base.UpdateView();
-            this.View.SkeletonAnimation.SetAnimation(MoveAnimName);
+            this.View.SkeletonAnimation.SetAnimation(this.MoveAnimName);
             this.View.HealthBarContainer.gameObject.SetActive(true);
-            this.View.HealthBar.fillAmount    = 1;
-            this.View.transform.position      = this.Model.StartPos;
-            this.View.Rigidbody2D.constraints = RigidbodyConstraints2D.None;
+            this.View.HealthBar.fillAmount                                        = 1;
+            this.View.transform.position                                          = this.Model.StartPos + Vector3.up * (this.View.tag.Equals("Fly") ? 5 : 0);
+            this.View.SkeletonAnimation.GetComponent<MeshRenderer>().sortingOrder = (int)((this.Model.StartPos.y + 10) * -100);
+            this.View.Rigidbody2D.constraints                                     = RigidbodyConstraints2D.None;
         }
 
 
