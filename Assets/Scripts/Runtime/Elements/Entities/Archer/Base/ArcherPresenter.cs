@@ -109,7 +109,7 @@
                 this.Model.SetStat(StatEnum.AttackPriority, priority);
             }
 
-            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 2);
+            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 3);
 
             return res.Count > 0 ? res.RandomElement() : null;
         }

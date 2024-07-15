@@ -43,7 +43,7 @@
                 projectileRecord.Fragment,
                 projectileRecord.ProjectileSpeed,
                 projectileRecord.Delay,
-                projectileRecord.VectorOrientation);
+                projectileRecord.VectorOrientation, Ease.Linear);
 
             this.flyTween.onComplete += () =>
             {
