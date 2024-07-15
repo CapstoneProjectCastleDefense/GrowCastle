@@ -1,14 +1,11 @@
 ﻿namespace Runtime.Elements.Entities.Archer.Base
 {
     using System;
-    using System.Linq;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Castles.ArcherSlots;
-    using Runtime.Elements.EntitySkills;
-    using Runtime.Elements.EntitySkills.ProjectileSkills;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
@@ -51,70 +48,20 @@
             this.View.skeletonAnimation.ChaneSkeletonSkin(this.Model.Level.ToString());
         }
 
-        public override void Tick()
-        {
-            if (!this.canAttack) return;
-            if (this.AttackCooldownTime >= 1 / this.Model.GetStat<float>(StatEnum.AttackSpeed))
-            {
-                // var target = this.enemyManager.entities.Count > 0 ? this.enemyManager.entities.First() : null;
-                if (this.TargetThatImLookingAt == null || this.TargetThatImLookingAt.IsDead)
-                {
-                    var target = this.FindTarget();
-                    var random = Random.Range(100, 300);
-                    this.TargetThatImLookingAt = target;
-                    this.AttackCooldownTime    = -random * 1f / 1000;
-                    UniTask.Delay(random).ContinueWith(() =>
-                    {
-                        this.Attack(this.TargetThatImLookingAt);
-                    }).Forget();
-                }
-                else
-                {
-                    this.Attack(this.TargetThatImLookingAt);
-                    this.AttackCooldownTime = 0;
-                }
-            }
-
-            this.AttackCooldownTime += Time.deltaTime;
-        }
+        public override void Tick() { }
 
         public void SetAttackStatus(bool attackStatus)
         {
-            this.canAttack          = attackStatus;
-            this.AttackCooldownTime = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
-            if (!attackStatus) this.View.skeletonAnimation.SetAnimation("idle");
-        }
+            this.canAttack = attackStatus;
 
-        public void Attack(ITargetable target)
-        {
-            if (target == null) return;
-
-            this.View.skeletonAnimation.SetAnimation("attack", false);
-            this.entitySkillSystem.CastSkill(EntitySkillName.Arrow, new BaseProjectileSkillModel()
+            if (this.canAttack)
             {
-                Id         = EntitySkillName.Arrow,
-                StartPoint = this.View.spawnArrowPos.position,
-                EndPoint   = target.GetGameObject().transform.position,
-                Target     = target,
-                Damage     = this.Model.GetStat<float>(StatEnum.Attack),
-            });
-        }
-
-        public ITargetable FindTarget()
-        {
-            var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
-            if (priority == default)
-            {
-                priority = AttackPriorityEnum.Default;
-                this.Model.SetStat(StatEnum.AttackPriority, priority);
+                this.entitySkillSystem.CastSkill(EntitySkillName.ArcherNormalAttack, this);
             }
 
-            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 3);
-
-            return res.Count > 0 ? res.RandomElement() : null;
+            this.timer = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
+            if (!attackStatus) this.View.skeletonAnimation.SetAnimation("idle");
         }
-
-        public float AttackCooldownTime { get; private set; }
 
         public void CastSkill(string skillId, ITargetable target) { }
 

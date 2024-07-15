@@ -1,7 +1,9 @@
 ﻿namespace Runtime.Elements.EntitySkills.InstantHitSkills
 {
+    using Cysharp.Threading.Tasks;
     using Models.Blueprints;
     using Models.Tags;
+    using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Skills;
@@ -25,9 +27,9 @@
 
         public override string SkillId { get; set; } = EntitySkillName.WizardAttackSkill;
 
-        protected override void InternalActivate()
+        protected override void InternalCast(ICombatantPresenter caster)
         {
-            this.vfxService.SpawnVFX(this.VFXName, new Vector3(5f, -1, 0), Quaternion.identity, scale: new Vector3(3, 3, 1));
+            this.vfxService.SpawnVFX(this.VFXName, new Vector3(5f, -1, 0), Quaternion.identity, scale: new Vector3(3, 3, 1)).Forget();
             var targets = this.findTargetSystem.GetAllEnemyTarget();
             for (int i = 0; i < targets.Count; i++)
             {

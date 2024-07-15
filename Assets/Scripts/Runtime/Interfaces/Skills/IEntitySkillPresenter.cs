@@ -1,5 +1,7 @@
 ﻿namespace Runtime.Interfaces.Skills
 {
+    using System;
+    using Runtime.Elements.Base;
     using Runtime.Managers;
     using Runtime.Services;
     using Runtime.Signals;
@@ -9,8 +11,9 @@
     public interface IEntitySkillPresenter
     {
         string SkillId { get; set; }
-        void   Activate(IEntitySkillModel baseSkillModel);
+        void   Cast(ICombatantPresenter caster);
         void   Initialize();
+        void   Tick();
         void   Dispose();
     }
 
@@ -37,22 +40,16 @@
 
         protected TModel Model;
 
-        public virtual void Activate(IEntitySkillModel baseSkillModel)
-        {
-            if (baseSkillModel is TModel model)
-            {
-                this.Model = model;
-            }
-
-            this.InternalActivate();
-        }
+        public abstract void Cast(ICombatantPresenter caster);
 
         public virtual void Initialize() { this.signalBus.Subscribe<TimeCooldownSignal>(this.Tick); }
 
-        protected virtual void Tick(TimeCooldownSignal signal) { }
+        public virtual void Tick() { }
+
+        public virtual Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
+        
+        public virtual string[] GetTags() { return new[] { "Fly", "Ground", "Boss", "Building" }; }
 
         public virtual void Dispose() { this.signalBus.Subscribe<TimeCooldownSignal>(this.Tick); }
-
-        protected abstract void InternalActivate();
     }
 }

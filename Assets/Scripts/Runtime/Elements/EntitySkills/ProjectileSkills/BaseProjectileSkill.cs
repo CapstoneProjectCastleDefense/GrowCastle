@@ -32,20 +32,9 @@
 
         protected readonly List<ProjectilePresenter> firedProjectiles = new();
 
-        protected override void InternalActivate() { this.FireProjectile().Forget(); }
-
-        private async UniTaskVoid FireProjectile()
+        protected async UniTaskVoid FireProjectile(ProjectileModel projectileModel)
         {
-            var projectileRecord = this.projectileBlueprint.GetDataById(this.Model.Id);
-            var projectile = this.projectileManager.CreateElement(new()
-            {
-                Id              = this.Model.Id,
-                AddressableName = projectileRecord.PrefabName,
-                StartPoint      = this.Model.StartPoint,
-                EndPoint        = this.Model.EndPoint,
-                Damage          = this.Model.Damage,
-                OnProjectileHit = this.OnProjectileHit
-            });
+            var projectile = this.projectileManager.CreateElement(projectileModel);
 
             await projectile.UpdateView();
             this.firedProjectiles.Add(projectile);

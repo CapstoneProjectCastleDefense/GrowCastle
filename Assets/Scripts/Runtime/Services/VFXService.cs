@@ -3,6 +3,7 @@ namespace Runtime.Services
     using System.Collections.Generic;
     using System.Linq;
     using System.Threading.Tasks;
+    using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
     using UnityEngine;
     using Zenject;
@@ -23,7 +24,7 @@ namespace Runtime.Services
 
         #endregion
 
-        public async Task SpawnVFX(string id, Vector3 position, Quaternion? rotation = null, Vector3? scale = null)
+        public async UniTask SpawnVFX(string id, Vector3 position, Quaternion? rotation = null, Vector3? scale = null)
         {
             rotation ??= Quaternion.identity;
             scale    ??= Vector3.one;
