@@ -6,4 +6,5 @@ GreenLeaf,GreenLeaf,Attack,WizardEvol_1,green_leaf_attack,attack2,archer_Skeleto
 ,,,,arrow_skill,attack,,
 GrayMage,GrayMage,Attack,WizardEvol_1,gray_mage_attack,skill,gray mage_SkeletonData,Hero
 ,,,,wizard_normal_attack,atk,,
-Xel'Naga,TowerXelNaga,Attack,XelNaga_Evol,,idle,,Tower
+Xel'Naga,TowerXelNaga,Attack,XelNaga_Evol,wizard_normal,idle,turret_SkeletonData,Tower
+,,,,wizard_normal_attack,atk,turret_SkeletonData,

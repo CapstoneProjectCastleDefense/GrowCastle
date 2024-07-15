@@ -24,7 +24,7 @@
         public void CreateSingleTower(string id, Transform parent)
         {
             var towerRecord = this.heroConfigBlueprint.GetDataById(id);
-            this.CreateElement(new()
+            var towerPresenter = this.CreateElement(new()
             {
                 Id = id,
                 ParentView = parent,
@@ -34,7 +34,8 @@
                     { StatEnum.AttackSpeed, (typeof(float), towerRecord.BaseAttackSpeed) },
                     { StatEnum.AttackPriority,(typeof(AttackPriorityEnum), AttackPriorityEnum.Ground)}
                 },
-            }).UpdateView().Forget();
+            }).UpdateView();
+            towerPresenter.Forget();
         }
 
         public void ChangeAttackStatusOfAllTower(bool canAttack) {

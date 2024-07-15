@@ -13,6 +13,21 @@ PrefabInstance:
       propertyPath: m_Name
       value: TowerXelNaga
       objectReference: {fileID: 0}
+    - target: {fileID: 1529865905526758291, guid: c7de1cace7edac644ac30b76588f8475,
+        type: 3}
+      propertyPath: m_SortingLayer
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 1529865905526758291, guid: c7de1cace7edac644ac30b76588f8475,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 1939197609
+      objectReference: {fileID: 0}
+    - target: {fileID: 1529865905526758291, guid: c7de1cace7edac644ac30b76588f8475,
+        type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3554123830223255441, guid: c7de1cace7edac644ac30b76588f8475,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -62,6 +77,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7491476682616624875, guid: c7de1cace7edac644ac30b76588f8475,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.63
+      objectReference: {fileID: 0}
+    - target: {fileID: 7491476682616624875, guid: c7de1cace7edac644ac30b76588f8475,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 1.02
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

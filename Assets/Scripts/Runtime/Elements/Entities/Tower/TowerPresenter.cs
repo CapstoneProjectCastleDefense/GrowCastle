@@ -11,6 +11,7 @@
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
+    using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Systems;
     using UnityEngine;
@@ -57,15 +58,15 @@
 
             if (target == null) return;
 
-            var skillId = towerDataRecord.SkillToAnimationRecords.ElementAt(0).Key;
-            // this.entitySkillSystem.CastSkill(skillId, new BaseProjectileSkillModel()
-            // {
-            //     Id         = skillId,
-            //     StartPoint = this.View.spawnProjectilePos.position,
-            //     EndPoint   = target.GetGameObject().transform.position,
-            //     Target     = target,
-            //     Damage     = this.Model.GetStat<float>(StatEnum.Attack),
-            // });
+            var skillId = towerDataRecord.SkillToAnimationRecords.ElementAt(1).Key;
+            this.CastSkillInternal(skillId, target, new BaseProjectileSkillModel()
+            {
+                Id         = skillId,
+                StartPoint = this.View.spawnProjectilePos.position,
+                EndPoint   = target.GetGameObject().transform.position,
+                Target     = target,
+                Damage     = this.Model.GetStat<float>(StatEnum.Attack),
+            });
         }
         public ITargetable FindTarget()
         {
@@ -76,10 +77,18 @@
             return res.Count > 0 ? res.RandomElement() : null;
         }
         public         float    AttackCooldownTime { get; }
-        public virtual Type[]   GetManagerTypes()  { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
-        public virtual string[] GetTags()          { return new[] { "Fly", "Ground", "Boss", "Building", }; }
+        public virtual Type[]   GetManagerTypes()  { return new[] { typeof(CastleManager), typeof(EnemyManager) }; }
+        public virtual string[] GetTags()          { return new[] { "Fly", "Ground", "Boss", }; }
 
         public void CastSkill(string skillId, ITargetable target) { }
+
+        private void CastSkillInternal(string skillId, ITargetable target, IEntitySkillModel skillModel)
+        {
+            var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
+            this.View.skeletonAnimation.SetAnimation(heroDataRecord.SkillToAnimationRecords[skillId].AnimationSkillName, loop: false);
+            this.entitySkillSystem.CastSkill(skillId, skillModel);
+            UniTask.Delay(TimeSpan.FromSeconds(1f)).ContinueWith(() => { this.View.skeletonAnimation.SetAnimation("idle", loop: true); });
+        }
 
         public void SetAttackStatus(bool attackStatus)
         {

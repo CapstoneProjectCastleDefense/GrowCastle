@@ -112,10 +112,7 @@
 
         private void OnEquipButtonClick()
         {
-            if (this.Model.currentSelectedSlotType == SlotType.Hero)
-            {
-                this.slotManager.EquipHero(this.Model.heroRuntimeData.heroRecord.HeroId);
-            }
+            this.slotManager.EquipHero(this.Model.heroRuntimeData.heroRecord.HeroId);
             this.ReBindData();
         }
 

@@ -6,7 +6,7 @@
 
     public class TowerView : BaseCombatantView
     {
-        public Transform spawnProjectilePos;
-
+        public Transform         spawnProjectilePos;
+        public SkeletonAnimation skeletonAnimation;
     }
 }

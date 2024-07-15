@@ -29,7 +29,7 @@
         {
             this.castleLocalDataController.UpgradeCastle();
             this.entities.First().UpdateBlockBaseOnCurrentLevel();
-            this.slotManager.UpdateAllSlots(castleLocalDataController.GetCurrentCastle().Level);
+            this.slotManager.UpdateAllSlots();
         }
         public bool UseManaForSkill(float manaValue)
         {

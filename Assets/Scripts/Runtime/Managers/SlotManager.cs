@@ -19,8 +19,13 @@ namespace Runtime.Managers
         private readonly HeroLocalDataController heroLocalDataController;
         private          SlotPresenter           currentSelectedSlot;
 
-        public SlotManager(BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory, SlotLocalDataController slotLocalDataController, HeroManager heroManager,
-                           LeaderManager leaderManager, TowerManager towerManager, HeroLocalDataController heroLocalDataController)
+        public SlotManager(
+            BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory,
+            SlotLocalDataController slotLocalDataController,
+            HeroManager heroManager,
+            LeaderManager leaderManager,
+            TowerManager towerManager,
+            HeroLocalDataController heroLocalDataController)
             : base(factory)
         {
             this.slotLocalDataController = slotLocalDataController;
@@ -57,7 +62,16 @@ namespace Runtime.Managers
 
             this.slotLocalDataController.EquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id, heroId);
             this.heroLocalDataController.EquipHero(heroId);
-            this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
+            var heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(heroId);
+            switch (heroRuntimeData.heroRecord.HeroType)
+            {
+                case SlotType.Hero:
+                    this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
+                    break;
+                case SlotType.Tower:
+                    this.towerManager.CreateSingleTower(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
+                    break;
+            }
         }
 
         public void UnEquipHero()
@@ -112,18 +126,8 @@ namespace Runtime.Managers
         public void UpdateCurrentSelectedSlot(SlotPresenter slotPresenter) { this.currentSelectedSlot = slotPresenter; }
 
         public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
-        public void ActiveAllSlot() => this.entities.ForEach(e => e.ActiveView());
+        public void ActiveAllSlot()   => this.entities.ForEach(e => e.ActiveView());
 
-        public void UpdateAllSlots(int currentLevel)
-        {
-            this.entities.ForEach(presenter =>
-            {
-                presenter.UpdateSlotBaseOnCurrentLevel();
-            });
-            if (currentLevel == 6)
-            {
-                this.towerManager.CreateSingleTower("Xel'Naga", this.entities.First(slot => slot.Model.Id == "10").GetSlotView.heroPos);
-            }
-        }
+        public void UpdateAllSlots() { this.entities.ForEach(presenter => { presenter.UpdateSlotBaseOnCurrentLevel(); }); }
     }
 }

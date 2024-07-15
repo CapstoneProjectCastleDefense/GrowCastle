@@ -33,10 +33,14 @@
                 entity.Dispose();
             }   
         }
+        
         public          IEnumerable<T> GetAllElementPresenter<T>() { return this.entities as IEnumerable<T>;}
         public virtual void Tick()
         {
-            this.entities.ForEach(e=>e.Tick());
+            for (int i = 0; i <this.entities.Count; i++)
+            {
+                this.entities[i].Tick();
+            }
         }
     }
 }
