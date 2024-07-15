@@ -94,7 +94,7 @@
                     ? this.TargetThatAttackingMe
                     : this.TargetThatImLookingAt is { IsDead: false }
                         ? this.TargetThatImLookingAt
-                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes());
+                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(),1).FirstOrDefault();
         }
 
         public float AttackCooldownTime { get; private set; }

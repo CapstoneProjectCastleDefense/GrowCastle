@@ -3,6 +3,7 @@
     using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Castles.ArcherSlots;
@@ -15,6 +16,7 @@
     using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
+    using Random = UnityEngine.Random;
 
     public class ArcherPresenter : BaseCombatantPresenter<ArcherModel, ArcherView, ArcherPresenter>, IArcherPresenter
     {
@@ -22,7 +24,6 @@
         private readonly FindTargetSystem  findTargetSystem;
         private readonly EntitySkillSystem entitySkillSystem;
         private          bool              canAttack;
-        private          float             timer;
 
         protected ArcherPresenter(
             ArcherModel model,
@@ -53,27 +54,39 @@
         public override void Tick()
         {
             if (!this.canAttack) return;
-            if (this.timer >= 1 / this.Model.GetStat<float>(StatEnum.AttackSpeed))
+            if (this.AttackCooldownTime >= 1 / this.Model.GetStat<float>(StatEnum.AttackSpeed))
             {
-                var target = this.enemyManager.entities.Count > 0 ? this.enemyManager.entities.First() : null;
-                this.Attack(target);
-                this.timer = 0;
+                // var target = this.enemyManager.entities.Count > 0 ? this.enemyManager.entities.First() : null;
+                if (this.TargetThatImLookingAt == null || this.TargetThatImLookingAt.IsDead)
+                {
+                    var target = this.FindTarget();
+                    var random = Random.Range(100, 300);
+                    this.TargetThatImLookingAt = target;
+                    this.AttackCooldownTime    = -random * 1f / 1000;
+                    UniTask.Delay(random).ContinueWith(() =>
+                    {
+                        this.Attack(this.TargetThatImLookingAt);
+                    }).Forget();
+                }
+                else
+                {
+                    this.Attack(this.TargetThatImLookingAt);
+                    this.AttackCooldownTime = 0;
+                }
             }
 
-            this.timer += Time.deltaTime;
+            this.AttackCooldownTime += Time.deltaTime;
         }
 
         public void SetAttackStatus(bool attackStatus)
         {
-            this.canAttack = attackStatus;
-            this.timer     = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
+            this.canAttack          = attackStatus;
+            this.AttackCooldownTime = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
             if (!attackStatus) this.View.skeletonAnimation.SetAnimation("idle");
         }
 
-        public void Attack(ITargetable target = null)
+        public void Attack(ITargetable target)
         {
-            target ??= this.FindTarget();
-
             if (target == null) return;
 
             this.View.skeletonAnimation.SetAnimation("attack", false);
@@ -96,12 +109,12 @@
                 this.Model.SetStat(StatEnum.AttackPriority, priority);
             }
 
-            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes());
+            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 2);
 
-            return res;
+            return res.Count > 0 ? res.RandomElement() : null;
         }
 
-        public float AttackCooldownTime => 0;
+        public float AttackCooldownTime { get; private set; }
 
         public void CastSkill(string skillId, ITargetable target) { }
 

@@ -20,18 +20,19 @@
         private readonly GetCustomPresenterSystem getCustomPresenterSystem;
         public FindTargetSystem(GetCustomPresenterSystem getCustomPresenterSystem) { this.getCustomPresenterSystem = getCustomPresenterSystem; }
 
-        public ITargetable GetTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, Type[] managerTypes)
+        public List<ITargetable> GetTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, Type[] managerTypes, int count)
         {
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(managerTypes);
+            if (cache.Count == 0) return null;
             var targets = cache.Where(x =>
                     x is ITargetable { IsDead: false } t
+                    && x.GetView() != null && x.GetView().LayerMask != host.GetView().LayerMask
                     && (t.TargetThatAttackingMe == null || t.TargetThatAttackingMe.IsDead)
-                    && x.GetView().LayerMask != host.GetView().LayerMask
                     && x != host
                     && tagList.Contains(x.GetView().gameObject.tag))
                 .Select(x => x as ITargetable)
                 .ToList();
-            return cache.Count == 0 ? null : this.GetTaggedTarget(host, priority, tagList, targets);
+            return targets.Count <= count ? targets : this.GetTaggedTarget(host, priority, tagList, targets, count);
         }
 
         public List<ITargetable> GetTargetsInRange(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, Type[] managerTypes, Vector3 center,
@@ -58,69 +59,69 @@
                 .ToList();
         }
 
-        private ITargetable GetTaggedTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, List<ITargetable> cache)
+        private List<ITargetable> GetTaggedTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, List<ITargetable> cache, int count)
         {
-            ITargetable target = null;
+            List<ITargetable> target = null;
             switch (priority)
             {
                 case AttackPriorityEnum.Boss:
-                    target = this.GetClosestTarget(host, new() { AttackPriorityEnum.Boss.ToString() }, cache);
+                    target = this.GetClosestTarget(host, new() { AttackPriorityEnum.Boss.ToString() }, cache, count);
                     break;
 
                 case AttackPriorityEnum.Fly:
-                    target = this.GetClosestTarget(host, new() { AttackPriorityEnum.Fly.ToString() }, cache);
+                    target = this.GetClosestTarget(host, new() { AttackPriorityEnum.Fly.ToString() }, cache, count);
                     break;
 
                 case AttackPriorityEnum.Ground:
-                    target = this.GetClosestTarget(host, new() { AttackPriorityEnum.Ground.ToString() }, cache);
+                    target = this.GetClosestTarget(host, new() { AttackPriorityEnum.Ground.ToString() }, cache, count);
                     break;
 
                 case AttackPriorityEnum.Building:
-                    target = this.GetClosestTarget(host, new() { AttackPriorityEnum.Building.ToString() }, cache);
+                    target = this.GetClosestTarget(host, new() { AttackPriorityEnum.Building.ToString() }, cache, count);
                     break;
             }
 
             if (target == null)
             {
-                target = this.GetNormalTarget(host, priority, tagList, cache);
+                target = this.GetNormalTarget(host, priority, tagList, cache, count);
             }
 
             return target;
         }
 
-        private ITargetable GetClosestTarget(IElementPresenter host, List<string> tagList, List<ITargetable> cache)
+        private List<ITargetable> GetClosestTarget(IElementPresenter host, List<string> tagList, List<ITargetable> cache, int count)
         {
             cache = cache.Where(x => tagList.Contains(x.GetGameObject().tag)).ToList();
             if (cache.Count == 0)
                 return null;
-            return cache.OrderBy(x => Vector3.Distance(host.GetView().transform.position, x.GetGameObject().transform.position)).First();
+            return cache.OrderBy(x => Vector3.Distance(host.GetView().transform.position, x.GetGameObject().transform.position)).Take(count).ToList();
         }
 
-        private ITargetable GetNormalTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, List<ITargetable> cache)
+        private List<ITargetable> GetNormalTarget(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, List<ITargetable> cache, int count)
         {
-            ITargetable target;
+            List<ITargetable> target;
             switch (priority)
             {
                 case AttackPriorityEnum.LowHealth:
-                    target = this.GetTargetByHealth(cache, false);
+                    target = this.GetTargetByHealth(cache, false, count);
                     break;
 
                 case AttackPriorityEnum.HighHealth:
-                    target = this.GetTargetByHealth(cache, true);
+                    target = this.GetTargetByHealth(cache, true, count);
                     break;
 
                 default:
-                    target = this.GetClosestTarget(host, tagList, cache);
+                    target = this.GetClosestTarget(host, tagList, cache, count);
                     break;
             }
 
             return target;
         }
 
-        private ITargetable GetTargetByHealth(List<ITargetable> cache, bool getHigh)
+        private List<ITargetable> GetTargetByHealth(List<ITargetable> cache, bool getHigh, int count)
         {
             cache = cache.OrderBy(x => x.GetStats().GetStat<float>(StatEnum.Health)).ToList();
-            return getHigh ? cache.Last() : cache.First();
+            return getHigh ? cache.GetRange(cache.Count - count, count) : cache.GetRange(0, count);
         }
     }
 }
