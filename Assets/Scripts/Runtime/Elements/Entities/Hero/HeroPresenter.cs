@@ -61,11 +61,11 @@
             this.timer += Time.deltaTime;
         }
 
-        private void CastSkillInternal(string skillId, ITargetable target, IEntitySkillModel skillModel)
+        private void CastSkillInternal(string skillId)
         {
             var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
             this.View.skeletonAnimation.SetAnimation(heroDataRecord.SkillToAnimationRecords[skillId].AnimationSkillName, loop: false);
-            this.entitySkillSystem.CastSkill(skillId, skillModel);
+            this.entitySkillSystem.CastSkill(skillId, this);
             UniTask.Delay(TimeSpan.FromSeconds(1f)).ContinueWith(() => { this.View.skeletonAnimation.SetAnimation("idle", loop: true); });
         }
 
@@ -73,11 +73,7 @@
         {
             if (this.View.cooldownSkillBar.fillAmount < 1) return;
             if (!this.castleManager.UseManaForSkill(this.skillBlueprint.GetDataById(skillId).Mana)) return;
-            this.CastSkillInternal(skillId, target, new BasicSkillModel()
-            {
-                Id    = skillId,
-                Level = 1,
-            });
+            this.CastSkillInternal(skillId);
             this.View.cooldownSkillBar.fillAmount = 0;
             this.StartRefillCooldown(this.skillBlueprint.GetDataById(skillId).Cooldown);
         }
@@ -115,14 +111,7 @@
             if (target == null) return;
 
             var skillId = heroDataRecord.SkillToAnimationRecords.ElementAt(1).Key;
-            this.CastSkillInternal(skillId, target, new BaseProjectileSkillModel()
-            {
-                Id         = skillId,
-                StartPoint = this.View.spawnProjectilePos.position,
-                EndPoint   = target.GetGameObject().transform.position,
-                Target     = target,
-                Damage     = this.Model.GetStat<float>(StatEnum.Attack),
-            });
+            this.CastSkillInternal(skillId);
         }
 
         public ITargetable FindTarget()

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Models.Blueprints;
+    using Runtime.Elements.Base;
     using Runtime.Interfaces.Skills;
     using UnityEngine;
 
@@ -17,12 +18,11 @@
             this.entitySkills   = entitySkillPresenters.ToDictionary(entity => entity.SkillId, entity => entity);
         }
 
-
-        public void CastSkill(string skillId, IEntitySkillModel skillModel)
+        public void CastSkill(string skillId, ICombatantPresenter caster)
         {
             if (this.entitySkills.TryGetValue(skillId, out var entitySkill))
             {
-                entitySkill.Activate(skillModel);
+                entitySkill.Cast(caster);
             }
             else
             {
@@ -30,10 +30,28 @@
             }
         }
 
-        public void Dispose() { }
+        public void Dispose()
+        {
+            foreach (var entitySkill in this.entitySkills)
+            {
+                entitySkill.Value.Dispose();
+            }
+        }
 
-        public void Initialize() { }
+        public void Initialize()
+        {
+            foreach (var entitySkill in this.entitySkills)
+            {
+                entitySkill.Value.Initialize();
+            }
+        }
 
-        public void Tick() { }
+        public void Tick()
+        {
+            foreach (var entitySkill in this.entitySkills)
+            {
+                entitySkill.Value.Tick();
+            }
+        }
     }
 }

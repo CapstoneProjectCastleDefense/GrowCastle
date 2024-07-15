@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Elements.EntitySkills
 {
     using Models.Blueprints;
+    using Runtime.Elements.Base;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Services;
@@ -25,9 +26,8 @@
             this.summonerManager      = summonerManager;
         }
 
-        public override string SkillId { get; set; } = EntitySkillName.SummonSkill;
-
-        protected override void InternalActivate() { this.Summon(); }
+        public override string SkillId                          { get; set; } = EntitySkillName.SummonSkill;
+        public override void   Cast(ICombatantPresenter caster) { this.Summon();  }
 
         private void Summon()
         {

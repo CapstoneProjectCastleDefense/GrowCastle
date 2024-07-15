@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Elements.EntitySkills.InstantHitSkills
 {
     using Models.Blueprints;
+    using Runtime.Elements.Base;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Services;
@@ -23,16 +24,14 @@
             this.skillAttackBlueprint = skillAttackBlueprint;
         }
         
-        public override void Activate(IEntitySkillModel baseSkillModel)
+        public override void Cast(ICombatantPresenter caster)
         {
-            if (baseSkillModel is TModel model)
-            {
-                this.Model = model;
-            }
             this.VFXName       = this.skillAttackBlueprint.GetDataById(this.Model.Id).LevelToConfigRecords[this.Model.Level].PrefabName;
             this.Damage        = this.skillAttackBlueprint.GetDataById(this.Model.Id).LevelToConfigRecords[this.Model.Level].Damage;
-            this.InternalActivate();
+            this.InternalCast(caster);
         }
+
+        protected abstract void InternalCast(ICombatantPresenter caster);
     }
 
 }

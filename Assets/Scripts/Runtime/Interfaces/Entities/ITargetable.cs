@@ -8,13 +8,13 @@
 
     public interface ITargetable : IHaveStats
     {
-        void                                 OnGetHit(float damage);
-        void                                 OnDeath();
-        ITargetable                          TargetThatImAttacking { get; set; }
-        ITargetable                          TargetThatImLookingAt { get; set; }
-        ITargetable                          TargetThatAttackingMe { get; set; }
-        bool                                 IsDead                { get; }
-        GameObject                           GetGameObject();
+        void                                OnGetHit(float damage);
+        void                                OnDeath();
+        ITargetable                         TargetThatImAttacking { get; set; }
+        ITargetable                         TargetThatImLookingAt { get; set; }
+        ITargetable                         TargetThatAttackingMe { get; set; }
+        bool                                IsDead                { get; }
+        GameObject                          GetGameObject();
         public Dictionary<Type, IEffectTag> CurrentTag { get; set; }
     }
 

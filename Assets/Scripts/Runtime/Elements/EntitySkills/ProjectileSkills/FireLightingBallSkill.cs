@@ -4,6 +4,7 @@
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Models.Tags;
+    using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
@@ -25,7 +26,8 @@
         {
         }
 
-        public override string SkillId { get; set; } = EntitySkillName.FireLightingBall;
+        public override string SkillId                          { get; set; } = EntitySkillName.FireLightingBall;
+        public override void   Cast(ICombatantPresenter caster) {  }
 
         protected override void OnProjectileHit(Collider2D collider2D, ProjectilePresenter projectile)
         {
