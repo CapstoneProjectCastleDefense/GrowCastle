@@ -1,27 +1,29 @@
 ﻿namespace Runtime.Elements.EntitySkills.ProjectileSkills
 {
     using DG.Tweening;
-    using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Models.Tags;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
+    using Runtime.Services;
     using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
+    using Zenject;
 
     public class ArrowSkill : BaseProjectileSkill<BaseProjectileSkillModel>
     {
         public override string SkillId { get; set; } = EntitySkillName.Arrow;
 
-        public ArrowSkill(ProjectileManager projectileManager,
-                          IGameAssets gameAssets,
-                          ProjectileBlueprint projectileBlueprint,
-                          AbilitySystem abilitySystem,
-                          EffectManager effectManager)
-            : base(projectileManager, gameAssets, projectileBlueprint, abilitySystem, effectManager)
+        public ArrowSkill(SignalBus signalBus,
+                          FindTargetSystem findTargetSystem,
+                          EffectManager effectManager, 
+                          VFXService vfxService, 
+                          ProjectileManager projectileManager,
+                          ProjectileBlueprint projectileBlueprint) 
+            : base(signalBus, findTargetSystem, effectManager, vfxService, projectileManager, projectileBlueprint)
         {
         }
 
