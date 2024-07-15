@@ -86,7 +86,7 @@
         {
             var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
             this.View.skeletonAnimation.SetAnimation(heroDataRecord.SkillToAnimationRecords[skillId].AnimationSkillName, loop: false);
-            this.entitySkillSystem.CastSkill(skillId, skillModel);
+            this.entitySkillSystem.CastSkill(skillId, this);
             UniTask.Delay(TimeSpan.FromSeconds(1f)).ContinueWith(() => { this.View.skeletonAnimation.SetAnimation("idle", loop: true); });
         }
 
