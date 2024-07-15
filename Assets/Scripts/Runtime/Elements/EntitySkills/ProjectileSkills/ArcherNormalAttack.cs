@@ -99,9 +99,11 @@
                 stats.SetStat(StatEnum.AttackPriority, AttackPriorityEnum.Default);
             }
 
-            var target = this.findTargetSystem.GetTarget(caster, priority, this.GetTags().ToList(), this.GetManagerTypes());
+            var target = this.findTargetSystem.GetTarget(caster, priority, this.GetTags().ToList(), this.GetManagerTypes(), 1);
 
-            return target;
+            if (target == null ||
+                target.Count == 0) return null;
+            return target[0];
         }
 
         public override string[] GetTags() { return new[] { "Fly", "Ground", "Boss" }; }

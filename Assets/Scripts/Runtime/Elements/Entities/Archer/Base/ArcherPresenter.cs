@@ -59,7 +59,7 @@
                 this.entitySkillSystem.CastSkill(EntitySkillName.ArcherNormalAttack, this);
             }
 
-            this.timer = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
+            //this.timer = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
             if (!attackStatus) this.View.skeletonAnimation.SetAnimation("idle");
         }
 
