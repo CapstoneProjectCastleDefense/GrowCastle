@@ -4,6 +4,7 @@
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
+    using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Runtime.Elements.Base;
@@ -128,9 +129,9 @@
         {
             var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
 
-            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes());
+            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(),2);
 
-            return res;
+            return res.Count > 0 ? res.RandomElement() : null;
         }
 
         public float AttackCooldownTime { get; }
