@@ -2,32 +2,32 @@
 {
     using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
-    using GameFoundation.Scripts.AssetLibrary;
     using Models.Blueprints;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
+    using Runtime.Services;
     using Runtime.Systems;
     using UnityEngine;
+    using Zenject;
 
     public abstract class BaseProjectileSkill<TModel> : BaseEntitySkillPresenter<TModel>
         where TModel : BaseProjectileSkillModel
     {
         protected readonly ProjectileManager   projectileManager;
-        private readonly   ProjectileBlueprint projectileBlueprint;
-        protected readonly AbilitySystem       abilitySystem;
-        protected readonly EffectManager       effectManager;
-
-        public BaseProjectileSkill(ProjectileManager projectileManager,
-            IGameAssets gameAssets,
-            ProjectileBlueprint projectileBlueprint,
-            AbilitySystem abilitySystem, EffectManager effectManager)
+        protected readonly ProjectileBlueprint projectileBlueprint;
+        
+        protected BaseProjectileSkill(SignalBus signalBus,
+                                      FindTargetSystem findTargetSystem, 
+                                      EffectManager effectManager, 
+                                      VFXService vfxService,
+                                      ProjectileManager projectileManager,
+                                      ProjectileBlueprint projectileBlueprint) 
+            : base(signalBus, findTargetSystem, effectManager, vfxService)
         {
             this.projectileManager   = projectileManager;
             this.projectileBlueprint = projectileBlueprint;
-            this.abilitySystem       = abilitySystem;
-            this.effectManager       = effectManager;
         }
 
         protected readonly List<ProjectilePresenter> firedProjectiles = new();
@@ -52,22 +52,16 @@
             projectile.FlyToTarget().onComplete += () => this.OnFlyToTarget(projectile);
         }
 
-        protected virtual void OnFlyToTarget(ProjectilePresenter projectile)
-        {
-            this.RemoveProjectile(projectile);
-        }
+        protected virtual void OnFlyToTarget(ProjectilePresenter projectile) { this.RemoveProjectile(projectile); }
 
-        protected virtual void OnProjectileHit(Collider2D collider2D, ProjectilePresenter projectile)
-        {
-            
-        }
+        protected virtual void OnProjectileHit(Collider2D collider2D, ProjectilePresenter projectile) { }
 
         protected void RemoveProjectile(ProjectilePresenter projectile)
         {
             if (this.firedProjectiles.Contains(projectile))
             {
                 this.firedProjectiles.Remove(projectile);
-            } 
+            }
         }
     }
 

@@ -10,30 +10,21 @@
     using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
+    using Zenject;
 
     public class GrayMageInstantHitSkill : InstantHitSkill<BasicSkillModel>
     {
-        private readonly VFXService       vfxService;
-        private readonly EnemyManager     enemyManager;
-        private readonly FindTargetSystem findTargetSystem;
-        private readonly AbilitySystem    abilitySystem;
-        private readonly EffectManager    effectManager;
-        public GrayMageInstantHitSkill(
-            SkillAttackBlueprint skillAttackBlueprint,
-            VFXService vfxService,
-            EnemyManager enemyManager,
-            FindTargetSystem findTargetSystem,
-            AbilitySystem abilitySystem,
-            EffectManager effectManager)
-            : base(skillAttackBlueprint)
+        public GrayMageInstantHitSkill(SignalBus signalBus,
+                                       FindTargetSystem findTargetSystem,
+                                       EffectManager effectManager,
+                                       VFXService vfxService,
+                                       SkillAttackBlueprint skillAttackBlueprint)
+            : base(signalBus, findTargetSystem, effectManager, vfxService, skillAttackBlueprint)
         {
-            this.vfxService       = vfxService;
-            this.enemyManager     = enemyManager;
-            this.findTargetSystem = findTargetSystem;
-            this.abilitySystem    = abilitySystem;
-            this.effectManager    = effectManager;
         }
+
         public override string SkillId { get; set; } = EntitySkillName.GrayMageAttack;
+
         protected override void InternalActivate()
         {
             this.vfxService.SpawnVFX(this.VFXName, new Vector3(-1f, -1, 0), Quaternion.identity, scale: new Vector3(5, 5, 1));
