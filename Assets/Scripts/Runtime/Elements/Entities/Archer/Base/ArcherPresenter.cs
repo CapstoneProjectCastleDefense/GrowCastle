@@ -47,6 +47,7 @@
             this.View.GetComponent<MeshRenderer>().sortingOrder = this.Model.Index + 1;
             this.View.skeletonAnimation.GetComponent<MeshRenderer>().sortingOrder =
                 this.View.GetComponentInParent<ArcherSlot>().GetComponent<SpriteRenderer>().sortingOrder;
+            this.View.skeletonAnimation.ChaneSkeletonSkin(this.Model.Level.ToString());
         }
 
         public override void Tick()

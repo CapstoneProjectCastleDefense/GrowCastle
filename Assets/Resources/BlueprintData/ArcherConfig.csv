@@ -4,3 +4,4 @@ BaseAttackSpeed,20
 Coefficient,1.5
 Recipe,
 BaseGold,100
+DefaultPrefabName,Archer

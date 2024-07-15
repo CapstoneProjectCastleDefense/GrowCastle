@@ -32,6 +32,14 @@ public static class SkeletonExtensions
             skeleton.SetAllDirty();
         }
 
+        public static void ChaneSkeletonSkin(this SkeletonAnimation skeleton, string skinName)
+        {
+            if (string.IsNullOrEmpty(skinName)) return;
+            var skeletonData = skeleton.Skeleton.Data;
+            if(!skeletonData.Skins.Any(e=>e.Name.Equals(skinName))) return;
+            skeleton.skeleton.SetSkin(skinName);
+        }
+
         public static void ChangeSkeletonDataAsset(this SkeletonAnimation skeleton, SkeletonDataAsset skeletonDataAsset, string animationName = null)
         {
             if (string.IsNullOrEmpty(animationName))

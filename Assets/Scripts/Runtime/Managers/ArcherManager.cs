@@ -17,26 +17,26 @@
         private readonly ArcherLocalDataController archerLocalDataController;
         private readonly ArcherBlueprint           archerBlueprint;
         private readonly CastleManager             castleManager;
+        private readonly ArcherConfigBlueprint     archerConfigBlueprint;
 
         public ArcherManager(
             BaseElementPresenter<ArcherModel, ArcherView, ArcherPresenter>.Factory factory,
-            ArcherLocalDataController                                              archerLocalDataController,
-            ArcherBlueprint                                                        archerBlueprint,
-            CastleManager                                                          castleManager
+            ArcherLocalDataController archerLocalDataController,
+            ArcherBlueprint archerBlueprint,
+            CastleManager castleManager,
+            ArcherConfigBlueprint archerConfigBlueprint
         )
             : base(factory)
         {
             this.archerLocalDataController = archerLocalDataController;
             this.archerBlueprint           = archerBlueprint;
             this.castleManager             = castleManager;
+            this.archerConfigBlueprint     = archerConfigBlueprint;
         }
 
         public override void Initialize() { }
 
-        public void CreateAllUnlockedArcher()
-        {
-            this.archerLocalDataController.GetAllUnlockedArcher().ForEach(this.CreateSingleArcher);
-        }
+        public void CreateAllUnlockedArcher() { this.archerLocalDataController.GetAllUnlockedArcher().ForEach(this.CreateSingleArcher); }
 
         private void CreateSingleArcher(ArcherData archerData)
         {
@@ -45,7 +45,7 @@
             {
                 Index           = archerData.index,
                 Level           = archerData.level,
-                AddressableName = this.archerBlueprint.GetDataById(archerData.level).SkinName,
+                AddressableName = this.archerConfigBlueprint.DefaultPrefabName,
                 ParentView      = archerSlot.transform,
                 Stats = new Dictionary<StatEnum, (Type, object)>
                 {
@@ -72,6 +72,7 @@
                 archerPresenter.Dispose();
                 this.entities.Remove(archerPresenter);
             }
+
             this.CreateSingleArcher(newArcher);
         }
     }
