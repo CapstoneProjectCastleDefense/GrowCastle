@@ -15,6 +15,7 @@
     using System;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using Runtime.Scenes.CharacterInventory;
+    using Runtime.Scenes.Popups;
     using UnityEngine;
 
     public class SlotModel : IElementModel
@@ -114,7 +115,7 @@
                 { heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(characterId), currentSelectedSlotType = this.slotManager.GetCurrentSelectedSlotModel().SlotRecord.SlotType });
         }
 
-        private async void ShowInventory() { await this.screenManager.OpenScreen<CharacterInventoryPopupPresenter>(); }
+        private async void ShowInventory() { await this.screenManager.OpenScreen<CharacterInventoryPopupPresenter,CharacterInventoryPopupModel>(new CharacterInventoryPopupModel(){SlotType = this.Model.SlotRecord.SlotType}); }
 
         public override void Dispose() { }
     }

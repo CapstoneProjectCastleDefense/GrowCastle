@@ -17,18 +17,23 @@
     public class TowerPresenter : BaseCombatantPresenter<TowerModel, TowerView, TowerPresenter>, ITowerPresenter
     {
         private readonly EntitySkillSystem entitySkillSystem;
-        private readonly TowerBlueprint    towerBlueprint;
         private readonly FindTargetSystem  findTargetSystem;
+        private readonly HeroBlueprint     heroBlueprint;
 
         private bool  canAttack;
         private float timer;
 
-        protected TowerPresenter(TowerModel model, ObjectPoolManager objectPoolManager, EntitySkillSystem entitySkillSystem, TowerBlueprint towerBlueprint,
-            FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
+        protected TowerPresenter(
+            TowerModel model,
+            ObjectPoolManager objectPoolManager,
+            EntitySkillSystem entitySkillSystem,
+            FindTargetSystem findTargetSystem,
+            HeroBlueprint heroBlueprint)
+            : base(model, objectPoolManager)
         {
             this.entitySkillSystem = entitySkillSystem;
-            this.towerBlueprint    = towerBlueprint;
             this.findTargetSystem  = findTargetSystem;
+            this.heroBlueprint     = heroBlueprint;
         }
 
         public override void Tick()
@@ -45,7 +50,7 @@
 
         public void Attack(ITargetable target)
         {
-            var towerDataRecord = this.towerBlueprint.GetDataById(this.Model.Id);
+            var towerDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
 
             target ??= this.FindTarget();
 
@@ -81,7 +86,7 @@
             this.timer     = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
         }
 
-        protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.towerBlueprint.GetDataById(this.Model.Id).PrefabName); }
+        protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.heroBlueprint.GetDataById(this.Model.Id).PrefabName); }
 
         public override async UniTask UpdateView()
         {

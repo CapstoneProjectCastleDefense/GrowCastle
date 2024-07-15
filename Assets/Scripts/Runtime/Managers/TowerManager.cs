@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Managers
 {
     using Cysharp.Threading.Tasks;
+    using Models.Blueprints;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Tower;
@@ -10,21 +11,27 @@
 
     public class TowerManager : BaseElementManager<TowerModel, TowerPresenter, TowerView>
     {
-        private readonly TowerLocalDataController towerLocalDataController;
-        public TowerManager(BaseElementPresenter<TowerModel, TowerView, TowerPresenter>.Factory factory, TowerLocalDataController towerLocalDataController) : base(factory) {
-            this.towerLocalDataController = towerLocalDataController;
+        private readonly HeroBlueprint           heroBlueprint;
+        private readonly HeroLocalDataController heroLocalDataController;
+        private readonly HeroConfigBlueprint     heroConfigBlueprint;
+        public TowerManager(BaseElementPresenter<TowerModel, TowerView, TowerPresenter>.Factory factory,HeroBlueprint heroBlueprint, HeroLocalDataController heroLocalDataController,HeroConfigBlueprint heroConfigBlueprint) : base(factory)
+        {
+            this.heroBlueprint           = heroBlueprint;
+            this.heroLocalDataController = heroLocalDataController;
+            this.heroConfigBlueprint     = heroConfigBlueprint;
         }
 
-        public void CreateSingleTower(string id, Transform parent) {
-            var towerRecord = this.towerLocalDataController.GetTowerRecord(id);
+        public void CreateSingleTower(string id, Transform parent)
+        {
+            var towerRecord = this.heroConfigBlueprint.GetDataById(id);
             this.CreateElement(new()
             {
                 Id = id,
                 ParentView = parent,
                 Stats = new()
                 {
-                    { StatEnum.Attack, (typeof(float), towerRecord.BaseATK) },
-                    { StatEnum.AttackSpeed, (typeof(float), towerRecord.ATKSPD) },
+                    { StatEnum.Attack, (typeof(float), towerRecord.BaseAttack) },
+                    { StatEnum.AttackSpeed, (typeof(float), towerRecord.BaseAttackSpeed) },
                     { StatEnum.AttackPriority,(typeof(AttackPriorityEnum), AttackPriorityEnum.Ground)}
                 },
             }).UpdateView().Forget();
