@@ -1,0 +1,34 @@
+
+turret.png
+size: 1147,1077
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+Layer 4
+  rotate: false
+  xy: 2, 653
+  size: 1087, 422
+  orig: 1087, 422
+  offset: 0, 0
+  index: -1
+be do
+  rotate: true
+  xy: 679, 2
+  size: 649, 340
+  orig: 649, 340
+  offset: 0, 0
+  index: -1
+gia do
+  rotate: true
+  xy: 1021, 5
+  size: 646, 124
+  orig: 646, 124
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 2, 74
+  size: 675, 577
+  orig: 675, 577
+  offset: 0, 0
+  index: -1
