@@ -15,6 +15,7 @@
         public TalentType              TalentType;
         public Action<TalentType, int> OnItemClickAction;
     }
+
     public class TalentItemView : TViewMono
     {
         public Button          talentBtn;
@@ -22,7 +23,7 @@
         public TextMeshProUGUI level;
     }
 
-    public class TalentItemPresenter : BaseUIItemPresenter<TalentItemView,TalentItemModel>
+    public class TalentItemPresenter : BaseUIItemPresenter<TalentItemView, TalentItemModel>
     {
         private readonly TalentBlueprint           talentBlueprint;
         private readonly TalentLocalDataController talentLocalDataController;
@@ -39,15 +40,14 @@
             var talentLevel = this.talentLocalDataController.GetTalentLevel(this.model.TalentType);
             var talentData  = this.talentBlueprint.GetDataById(this.model.TalentType);
             this.View.talentIcon.sprite = this.GameAssets.LoadAssetAsync<Sprite>(talentData.Icon).WaitForCompletion();
-            this.View.level.text        = $"{talentData.TalentLevelToDataRecords[talentLevel].Level}";
+            this.View.level.text        = talentLevel == 0 ? "" : $"{talentData.TalentLevelToDataRecords[talentLevel].Level}";
             this.View.talentBtn.onClick.RemoveAllListeners();
             this.View.talentBtn.onClick.AddListener(this.OnItemClick);
-           
         }
         private void OnItemClick()
         {
             var talentLevel = this.talentLocalDataController.GetTalentLevel(this.model.TalentType);
-            this.model.OnItemClickAction?.Invoke(this.model.TalentType,talentLevel);
+            this.model.OnItemClickAction?.Invoke(this.model.TalentType, talentLevel + 1);
         }
     }
 }

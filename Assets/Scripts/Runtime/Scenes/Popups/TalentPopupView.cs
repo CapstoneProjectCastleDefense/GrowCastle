@@ -24,7 +24,7 @@
         public TalentAdapter   talentAdapter;
     }
 
-    [PopupInfo(nameof(TalentPopupView),isOverlay: true)]
+    [PopupInfo(nameof(TalentPopupView), isOverlay: true)]
     public class TalentPopupPresenter : BasePopupPresenter<TalentPopupView>
     {
         private readonly TalentLocalDataController talentLocalDataController;
@@ -51,7 +51,7 @@
         {
             var listData = this.talentLocalDataController.GetAllTalentLocalData.Select(e => new TalentItemModel()
             {
-                TalentType = e.Key,
+                TalentType        = e.Key,
                 OnItemClickAction = this.OnItemClick
             }).ToList();
             await this.View.talentAdapter.InitItemAdapter(listData, this.diContainer);
@@ -60,16 +60,18 @@
         private void OnUpgradeTalentClick()
         {
             this.talentLocalDataController.LevelupTalent(this.currentSelectedTalent);
+            var level = this.talentLocalDataController.GetTalentLevel(this.currentSelectedTalent);
+            this.View.description.text
+                = $"{this.talentBlueprint.GetDataById(this.currentSelectedTalent).Description} {this.talentBlueprint.GetDataById(this.currentSelectedTalent).TalentLevelToDataRecords[level + 1].EffectValue}";
             this.View.talentAdapter.Refresh();
         }
 
         private void OnItemClick(TalentType talentType, int level)
         {
             this.View.descriptionField.SetActive(true);
-            this.View.description.text  = $"{this.talentBlueprint.GetDataById(talentType).Description} {this.talentBlueprint.GetDataById(talentType).TalentLevelToDataRecords[level].EffectValue}";
+            this.View.description.text  = $"{this.talentBlueprint.GetDataById(talentType).Description} {this.talentBlueprint.GetDataById(talentType).TalentLevelToDataRecords[level + 1].EffectValue}";
             this.View.iconTalent.sprite = this.gameAssets.LoadAssetAsync<Sprite>(this.talentBlueprint.GetDataById(talentType).Icon).WaitForCompletion();
             this.currentSelectedTalent  = talentType;
-            
         }
     }
 }
