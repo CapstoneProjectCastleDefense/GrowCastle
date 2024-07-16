@@ -4,8 +4,7 @@
     using BlueprintFlow.BlueprintReader.Converter;
     using Models.Blueprints.Converters;
 
-    [BlueprintReader("Enemy", true)]
-    [CsvHeaderKey("Id")]
+    [BlueprintReader("Enemy", true)] [CsvHeaderKey("Id")]
     public class EnemyBlueprint : GenericBlueprintReaderByRow<string, EnemyRecord>
     {
         static EnemyBlueprint() { CsvHelper.RegisterTypeConverter(typeof((float, float)), new TupleConverter()); }
@@ -22,6 +21,7 @@
         public (float baseValue, float coefficient) HP          { get; set; }
         public (float baseValue, float coefficient) Speed       { get; set; }
         public (float baseValue, float coefficient) Gold        { get; set; }
+        public (float baseValue, float coefficient) Exp         { get; set; }
     }
 
     public enum AttackType

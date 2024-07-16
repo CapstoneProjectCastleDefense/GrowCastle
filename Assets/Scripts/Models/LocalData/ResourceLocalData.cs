@@ -6,18 +6,24 @@
 
     public class ResourceLocalData : ILocalDataHaveController<ResourceLocalDataController>
     {
-        public Dictionary<ResourceType, ReactiveProperty<float>> resource = new();
+        public          ReactiveProperty<float>                           CurrentTargetExpToLevelUp { get; set; } = new(1000);
+        public readonly Dictionary<ResourceType, ReactiveProperty<float>> Resource = new();
         public void Init()
         {
-            this.resource.Add(ResourceType.Gold,new(1000));
-            this.resource.Add(ResourceType.Diamond,new(100));
+            this.Resource.Add(ResourceType.Gold,new ReactiveProperty<float>(1000));
+            this.Resource.Add(ResourceType.Diamond,new ReactiveProperty<float>(100));
+            this.Resource.Add(ResourceType.TalentPoint,new ReactiveProperty<float>(3));
+            this.Resource.Add(ResourceType.Exp,new ReactiveProperty<float>(0));
         }
     }
 
+    
     public enum ResourceType
     {
         Gold,
         Diamond,
         Ticket,
+        TalentPoint,
+        Exp,
     }
 }

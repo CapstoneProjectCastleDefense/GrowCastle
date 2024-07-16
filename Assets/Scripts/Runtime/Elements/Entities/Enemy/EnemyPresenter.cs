@@ -33,7 +33,10 @@
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
         public virtual string[] GetTags()         { return new[] { "Ally", "Building" }; }
 
-        protected EnemyPresenter(EnemyModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem,
+        protected EnemyPresenter(
+            EnemyModel model,
+            ObjectPoolManager objectPoolManager,
+            FindTargetSystem findTargetSystem,
             ResourceLocalDataController resourceLocalDataController)
             : base(model, objectPoolManager)
         {
@@ -94,7 +97,7 @@
                     ? this.TargetThatAttackingMe
                     : this.TargetThatImLookingAt is { IsDead: false }
                         ? this.TargetThatImLookingAt
-                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(),1).FirstOrDefault();
+                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 1).FirstOrDefault();
         }
 
         public float AttackCooldownTime { get; private set; }
@@ -153,7 +156,9 @@
         private void DropCoin()
         {
             var goldDrop = this.Model.GetStat<float>(StatEnum.Gold);
+            var expDrop  = this.Model.GetStat<float>(StatEnum.Exp);
             this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
+            this.resourceLocalDataController.ReceiveResource(ResourceType.Exp, expDrop);
             this.CoinPopUp(goldDrop);
         }
 

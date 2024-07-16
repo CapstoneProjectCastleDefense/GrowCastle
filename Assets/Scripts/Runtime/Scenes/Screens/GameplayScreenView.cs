@@ -31,9 +31,11 @@
         public Button     upgradeCastle;
         public Button     upgradeArcher;
         public Button     dailyRewardButton;
+        public Button     talentButton;
         public Image      castleHealthBar;
         public Image      castleManaBar;
         public Image      waveBar;
+        public Image      userExpBar;
         public GameObject waveIndicator;
         public GameObject upgradeField;
 
@@ -42,6 +44,7 @@
         public TextMeshProUGUI waveValue;
         public TextMeshProUGUI goldValue;
         public TextMeshProUGUI diamondValue;
+        public TextMeshProUGUI userLevelValue;
     }
 
     [ScreenInfo(nameof(GameplayScreenView))]
@@ -55,6 +58,7 @@
         private readonly LevelLocalDataController    levelLocalDataController;
         private readonly CastleLocalDataController   castleLocalDataController;
         private readonly ArcherLocalDataController   archerLocalDataController;
+        private readonly UserLocalDataController     userLocalDataController;
         private readonly SignalBus                   signalBus;
         public GameplayScreenPresenter(
             SignalBus signalBus,
@@ -65,7 +69,8 @@
             ScreenManager screenManager,
             LevelLocalDataController levelLocalDataController,
             CastleLocalDataController castleLocalDataController,
-            ArcherLocalDataController archerLocalDataController)
+            ArcherLocalDataController archerLocalDataController,
+            UserLocalDataController userLocalDataController)
             : base(signalBus)
         {
             this.gameStateMachine            = gameStateMachine;
@@ -76,6 +81,7 @@
             this.levelLocalDataController    = levelLocalDataController;
             this.castleLocalDataController   = castleLocalDataController;
             this.archerLocalDataController   = archerLocalDataController;
+            this.userLocalDataController     = userLocalDataController;
             this.signalBus                   = signalBus;
         }
 
@@ -85,18 +91,27 @@
             this.OpenViewAsync().Forget();
             this.signalBus.Subscribe<UpdateCastleStatSignal>(this.OnCastleStatChange);
             this.signalBus.Subscribe<OnStateEnterSignal>(this.OnEnterNewGameState);
-            
+
             this.View.startWaveButton.onClick.AddListener(this.OnStartWaveButtonClick);
             this.View.upgradeCastle.onClick.AddListener(this.OnUpgradeCastleButtonClick);
             this.View.upgradeArcher.onClick.AddListener(this.OnUpgradeArcherButtonClick);
             this.View.dailyRewardButton.onClick.AddListener(this.OnDailyRewardClick);
+            this.View.talentButton.onClick.AddListener(this.OnTalentBtnClick);
 
             this.resourceLocalDataController.GetResource(ResourceType.Gold).Subscribe(this.OnGoldValueChange);
             this.resourceLocalDataController.GetResource(ResourceType.Diamond).Subscribe(this.OnDiamondValueChange);
             this.View.waveIndicator.SetActive(false);
 
             this.levelLocalDataController.CurrentLevel.SubscribeToText(this.View.waveValue);
+            this.resourceLocalDataController.GetResource(ResourceType.Exp).Subscribe(this.OnUserExpUpdate);
+            this.userLocalDataController.GetCurrentUserLevel.Subscribe(this.OnUserLevelUpdate);
         }
+        private async void OnTalentBtnClick()
+        {
+            await this.screenManager.OpenScreen<TalentPopupPresenter>();
+        }
+        private void OnUserExpUpdate(float value)   { this.View.userExpBar.DOFillAmount(value/this.resourceLocalDataController.GetCurrentTargetExpToLevelUp(), 0.1f); }
+        private void OnUserLevelUpdate(float value) { this.View.userLevelValue.text = $"Level {value}"; }
 
         private void OnCastleStatChange(UpdateCastleStatSignal signal)
         {
@@ -115,7 +130,7 @@
             this.archerManager.UpgradeArcher();
             this.View.archerCoinUpgradeValue.text = this.archerLocalDataController.GetGoldNeedToUpgrade().ToString(CultureInfo.InvariantCulture);
         }
-        private async void OnDailyRewardClick()         { await this.screenManager.OpenScreen<DailyRewardPopupPresenter>(); }
+        private async void OnDailyRewardClick() { await this.screenManager.OpenScreen<DailyRewardPopupPresenter>(); }
 
         private void OnStartWaveButtonClick() { this.gameStateMachine.TransitionTo<GameStartWaveState>(); }
 

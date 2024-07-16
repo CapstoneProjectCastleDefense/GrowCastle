@@ -19,6 +19,7 @@
         ManaCost,
         
         Gold,
+        Exp,
         
         AttackPriority,
         

@@ -1,0 +1,18 @@
+﻿namespace Models.LocalData.LocalDataController
+{
+    using R3;
+
+    public class UserLocalDataController : ILocalDataController
+    {
+        private readonly UserLocalData userLocalData;
+        public UserLocalDataController(UserLocalData userLocalData)
+        {
+            this.userLocalData = userLocalData;
+        }
+        public ReactiveProperty<float> GetCurrentUserLevel => this.userLocalData.CurrentUserLevel;
+        public void InitData()
+        {
+            
+        }
+    }
+}

@@ -61,7 +61,8 @@
                         { StatEnum.AttackRange, (typeof(float), enemyRecord.AttackRange) },
                         { StatEnum.AttackSpeed, (typeof(float), 1f) },
                         { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Building) },
-                        { StatEnum.Gold, (typeof(float), enemyRecord.Gold.baseValue) }
+                        { StatEnum.Gold, (typeof(float), enemyRecord.Gold.baseValue) },
+                        { StatEnum.Exp, (typeof(float), enemyRecord.Exp.baseValue) }
                     },
                     StartPos = new(Random.Range(15f, 20f), Random.Range(-2.5f, -1.5f), 0)
                 });

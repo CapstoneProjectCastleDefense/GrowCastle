@@ -10,6 +10,7 @@
     using Models.Blueprints;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
+    using Runtime.Scenes.Adapters.CharacterInventory;
     using Runtime.Scenes.CharacterInventory;
     using UnityEngine;
     using UnityEngine.UI;
