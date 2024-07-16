@@ -1,6 +1,6 @@
 ﻿Id,Value
 BaseDamage,10
-BaseAttackSpeed,20
+BaseAttackSpeed,1
 Coefficient,1.5
 Recipe,
 BaseGold,100

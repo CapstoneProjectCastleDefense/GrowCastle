@@ -59,7 +59,13 @@
 
         private void OnUpgradeTalentClick()
         {
-            this.talentLocalDataController.LevelupTalent(this.currentSelectedTalent);
+            if (!this.talentLocalDataController.LevelupTalent(this.currentSelectedTalent)) return;
+            if (this.talentLocalDataController.CheckTalentIsMaxLevel(this.currentSelectedTalent))
+            {
+                this.View.talentAdapter.Refresh();
+                return;
+            }
+
             var level = this.talentLocalDataController.GetTalentLevel(this.currentSelectedTalent);
             this.View.description.text
                 = $"{this.talentBlueprint.GetDataById(this.currentSelectedTalent).Description} {this.talentBlueprint.GetDataById(this.currentSelectedTalent).TalentLevelToDataRecords[level + 1].EffectValue}";
@@ -69,7 +75,10 @@
         private void OnItemClick(TalentType talentType, int level)
         {
             this.View.descriptionField.SetActive(true);
-            this.View.description.text  = $"{this.talentBlueprint.GetDataById(talentType).Description} {this.talentBlueprint.GetDataById(talentType).TalentLevelToDataRecords[level + 1].EffectValue}";
+            if (!this.talentLocalDataController.CheckTalentIsMaxLevel(talentType))
+            {
+                this.View.description.text  = $"{this.talentBlueprint.GetDataById(talentType).Description} {this.talentBlueprint.GetDataById(talentType).TalentLevelToDataRecords[level + 1].EffectValue}";
+            }
             this.View.iconTalent.sprite = this.gameAssets.LoadAssetAsync<Sprite>(this.talentBlueprint.GetDataById(talentType).Icon).WaitForCompletion();
             this.currentSelectedTalent  = talentType;
         }

@@ -1,7 +1,7 @@
 TalentType,Icon,Description,Level,EffectValue,TalentPointNeed
-IncreaseArcherAttack,archer,Increase Archer Attack to,1,1.1,1
-,,,2,1.2,1
-,,,3,1.3,1
-IncreaseCastleHp,HeartIcon,Increase Castle HP more,1,20,1
-,,,2,25,2
-,,,3,30,2
+IncreaseArcherAttack,archer,Increase Archer Attack to,0,0,0
+,,,1,100,1
+,,,2,200,1
+IncreaseCastleHp,HeartIcon,Increase Castle HP more,0,0,0
+,,,1,25,2
+,,,2,30,2

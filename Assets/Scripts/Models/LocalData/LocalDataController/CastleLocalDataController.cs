@@ -15,15 +15,19 @@
         private readonly CastleBlueprint             castleBlueprint;
         private readonly BlockBlueprint              blockBlueprint;
         private readonly ResourceLocalDataController resourceLocalDataController;
+        private readonly TalentLocalDataController   talentLocalDataController;
+        private readonly TalentBlueprint             talentBlueprint;
         private readonly SlotLocalDataController     slotLocalDataController;
 
         public CastleLocalDataController(
-            CastleLocalData             castleLocalData,
-            CastleConfigBlueprint       castleConfigBlueprint,
-            CastleBlueprint             castleBlueprint,
-            SlotLocalDataController     slotLocalDataController,
-            BlockBlueprint              blockBlueprint,
-            ResourceLocalDataController resourceLocalDataController
+            CastleLocalData castleLocalData,
+            CastleConfigBlueprint castleConfigBlueprint,
+            CastleBlueprint castleBlueprint,
+            SlotLocalDataController slotLocalDataController,
+            BlockBlueprint blockBlueprint,
+            ResourceLocalDataController resourceLocalDataController,
+            TalentLocalDataController talentLocalDataController,
+            TalentBlueprint talentBlueprint
         )
         {
             this.castleLocalData             = castleLocalData;
@@ -32,6 +36,8 @@
             this.slotLocalDataController     = slotLocalDataController;
             this.blockBlueprint              = blockBlueprint;
             this.resourceLocalDataController = resourceLocalDataController;
+            this.talentLocalDataController   = talentLocalDataController;
+            this.talentBlueprint             = talentBlueprint;
         }
 
         #region Castle
@@ -44,18 +50,16 @@
             {
                 return;
             }
-            if(!this.resourceLocalDataController.SpendResource(ResourceType.Gold,this.GetGoldToUpgrade())) return;
+
+            if (!this.resourceLocalDataController.SpendResource(ResourceType.Gold, this.GetGoldToUpgrade())) return;
             this.castleLocalData.Level++;
             var newBlockUnlockId    = this.castleBlueprint.GetDataById(this.castleLocalData.Level).BlockUnlock;
             var newBlockUnlockLevel = this.castleBlueprint.GetDataById(this.castleLocalData.Level).BlockUnlockLevel;
             this.UnlockNewBlock(newBlockUnlockId, newBlockUnlockLevel);
             this.UnlockNewSlot(this.castleBlueprint.GetDataById(this.castleLocalData.Level).SlotUnlock);
         }
-        public float GetGoldToUpgrade()
-        {
-            return this.castleConfigBlueprint.BaseGoldNeedToUpgrade * this.castleLocalData.Level * this.castleConfigBlueprint.CoefficientGold;
-        }
-        
+        public float GetGoldToUpgrade() { return this.castleConfigBlueprint.BaseGoldNeedToUpgrade * this.castleLocalData.Level * this.castleConfigBlueprint.CoefficientGold; }
+
         #endregion
 
         #region Slot
@@ -95,7 +99,10 @@
             var result     = new Dictionary<StatEnum, (Type, Object)>();
             var configData = this.castleConfigBlueprint;
 
-            result.Add(StatEnum.MaxHealth, (configData.BaseHP.GetType(), configData.BaseHP * 1));
+            result.Add(StatEnum.MaxHealth,
+                (configData.BaseHP.GetType(),
+                    configData.BaseHP * 1 + this.talentBlueprint[TalentType.IncreaseCastleHp].TalentLevelToDataRecords[this.talentLocalDataController.GetTalentLevel(TalentType.IncreaseCastleHp)]
+                        .EffectValue));
             result.Add(StatEnum.Health, (configData.BaseHP.GetType(), configData.BaseHP * 1)); //TODO: *10000 for testing, change to local data later
             result.Add(StatEnum.Mana, (configData.BaseMP.GetType(), configData.BaseMP));
             result.Add(StatEnum.MaxMana, (configData.BaseMP.GetType(), configData.BaseMP));
@@ -108,10 +115,7 @@
             if (this.castleLocalData.ListBlockData.Count > 0) return;
             this.castleLocalData.Level         = 1;
             this.castleLocalData.ListBlockData = new();
-            this.blockBlueprint.ForEach(blockData =>
-            {
-                this.castleLocalData.ListBlockData.Add(new() { BlockId = blockData.Value.Id, BlockLevel = 1, IsUnlock = false });
-            });
+            this.blockBlueprint.ForEach(blockData => { this.castleLocalData.ListBlockData.Add(new() { BlockId = blockData.Value.Id, BlockLevel = 1, IsUnlock = false }); });
             this.castleLocalData.ListBlockData.First().IsUnlock = true;
         }
     }

@@ -47,7 +47,7 @@
         private void OnItemClick()
         {
             var talentLevel = this.talentLocalDataController.GetTalentLevel(this.model.TalentType);
-            this.model.OnItemClickAction?.Invoke(this.model.TalentType, talentLevel + 1);
+            this.model.OnItemClickAction?.Invoke(this.model.TalentType, talentLevel);
         }
     }
 }

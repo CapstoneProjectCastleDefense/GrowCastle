@@ -18,13 +18,17 @@
         private readonly ArcherBlueprint           archerBlueprint;
         private readonly CastleManager             castleManager;
         private readonly ArcherConfigBlueprint     archerConfigBlueprint;
+        private readonly TalentLocalDataController talentLocalDataController;
+        private readonly TalentBlueprint           talentBlueprint;
 
         public ArcherManager(
             BaseElementPresenter<ArcherModel, ArcherView, ArcherPresenter>.Factory factory,
             ArcherLocalDataController archerLocalDataController,
             ArcherBlueprint archerBlueprint,
             CastleManager castleManager,
-            ArcherConfigBlueprint archerConfigBlueprint
+            ArcherConfigBlueprint archerConfigBlueprint,
+            TalentLocalDataController talentLocalDataController,
+            TalentBlueprint talentBlueprint
         )
             : base(factory)
         {
@@ -32,6 +36,8 @@
             this.archerBlueprint           = archerBlueprint;
             this.castleManager             = castleManager;
             this.archerConfigBlueprint     = archerConfigBlueprint;
+            this.talentLocalDataController = talentLocalDataController;
+            this.talentBlueprint           = talentBlueprint;
         }
 
         public override void Initialize() { }
@@ -40,7 +46,8 @@
 
         private void CreateSingleArcher(ArcherData archerData)
         {
-            var archerSlot = this.castleManager.GetAllArcherSlot().First(e => e.index == archerData.index);
+            var archerSlot      = this.castleManager.GetAllArcherSlot().First(e => e.index == archerData.index);
+            var baseAttackSpeed = this.archerConfigBlueprint.BaseAttackSpeed;
             var archerPresenter = this.CreateElement(new()
             {
                 Index           = archerData.index,
@@ -51,7 +58,12 @@
                 {
                     { StatEnum.Attack, (typeof(float), 2f) },
                     { StatEnum.Health, (typeof(float), 10f) },
-                    { StatEnum.AttackSpeed, (typeof(float), 1f) },
+                    {
+                        StatEnum.AttackSpeed,
+                        (typeof(float),
+                            baseAttackSpeed + this.talentBlueprint[TalentType.IncreaseArcherAttack]
+                                .TalentLevelToDataRecords[this.talentLocalDataController.GetTalentLevel(TalentType.IncreaseArcherAttack)].EffectValue / 100 * baseAttackSpeed)
+                    },
                     { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) }
                 }
             });
