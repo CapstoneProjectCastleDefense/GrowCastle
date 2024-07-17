@@ -84,7 +84,7 @@
                 archerPresenter.Dispose();
                 this.entities.Remove(archerPresenter);
             }
-
+            this.castleManager.OnArcherUpgrade();
             this.CreateSingleArcher(newArcher);
         }
     }

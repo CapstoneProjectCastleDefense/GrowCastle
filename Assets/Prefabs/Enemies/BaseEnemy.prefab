@@ -123,6 +123,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 824e5fe19869400c8a29ba7fdbdaf247, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackAnimations: []
+  deathAnimations: []
+  moveAnimation: 
   <SkeletonAnimation>k__BackingField: {fileID: 5890850458954612675}
   <GraphicCollider2D>k__BackingField: {fileID: 7612229669187565593}
   <AttackRangeCollider2D>k__BackingField: {fileID: 497148970014649306}
@@ -587,7 +590,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1939197609
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &5547779064446051512

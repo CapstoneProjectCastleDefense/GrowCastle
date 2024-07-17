@@ -24,7 +24,7 @@
         public ArcherData UnlockArcher()
         {
             if (!this.resourceLocalDataController.SpendResource(ResourceType.Gold, this.GetGoldNeedToUpgrade())) return null;
-
+            this.archerLocalData.CurrentLevel++;
             this.archerLocalData.CurrentUpgradeIndex++;
             if (this.archerLocalData.CurrentUpgradeIndex >= 6)
             {
@@ -54,6 +54,10 @@
             return this.archerConfigBlueprint.BaseGold * this.GetCurrentMaxLevelOfArcher() * this.archerConfigBlueprint.Coefficient;
         }
 
+        public int GetCurrentUpgradeLevel() {
+
+            return this.archerLocalData.CurrentLevel;
+        }
         public void InitData()
         {
             if (this.archerLocalData.ListArcher.Count == 0)

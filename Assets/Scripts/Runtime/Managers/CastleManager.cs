@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Managers
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Models.LocalData.LocalDataController;
@@ -27,9 +28,12 @@
         }
         public void UpgradeCastle()
         {
-            this.castleLocalDataController.UpgradeCastle();
-            this.entities.First().UpdateBlockBaseOnCurrentLevel();
-            this.slotManager.UpdateAllSlots();
+            bool canUpgrade = this.castleLocalDataController.UpgradeCastle();
+            if (canUpgrade)
+            {
+                this.entities.First().OnUpgrade();
+                this.slotManager.UpdateAllSlots();
+            }
         }
         public bool UseManaForSkill(float manaValue)
         {
@@ -44,5 +48,9 @@
         }
 
         public List<ArcherSlot> GetAllArcherSlot() => this.entities[0].CastleView.listArcherSlot;
+
+        public void OnArcherUpgrade() {
+            this.entities.First().ArcherUpgradePopUp();
+        }
     }
 }

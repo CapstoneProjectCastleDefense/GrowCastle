@@ -2,6 +2,7 @@
 {
     using System;
     using System.Globalization;
+    using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
@@ -41,9 +42,13 @@
 
         public TextMeshProUGUI castleCoinUpgradeValue;
         public TextMeshProUGUI archerCoinUpgradeValue;
+        public TextMeshProUGUI castleCurrentLevel;
+        public TextMeshProUGUI archerCurrentLevel;
         public TextMeshProUGUI waveValue;
         public TextMeshProUGUI goldValue;
         public TextMeshProUGUI diamondValue;
+        public TextMeshProUGUI healthCurrentValue;
+        public TextMeshProUGUI manaCurrentValue;
         public TextMeshProUGUI userLevelValue;
     }
 
@@ -103,9 +108,19 @@
             this.View.waveIndicator.SetActive(false);
 
             this.levelLocalDataController.CurrentLevel.SubscribeToText(this.View.waveValue);
+
+            this.castleLocalDataController.GetStats(StatEnum.Health).Subscribe(this.OnCastleHealthChange);
+            this.castleLocalDataController.GetStats(StatEnum.Mana).Subscribe(this.OnCastleManaChange);
+
+            this.View.castleCurrentLevel.text = this.castleLocalDataController.GetCurrentUpgradeLevel().ToString();
+            this.View.archerCurrentLevel.text = this.archerLocalDataController.GetCurrentUpgradeLevel().ToString();
+
             this.resourceLocalDataController.GetResource(ResourceType.Exp).Subscribe(this.OnUserExpUpdate);
             this.userLocalDataController.GetCurrentUserLevel.Subscribe(this.OnUserLevelUpdate);
         }
+
+        
+
         private async void OnTalentBtnClick()
         {
             await this.screenManager.OpenScreen<TalentPopupPresenter>();
@@ -122,13 +137,16 @@
         private void OnUpgradeCastleButtonClick()
         {
             this.castleManager.UpgradeCastle();
-            this.View.castleCoinUpgradeValue.text = this.castleLocalDataController.GetGoldToUpgrade().ToString(CultureInfo.InvariantCulture);
+            this.View.castleCoinUpgradeValue.text = this.castleLocalDataController.GetGoldToUpgrade().ToString("F0");
+            this.View.castleCurrentLevel.text = this.castleLocalDataController.GetCurrentUpgradeLevel().ToString();
         }
 
         private void OnUpgradeArcherButtonClick()
         {
             this.archerManager.UpgradeArcher();
             this.View.archerCoinUpgradeValue.text = this.archerLocalDataController.GetGoldNeedToUpgrade().ToString(CultureInfo.InvariantCulture);
+            this.View.archerCurrentLevel.text = this.archerLocalDataController.GetCurrentUpgradeLevel().ToString();
+
         }
         private async void OnDailyRewardClick() { await this.screenManager.OpenScreen<DailyRewardPopupPresenter>(); }
 
@@ -163,9 +181,10 @@
             this.View.waveIndicator.SetActive(true);
         }
 
-        private void OnGoldValueChange(float value)    => this.View.goldValue.text = $"{value}";
-        private void OnDiamondValueChange(float value) => this.View.diamondValue.text = $"{value}";
-
+        private void OnGoldValueChange(float value)    => this.View.goldValue.text = $"{value:F0}";
+        private void OnDiamondValueChange(float value) => this.View.diamondValue.text = $"{value:F0}";
+        private void OnCastleManaChange(float value) => this.View.manaCurrentValue.text = $"{value:F0}";
+        private void OnCastleHealthChange(float value) => this.View.healthCurrentValue.text = $"{value:F0}";
         public override UniTask BindData()
         {
             this.View.goldValue.text              = $"{this.resourceLocalDataController.GetResource(ResourceType.Gold).Value}";

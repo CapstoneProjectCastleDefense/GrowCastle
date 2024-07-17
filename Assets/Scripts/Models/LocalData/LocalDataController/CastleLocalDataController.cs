@@ -6,7 +6,9 @@
     using Codice.Client.BaseCommands.BranchExplorer;
     using GameFoundation.Scripts.Utilities.Extension;
     using Models.Blueprints;
+    using R3;
     using Runtime.Enums;
+    using Runtime.Extensions;
 
     public class CastleLocalDataController : ILocalDataController
     {
@@ -44,19 +46,17 @@
 
         public CastleRecord GetCurrentCastle() => this.castleBlueprint.GetDataById(this.castleLocalData.Level);
 
-        public void UpgradeCastle()
+        public bool UpgradeCastle()
         {
-            if (this.castleBlueprint.Last().Key == (this.castleLocalData.Level))
-            {
-                return;
-            }
 
-            if (!this.resourceLocalDataController.SpendResource(ResourceType.Gold, this.GetGoldToUpgrade())) return;
+            if (!this.resourceLocalDataController.SpendResource(ResourceType.Gold, this.GetGoldToUpgrade())) return false;
             this.castleLocalData.Level++;
+            if (!this.castleBlueprint.ContainsKey(this.castleLocalData.Level)) { return  true; }
             var newBlockUnlockId    = this.castleBlueprint.GetDataById(this.castleLocalData.Level).BlockUnlock;
             var newBlockUnlockLevel = this.castleBlueprint.GetDataById(this.castleLocalData.Level).BlockUnlockLevel;
             this.UnlockNewBlock(newBlockUnlockId, newBlockUnlockLevel);
             this.UnlockNewSlot(this.castleBlueprint.GetDataById(this.castleLocalData.Level).SlotUnlock);
+            return true;
         }
         public float GetGoldToUpgrade() { return this.castleConfigBlueprint.BaseGoldNeedToUpgrade * this.castleLocalData.Level * this.castleConfigBlueprint.CoefficientGold; }
 
@@ -104,11 +104,18 @@
                     configData.BaseHP * 1 + this.talentBlueprint[TalentType.IncreaseCastleHp].TalentLevelToDataRecords[this.talentLocalDataController.GetTalentLevel(TalentType.IncreaseCastleHp)]
                         .EffectValue));
             result.Add(StatEnum.Health, (configData.BaseHP.GetType(), configData.BaseHP * 1)); //TODO: *10000 for testing, change to local data later
-            result.Add(StatEnum.Mana, (configData.BaseMP.GetType(), configData.BaseMP));
-            result.Add(StatEnum.MaxMana, (configData.BaseMP.GetType(), configData.BaseMP));
-
+            result.Add(StatEnum.Mana, (configData.BaseMP.GetType(), configData.BaseMP + 10f * this.castleLocalData.Level));
+            result.Add(StatEnum.MaxMana, (configData.BaseMP.GetType(), configData.BaseMP + 10f * this.castleLocalData.Level));
+            this.UpdateStats(result.GetStat<float>(StatEnum.MaxHealth), result.GetStat<float>(StatEnum.MaxMana));
             return result;
         }
+
+        public void UpdateStats(float health, float mana) {
+            this.castleLocalData.Stats[StatEnum.Health].Value = health;
+            this.castleLocalData.Stats[StatEnum.Mana].Value = mana;
+        }
+
+        public ReactiveProperty<float> GetStats(StatEnum statType) => this.castleLocalData.Stats[statType];
 
         public void InitData()
         {
@@ -117,6 +124,12 @@
             this.castleLocalData.ListBlockData = new();
             this.blockBlueprint.ForEach(blockData => { this.castleLocalData.ListBlockData.Add(new() { BlockId = blockData.Value.Id, BlockLevel = 1, IsUnlock = false }); });
             this.castleLocalData.ListBlockData.First().IsUnlock = true;
+            this.castleLocalData.Stats.Add(StatEnum.Health, new ReactiveProperty<float>(500f));
+            this.castleLocalData.Stats.Add(StatEnum.Mana, new ReactiveProperty<float>(100f));
+        }
+
+        internal int GetCurrentUpgradeLevel() {
+            return this.castleLocalData.Level;
         }
     }
 }

@@ -5,10 +5,12 @@
 
     public class ArcherLocalData : ILocalDataHaveController<ArcherLocalDataController>
     {
+        public int CurrentLevel;
         public int              CurrentUpgradeIndex;
         public List<ArcherData> ListArcher = new();
         public void Init()
         {
+            this.CurrentLevel = 1;
             this.CurrentUpgradeIndex = 0;
             this.ListArcher          = new List<ArcherData>();
             for (int i = 0; i < 6; i++)
