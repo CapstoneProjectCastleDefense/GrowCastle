@@ -1,42 +1,42 @@
 ﻿namespace Runtime.Elements.Entities.Archer.Base
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
-    using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.ObjectPool;
+    using Models.Tags;
+    using Runtime.Combat.CombatActions;
+    using Runtime.Combat.CombatActions.Models;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Castles.ArcherSlots;
-    using Runtime.Elements.EntitySkills;
-    using Runtime.Elements.EntitySkills.ProjectileSkills;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
-    using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
-    using Random = UnityEngine.Random;
 
     public class ArcherPresenter : BaseCombatantPresenter<ArcherModel, ArcherView, ArcherPresenter>, IArcherPresenter
     {
-        private readonly EnemyManager      enemyManager;
-        private readonly FindTargetSystem  findTargetSystem;
-        private readonly EntitySkillSystem entitySkillSystem;
-        private          bool              canAttack;
+        private readonly EnemyManager         enemyManager;
+        private readonly FindTargetSystem     findTargetSystem;
+        private readonly CombatActionExecutor combatActionExecutor;
+        private          bool                 canAttack;
+        private          float                attackCooldown;
 
         protected ArcherPresenter(
             ArcherModel model,
             ObjectPoolManager objectPoolManager,
             EnemyManager enemyManager,
             FindTargetSystem findTargetSystem,
-            EntitySkillSystem entitySkillSystem
+            CombatActionExecutor combatActionExecutor
         )
             : base(model, objectPoolManager)
         {
-            this.enemyManager      = enemyManager;
-            this.findTargetSystem  = findTargetSystem;
-            this.entitySkillSystem = entitySkillSystem;
+            this.enemyManager         = enemyManager;
+            this.findTargetSystem     = findTargetSystem;
+            this.combatActionExecutor = combatActionExecutor;
         }
 
         public override async UniTask UpdateView()
@@ -53,68 +53,75 @@
 
         public override void Tick()
         {
-            if (!this.canAttack) return;
-            if (this.AttackCooldownTime >= 1 / this.Model.GetStat<float>(StatEnum.AttackSpeed))
+            this.CooldownAttack();
+            if (this.attackCooldown > 0) return;
+
+            if (this.Attack())
             {
-                // var target = this.enemyManager.entities.Count > 0 ? this.enemyManager.entities.First() : null;
-                if (this.TargetThatImLookingAt == null || this.TargetThatImLookingAt.IsDead)
-                {
-                    var target = this.FindTarget();
-                    var random = Random.Range(100, 300);
-                    this.TargetThatImLookingAt = target;
-                    this.AttackCooldownTime    = -random * 1f / 1000;
-                    UniTask.Delay(random).ContinueWith(() =>
-                    {
-                        this.Attack(this.TargetThatImLookingAt);
-                    }).Forget();
-                }
-                else
-                {
-                    this.Attack(this.TargetThatImLookingAt);
-                    this.AttackCooldownTime = 0;
-                }
+                this.attackCooldown = 1 / this.Model.Stats.GetStat<float>(StatEnum.AttackSpeed);
+            }
+        }
+
+        private void CooldownAttack()
+        {
+            //check if has haste buff, reduce cooldown more
+            var stats      = this.Model.Stats;
+            var reduceTime = Time.deltaTime;
+            if (stats.TryGetValue(StatEnum.HasteBuff, out (Type type, object value) param))
+            {
+                reduceTime *= (float)param.value;
             }
 
-            this.AttackCooldownTime += Time.deltaTime;
+            this.attackCooldown -= reduceTime;
+        }
+
+        private bool Attack()
+        {
+            var target = this.FindTarget(this);
+
+            if (target == null) return false;
+            var damage = this.Model.GetStat<float>(StatEnum.Attack);
+            this.combatActionExecutor.Execute(CombatActionId.FireProjectile, new FireProjectileModel("archer_normal_attack",
+                                                                                                     target,
+                                                                                                     this,
+                                                                                                     new List<IEffectTag>()
+                                                                                                     {
+                                                                                                         new InstantDamageTag()
+                                                                                                         {
+                                                                                                             Damage = damage
+                                                                                                         }
+                                                                                                     }));
+            return true;
+        }
+
+        public ITargetable FindTarget(ICombatantPresenter caster)
+        {
+            var stats    = this.Model.Stats;
+            var priority = stats.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
+            if (priority == default)
+            {
+                stats.SetStat(StatEnum.AttackPriority, AttackPriorityEnum.Default);
+            }
+
+            var target = this.findTargetSystem.GetTarget(caster, priority, this.GetTags().ToList(), this.GetManagerTypes(), 1);
+
+            if (target == null ||
+                target.Count == 0) return null;
+            return target[0];
         }
 
         public void SetAttackStatus(bool attackStatus)
         {
-            this.canAttack          = attackStatus;
-            this.AttackCooldownTime = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
-            if (!attackStatus) this.View.skeletonAnimation.SetAnimation("idle");
-        }
+            this.canAttack = attackStatus;
 
-        public void Attack(ITargetable target)
-        {
-            if (target == null) return;
-
-            this.View.skeletonAnimation.SetAnimation("attack", false);
-            this.entitySkillSystem.CastSkill(EntitySkillName.Arrow, new BaseProjectileSkillModel()
+            if (this.canAttack)
             {
-                Id         = EntitySkillName.Arrow,
-                StartPoint = this.View.spawnArrowPos.position,
-                EndPoint   = target.GetGameObject().transform.position,
-                Target     = target,
-                Damage     = this.Model.GetStat<float>(StatEnum.Attack),
-            });
-        }
-
-        public ITargetable FindTarget()
-        {
-            var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
-            if (priority == default)
-            {
-                priority = AttackPriorityEnum.Default;
-                this.Model.SetStat(StatEnum.AttackPriority, priority);
+                //this.heroSkillActivator.CastSkill(EntitySkillName.ArcherNormalAttack);
             }
 
-            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 3);
-
-            return res.Count > 0 ? res.RandomElement() : null;
+            //this.timer = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
+            if (!attackStatus) this.View.skeletonAnimation.SetAnimation("idle");
         }
-
-        public float AttackCooldownTime { get; private set; }
 
         public void CastSkill(string skillId, ITargetable target) { }
 

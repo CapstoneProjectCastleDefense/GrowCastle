@@ -10,7 +10,10 @@
         
         Attack,
         Defense,
+        
         AttackSpeed,
+        HasteBuff,
+        
         AttackRange,
         MoveSpeed,
         CastSpeed,

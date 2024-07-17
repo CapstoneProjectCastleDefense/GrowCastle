@@ -3,6 +3,7 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.UIModule.Utilities;
     using GameFoundation.Scripts.Utilities.Extension;
+    using Runtime.Combat;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Archer.Base;
     using Runtime.Elements.Entities.Castles;
@@ -47,6 +48,7 @@
 
             WaveInstaller.Install(this.Container);
             EntitySkillInstaller.Install(this.Container);
+            CombatInstaller.Install(this.Container);
             this.Container.Bind<EventSystem>().FromComponentInNewPrefabResource("EventSystem").AsSingle().NonLazy();
         }
 

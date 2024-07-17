@@ -39,11 +39,13 @@
             this.View.HealthBar.fillAmount = 1;
             this.View.transform.position   = this.Model.StartPos;
         }
+
         public override void Dispose()
         {
             this.View.Recycle();
             this.ElementManager.entities.Remove(this);
         }
+
         public void OnGetHit(float damage)
         {
             if (this.IsDead) return;
@@ -110,7 +112,7 @@
         public bool                                 IsDead          { get; private set; }
         public Dictionary<StatEnum, (Type, object)> GetStats()      { return this.Model.Stats; }
         public GameObject                           GetGameObject() { return this.View.gameObject; }
-        public Dictionary<Type, IEffectTag>        CurrentTag      { get; set; }
+        public Dictionary<Type, IEffectTag>         CurrentTag      { get; set; }
 
         private void DoMove(Vector3 endPos, float distance)
         {
@@ -157,7 +159,7 @@
                     ? this.TargetThatImAttacking
                     : this.TargetThatAttackingMe is { IsDead: false }
                         ? this.TargetThatAttackingMe
-                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(),1).FirstOrDefault();
+                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 1).FirstOrDefault();
         }
 
         private void UpdateHealthView()

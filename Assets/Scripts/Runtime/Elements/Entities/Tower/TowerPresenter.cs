@@ -18,7 +18,7 @@
 
     public class TowerPresenter : BaseCombatantPresenter<TowerModel, TowerView, TowerPresenter>, ITowerPresenter
     {
-        private readonly EntitySkillSystem entitySkillSystem;
+        private readonly HeroSkillActivator heroSkillActivator;
         private readonly FindTargetSystem  findTargetSystem;
         private readonly HeroBlueprint     heroBlueprint;
 
@@ -28,12 +28,12 @@
         protected TowerPresenter(
             TowerModel model,
             ObjectPoolManager objectPoolManager,
-            EntitySkillSystem entitySkillSystem,
+            HeroSkillActivator heroSkillActivator,
             FindTargetSystem findTargetSystem,
             HeroBlueprint heroBlueprint)
             : base(model, objectPoolManager)
         {
-            this.entitySkillSystem = entitySkillSystem;
+            this.heroSkillActivator = heroSkillActivator;
             this.findTargetSystem  = findTargetSystem;
             this.heroBlueprint     = heroBlueprint;
         }
@@ -59,7 +59,7 @@
             if (target == null) return;
 
             var skillId = towerDataRecord.SkillToAnimationRecords.ElementAt(1).Key;
-            this.CastSkillInternal(skillId, target, new BaseProjectileSkillModel()
+            this.CastSkillInternal(skillId, target, new BaseProjectileHeroSkillModel()
             {
                 Id         = skillId,
                 StartPoint = this.View.spawnProjectilePos.position,
@@ -82,12 +82,13 @@
 
         public void CastSkill(string skillId, ITargetable target) { }
 
-        private void CastSkillInternal(string skillId, ITargetable target, IEntitySkillModel skillModel)
+        private void CastSkillInternal(string skillId, ITargetable target, IHeroSkillModel heroSkillModel)
         {
             var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
             this.View.skeletonAnimation.SetAnimation(heroDataRecord.SkillToAnimationRecords[skillId].AnimationSkillName, loop: false);
-            this.entitySkillSystem.CastSkill(skillId, skillModel);
-            UniTask.Delay(TimeSpan.FromSeconds(1f)).ContinueWith(() => { this.View.skeletonAnimation.SetAnimation("idle", loop: true); });
+            UniTask.Delay(TimeSpan.FromSeconds(1f))
+                   .ContinueWith(() => { this.View.skeletonAnimation.SetAnimation("idle", loop: true); })
+                   .Forget();
         }
 
         public void SetAttackStatus(bool attackStatus)

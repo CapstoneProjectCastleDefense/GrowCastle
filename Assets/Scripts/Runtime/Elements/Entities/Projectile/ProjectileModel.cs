@@ -1,17 +1,21 @@
 ﻿namespace Runtime.Elements.Entities.Projectile
 {
     using System;
+    using System.Collections.Generic;
+    using Models.Tags;
     using Runtime.Elements.Base;
     using Runtime.Interfaces.Entities;
     using UnityEngine;
 
     public class ProjectileModel : IElementModel
     {
-        public string             Id              { get; set; }
-        public string             AddressableName { get; set; }
-        public Vector3            StartPoint      { get; set; }
-        public Vector3            EndPoint        { get; set; }
-        public float              Damage          { get; set; }
+        public string                                  Id              { get; set; }
+        public string                                  AddressableName { get; set; }
+        public Vector3                                 StartPoint      { get; set; }
+        public Vector3                                 EndPoint        { get; set; }
+        public float                                   Damage          { get; set; }
+        public ITargetable                             Target          { get; set; }
+        public List<IEffectTag>                        EffectTags      { get; set; }
         public Action<Collider2D, ProjectilePresenter> OnProjectileHit { get; set; }
     }
 }
