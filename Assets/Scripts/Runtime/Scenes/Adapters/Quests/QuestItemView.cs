@@ -54,7 +54,6 @@
             this.View.targetValue.text      = $"{questRecord.TargetValue}";
             this.View.currentValue.text     = $"{questData.CurrentValue}";
             
-            questData.CurrentValue.Dispose();
             questData.CurrentValue.Subscribe(this.OnCurrentValueChange);
             this.View.progressBar.fillAmount = questData.CurrentValue.Value / questRecord.TargetValue;
             

@@ -2,7 +2,7 @@
 {
     public class QuestTriggerSignal
     {
-        public string TriggerSignalId { get; set; }
-        public float  Value           { get; set; }
+        public string TriggerSignalId;
+        public float  Value;
     }
 }

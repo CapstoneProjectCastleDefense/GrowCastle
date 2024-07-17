@@ -33,6 +33,7 @@
         public Button     upgradeArcher;
         public Button     dailyRewardButton;
         public Button     talentButton;
+        public Button     questButton;
         public Image      castleHealthBar;
         public Image      castleManaBar;
         public Image      waveBar;
@@ -102,6 +103,7 @@
             this.View.upgradeArcher.onClick.AddListener(this.OnUpgradeArcherButtonClick);
             this.View.dailyRewardButton.onClick.AddListener(this.OnDailyRewardClick);
             this.View.talentButton.onClick.AddListener(this.OnTalentBtnClick);
+            this.View.questButton.onClick.AddListener(this.OnQuestBtnClick);
 
             this.resourceLocalDataController.GetResource(ResourceType.Gold).Subscribe(this.OnGoldValueChange);
             this.resourceLocalDataController.GetResource(ResourceType.Diamond).Subscribe(this.OnDiamondValueChange);
@@ -119,14 +121,11 @@
             this.userLocalDataController.GetCurrentUserLevel.Subscribe(this.OnUserLevelUpdate);
         }
 
-        
 
-        private async void OnTalentBtnClick()
-        {
-            await this.screenManager.OpenScreen<TalentPopupPresenter>();
-        }
-        private void OnUserExpUpdate(float value)   { this.View.userExpBar.DOFillAmount(value/this.resourceLocalDataController.GetCurrentTargetExpToLevelUp(), 0.1f); }
-        private void OnUserLevelUpdate(float value) { this.View.userLevelValue.text = $"Level {value}"; }
+        private async void OnTalentBtnClick()             { await this.screenManager.OpenScreen<TalentPopupPresenter>(); }
+        private async void OnQuestBtnClick()              { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
+        private       void OnUserExpUpdate(float value)   { this.View.userExpBar.DOFillAmount(value / this.resourceLocalDataController.GetCurrentTargetExpToLevelUp(), 0.1f); }
+        private       void OnUserLevelUpdate(float value) { this.View.userLevelValue.text = $"Level {value}"; }
 
         private void OnCastleStatChange(UpdateCastleStatSignal signal)
         {
@@ -138,15 +137,14 @@
         {
             this.castleManager.UpgradeCastle();
             this.View.castleCoinUpgradeValue.text = this.castleLocalDataController.GetGoldToUpgrade().ToString("F0");
-            this.View.castleCurrentLevel.text = this.castleLocalDataController.GetCurrentUpgradeLevel().ToString();
+            this.View.castleCurrentLevel.text     = this.castleLocalDataController.GetCurrentUpgradeLevel().ToString();
         }
 
         private void OnUpgradeArcherButtonClick()
         {
             this.archerManager.UpgradeArcher();
             this.View.archerCoinUpgradeValue.text = this.archerLocalDataController.GetGoldNeedToUpgrade().ToString(CultureInfo.InvariantCulture);
-            this.View.archerCurrentLevel.text = this.archerLocalDataController.GetCurrentUpgradeLevel().ToString();
-
+            this.View.archerCurrentLevel.text     = this.archerLocalDataController.GetCurrentUpgradeLevel().ToString();
         }
         private async void OnDailyRewardClick() { await this.screenManager.OpenScreen<DailyRewardPopupPresenter>(); }
 
@@ -183,7 +181,7 @@
 
         private void OnGoldValueChange(float value)    => this.View.goldValue.text = $"{value:F0}";
         private void OnDiamondValueChange(float value) => this.View.diamondValue.text = $"{value:F0}";
-        private void OnCastleManaChange(float value) => this.View.manaCurrentValue.text = $"{value:F0}";
+        private void OnCastleManaChange(float value)   => this.View.manaCurrentValue.text = $"{value:F0}";
         private void OnCastleHealthChange(float value) => this.View.healthCurrentValue.text = $"{value:F0}";
         public override UniTask BindData()
         {

@@ -37,6 +37,7 @@
             this.View.weeklyQuestButton.onClick.AddListener(this.InitWeeklyQuest);
             this.View.achievementQuestButton.onClick.AddListener(this.InitAchievementQuest);
             this.View.exitButton.onClick.AddListener(this.CloseView);
+            this.InitDailyQuest();
         }
         public override UniTask BindData() { return UniTask.CompletedTask; }
 

@@ -142,7 +142,7 @@
             this.View.HealthBarContainer.gameObject.SetActive(false);
 
             this.DropCoin();
-            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.KillEnemy});
+            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.KillEnemy,Value = 1});
 
             var wait = 0f;
             if (!DeathAnimName.IsNullOrEmpty() &&

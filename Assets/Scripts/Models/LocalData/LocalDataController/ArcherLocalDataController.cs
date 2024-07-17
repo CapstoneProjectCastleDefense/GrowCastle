@@ -45,7 +45,7 @@
             {
                 this.archerLocalData.ListArcher[this.archerLocalData.CurrentUpgradeIndex].isUnlock = true;
             }
-            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.UpgradeArcher});
+            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.UpgradeArcher,Value = 1});
 
             return this.archerLocalData.ListArcher[this.archerLocalData.CurrentUpgradeIndex];
         }

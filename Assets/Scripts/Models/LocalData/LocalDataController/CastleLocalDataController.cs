@@ -62,7 +62,7 @@
             var newBlockUnlockLevel = this.castleBlueprint.GetDataById(this.castleLocalData.Level).BlockUnlockLevel;
             this.UnlockNewBlock(newBlockUnlockId, newBlockUnlockLevel);
             this.UnlockNewSlot(this.castleBlueprint.GetDataById(this.castleLocalData.Level).SlotUnlock);
-            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.UpgradeCastle});
+            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.UpgradeCastle, Value = 1});
             return true;
         }
         public float GetGoldToUpgrade() { return this.castleConfigBlueprint.BaseGoldNeedToUpgrade * this.castleLocalData.Level * this.castleConfigBlueprint.CoefficientGold; }
