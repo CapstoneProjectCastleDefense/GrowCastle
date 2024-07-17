@@ -7,6 +7,7 @@
     using Models.LocalData.LocalDataController;
     using Runtime.Managers;
     using Runtime.Services;
+    using Runtime.Signals.Quests;
     using Zenject;
     using Zenject.Internal;
     using ILocalDataHaveController = Models.LocalData.ILocalDataHaveController;
@@ -15,6 +16,7 @@
     {
         public override void InstallBindings()
         {
+            this.Container.DeclareSignal<QuestTriggerSignal>();
             GameFoundationInstaller.Install(this.Container);
             this.BindLocalData();
             this.BindAllController();

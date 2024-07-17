@@ -9,6 +9,9 @@
     using R3;
     using Runtime.Enums;
     using Runtime.Extensions;
+    using Runtime.Signals.Quests;
+    using Runtime.StaticValues;
+    using Zenject;
 
     public class CastleLocalDataController : ILocalDataController
     {
@@ -19,6 +22,7 @@
         private readonly ResourceLocalDataController resourceLocalDataController;
         private readonly TalentLocalDataController   talentLocalDataController;
         private readonly TalentBlueprint             talentBlueprint;
+        private readonly SignalBus                   signalBus;
         private readonly SlotLocalDataController     slotLocalDataController;
 
         public CastleLocalDataController(
@@ -29,7 +33,8 @@
             BlockBlueprint blockBlueprint,
             ResourceLocalDataController resourceLocalDataController,
             TalentLocalDataController talentLocalDataController,
-            TalentBlueprint talentBlueprint
+            TalentBlueprint talentBlueprint,
+            SignalBus signalBus
         )
         {
             this.castleLocalData             = castleLocalData;
@@ -40,6 +45,7 @@
             this.resourceLocalDataController = resourceLocalDataController;
             this.talentLocalDataController   = talentLocalDataController;
             this.talentBlueprint             = talentBlueprint;
+            this.signalBus                   = signalBus;
         }
 
         #region Castle
@@ -56,6 +62,7 @@
             var newBlockUnlockLevel = this.castleBlueprint.GetDataById(this.castleLocalData.Level).BlockUnlockLevel;
             this.UnlockNewBlock(newBlockUnlockId, newBlockUnlockLevel);
             this.UnlockNewSlot(this.castleBlueprint.GetDataById(this.castleLocalData.Level).SlotUnlock);
+            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.UpgradeCastle, Value = 1});
             return true;
         }
         public float GetGoldToUpgrade() { return this.castleConfigBlueprint.BaseGoldNeedToUpgrade * this.castleLocalData.Level * this.castleConfigBlueprint.CoefficientGold; }

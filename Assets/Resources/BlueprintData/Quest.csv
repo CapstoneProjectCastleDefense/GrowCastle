@@ -1,6 +1,6 @@
-﻿QuestId,Desription,TargetValue,RewardId,RewardType,QuestType
-KillEnemy_Daily,Kill 50 enemies,50,200,Gold,Daily
-UpgradeCastleTime_Daily,Upgrade castle 5 times,5,2,Diamond,Daily
-KillEnemy_Weekly,Kill 500 enemies,500,20,Diamond,Weekly
-UpgradeCastleTime_Weekly,Upgrade castle 20 times,20,30,Diamond,Weekly
-UpgradeArcher,Upgrade Archer 30 times,30,10000,Gold,Achivement
+QuestId,Description,TargetValue,RewardValue,RewardType,QuestType,SignalTriggerId,QuestIcon
+KillEnemy_Daily,Kill 50 enemies,50,200,Gold,Daily,KillEnemy,KillEnemyIcon
+UpgradeCastleTime_Daily,Upgrade castle 5 times,5,2,Diamond,Daily,UpgradeCastle,tower update
+KillEnemy_Weekly,Kill 500 enemies,500,20,Diamond,Weekly,KillEnemy,KillEnemyIcon
+UpgradeCastleTime_Weekly,Upgrade castle 20 times,20,30,Diamond,Weekly,UpgradeCastle,tower update
+UpgradeArcher,Upgrade Archer 30 times,30,10000,Gold,Achievement,UpgradeArcher,archer
