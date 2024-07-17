@@ -7,13 +7,14 @@
     using Runtime.Managers.Base;
     using UnityEngine;
 
-    public class HeroManager : BaseElementManager<HeroModel, HeroPresenter,HeroView>
+    public class HeroManager : BaseElementManager<HeroModel, HeroPresenter, HeroView>
     {
-        public HeroManager(BaseElementPresenter<HeroModel, HeroView, HeroPresenter>.Factory factory) : base(factory)
+        public HeroManager(BaseElementPresenter<HeroModel, HeroView, HeroPresenter>.Factory factory)
+            : base(factory)
         {
         }
 
-        public void CreateSingleHero(string id,Transform parent)
+        public void CreateSingleHero(string id, Transform parent)
         {
             var heroPresenter = this.CreateElement(new()
             {
@@ -24,7 +25,8 @@
                     { StatEnum.Attack, (typeof(float), 2f) },
                     { StatEnum.Health, (typeof(float), 10f) },
                     { StatEnum.AttackSpeed, (typeof(float), 1f) },
-                    { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) }
+                    { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) },
+                    { StatEnum.BonusReduceMana, (typeof(float), 0) }
                 },
             });
             heroPresenter.UpdateView().Forget();
@@ -33,16 +35,13 @@
 
         public void ChangeAttackStatusOfAllHero(bool canAttack)
         {
-            this.entities.ForEach(e=>
+            this.entities.ForEach(e =>
             {
-                if(!canAttack) e.ResetCooldown();
+                if (!canAttack) e.ResetCooldown();
                 e.SetAttackStatus(canAttack);
             });
         }
 
-        public override void Initialize()
-        {
-
-        }
+        public override void Initialize() { }
     }
 }
