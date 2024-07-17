@@ -14,9 +14,12 @@
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
+    using Runtime.Signals.Quests;
+    using Runtime.StaticValues;
     using Runtime.Systems;
     using TMPro;
     using UnityEngine;
+    using Zenject;
 
     public class EnemyPresenter : BaseCombatantPresenter<EnemyModel, EnemyView, EnemyPresenter>, IEnemyPresenter
     {
@@ -26,6 +29,7 @@
 
         private readonly FindTargetSystem            findTargetSystem;
         private readonly ResourceLocalDataController resourceLocalDataController;
+        private readonly SignalBus                   signalBus;
 
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
         public virtual string[] GetTags()         { return new[] { "Ally", "Building" }; }
@@ -34,11 +38,13 @@
             EnemyModel model,
             ObjectPoolManager objectPoolManager,
             FindTargetSystem findTargetSystem,
-            ResourceLocalDataController resourceLocalDataController)
+            ResourceLocalDataController resourceLocalDataController,
+            SignalBus signalBus)
             : base(model, objectPoolManager)
         {
             this.findTargetSystem            = findTargetSystem;
             this.resourceLocalDataController = resourceLocalDataController;
+            this.signalBus                   = signalBus;
         }
         public override async UniTask UpdateView()
         {
@@ -136,6 +142,7 @@
             this.View.HealthBarContainer.gameObject.SetActive(false);
 
             this.DropCoin();
+            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.KillEnemy});
 
             var wait = 0f;
             if (!DeathAnimName.IsNullOrEmpty() &&
