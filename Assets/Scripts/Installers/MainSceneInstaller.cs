@@ -22,6 +22,7 @@
     using Runtime.Scenes.Screens;
     using Runtime.Services;
     using Runtime.Signals;
+    using Runtime.Signals.Quests;
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.Systems;
     using Runtime.Systems.Effects;
