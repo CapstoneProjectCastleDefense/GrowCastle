@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Elements.Entities.Hero
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
@@ -15,6 +16,7 @@
     using Runtime.Interfaces.Items;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
+    using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
 
@@ -26,9 +28,11 @@
         private readonly SkillBlueprint    skillBlueprint;
         private readonly CastleManager     castleManager;
 
-        private HeroManager heroManager;
-        private bool        canAttack;
-        private float       timer;
+        private HeroManager                  heroManager;
+        private bool                         canAttack;
+        private float                        timer;
+        public  int                          AttackCount;
+        public  List<IPassiveSkillPresenter> PassiveSkillPresenters = new();
 
         protected HeroPresenter(
             HeroModel model,
@@ -56,7 +60,10 @@
             {
                 this.Attack(null);
                 this.timer = 0;
+                this.AttackCount++;
             }
+
+            this.PassiveSkillPresenters.ForEach(e => e.Tick());
 
             this.timer += Time.deltaTime;
         }
@@ -72,7 +79,7 @@
         public void CastSkill(string skillId, ITargetable target)
         {
             if (this.View.cooldownSkillBar.fillAmount < 1) return;
-            if (!this.castleManager.UseManaForSkill(this.skillBlueprint.GetDataById(skillId).Mana)) return;
+            if (!this.castleManager.UseManaForSkill(this.skillBlueprint.GetDataById(skillId).Mana + this.Model.GetStat<float>(StatEnum.BonusReduceMana))) return;
             this.CastSkillInternal(skillId, target, new BasicSkillModel()
             {
                 Id    = skillId,
@@ -129,7 +136,7 @@
         {
             var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
 
-            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(),2);
+            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 2);
 
             return res.Count > 0 ? res.RandomElement() : null;
         }
@@ -150,6 +157,8 @@
             transform.localPosition = Vector3.zero;
             var listSkill = this.heroBlueprint.GetDataById(this.Model.Id).SkillToAnimationRecords;
             this.View.OnClickAction = () => this.CastSkill(listSkill.First().Key, null);
+            this.entitySkillSystem.ActivePassiveSkill(PassiveSkillName.GodApperancePassiveSkill, this);
+            this.entitySkillSystem.ActivePassiveSkill(PassiveSkillName.GodLightPassiveSkill, this);
         }
 
         public override void Dispose()

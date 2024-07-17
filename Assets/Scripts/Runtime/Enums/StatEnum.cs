@@ -7,6 +7,7 @@
         
         MaxHealth,
         MaxMana,
+        BonusReduceMana,
         
         Attack,
         Defense,
