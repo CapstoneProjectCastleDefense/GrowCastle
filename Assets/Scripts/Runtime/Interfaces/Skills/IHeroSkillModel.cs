@@ -2,14 +2,14 @@
 {
     using Runtime.Elements.Base;
 
-    public interface IEntitySkillModel : IElementModel
+    public interface IHeroSkillModel : IElementModel
     {
         string Description { get; }
         string Name        { get; }
         string IconPath    => this.AddressableName;
     }
 
-    public class BasicSkillModel : IEntitySkillModel
+    public class BasicHeroSkillModel : IHeroSkillModel
     {
         public string Id              { get; set; }
         public int    Level           { get; set; }

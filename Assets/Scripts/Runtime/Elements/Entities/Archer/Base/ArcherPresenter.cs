@@ -19,7 +19,7 @@
     {
         private readonly EnemyManager      enemyManager;
         private readonly FindTargetSystem  findTargetSystem;
-        private readonly EntitySkillSystem entitySkillSystem;
+        private readonly HeroSkillActivator heroSkillActivator;
         private          bool              canAttack;
 
         protected ArcherPresenter(
@@ -27,13 +27,13 @@
             ObjectPoolManager objectPoolManager,
             EnemyManager enemyManager,
             FindTargetSystem findTargetSystem,
-            EntitySkillSystem entitySkillSystem
+            HeroSkillActivator heroSkillActivator
         )
             : base(model, objectPoolManager)
         {
             this.enemyManager      = enemyManager;
             this.findTargetSystem  = findTargetSystem;
-            this.entitySkillSystem = entitySkillSystem;
+            this.heroSkillActivator = heroSkillActivator;
         }
 
         public override async UniTask UpdateView()
@@ -56,7 +56,7 @@
 
             if (this.canAttack)
             {
-                this.entitySkillSystem.CastSkill(EntitySkillName.ArcherNormalAttack, this);
+                //this.heroSkillActivator.CastSkill(EntitySkillName.ArcherNormalAttack);
             }
 
             //this.timer = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;

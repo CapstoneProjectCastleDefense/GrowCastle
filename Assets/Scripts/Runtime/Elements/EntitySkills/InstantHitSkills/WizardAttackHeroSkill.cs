@@ -4,6 +4,7 @@
     using Models.Blueprints;
     using Models.Tags;
     using Runtime.Elements.Base;
+    using Runtime.Elements.Entities.Hero;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Skills;
@@ -14,9 +15,9 @@
     using UnityEngine;
     using Zenject;
 
-    public class WizardAttackSkill : InstantHitSkill<BasicSkillModel>
+    public class WizardAttackHeroSkill : InstantHitHeroSkill<BasicHeroSkillModel>
     {
-        public WizardAttackSkill(SignalBus signalBus,
+        public WizardAttackHeroSkill(SignalBus signalBus,
                                  FindTargetSystem findTargetSystem,
                                  EffectManager effectManager,
                                  VFXService vfxService,
@@ -27,7 +28,7 @@
 
         public override string SkillId { get; set; } = EntitySkillName.WizardAttackSkill;
 
-        protected override void InternalCast(ICombatantPresenter caster)
+        protected override void InternalCast(HeroPresenter caster)
         {
             this.vfxService.SpawnVFX(this.VFXName, new Vector3(5f, -1, 0), Quaternion.identity, scale: new Vector3(3, 3, 1)).Forget();
             var targets = this.findTargetSystem.GetAllEnemyTarget();

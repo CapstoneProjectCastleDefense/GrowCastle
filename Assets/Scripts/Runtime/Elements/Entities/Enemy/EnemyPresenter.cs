@@ -1,7 +1,6 @@
 ﻿namespace Runtime.Elements.Entities.Enemy
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
@@ -10,14 +9,12 @@
     using global::Extensions;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
-    using Models.Tags;
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
     using Runtime.Systems;
-    using Spine.Unity;
     using TMPro;
     using UnityEngine;
 

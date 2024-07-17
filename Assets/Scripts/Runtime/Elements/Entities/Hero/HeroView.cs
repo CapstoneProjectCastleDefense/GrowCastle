@@ -10,12 +10,9 @@
     {
         public SkeletonAnimation skeletonAnimation;
         public Transform         spawnProjectilePos;
-        public Action            OnClickAction;
+        public Action            onClickAction;
         public Image             cooldownSkillBar;
 
-        public void OnMouseDown()
-        {
-            this.OnClickAction?.Invoke();
-        }
+        public void OnMouseDown() { this.onClickAction?.Invoke(); }
     }
 }

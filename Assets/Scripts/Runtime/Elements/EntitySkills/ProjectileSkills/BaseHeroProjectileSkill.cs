@@ -12,13 +12,13 @@
     using UnityEngine;
     using Zenject;
 
-    public abstract class BaseProjectileSkill<TModel> : BaseEntitySkillPresenter<TModel>
-        where TModel : BaseProjectileSkillModel
+    public abstract class BaseHeroProjectileSkill<TModel> : BaseHeroSkill<TModel>
+        where TModel : BaseProjectileHeroSkillModel
     {
         protected readonly ProjectileManager   projectileManager;
         protected readonly ProjectileBlueprint projectileBlueprint;
         
-        protected BaseProjectileSkill(SignalBus signalBus,
+        protected BaseHeroProjectileSkill(SignalBus signalBus,
                                       FindTargetSystem findTargetSystem, 
                                       EffectManager effectManager, 
                                       VFXService vfxService,
@@ -54,7 +54,7 @@
         }
     }
 
-    public class BaseProjectileSkillModel : IEntitySkillModel
+    public class BaseProjectileHeroSkillModel : IHeroSkillModel
     {
         public string      Id              { get; set; }
         public string      AddressableName { get; set; }

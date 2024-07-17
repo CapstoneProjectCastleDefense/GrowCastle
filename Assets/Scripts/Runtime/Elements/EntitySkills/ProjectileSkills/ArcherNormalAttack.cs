@@ -8,19 +8,19 @@
     using Models.Blueprints;
     using Models.Tags;
     using Runtime.Elements.Base;
+    using Runtime.Elements.Entities.Hero;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
     using Runtime.Services;
-    using Runtime.Signals;
     using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
     using Zenject;
 
-    public class ArcherNormalAttack : BaseProjectileSkill<BaseProjectileSkillModel>
+    public class ArcherNormalAttack : BaseHeroProjectileSkill<BaseProjectileHeroSkillModel>
     {
         public override string SkillId { get; set; } = EntitySkillName.ArcherNormalAttack;
 
@@ -36,7 +36,8 @@
         {
         }
 
-        public override void Cast(ICombatantPresenter caster) { this.castersAttackCooldownTime.Add(caster, 0); }
+        public override void Activate(HeroPresenter caster) { this.castersAttackCooldownTime.Add(caster, 0); }
+        public override void Deactivate(HeroPresenter hero) {  }
 
         public override void Tick()
         {

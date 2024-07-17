@@ -4,7 +4,7 @@
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Models.Tags;
-    using Runtime.Elements.Base;
+    using Runtime.Elements.Entities.Hero;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
@@ -14,7 +14,7 @@
     using UnityEngine;
     using Zenject;
 
-    public class FireLightingBallSkill : BaseProjectileSkill<BaseProjectileSkillModel>
+    public class FireLightingBallSkill : BaseHeroProjectileSkill<BaseProjectileHeroSkillModel>
     {
         public FireLightingBallSkill(SignalBus signalBus,
                                      FindTargetSystem findTargetSystem,
@@ -26,8 +26,9 @@
         {
         }
 
-        public override string SkillId                          { get; set; } = EntitySkillName.FireLightingBall;
-        public override void   Cast(ICombatantPresenter caster) {  }
+        public override string SkillId                        { get; set; } = EntitySkillName.FireLightingBall;
+        public override void   Activate(HeroPresenter caster) {  }
+        public override void   Deactivate(HeroPresenter hero) {  }
 
         protected override void OnProjectileHit(Collider2D collider2D, ProjectilePresenter projectile)
         {
@@ -50,7 +51,7 @@
         }
     }
 
-    public class FireLightingBallSkillModel : BaseProjectileSkillModel
+    public class FireLightingBallHeroSkillModel : BaseProjectileHeroSkillModel
     {
     }
 }

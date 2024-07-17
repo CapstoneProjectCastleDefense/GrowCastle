@@ -2,6 +2,7 @@
 {
     using Models.Blueprints;
     using Runtime.Elements.Base;
+    using Runtime.Elements.Entities.Hero;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Services;
@@ -9,12 +10,12 @@
     using Runtime.Systems;
     using Zenject;
 
-    public class SummonSkill : BaseEntitySkillPresenter<BasicSkillModel>
+    public class SummonHeroSkill : BaseHeroSkill<BasicHeroSkillModel>
     {
         private readonly SkillSummonBlueprint skillSummonBlueprint;
         private readonly SummonerManager      summonerManager;
 
-        public SummonSkill(SignalBus signalBus,
+        public SummonHeroSkill(SignalBus signalBus,
                            FindTargetSystem findTargetSystem,
                            EffectManager effectManager,
                            VFXService vfxService,
@@ -26,8 +27,9 @@
             this.summonerManager      = summonerManager;
         }
 
-        public override string SkillId                          { get; set; } = EntitySkillName.SummonSkill;
-        public override void   Cast(ICombatantPresenter caster) { this.Summon();  }
+        public override string SkillId                        { get; set; } = EntitySkillName.SummonSkill;
+        public override void   Activate(HeroPresenter caster) { this.Summon();  }
+        public override void   Deactivate(HeroPresenter hero) {  }
 
         private void Summon()
         {

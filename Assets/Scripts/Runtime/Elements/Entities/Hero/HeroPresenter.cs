@@ -8,19 +8,17 @@
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Runtime.Elements.Base;
-    using Runtime.Elements.EntitySkills;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
-    using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Systems;
     using UnityEngine;
 
     public class HeroPresenter : BaseCombatantPresenter<HeroModel, HeroView, HeroPresenter>, IHeroPresenter
     {
-        private readonly EntitySkillSystem entitySkillSystem;
+        private readonly HeroSkillActivator heroSkillActivator;
         private readonly HeroBlueprint     heroBlueprint;
         private readonly FindTargetSystem  findTargetSystem;
         private readonly SkillBlueprint    skillBlueprint;
@@ -28,19 +26,18 @@
 
         private HeroManager heroManager;
         private bool        canAttack;
-        private float       timer;
 
         protected HeroPresenter(
             HeroModel model,
             ObjectPoolManager objectPoolManager,
-            EntitySkillSystem entitySkillSystem,
+            HeroSkillActivator heroSkillActivator,
             HeroBlueprint heroBlueprint,
             FindTargetSystem findTargetSystem,
             SkillBlueprint skillBlueprint,
             CastleManager castleManager)
             : base(model, objectPoolManager)
         {
-            this.entitySkillSystem = entitySkillSystem;
+            this.heroSkillActivator = heroSkillActivator;
             this.heroBlueprint     = heroBlueprint;
             this.findTargetSystem  = findTargetSystem;
             this.skillBlueprint    = skillBlueprint;
@@ -51,31 +48,28 @@
 
         public override void Tick()
         {
-            if (!this.canAttack) return;
-            if (this.timer >= 1 / this.Model.GetStat<float>(StatEnum.AttackSpeed))
-            {
-                this.Attack(null);
-                this.timer = 0;
-            }
-
-            this.timer += Time.deltaTime;
         }
-
+        
         private void CastSkillInternal(string skillId)
         {
             var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
             this.View.skeletonAnimation.SetAnimation(heroDataRecord.SkillToAnimationRecords[skillId].AnimationSkillName, loop: false);
-            this.entitySkillSystem.CastSkill(skillId, this);
-            UniTask.Delay(TimeSpan.FromSeconds(1f)).ContinueWith(() => { this.View.skeletonAnimation.SetAnimation("idle", loop: true); });
+            this.heroSkillActivator.Activate(skillId, this);
+            UniTask.Delay(TimeSpan.FromSeconds(1f))
+                   .ContinueWith(() =>
+                   {
+                       this.View.skeletonAnimation.SetAnimation("idle", loop: true);
+                   })
+                   .Forget();
         }
 
-        public void CastSkill(string skillId, ITargetable target)
+        public virtual void CastSkill(string skillId, ITargetable target)
         {
-            if (this.View.cooldownSkillBar.fillAmount < 1) return;
-            if (!this.castleManager.UseManaForSkill(this.skillBlueprint.GetDataById(skillId).Mana)) return;
-            this.CastSkillInternal(skillId);
-            this.View.cooldownSkillBar.fillAmount = 0;
-            this.StartRefillCooldown(this.skillBlueprint.GetDataById(skillId).Cooldown);
+            // if (this.View.cooldownSkillBar.fillAmount < 1) return;
+            // if (!this.castleManager.UseManaForSkill(this.skillBlueprint.GetDataById(skillId).Mana)) return;
+            // this.CastSkillInternal(skillId);
+            // this.View.cooldownSkillBar.fillAmount = 0;
+            // this.StartRefillCooldown(this.skillBlueprint.GetDataById(skillId).Cooldown);
         }
 
         private void StartRefillCooldown(float cooldownTime)
@@ -83,6 +77,7 @@
             DOTween.Kill(this.View.cooldownSkillBar);
             this.View.cooldownSkillBar.DOFillAmount(1, cooldownTime).SetEase(Ease.Linear);
         }
+
         public void ResetCooldown()
         {
             DOTween.Kill(this.View.cooldownSkillBar);
@@ -95,10 +90,21 @@
         public void SetAttackStatus(bool attackStatus)
         {
             this.canAttack = attackStatus;
-            this.timer     = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
+            if (attackStatus)
+            {
+                foreach (var skillId in this.Model.Skills)
+                {
+                    this.heroSkillActivator.Activate(skillId, this);
+                }
+            }
+            else
+            {
+                foreach (var skillId in this.Model.Skills)
+                {
+                   this.heroSkillActivator.Deactivate(skillId, this);
+                }
+            }
         }
-
-        public void OnHeroUpgrade() { }
 
         public void Attack(ITargetable target)
         {
@@ -118,7 +124,7 @@
         {
             var priority = this.Model.GetStat<AttackPriorityEnum>(StatEnum.AttackPriority);
 
-            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(),2);
+            var res = this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 2);
 
             return res.Count > 0 ? res.RandomElement() : null;
         }
@@ -138,7 +144,7 @@
             (transform = this.View.transform).SetParent(this.Model.ParentView);
             transform.localPosition = Vector3.zero;
             var listSkill = this.heroBlueprint.GetDataById(this.Model.Id).SkillToAnimationRecords;
-            this.View.OnClickAction = () => this.CastSkill(listSkill.First().Key, null);
+            this.View.onClickAction = () => this.CastSkill(listSkill.First().Key, null);
         }
 
         public override void Dispose()

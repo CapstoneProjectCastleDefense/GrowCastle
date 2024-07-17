@@ -1,23 +1,22 @@
 ﻿namespace Runtime.Interfaces.Skills
 {
     using System;
-    using Runtime.Elements.Base;
+    using Runtime.Elements.Entities.Hero;
     using Runtime.Managers;
     using Runtime.Services;
     using Runtime.Signals;
     using Runtime.Systems;
     using Zenject;
 
-    public interface IEntitySkillPresenter
+    public interface IHeroSkill
     {
         string SkillId { get; set; }
-        void   Cast(ICombatantPresenter caster);
-        void   Initialize();
+        void   Activate(HeroPresenter hero);
+        void   Deactivate(HeroPresenter hero);
         void   Tick();
-        void   Dispose();
     }
 
-    public abstract class BaseEntitySkillPresenter<TModel> : IEntitySkillPresenter where TModel : IEntitySkillModel
+    public abstract class BaseHeroSkill<TModel> : IHeroSkill where TModel : IHeroSkillModel
     {
         #region Inject
 
@@ -26,7 +25,7 @@
         protected readonly EffectManager    effectManager;
         protected readonly VFXService       vfxService;
 
-        public BaseEntitySkillPresenter(SignalBus signalBus, FindTargetSystem findTargetSystem, EffectManager effectManager, VFXService vfxService)
+        public BaseHeroSkill(SignalBus signalBus, FindTargetSystem findTargetSystem, EffectManager effectManager, VFXService vfxService)
         {
             this.signalBus        = signalBus;
             this.findTargetSystem = findTargetSystem;
@@ -40,14 +39,15 @@
 
         protected TModel Model;
 
-        public abstract void Cast(ICombatantPresenter caster);
+        public abstract void Activate(HeroPresenter caster);
+        public abstract void Deactivate(HeroPresenter hero);
 
         public virtual void Initialize() { this.signalBus.Subscribe<TimeCooldownSignal>(this.Tick); }
 
         public virtual void Tick() { }
 
         public virtual Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
-        
+
         public virtual string[] GetTags() { return new[] { "Fly", "Ground", "Boss", "Building" }; }
 
         public virtual void Dispose() { this.signalBus.Subscribe<TimeCooldownSignal>(this.Tick); }
