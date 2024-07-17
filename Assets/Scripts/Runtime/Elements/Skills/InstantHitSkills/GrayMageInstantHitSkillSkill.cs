@@ -3,10 +3,9 @@
     using Cysharp.Threading.Tasks;
     using Models.Blueprints;
     using Models.Tags;
-    using Runtime.Elements.Entities.Hero;
+    using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
-    using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Services;
     using Runtime.StaticValues;
@@ -14,22 +13,20 @@
     using UnityEngine;
     using Zenject;
 
-    public class GrayMageInstantHitHeroSkill : InstantHitHeroSkill<BasicHeroSkillModel>
+    public class GrayMageInstantHitSkillSkill : BaseHeroInstantHitSkill
     {
-        public GrayMageInstantHitHeroSkill(SignalBus signalBus,
-                                           FindTargetSystem findTargetSystem,
-                                           EffectManager effectManager,
-                                           VFXService vfxService,
-                                           SkillAttackBlueprint skillAttackBlueprint)
+        public GrayMageInstantHitSkillSkill(SignalBus signalBus,
+            FindTargetSystem findTargetSystem,
+            EffectManager effectManager,
+            VFXService vfxService,
+            SkillAttackBlueprint skillAttackBlueprint)
             : base(signalBus, findTargetSystem, effectManager, vfxService, skillAttackBlueprint)
         {
         }
 
         public override string SkillId { get; set; } = EntitySkillName.GrayMageAttack;
-
-        protected override void InternalCast(HeroPresenter caster)
-        {
-            this.vfxService.SpawnVFX(this.VFXName, new Vector3(-1f, -1, 0), Quaternion.identity, scale: new Vector3(5, 5, 1)).Forget();
+        protected override void InternalCast(ICombatantPresenter combatant)
+        { this.vfxService.SpawnVFX(this.VFXName, new Vector3(-1f, -1, 0), Quaternion.identity, scale: new Vector3(5, 5, 1)).Forget();
             var targets = this.findTargetSystem.GetAllEnemyTarget();
             foreach (var t in targets)
             {

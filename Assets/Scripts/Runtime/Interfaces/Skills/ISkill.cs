@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Interfaces.Skills
 {
     using System;
+    using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Hero;
     using Runtime.Managers;
     using Runtime.Services;
@@ -8,15 +9,15 @@
     using Runtime.Systems;
     using Zenject;
 
-    public interface IHeroSkill
+    public interface ISkill
     {
         string SkillId { get; set; }
-        void   Activate(HeroPresenter hero);
-        void   Deactivate(HeroPresenter hero);
+        void   Activate(ICombatantPresenter combatant);
+        void   Deactivate(ICombatantPresenter combatant);
         void   Tick();
     }
 
-    public abstract class BaseHeroSkill : IHeroSkill
+    public abstract class BaseSkill : ISkill
     {
         #region Inject
 
@@ -25,7 +26,7 @@
         protected readonly EffectManager    effectManager;
         protected readonly VFXService       vfxService;
 
-        public BaseHeroSkill(SignalBus signalBus, FindTargetSystem findTargetSystem, EffectManager effectManager, VFXService vfxService)
+        public BaseSkill(SignalBus signalBus, FindTargetSystem findTargetSystem, EffectManager effectManager, VFXService vfxService)
         {
             this.signalBus        = signalBus;
             this.findTargetSystem = findTargetSystem;
@@ -37,8 +38,8 @@
 
         public abstract string SkillId { get; set; }
 
-        public abstract void Activate(HeroPresenter caster);
-        public abstract void Deactivate(HeroPresenter hero);
+        public abstract void Activate(ICombatantPresenter combatant);
+        public abstract void Deactivate(ICombatantPresenter combatant);
 
         public virtual void Initialize() { this.signalBus.Subscribe<TimeCooldownSignal>(this.Tick); }
 

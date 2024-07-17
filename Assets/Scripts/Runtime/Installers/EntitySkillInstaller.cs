@@ -10,7 +10,7 @@
     {
         public override void InstallBindings()
         {
-            foreach (var type in ReflectionUtils.GetAllDerivedTypes<IHeroSkill>())
+            foreach (var type in ReflectionUtils.GetAllDerivedTypes<ISkill>())
             {
                 if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
             }

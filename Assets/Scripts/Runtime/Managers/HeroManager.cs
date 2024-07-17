@@ -1,19 +1,28 @@
 ﻿namespace Runtime.Managers
 {
+    using System.Linq;
     using Cysharp.Threading.Tasks;
+    using Models.Blueprints;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Hero;
     using Runtime.Enums;
     using Runtime.Managers.Base;
     using UnityEngine;
 
-    public class HeroManager : BaseElementManager<HeroModel, HeroPresenter,HeroView>
+    public class HeroManager : BaseElementManager<HeroModel, HeroPresenter, HeroView>
     {
-        public HeroManager(BaseElementPresenter<HeroModel, HeroView, HeroPresenter>.Factory factory) : base(factory)
+        private readonly SkillBlueprint skillBlueprint;
+        private readonly HeroBlueprint  heroBlueprint;
+        public HeroManager(BaseElementPresenter<HeroModel, HeroView, HeroPresenter>.Factory factory,
+            SkillBlueprint skillBlueprint,
+            HeroBlueprint heroBlueprint)
+            : base(factory)
         {
+            this.skillBlueprint = skillBlueprint;
+            this.heroBlueprint  = heroBlueprint;
         }
 
-        public void CreateSingleHero(string id,Transform parent)
+        public void CreateSingleHero(string id, Transform parent)
         {
             var heroPresenter = this.CreateElement(new()
             {
@@ -26,6 +35,7 @@
                     { StatEnum.AttackSpeed, (typeof(float), 1f) },
                     { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) }
                 },
+                Skills = this.heroBlueprint.GetDataById(id).SkillToAnimationRecords.Keys.ToList()
             });
             heroPresenter.UpdateView().Forget();
             heroPresenter.SetManager(this);
@@ -33,16 +43,13 @@
 
         public void ChangeAttackStatusOfAllHero(bool canAttack)
         {
-            this.entities.ForEach(e=>
+            this.entities.ForEach(e =>
             {
-                if(!canAttack) e.ResetCooldown();
+                if (!canAttack) e.ResetCooldown();
                 e.SetAttackStatus(canAttack);
             });
         }
 
-        public override void Initialize()
-        {
-
-        }
+        public override void Initialize() { }
     }
 }

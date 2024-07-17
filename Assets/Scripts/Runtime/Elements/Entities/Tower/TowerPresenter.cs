@@ -18,7 +18,7 @@
 
     public class TowerPresenter : BaseCombatantPresenter<TowerModel, TowerView, TowerPresenter>, ITowerPresenter
     {
-        private readonly HeroSkillActivator heroSkillActivator;
+        private readonly SkillActivator skillActivator;
         private readonly FindTargetSystem  findTargetSystem;
         private readonly HeroBlueprint     heroBlueprint;
 
@@ -28,12 +28,12 @@
         protected TowerPresenter(
             TowerModel model,
             ObjectPoolManager objectPoolManager,
-            HeroSkillActivator heroSkillActivator,
+            SkillActivator skillActivator,
             FindTargetSystem findTargetSystem,
             HeroBlueprint heroBlueprint)
             : base(model, objectPoolManager)
         {
-            this.heroSkillActivator = heroSkillActivator;
+            this.skillActivator = skillActivator;
             this.findTargetSystem  = findTargetSystem;
             this.heroBlueprint     = heroBlueprint;
         }

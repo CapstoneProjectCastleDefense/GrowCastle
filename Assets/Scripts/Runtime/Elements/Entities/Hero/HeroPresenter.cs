@@ -18,7 +18,7 @@
 
     public class HeroPresenter : BaseCombatantPresenter<HeroModel, HeroView, HeroPresenter>, IHeroPresenter
     {
-        private readonly HeroSkillActivator heroSkillActivator;
+        private readonly SkillActivator skillActivator;
         private readonly HeroBlueprint      heroBlueprint;
         private readonly FindTargetSystem   findTargetSystem;
         private readonly SkillBlueprint     skillBlueprint;
@@ -31,14 +31,14 @@
         protected HeroPresenter(
             HeroModel model,
             ObjectPoolManager objectPoolManager,
-            HeroSkillActivator heroSkillActivator,
+            SkillActivator skillActivator,
             HeroBlueprint heroBlueprint,
             FindTargetSystem findTargetSystem,
             SkillBlueprint skillBlueprint,
             CastleManager castleManager)
             : base(model, objectPoolManager)
         {
-            this.heroSkillActivator = heroSkillActivator;
+            this.skillActivator = skillActivator;
             this.heroBlueprint      = heroBlueprint;
             this.findTargetSystem   = findTargetSystem;
             this.skillBlueprint     = skillBlueprint;
@@ -92,14 +92,14 @@
             {
                 foreach (var skillId in this.Model.Skills)
                 {
-                    this.heroSkillActivator.Activate(skillId, this);
+                    this.skillActivator.Activate(skillId, this);
                 }
             }
             else
             {
                 foreach (var skillId in this.Model.Skills)
                 {
-                    this.heroSkillActivator.Deactivate(skillId, this);
+                    this.skillActivator.Deactivate(skillId, this);
                 }
             }
         }
