@@ -8,7 +8,7 @@
     using Runtime.Systems;
     using Zenject;
 
-    public abstract class InstantHitHeroSkill<TModel> : BaseHeroSkill<TModel> where TModel : BasicHeroSkillModel
+    public abstract class InstantHitHeroSkill<TModel> : BaseHeroSkill where TModel : BasicHeroSkillModel
     {
         private readonly SkillAttackBlueprint skillAttackBlueprint;
         protected        string               VFXName;
@@ -26,8 +26,8 @@
 
         public override void Activate(HeroPresenter caster)
         {
-            this.VFXName = this.skillAttackBlueprint.GetDataById(this.Model.Id).LevelToConfigRecords[this.Model.Level].PrefabName;
-            this.Damage  = this.skillAttackBlueprint.GetDataById(this.Model.Id).LevelToConfigRecords[this.Model.Level].Damage;
+            // this.VFXName = this.skillAttackBlueprint.GetDataById(this.Model.Id).LevelToConfigRecords[this.Model.Level].PrefabName;
+            // this.Damage  = this.skillAttackBlueprint.GetDataById(this.Model.Id).LevelToConfigRecords[this.Model.Level].Damage;
             this.InternalCast(caster);
         }
 

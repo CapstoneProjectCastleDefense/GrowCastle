@@ -12,7 +12,7 @@
     using UnityEngine;
     using Zenject;
 
-    public abstract class BaseHeroProjectileSkill<TModel> : BaseHeroSkill<TModel>
+    public abstract class BaseHeroProjectileSkill<TModel> : BaseHeroSkill
         where TModel : BaseProjectileHeroSkillModel
     {
         protected readonly ProjectileManager   projectileManager;

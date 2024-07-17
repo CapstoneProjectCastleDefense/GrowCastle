@@ -16,7 +16,7 @@
         void   Tick();
     }
 
-    public abstract class BaseHeroSkill<TModel> : IHeroSkill where TModel : IHeroSkillModel
+    public abstract class BaseHeroSkill : IHeroSkill
     {
         #region Inject
 
@@ -36,8 +36,6 @@
         #endregion
 
         public abstract string SkillId { get; set; }
-
-        protected TModel Model;
 
         public abstract void Activate(HeroPresenter caster);
         public abstract void Deactivate(HeroPresenter hero);

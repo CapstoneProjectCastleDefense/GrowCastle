@@ -19,13 +19,14 @@
     public class HeroPresenter : BaseCombatantPresenter<HeroModel, HeroView, HeroPresenter>, IHeroPresenter
     {
         private readonly HeroSkillActivator heroSkillActivator;
-        private readonly HeroBlueprint     heroBlueprint;
-        private readonly FindTargetSystem  findTargetSystem;
-        private readonly SkillBlueprint    skillBlueprint;
-        private readonly CastleManager     castleManager;
+        private readonly HeroBlueprint      heroBlueprint;
+        private readonly FindTargetSystem   findTargetSystem;
+        private readonly SkillBlueprint     skillBlueprint;
+        private readonly CastleManager      castleManager;
 
         private HeroManager heroManager;
         private bool        canAttack;
+        public  Action      OnClickAction;
 
         protected HeroPresenter(
             HeroModel model,
@@ -38,18 +39,16 @@
             : base(model, objectPoolManager)
         {
             this.heroSkillActivator = heroSkillActivator;
-            this.heroBlueprint     = heroBlueprint;
-            this.findTargetSystem  = findTargetSystem;
-            this.skillBlueprint    = skillBlueprint;
-            this.castleManager     = castleManager;
+            this.heroBlueprint      = heroBlueprint;
+            this.findTargetSystem   = findTargetSystem;
+            this.skillBlueprint     = skillBlueprint;
+            this.castleManager      = castleManager;
         }
 
         public void SetManager(HeroManager heroManager) => this.heroManager = heroManager;
 
-        public override void Tick()
-        {
-        }
-        
+        public override void Tick() { }
+
         // private void CastSkillInternal(string skillId)
         // {
         //     var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
@@ -100,7 +99,7 @@
             {
                 foreach (var skillId in this.Model.Skills)
                 {
-                   this.heroSkillActivator.Deactivate(skillId, this);
+                    this.heroSkillActivator.Deactivate(skillId, this);
                 }
             }
         }
@@ -143,7 +142,10 @@
             (transform = this.View.transform).SetParent(this.Model.ParentView);
             transform.localPosition = Vector3.zero;
             // var listSkill = this.heroBlueprint.GetDataById(this.Model.Id).SkillToAnimationRecords;
-            // this.View.onClickAction = () => this.CastSkill(listSkill.First().Key, null);
+            this.View.onClickAction = () =>
+            {
+                this.OnClickAction?.Invoke();
+            };
         }
 
         public override void Dispose()
