@@ -2,12 +2,13 @@
 {
     using Runtime.Combat.CombatActions.Models;
 
-    public class InstantHit : ICombatAction<InstantHitModel>
+    public class InstantHit : ICombatAction
     {
-        public string ActionId                       { get; set; } = CombatActionId.InstantHit;
+        public string ActionId { get; set; } = CombatActionId.InstantHit;
 
-        public void Execute(InstantHitModel model)
+        public void Execute(ICombatActionModel fireProjectileModel)
         {
+            fireProjectileModel = (InstantHitModel)fireProjectileModel;
             
         }
     }

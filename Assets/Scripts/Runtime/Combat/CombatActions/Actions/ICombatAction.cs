@@ -5,10 +5,6 @@
     public interface ICombatAction
     {
         string ActionId { get; set; }
-        void   Execute<TModel>(TModel model) where TModel : ICombatActionModel;
-    }
-    
-    public interface ICombatAction<TModel> where TModel : ICombatActionModel
-    {
+        void   Execute(ICombatActionModel fireProjectileModel);
     }
 }

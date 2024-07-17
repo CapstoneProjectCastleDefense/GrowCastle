@@ -12,6 +12,6 @@
         public string                               AddressableName { get; set; }
         public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
         public Transform                            ParentView      { get; set; }
-        public List<string>                         Skills         { get; set; }
+        public List<string>                         Skills          { get; set; } = new();
     }
 }

@@ -8,8 +8,8 @@
     {
         public override void InstallBindings()
         {
-            this.Container.Bind<ICombatAction>().To(convention => convention.AllNonAbstractClasses()).WhenNotInjectedInto<CombatActionExecutor>();
-            this.Container.Bind<CombatActionExecutor>().AsCached();
+            this.Container.Bind<CombatActionExecutor>().AsCached(); 
+            this.Container.Bind<ICombatAction>().To(convention => convention.AllNonAbstractClasses().DerivingFrom<ICombatAction>()).WhenInjectedInto<CombatActionExecutor>().NonLazy();
         }
     }
 }
