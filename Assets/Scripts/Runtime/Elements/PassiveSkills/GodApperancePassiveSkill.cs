@@ -9,8 +9,6 @@
     public class GodApperancePassiveSkill : IPassiveSkillPresenter
     {
         private readonly EntitySkillSystem entitySkillSystem;
-        private          float             cooldownValue = 3;
-        
         public GodApperancePassiveSkill(EntitySkillSystem entitySkillSystem) { this.entitySkillSystem = entitySkillSystem; }
 
         public HeroPresenter HeroPresenter { get; set; }
@@ -19,26 +17,20 @@
         }
         public void Tick()
         {
-            
             if (this.HeroPresenter == null) return;
             if (this.HeroPresenter.AttackCount == 3)
             {
                 this.ActiveSkill();
                 this.HeroPresenter.AttackCount = 0;
             }
-
-            this.cooldownValue -= Time.deltaTime;
-            //hiẻn thị cooldown
         }
         public void ActiveSkill()
         {
-            ((HeroView)this.HeroPresenter.GetView()).skeletonAnimation.SetAnimation("xx");
             this.entitySkillSystem.CastSkill(EntitySkillName.GreenLeafAttack, new BasicSkillModel()
             {
                 Level = 1,
                 Id    = EntitySkillName.GreenLeafAttack
             });
         }
-        //skill model
     }
 }
