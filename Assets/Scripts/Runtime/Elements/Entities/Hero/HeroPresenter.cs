@@ -50,18 +50,17 @@
         {
         }
         
-        private void CastSkillInternal(string skillId)
-        {
-            var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
-            this.View.skeletonAnimation.SetAnimation(heroDataRecord.SkillToAnimationRecords[skillId].AnimationSkillName, loop: false);
-            this.heroSkillActivator.Activate(skillId, this);
-            UniTask.Delay(TimeSpan.FromSeconds(1f))
-                   .ContinueWith(() =>
-                   {
-                       this.View.skeletonAnimation.SetAnimation("idle", loop: true);
-                   })
-                   .Forget();
-        }
+        // private void CastSkillInternal(string skillId)
+        // {
+        //     var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
+        //     this.View.skeletonAnimation.SetAnimation(heroDataRecord.SkillToAnimationRecords[skillId].AnimationSkillName, loop: false);
+        //     UniTask.Delay(TimeSpan.FromSeconds(1f))
+        //            .ContinueWith(() =>
+        //            {
+        //                this.View.skeletonAnimation.SetAnimation("idle", loop: true);
+        //            })
+        //            .Forget();
+        // }
 
         public virtual void CastSkill(string skillId, ITargetable target)
         {
@@ -108,16 +107,16 @@
 
         public void Attack(ITargetable target)
         {
-            var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
-
-            if (heroDataRecord.Class != HeroClass.Attack) return;
-
-            target ??= this.FindTarget();
-
-            if (target == null) return;
-
-            var skillId = heroDataRecord.SkillToAnimationRecords.ElementAt(1).Key;
-            this.CastSkillInternal(skillId);
+            // var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
+            //
+            // if (heroDataRecord.Class != HeroClass.Attack) return;
+            //
+            // target ??= this.FindTarget();
+            //
+            // if (target == null) return;
+            //
+            // var skillId = heroDataRecord.SkillToAnimationRecords.ElementAt(1).Key;
+            // this.CastSkillInternal(skillId);
         }
 
         public ITargetable FindTarget()
@@ -143,8 +142,8 @@
             Transform transform;
             (transform = this.View.transform).SetParent(this.Model.ParentView);
             transform.localPosition = Vector3.zero;
-            var listSkill = this.heroBlueprint.GetDataById(this.Model.Id).SkillToAnimationRecords;
-            this.View.onClickAction = () => this.CastSkill(listSkill.First().Key, null);
+            // var listSkill = this.heroBlueprint.GetDataById(this.Model.Id).SkillToAnimationRecords;
+            // this.View.onClickAction = () => this.CastSkill(listSkill.First().Key, null);
         }
 
         public override void Dispose()
