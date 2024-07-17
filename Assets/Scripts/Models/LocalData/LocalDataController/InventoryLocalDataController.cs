@@ -10,6 +10,7 @@
         public InventoryLocalDataController(InventoryLocalData inventoryLocalData) { this.inventoryLocalData = inventoryLocalData; }
         public void InitData() { }
 
-        public List<IItem> GetItems(ItemType itemType) { return new List<IItem>(); }
+        public List<IItemModel> GetItems(ItemType itemType) { return this.inventoryLocalData.Items.FindAll(item => item.ItemType == itemType); }
+        public List<IItemModel> GetAllItems()               { return this.inventoryLocalData.Items; }
     }
 }

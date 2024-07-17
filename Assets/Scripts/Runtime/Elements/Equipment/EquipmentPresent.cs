@@ -19,13 +19,14 @@
         {
             this.equipmentBlueprint = equipmentBlueprint;
         }
-        protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.equipmentBlueprint.GetDataById(this.Model.Id).PrefabName); }
-        public override    void Dispose() { }
-        public             EquipmentType EquipmentType => this.Model.EquipmentType;
-        public             ItemType ItemType => ItemType.Equipment;
-        public             void OnEquip(IHaveStatsModel target) { target.Plus(this.Model); }
-        public             void OnUnEquip(IHaveStatsModel target) { target.Minus(this.Model); }
-        public             Dictionary<StatEnum, (Type, object)> GetStats() { throw new NotImplementedException(); }
-        public             void UpdateStats() { throw new NotImplementedException(); }
+        protected override UniTask<GameObject>                  CreateView()                      { return this.ObjectPoolManager.Spawn(this.equipmentBlueprint.GetDataById(this.Model.Id).PrefabName); }
+        public override    void                                 Dispose()                         { }
+        public             EquipmentType                        EquipmentType                     => this.Model.EquipmentType;
+        public             ItemType                             ItemType                          => ItemType.Equipment;
+        public             int                                  Quantity { get; set; }
+        public             void                                 OnEquip(IHaveStatsModel target)   { target.Plus(this.Model); }
+        public             void                                 OnUnEquip(IHaveStatsModel target) { target.Minus(this.Model); }
+        public             Dictionary<StatEnum, (Type, object)> GetStats()                        { throw new NotImplementedException(); }
+        public             void                                 UpdateStats()                     { throw new NotImplementedException(); }
     }
 }

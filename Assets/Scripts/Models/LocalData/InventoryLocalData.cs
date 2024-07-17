@@ -9,6 +9,6 @@
     {
         public void Init() {  }
 
-        public List<IItem> Items = new();
+        public List<IItemModel> Items = new();
     }
 }
