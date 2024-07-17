@@ -12,13 +12,13 @@
     using UnityEngine;
     using Zenject;
 
-    public abstract class BaseHeroProjectileSkill<TModel> : BaseHeroSkill
+    public abstract class BaseProjectileSkill<TModel> : BaseSkill
         where TModel : BaseProjectileHeroSkillModel
     {
         protected readonly ProjectileManager   projectileManager;
         protected readonly ProjectileBlueprint projectileBlueprint;
         
-        protected BaseHeroProjectileSkill(SignalBus signalBus,
+        protected BaseProjectileSkill(SignalBus signalBus,
                                       FindTargetSystem findTargetSystem, 
                                       EffectManager effectManager, 
                                       VFXService vfxService,

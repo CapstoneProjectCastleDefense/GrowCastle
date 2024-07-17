@@ -8,7 +8,6 @@
     using Models.Blueprints;
     using Models.Tags;
     using Runtime.Elements.Base;
-    using Runtime.Elements.Entities.Hero;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Enums;
     using Runtime.Extensions;
@@ -20,24 +19,24 @@
     using UnityEngine;
     using Zenject;
 
-    public class ArcherNormalAttack : BaseHeroProjectileSkill<BaseProjectileHeroSkillModel>
+    public class ArcherNormalAttack : BaseProjectileSkill<BaseProjectileHeroSkillModel>
     {
         public override string SkillId { get; set; } = EntitySkillName.ArcherNormalAttack;
 
         private Dictionary<ICombatantPresenter, float> castersAttackCooldownTime = new();
 
         public ArcherNormalAttack(SignalBus signalBus,
-                                  FindTargetSystem findTargetSystem,
-                                  EffectManager effectManager,
-                                  VFXService vfxService,
-                                  ProjectileManager projectileManager,
-                                  ProjectileBlueprint projectileBlueprint)
+            FindTargetSystem findTargetSystem,
+            EffectManager effectManager,
+            VFXService vfxService,
+            ProjectileManager projectileManager,
+            ProjectileBlueprint projectileBlueprint)
             : base(signalBus, findTargetSystem, effectManager, vfxService, projectileManager, projectileBlueprint)
         {
         }
 
-        public override void Activate(HeroPresenter caster) { this.castersAttackCooldownTime.Add(caster, 0); }
-        public override void Deactivate(HeroPresenter hero) {  }
+        public override void Activate(ICombatantPresenter caster) { this.castersAttackCooldownTime.Add(caster, 0); }
+        public override void Deactivate(ICombatantPresenter combatant)       { }
 
         public override void Tick()
         {

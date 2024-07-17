@@ -1,5 +1,5 @@
 ﻿HeroId,PrefabName,Class,EvolutionId,Skill,AnimationSkillName,SkeletonDataAsset,HeroType
-Knight,HeroKnight,Summon,KnightEvol_1,summon_skill,summon,knight hero_SkeletonData,Hero
+Knight,HeroKnight,Summon,KnightEvol_1,Knight_SK1,summon,knight hero_SkeletonData,Hero
 Wizard,HeroWizard,Attack,WizardEvol_1,wizard_attack_skill,summon,wizard_SkeletonData,Hero
 ,,,,wizard_normal_attack,atk,,
 GreenLeaf,GreenLeaf,Attack,WizardEvol_1,green_leaf_attack,attack2,archer_SkeletonData,Hero

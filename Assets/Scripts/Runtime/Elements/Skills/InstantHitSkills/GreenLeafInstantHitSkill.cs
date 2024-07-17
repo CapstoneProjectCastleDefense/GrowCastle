@@ -4,10 +4,8 @@
     using Models.Blueprints;
     using Models.Tags;
     using Runtime.Elements.Base;
-    using Runtime.Elements.Entities.Hero;
     using Runtime.Enums;
     using Runtime.Extensions;
-    using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Services;
     using Runtime.StaticValues;
@@ -15,9 +13,9 @@
     using UnityEngine;
     using Zenject;
 
-    public class GreenLeafInstantHitHeroSkill : InstantHitHeroSkill<BasicHeroSkillModel>
+    public class GreenLeafInstantHitSkill : BaseHeroInstantHitSkill
     {
-        public GreenLeafInstantHitHeroSkill(SignalBus signalBus,
+        public GreenLeafInstantHitSkill(SignalBus signalBus,
                                             FindTargetSystem findTargetSystem,
                                             EffectManager effectManager,
                                             VFXService vfxService,
@@ -28,7 +26,7 @@
 
         public override string SkillId { get; set; } = EntitySkillName.GreenLeafAttack;
 
-        protected override void InternalCast(HeroPresenter caster)
+        protected override void InternalCast(ICombatantPresenter combatant)
         {
             this.vfxService.SpawnVFX(this.VFXName, new Vector3(-3, -1, 0), Quaternion.identity, scale: new Vector3(2, 2, 1)).Forget();
             var targets = this.findTargetSystem.GetAllEnemyTarget();

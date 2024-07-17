@@ -4,6 +4,7 @@
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Models.Tags;
+    using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Hero;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Interfaces.Entities;
@@ -14,7 +15,7 @@
     using UnityEngine;
     using Zenject;
 
-    public class FireLightingBallSkill : BaseHeroProjectileSkill<BaseProjectileHeroSkillModel>
+    public class FireLightingBallSkill : BaseProjectileSkill<BaseProjectileHeroSkillModel>
     {
         public FireLightingBallSkill(SignalBus signalBus,
                                      FindTargetSystem findTargetSystem,
@@ -26,9 +27,9 @@
         {
         }
 
-        public override string SkillId                        { get; set; } = EntitySkillName.FireLightingBall;
-        public override void   Activate(HeroPresenter caster) {  }
-        public override void   Deactivate(HeroPresenter hero) {  }
+        public override string SkillId                                   { get; set; } = EntitySkillName.FireLightingBall;
+        public override void   Activate(ICombatantPresenter caster)      {  }
+        public override void   Deactivate(ICombatantPresenter combatant) {  }
 
         protected override void OnProjectileHit(Collider2D collider2D, ProjectilePresenter projectile)
         {
@@ -41,7 +42,7 @@
                 if (targetableView != null &&
                     !targetableView.GetTargetablePresenter().IsDead)
                 {
-                    //this.effectManager.Execute(targetableView.GetTargetablePresenter(), new InstantDamageTag() { Damage = this.Model.Damage });
+                    this.effectManager.Execute(targetableView.GetTargetablePresenter(), new InstantDamageTag() { Damage = FireLightingBallSkillData.Damage });
                     projectile.GetView().transform.DOKill();
                     projectile.GetView().Recycle();
                     projectile.isFlyComplete = true;
@@ -51,7 +52,8 @@
         }
     }
 
-    public class FireLightingBallHeroSkillModel : BaseProjectileHeroSkillModel
+    public static class FireLightingBallSkillData
     {
+        public const float Damage = 10;
     }
 }

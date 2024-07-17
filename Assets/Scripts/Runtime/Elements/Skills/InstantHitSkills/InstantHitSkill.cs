@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Elements.EntitySkills.InstantHitSkills
 {
     using Models.Blueprints;
+    using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Hero;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
@@ -8,13 +9,13 @@
     using Runtime.Systems;
     using Zenject;
 
-    public abstract class InstantHitHeroSkill<TModel> : BaseHeroSkill where TModel : BasicHeroSkillModel
+    public abstract class InstantHitSkill : BaseSkill
     {
         private readonly SkillAttackBlueprint skillAttackBlueprint;
         protected        string               VFXName;
         protected        float                Damage;
 
-        protected InstantHitHeroSkill(SignalBus signalBus,
+        protected InstantHitSkill(SignalBus signalBus,
                                       FindTargetSystem findTargetSystem,
                                       EffectManager effectManager,
                                       VFXService vfxService,
@@ -24,18 +25,17 @@
             this.skillAttackBlueprint = skillAttackBlueprint;
         }
 
-        public override void Activate(HeroPresenter caster)
+        public override void Activate(ICombatantPresenter combatant)
         {
-            // this.VFXName = this.skillAttackBlueprint.GetDataById(this.Model.Id).LevelToConfigRecords[this.Model.Level].PrefabName;
-            // this.Damage  = this.skillAttackBlueprint.GetDataById(this.Model.Id).LevelToConfigRecords[this.Model.Level].Damage;
-            this.InternalCast(caster);
+            this.VFXName = this.skillAttackBlueprint.GetDataById(this.SkillId).LevelToConfigRecords[1].PrefabName;
+            this.Damage  = this.skillAttackBlueprint.GetDataById(this.SkillId).LevelToConfigRecords[1].Damage;
         }
 
-        public override void Deactivate(HeroPresenter hero)
+        public override void Deactivate(ICombatantPresenter combatant)
         {
             
         }
 
-        protected abstract void InternalCast(HeroPresenter caster);
+        protected abstract void InternalCast(ICombatantPresenter combatant);
     }
 }

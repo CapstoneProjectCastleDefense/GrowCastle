@@ -2,21 +2,22 @@
 {
     using System.Collections.Generic;
     using System.Linq;
+    using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Hero;
     using Runtime.Interfaces.Skills;
     using UnityEngine;
 
-    public class HeroSkillActivator : IGameSystem
+    public class SkillActivator : IGameSystem
     {
-        private readonly Dictionary<string, IHeroSkill> idToHeroSkill;
+        private readonly Dictionary<string, ISkill> idToHeroSkill;
 
-        public HeroSkillActivator(IEnumerable<IHeroSkill> entitySkillPresenters) { this.idToHeroSkill = entitySkillPresenters.ToDictionary(entity => entity.SkillId, entity => entity); }
+        public SkillActivator(IEnumerable<ISkill> entitySkillPresenters) { this.idToHeroSkill = entitySkillPresenters.ToDictionary(entity => entity.SkillId, entity => entity); }
 
-        public void Activate(string skillId, HeroPresenter hero)
+        public void Activate(string skillId, ICombatantPresenter combatant)
         {
             if (this.idToHeroSkill.TryGetValue(skillId, out var heroSkill))
             {
-                heroSkill.Activate(hero);
+                heroSkill.Activate(combatant);
             }
             else
             {
@@ -24,11 +25,11 @@
             }
         }
 
-        public void Deactivate(string skillId, HeroPresenter hero)
+        public void Deactivate(string skillId, ICombatantPresenter combatant)
         {
             if (this.idToHeroSkill.TryGetValue(skillId, out var heroSkill))
             {
-                heroSkill.Deactivate(hero);
+                heroSkill.Deactivate(combatant);
             }
             else
             {

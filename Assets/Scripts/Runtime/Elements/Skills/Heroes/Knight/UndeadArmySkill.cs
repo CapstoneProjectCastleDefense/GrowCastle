@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Elements.EntitySkills.Knight
 {
     using Models.Blueprints;
+    using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Hero;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
@@ -9,15 +10,15 @@
     using UnityEngine;
     using Zenject;
 
-    public class UndeadArmySkill : BaseHeroSkill
+    public class UndeadArmySkill : BaseSkill
     {
         private readonly SummonerManager summonerManager;
 
         public UndeadArmySkill(SignalBus signalBus,
-                               FindTargetSystem findTargetSystem,
-                               EffectManager effectManager,
-                               VFXService vfxService,
-                               SummonerManager summonerManager)
+            FindTargetSystem findTargetSystem,
+            EffectManager effectManager,
+            VFXService vfxService,
+            SummonerManager summonerManager)
             : base(signalBus, findTargetSystem, effectManager, vfxService)
         {
             this.summonerManager = summonerManager;
@@ -25,15 +26,13 @@
 
         public override string SkillId { get; set; } = "Knight_SK1";
 
-        public override void Activate(HeroPresenter hero)
+        public override void Activate(ICombatantPresenter combatant)
         {
-            hero.OnClickAction = () =>
-            {
-                this.Execute(hero);
-            };
+            var hero = (HeroPresenter)combatant;
+            hero.OnClickAction = this.Execute;
         }
 
-        private void Execute(HeroPresenter hero)
+        private void Execute()
         {
             var startPos = UndeadArmySkillData.StartPos;
             for (var i = 0; i < UndeadArmySkillData.NumberSpawn; i++)
@@ -43,7 +42,11 @@
             }
         }
 
-        public override void Deactivate(HeroPresenter hero) { hero.OnClickAction = null; }
+        public override void Deactivate(ICombatantPresenter combatant)
+        {
+            var hero = (HeroPresenter)combatant;
+            hero.OnClickAction = null;
+        }
     }
 
     public static class UndeadArmySkillData
