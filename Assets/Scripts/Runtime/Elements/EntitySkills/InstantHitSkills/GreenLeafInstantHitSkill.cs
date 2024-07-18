@@ -18,21 +18,18 @@
         private readonly VFXService       vfxService;
         private readonly EnemyManager     enemyManager;
         private readonly FindTargetSystem findTargetSystem;
-        private readonly AbilitySystem    abilitySystem;
         private readonly EffectManager    effectManager;
         public GreenLeafInstantHitSkill(
             SkillAttackBlueprint skillAttackBlueprint,
             VFXService vfxService,
             EnemyManager enemyManager,
             FindTargetSystem findTargetSystem,
-            AbilitySystem abilitySystem,
             EffectManager effectManager)
             : base(skillAttackBlueprint)
         {
             this.vfxService       = vfxService;
             this.enemyManager     = enemyManager;
             this.findTargetSystem = findTargetSystem;
-            this.abilitySystem    = abilitySystem;
             this.effectManager    = effectManager;
         }
         public override string SkillId { get; set; } = EntitySkillName.GreenLeafAttack;

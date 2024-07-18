@@ -25,8 +25,8 @@
                     { StatEnum.Attack, (typeof(float), 2f) },
                     { StatEnum.Health, (typeof(float), 10f) },
                     { StatEnum.AttackSpeed, (typeof(float), 1f) },
+                    { StatEnum.BonusReduceMana, (typeof(float), 1f) },
                     { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) },
-                    { StatEnum.BonusReduceMana, (typeof(float), 0) }
                 },
             });
             heroPresenter.UpdateView().Forget();

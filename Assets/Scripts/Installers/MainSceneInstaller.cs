@@ -14,15 +14,13 @@
     using Runtime.Elements.Entities.Slot;
     using Runtime.Elements.Entities.Summoner;
     using Runtime.Elements.Entities.Tower;
-    using Runtime.Installers;
+    using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Managers.Base;
     using Runtime.Managers.Entity;
-    using Runtime.Scenes;
     using Runtime.Scenes.Screens;
     using Runtime.Services;
     using Runtime.Signals;
-    using Runtime.Signals.Quests;
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.Systems;
     using Runtime.Systems.Effects;
@@ -44,10 +42,9 @@
             this.BindElement();
             this.BindService();
             this.BindEffect();
+            this.BindSkill();
             GameStateMachineInstaller.Install(this.Container);
-
             WaveInstaller.Install(this.Container);
-            EntitySkillInstaller.Install(this.Container);
             this.Container.Bind<EventSystem>().FromComponentInNewPrefabResource("EventSystem").AsSingle().NonLazy();
         }
 
@@ -104,6 +101,14 @@
                 .FromNewComponentOnNewGameObject()
                 .AsCached()
                 .NonLazy();
+        }
+
+        public void BindSkill()
+        {
+            foreach (var type in ReflectionUtils.GetAllDerivedTypes<IEntitySkillPresenter>())
+            {
+                if (!type.IsAbstract) this.Container.BindInterfacesAndSelfTo(type).AsCached().NonLazy();
+            }
         }
 
         private void BindEffect()

@@ -115,7 +115,7 @@
 
         public float AttackCooldownTime { get; private set; }
 
-        public void CastSkill(string skillId, ITargetable target) { }
+        public void CastSkill(string skillId,string animationName, ITargetable target) { }
 
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
         public virtual string[] GetTags()         { return new[] { "Fly", "Ground", "Boss", "Building" }; }

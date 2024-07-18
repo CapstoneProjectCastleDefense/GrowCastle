@@ -19,9 +19,8 @@
         public ArrowSkill(ProjectileManager projectileManager,
                           IGameAssets gameAssets,
                           ProjectileBlueprint projectileBlueprint,
-                          AbilitySystem abilitySystem,
                           EffectManager effectManager)
-            : base(projectileManager, gameAssets, projectileBlueprint, abilitySystem, effectManager)
+            : base(projectileManager, gameAssets, projectileBlueprint, effectManager)
         {
         }
 

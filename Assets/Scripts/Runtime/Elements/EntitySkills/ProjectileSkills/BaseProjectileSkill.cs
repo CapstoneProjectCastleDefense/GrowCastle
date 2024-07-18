@@ -16,17 +16,16 @@
     {
         protected readonly ProjectileManager   projectileManager;
         private readonly   ProjectileBlueprint projectileBlueprint;
-        protected readonly AbilitySystem       abilitySystem;
         protected readonly EffectManager       effectManager;
 
-        public BaseProjectileSkill(ProjectileManager projectileManager,
+        public BaseProjectileSkill(
+            ProjectileManager projectileManager,
             IGameAssets gameAssets,
             ProjectileBlueprint projectileBlueprint,
-            AbilitySystem abilitySystem, EffectManager effectManager)
+            EffectManager effectManager)
         {
             this.projectileManager   = projectileManager;
             this.projectileBlueprint = projectileBlueprint;
-            this.abilitySystem       = abilitySystem;
             this.effectManager       = effectManager;
         }
 
@@ -52,22 +51,16 @@
             projectile.FlyToTarget().onComplete += () => this.OnFlyToTarget(projectile);
         }
 
-        protected virtual void OnFlyToTarget(ProjectilePresenter projectile)
-        {
-            this.RemoveProjectile(projectile);
-        }
+        protected virtual void OnFlyToTarget(ProjectilePresenter projectile) { this.RemoveProjectile(projectile); }
 
-        protected virtual void OnProjectileHit(Collider2D collider2D, ProjectilePresenter projectile)
-        {
-            
-        }
+        protected virtual void OnProjectileHit(Collider2D collider2D, ProjectilePresenter projectile) { }
 
         protected void RemoveProjectile(ProjectilePresenter projectile)
         {
             if (this.firedProjectiles.Contains(projectile))
             {
                 this.firedProjectiles.Remove(projectile);
-            } 
+            }
         }
     }
 

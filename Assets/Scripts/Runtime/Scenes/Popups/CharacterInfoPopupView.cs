@@ -1,7 +1,6 @@
-﻿namespace Runtime.Scenes.CharacterInventory
+﻿namespace Runtime.Scenes.Popups
 {
     using System;
-    using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using GameFoundation.Scripts.AssetLibrary;
@@ -12,7 +11,6 @@
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Managers;
-    using Runtime.Signals;
     using Spine.Unity;
     using TMPro;
     using UnityEngine;
@@ -80,7 +78,7 @@
             this.Model = popupModel;
             var skeletonDataAsset = this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(popupModel.heroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion();
             this.View.avatarAnim.ChangeSkeletonDataAsset(skeletonDataAsset,"idle");
-            this.View.skillDescription.text = this.skillBlueprint.GetDataById(popupModel.heroRuntimeData.heroRecord.SkillToAnimationRecords.First().Key).Description;
+            this.View.skillDescription.text = this.skillBlueprint.GetDataById(popupModel.heroRuntimeData.heroRecord.ActiveSkill.skillName).Description;
             this.View.attackInfo.text       = $"{popupModel.heroRuntimeData.attack}";
             this.View.attackSpeedInfo.text  = $"{popupModel.heroRuntimeData.attackSpeed}";
 

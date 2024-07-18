@@ -81,7 +81,7 @@
         public virtual Type[]   GetManagerTypes()  { return new[] { typeof(CastleManager), typeof(EnemyManager) }; }
         public virtual string[] GetTags()          { return new[] { "Fly", "Ground", "Boss", "Building" }; }
 
-        public void CastSkill(string skillId, ITargetable target) { throw new NotImplementedException(); }
+        public void CastSkill(string skillId,string animationName, ITargetable target) { throw new NotImplementedException(); }
 
         public void Equip(IEquipment equipment) { throw new NotImplementedException(); }
 

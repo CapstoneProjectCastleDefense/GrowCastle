@@ -16,6 +16,5 @@
         public float                                          BaseMoveSpeed           { get; set; }
         public float                                          AttackRange             { get; set; }
         public float                                          AttackSpeed             { get; set; }
-        public BlueprintByRow<string, SkillToAnimationRecord> SkillToAnimationRecords { get; set; }
     }
 }

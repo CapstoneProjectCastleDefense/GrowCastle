@@ -14,8 +14,8 @@
 
     public class FireLightingBallSkill : BaseProjectileSkill<BaseProjectileSkillModel>
     {
-        public FireLightingBallSkill(ProjectileManager projectileManager, IGameAssets gameAssets, ProjectileBlueprint projectileBlueprint, AbilitySystem abilitySystem, EffectManager effectManager)
-            : base(projectileManager, gameAssets, projectileBlueprint, abilitySystem, effectManager)
+        public FireLightingBallSkill(ProjectileManager projectileManager, IGameAssets gameAssets, ProjectileBlueprint projectileBlueprint, EffectManager effectManager)
+            : base(projectileManager, gameAssets, projectileBlueprint, effectManager)
         {
         }
         public override string SkillId { get; set; } = EntitySkillName.FireLightingBall;
@@ -38,8 +38,5 @@
                 }
             }
         }
-    }
-    public class FireLightingBallSkillModel : BaseProjectileSkillModel
-    {
     }
 }

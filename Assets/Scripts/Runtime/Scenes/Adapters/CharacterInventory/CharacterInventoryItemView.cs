@@ -9,6 +9,7 @@
     using UnityEngine;
     using UnityEngine.UI;
     using R3;
+    using Runtime.Scenes.Popups;
 
     public class CharacterInventoryItemModel
     {

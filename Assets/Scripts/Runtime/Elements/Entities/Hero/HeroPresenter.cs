@@ -68,19 +68,18 @@
             this.timer += Time.deltaTime;
         }
 
-        private void CastSkillInternal(string skillId, ITargetable target, IEntitySkillModel skillModel)
+        private void CastSkillInternal(string skillId, string animationName, ITargetable target, IEntitySkillModel skillModel)
         {
-            var heroDataRecord = this.heroBlueprint.GetDataById(this.Model.Id);
-            this.View.skeletonAnimation.SetAnimation(heroDataRecord.SkillToAnimationRecords[skillId].AnimationSkillName, loop: false);
+            this.View.skeletonAnimation.SetAnimation(animationName, loop: false);
             this.entitySkillSystem.CastSkill(skillId, skillModel);
             UniTask.Delay(TimeSpan.FromSeconds(1f)).ContinueWith(() => { this.View.skeletonAnimation.SetAnimation("idle", loop: true); });
         }
 
-        public void CastSkill(string skillId, ITargetable target)
+        public void CastSkill(string skillId, string animationName, ITargetable target)
         {
             if (this.View.cooldownSkillBar.fillAmount < 1) return;
-            if (!this.castleManager.UseManaForSkill(this.skillBlueprint.GetDataById(skillId).Mana + this.Model.GetStat<float>(StatEnum.BonusReduceMana))) return;
-            this.CastSkillInternal(skillId, target, new BasicSkillModel()
+            if (!this.castleManager.UseManaForSkill(this.skillBlueprint.GetDataById(skillId).Mana - this.Model.GetStat<float>(StatEnum.BonusReduceMana))) return;
+            this.CastSkillInternal(skillId, animationName, target, new BasicSkillModel()
             {
                 Id    = skillId,
                 Level = 1,
@@ -121,8 +120,8 @@
 
             if (target == null) return;
 
-            var skillId = heroDataRecord.SkillToAnimationRecords.ElementAt(1).Key;
-            this.CastSkillInternal(skillId, target, new BaseProjectileSkillModel()
+            var skillId = heroDataRecord.AttackSkill.skillName;
+            this.CastSkillInternal(skillId, heroDataRecord.AttackSkill.animationName, target, new BaseProjectileSkillModel()
             {
                 Id         = skillId,
                 StartPoint = this.View.spawnProjectilePos.position,
@@ -155,10 +154,9 @@
             Transform transform;
             (transform = this.View.transform).SetParent(this.Model.ParentView);
             transform.localPosition = Vector3.zero;
-            var listSkill = this.heroBlueprint.GetDataById(this.Model.Id).SkillToAnimationRecords;
-            this.View.OnClickAction = () => this.CastSkill(listSkill.First().Key, null);
-            this.entitySkillSystem.ActivePassiveSkill(PassiveSkillName.GodApperancePassiveSkill, this);
-            this.entitySkillSystem.ActivePassiveSkill(PassiveSkillName.GodLightPassiveSkill, this);
+            var activeSkill = this.heroBlueprint.GetDataById(this.Model.Id).ActiveSkill;
+            this.View.OnClickAction = () => this.CastSkill(activeSkill.skillName, activeSkill.animationName, null);
+            this.heroBlueprint.GetDataById(this.Model.Id).PassiveSkill?.ForEach(passiveSkillName => { this.entitySkillSystem.ActivePassiveSkill(passiveSkillName, this); });
         }
 
         public override void Dispose()
