@@ -5,14 +5,10 @@
     public class UserLocalDataController : ILocalDataController
     {
         private readonly UserLocalData userLocalData;
-        public UserLocalDataController(UserLocalData userLocalData)
-        {
-            this.userLocalData = userLocalData;
-        }
+        public UserLocalDataController(UserLocalData userLocalData) { this.userLocalData = userLocalData; }
         public ReactiveProperty<float> GetCurrentUserLevel => this.userLocalData.CurrentUserLevel;
-        public void InitData()
-        {
-            
-        }
+
+        public void UpgradeUserLevel() { this.userLocalData.CurrentUserLevel.Value++; }
+        public void InitData()         { }
     }
 }

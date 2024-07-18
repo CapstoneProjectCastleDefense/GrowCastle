@@ -4,11 +4,13 @@
 
     public class ResourceLocalDataController : ILocalDataController
     {
-        private readonly ResourceLocalData resourceLocalData;
+        private readonly ResourceLocalData       resourceLocalData;
+        private readonly UserLocalDataController userLocalDataController;
 
-        public ResourceLocalDataController(ResourceLocalData resourceLocalData)
+        public ResourceLocalDataController(ResourceLocalData resourceLocalData, UserLocalDataController userLocalDataController)
         {
-            this.resourceLocalData = resourceLocalData;
+            this.resourceLocalData       = resourceLocalData;
+            this.userLocalDataController = userLocalDataController;
         }
 
         public void InitData()
@@ -44,6 +46,7 @@
             this.ReceiveResource(ResourceType.TalentPoint,1);
             this.resourceLocalData.Resource[ResourceType.Exp].Value = 0;
             this.resourceLocalData.CurrentTargetExpToLevelUp.Value  = currentTargetValue * 1.5f;
+            this.userLocalDataController.UpgradeUserLevel();
         }
     }
 }
