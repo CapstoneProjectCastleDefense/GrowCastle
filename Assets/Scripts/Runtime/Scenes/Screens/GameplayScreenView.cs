@@ -35,6 +35,7 @@
         public Button     dailyRewardButton;
         public Button     talentButton;
         public Button     questButton;
+        public Button     inventoryButton;
         public Image      castleHealthBar;
         public Image      castleManaBar;
         public Image      waveBar;
@@ -108,6 +109,7 @@
             this.View.dailyRewardButton.onClick.AddListener(this.OnDailyRewardClick);
             this.View.talentButton.onClick.AddListener(this.OnTalentBtnClick);
             this.View.questButton.onClick.AddListener(this.OnQuestBtnClick);
+            this.View.inventoryButton.onClick.AddListener(this.OnInventoryBtnClick);
 
             this.resourceLocalDataController.GetResource(ResourceType.Gold).Subscribe(this.OnGoldValueChange);
             this.resourceLocalDataController.GetResource(ResourceType.Diamond).Subscribe(this.OnDiamondValueChange);
@@ -149,12 +151,15 @@
 
         private async void OnTalentBtnClick()             { await this.screenManager.OpenScreen<TalentPopupPresenter>(); }
         private async void OnQuestBtnClick()              { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
-        private       void OnUserExpUpdate(float value)   { this.View.userExpBar.DOFillAmount(value / this.resourceLocalDataController.GetCurrentTargetExpToLevelUp(), 0.1f); }
-        private       void OnUserLevelUpdate(float value) { this.View.userLevelValue.text = $"Level {value}"; }
+        private void OnInventoryBtnClick() { this.screenManager.OpenScreen<ItemInventoryPopupPresenter, ItemInventoryPopupModel>(new(null)).Forget(); }
+        private async void OnTalentBtnClick() { await this.screenManager.OpenScreen<TalentPopupPresenter>(); }
+        private void OnUserExpUpdate(float value) { this.View.userExpBar.DOFillAmount(value / this.resourceLocalDataController.GetCurrentTargetExpToLevelUp(), 0.1f); }
+        private void OnUserLevelUpdate(float value) { this.View.userLevelValue.text = $"Level {value}"; }
 
         private void OnCastleStatChange(UpdateCastleStatSignal signal)
         {
-            this.View.castleHealthBar.DOFillAmount(signal.CastleStats.GetStat<float>(StatEnum.Health) * 1.0f / signal.CastleStats.GetStat<float>(StatEnum.MaxHealth), 0.1f);
+            this.View.castleHealthBar.DOFillAmount(signal.CastleStats.GetStat<float>(StatEnum.Health) * 1.0f / signal.CastleStats.GetStat<float>(StatEnum.MaxHealth),
+                0.1f);
             this.View.castleManaBar.DOFillAmount(signal.CastleStats.GetStat<float>(StatEnum.Mana) * 1.0f / signal.CastleStats.GetStat<float>(StatEnum.MaxMana), 0.1f);
         }
 

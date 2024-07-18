@@ -53,7 +53,7 @@
                 items = this.inventoryLocalDataController.GetItems(ItemType.Equipment);
             }
 
-            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x)).ToList(), this.diContainer);
+            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable)).ToList(), this.diContainer);
         }
     }
 }
