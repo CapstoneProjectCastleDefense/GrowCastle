@@ -45,7 +45,7 @@
         public override async UniTask BindData()
         {
             this.View.rewardField.transform.position = this.View.startPos.position;
-            this.View.rewardField.transform.DOMove(this.View.endPos.position, 1f).SetEase(Ease.InOutQuint);
+            this.View.rewardField.transform.DOMove(this.View.endPos.position, 1f).SetEase(Ease.OutElastic);
             await this.dailyRewardLocalDataController.CheckRewardStatus();
             this.View.claimBtn.interactable = true;
             if (!this.dailyRewardLocalDataController.CheckCanClaim()) this.View.claimBtn.interactable = false;
@@ -62,7 +62,6 @@
                 base.CloseView();
             };
         }
-
         private void OnClaimReward()
         {
             this.dailyRewardLocalDataController.ClaimAllAvailableReward();

@@ -2,11 +2,13 @@
 {
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using Models.Blueprints;
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Adapters.Quests;
+    using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
 
@@ -17,6 +19,10 @@
         public Button       achievementQuestButton;
         public Button       exitButton;
         public QuestAdapter questAdapter;
+        
+        public Transform  startPos;
+        public Transform  endPos;
+        public GameObject viewField;
     }
 
     [PopupInfo(nameof(QuestPopupView), isOverlay: true)]
@@ -39,7 +45,12 @@
             this.View.exitButton.onClick.AddListener(this.CloseView);
             this.InitDailyQuest();
         }
-        public override UniTask BindData() { return UniTask.CompletedTask; }
+        public override UniTask BindData()
+        {
+            this.View.viewField.transform.position = this.View.startPos.position;
+            this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
+            return UniTask.CompletedTask;
+        }
 
         private void InitDailyQuest() { this.InitQuestWithType(QuestType.Daily); }
 
@@ -51,6 +62,13 @@
         {
             var listData = this.questLocalDataController.GetAllQuestWithType(questType).Select(e => new QuestItemModel() { QuestId = e.QuestId }).ToList();
             await this.View.questAdapter.InitItemAdapter(listData, this.diContainer);
+        }
+        public override void CloseView()
+        {
+            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
+            {
+                base.CloseView();
+            };
         }
     }
 }

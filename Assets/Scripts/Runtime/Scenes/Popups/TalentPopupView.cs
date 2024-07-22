@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
@@ -24,6 +25,9 @@
         public Button          exitBtn;
         public Image           iconTalent;
         public TalentAdapter   talentAdapter;
+        public Transform       startPos;
+        public Transform       endPos;
+        public GameObject      viewField;
     }
 
     [PopupInfo(nameof(TalentPopupView), isOverlay: true)]
@@ -60,6 +64,8 @@
         }
         public override async UniTask BindData()
         {
+            this.View.viewField.transform.position = this.View.startPos.position;
+            this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.OutElastic);
             var listData = this.talentLocalDataController.GetAllTalentLocalData.Select(e => new TalentItemModel()
             {
                 TalentType        = e.Key,
@@ -101,6 +107,14 @@
 
             this.View.iconTalent.sprite = this.gameAssets.LoadAssetAsync<Sprite>(this.talentBlueprint.GetDataById(talentType).Icon).WaitForCompletion();
             this.currentSelectedTalent  = talentType;
+        }
+        
+        public override void CloseView()
+        {
+            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
+            {
+                base.CloseView();
+            };
         }
     }
 }
