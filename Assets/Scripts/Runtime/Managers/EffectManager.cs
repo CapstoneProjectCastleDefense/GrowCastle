@@ -27,6 +27,13 @@
                 effect.Execute(target, tag);
             }
         }
+        public void Execute(ITargetable target, Type tagType)
+        {
+            if (this.tagTypeToEffect.TryGetValue(tagType, out var effect))
+            {
+                effect.Execute(target, null);
+            }
+        }
         
         public void Tick()
         {

@@ -1,16 +1,16 @@
 ﻿Id,SlotType,Image,EffectId,Position
-6,Hero,SlotImage,Effect_1,-6.5|0.1|0
-3,Hero,SlotImage,Effect_1,-7.8|1.6|0
-9,Hero,SlotImage,Effect_1,-7.8|-2|0
-2,Hero,SlotImage,Effect_1,-9.8|1.6|0
-8,Hero,SlotImage,Effect_1,-9.8|-2|0
-1,Hero,SlotImage,Effect_1,-11.8|1.6|0
-7,Hero,SlotImage,Effect_1,-11.8|-2|0
-5,Hero,SlotImage,Effect_1,-9|0.1|0
-4,Hero,SlotImage,Effect_1,-11.8|0.1|0
-10,Tower,SlotImage,Effect_1,-4.5|-3|0
-11,Tower,SlotImage,Effect_1,-4.5|1.2|0
-12,Tower,SlotImage,Effect_1,-2.5|-3|0
-13,Tower,SlotImage,Effect_1,-2.5|1.2|0
+6,Hero,SlotImage,DecreaseSkillCooldown,-6.5|0.1|0
+3,Hero,SlotImage,IncreaseAttackSpeed,-7.8|1.6|0
+9,Hero,SlotImage,,-7.8|-2|0
+2,Hero,SlotImage,DecreaseSkillCooldown,-9.8|1.6|0
+8,Hero,SlotImage,,-9.8|-2|0
+1,Hero,SlotImage,IncreaseAttackSpeed,-11.8|1.6|0
+7,Hero,SlotImage,,-11.8|-2|0
+5,Hero,SlotImage,,-9|0.1|0
+4,Hero,SlotImage,,-11.8|0.1|0
+10,Tower,SlotImage,,-4.5|-3|0
+11,Tower,SlotImage,,-4.5|1.2|0
+12,Tower,SlotImage,,-2.5|-3|0
+13,Tower,SlotImage,,-2.5|1.2|0
 
 

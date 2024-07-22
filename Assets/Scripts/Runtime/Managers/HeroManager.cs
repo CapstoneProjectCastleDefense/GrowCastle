@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Managers
 {
     using Cysharp.Threading.Tasks;
+    using Models.Blueprints;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Hero;
     using Runtime.Enums;
@@ -9,12 +10,16 @@
 
     public class HeroManager : BaseElementManager<HeroModel, HeroPresenter, HeroView>
     {
-        public HeroManager(BaseElementPresenter<HeroModel, HeroView, HeroPresenter>.Factory factory)
+        private readonly SkillBlueprint skillBlueprint;
+        private readonly HeroBlueprint  heroBlueprint;
+        public HeroManager(BaseElementPresenter<HeroModel, HeroView, HeroPresenter>.Factory factory, SkillBlueprint skillBlueprint, HeroBlueprint heroBlueprint)
             : base(factory)
         {
+            this.skillBlueprint = skillBlueprint;
+            this.heroBlueprint  = heroBlueprint;
         }
 
-        public void CreateSingleHero(string id, Transform parent)
+        public HeroPresenter CreateSingleHero(string id, Transform parent)
         {
             var heroPresenter = this.CreateElement(new()
             {
@@ -27,10 +32,12 @@
                     { StatEnum.AttackSpeed, (typeof(float), 1f) },
                     { StatEnum.BonusReduceMana, (typeof(float), 1f) },
                     { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) },
+                    { StatEnum.ActiveSkillCooldown, (typeof(float),this.skillBlueprint[this.heroBlueprint[id].ActiveSkill.skillName].Cooldown)}
                 },
             });
             heroPresenter.UpdateView().Forget();
             heroPresenter.SetManager(this);
+            return heroPresenter;
         }
 
         public void ChangeAttackStatusOfAllHero(bool canAttack)

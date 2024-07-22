@@ -11,6 +11,9 @@
         StunEffect,
         FearEffect,
         InstantDamageEffect,
-        SlowEffect
+        SlowEffect,
+        IncreaseAttackSpeed,
+        DecreaseSkillCooldown,
+        IncreaseBasicAttack
     }
 }

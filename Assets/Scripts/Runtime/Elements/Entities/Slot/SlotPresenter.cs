@@ -57,6 +57,7 @@
             this.View.image.sprite       = this.gameAssets.LoadAssetAsync<Sprite>(this.Model.SlotRecord.Image).WaitForCompletion();
             this.View.transform.position = this.Model.SlotRecord.Position;
             this.View.OnMouseClick       = this.OnClick;
+            this.View.id                 = this.Model.Id;
             this.UpdateSlotBaseOnCurrentLevel();
         }
 

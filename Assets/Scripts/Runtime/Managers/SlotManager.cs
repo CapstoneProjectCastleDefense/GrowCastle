@@ -4,11 +4,13 @@ namespace Runtime.Managers
 {
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using global::Extensions;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Slot;
     using Runtime.Managers.Base;
+    using Runtime.StaticValues;
 
     public class SlotManager : BaseElementManager<SlotModel, SlotPresenter, SlotView>
     {
@@ -17,6 +19,7 @@ namespace Runtime.Managers
         private readonly LeaderManager           leaderManager;
         private readonly TowerManager            towerManager;
         private readonly HeroLocalDataController heroLocalDataController;
+        private readonly EffectManager           effectManager;
         private          SlotPresenter           currentSelectedSlot;
 
         public SlotManager(
@@ -25,7 +28,8 @@ namespace Runtime.Managers
             HeroManager heroManager,
             LeaderManager leaderManager,
             TowerManager towerManager,
-            HeroLocalDataController heroLocalDataController)
+            HeroLocalDataController heroLocalDataController,
+            EffectManager effectManager)
             : base(factory)
         {
             this.slotLocalDataController = slotLocalDataController;
@@ -33,6 +37,7 @@ namespace Runtime.Managers
             this.leaderManager           = leaderManager;
             this.towerManager            = towerManager;
             this.heroLocalDataController = heroLocalDataController;
+            this.effectManager           = effectManager;
         }
 
         public override void Initialize() { }
@@ -66,7 +71,12 @@ namespace Runtime.Managers
             switch (heroRuntimeData.heroRecord.HeroType)
             {
                 case SlotType.Hero:
-                    this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
+                    var hero = this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
+                    if (!this.GetCurrentSelectedSlotModel().SlotRecord.EffectId.IsNullOrEmpty())
+                    {
+                        this.effectManager.Execute(hero, EffectIdToEffectType.EffectIdToEffect[this.GetCurrentSelectedSlotModel().SlotRecord.EffectId]);
+                    }
+
                     break;
                 case SlotType.Tower:
                     this.towerManager.CreateSingleTower(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
@@ -108,10 +118,14 @@ namespace Runtime.Managers
                 new() { AddressableName = "BaseSlot", Id = slotData.SlotId.ToString(), SlotRecord = this.slotLocalDataController.GetSlotDataRecord(slotData.SlotId) });
             await slotPresenter.UpdateView();
 
-            if (TypeExtension.IsNullOrEmpty(slotData.DeployObjectId)) return;
+            if (slotData.DeployObjectId.IsNullOrEmpty()) return;
             if (slotData.SlotType == SlotType.Hero)
             {
-                this.heroManager.CreateSingleHero(slotData.DeployObjectId, slotPresenter.GetSlotView.heroPos);
+                var hero = this.heroManager.CreateSingleHero(slotData.DeployObjectId, slotPresenter.GetSlotView.heroPos);
+                if (!slotPresenter.Model.SlotRecord.EffectId.IsNullOrEmpty())
+                {
+                    this.effectManager.Execute(hero, EffectIdToEffectType.EffectIdToEffect[slotPresenter.Model.SlotRecord.EffectId]);
+                }
             }
             else if (slotData.SlotType == SlotType.Leader)
             {

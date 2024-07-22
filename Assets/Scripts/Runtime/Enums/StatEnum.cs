@@ -8,6 +8,7 @@
         MaxHealth,
         MaxMana,
         BonusReduceMana,
+        ActiveSkillCooldown,
         
         Attack,
         Defense,

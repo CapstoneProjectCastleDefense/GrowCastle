@@ -85,7 +85,7 @@
                 Level = 1,
             });
             this.View.cooldownSkillBar.fillAmount = 0;
-            this.StartRefillCooldown(this.skillBlueprint.GetDataById(skillId).Cooldown);
+            this.StartRefillCooldown(this.Model.GetStat<float>(StatEnum.ActiveSkillCooldown));
         }
 
         private void StartRefillCooldown(float cooldownTime)
