@@ -9,6 +9,7 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.Utilities.Extension;
+    using Models.Blueprints;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using R3;
@@ -65,6 +66,7 @@
         private readonly CastleLocalDataController   castleLocalDataController;
         private readonly ArcherLocalDataController   archerLocalDataController;
         private readonly UserLocalDataController     userLocalDataController;
+        private readonly FeatureLocalDataController  featureLocalDataController;
         private readonly SignalBus                   signalBus;
         public GameplayScreenPresenter(
             SignalBus signalBus,
@@ -76,7 +78,8 @@
             LevelLocalDataController levelLocalDataController,
             CastleLocalDataController castleLocalDataController,
             ArcherLocalDataController archerLocalDataController,
-            UserLocalDataController userLocalDataController)
+            UserLocalDataController userLocalDataController,
+            FeatureLocalDataController featureLocalDataController)
             : base(signalBus)
         {
             this.gameStateMachine            = gameStateMachine;
@@ -88,6 +91,7 @@
             this.castleLocalDataController   = castleLocalDataController;
             this.archerLocalDataController   = archerLocalDataController;
             this.userLocalDataController     = userLocalDataController;
+            this.featureLocalDataController  = featureLocalDataController;
             this.signalBus                   = signalBus;
         }
 
@@ -110,6 +114,8 @@
             this.View.waveIndicator.SetActive(false);
 
             this.levelLocalDataController.CurrentLevel.SubscribeToText(this.View.waveValue);
+            this.levelLocalDataController.CurrentLevel.Subscribe(this.OnQuestFeatureUnlock);
+            this.levelLocalDataController.CurrentLevel.Subscribe(this.OnTalentFeatureUnlock);
 
             this.castleLocalDataController.GetStats(StatEnum.Health).Subscribe(this.OnCastleHealthChange);
             this.castleLocalDataController.GetStats(StatEnum.Mana).Subscribe(this.OnCastleManaChange);
@@ -121,6 +127,25 @@
             this.userLocalDataController.GetCurrentUserLevel.Subscribe(this.OnUserLevelUpdate);
         }
 
+        #region Feature
+
+        private void OnQuestFeatureUnlock(int value)
+        {
+            if(this.featureLocalDataController.CheckFeatureIsUnlock(FeatureName.Quest,value))
+            {
+                this.View.questButton.gameObject.SetActive(true);
+            }
+        }
+        
+        private void OnTalentFeatureUnlock(int value)
+        {
+            if(this.featureLocalDataController.CheckFeatureIsUnlock(FeatureName.Talent,value))
+            {
+                this.View.talentButton.gameObject.SetActive(true);
+            }
+        }
+
+        #endregion
 
         private async void OnTalentBtnClick()             { await this.screenManager.OpenScreen<TalentPopupPresenter>(); }
         private async void OnQuestBtnClick()              { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
@@ -189,8 +214,15 @@
             this.View.diamondValue.text           = $"{this.resourceLocalDataController.GetResource(ResourceType.Diamond).Value}";
             this.View.castleCoinUpgradeValue.text = this.castleLocalDataController.GetGoldToUpgrade().ToString(CultureInfo.InvariantCulture);
             this.View.archerCoinUpgradeValue.text = this.archerLocalDataController.GetGoldNeedToUpgrade().ToString(CultureInfo.InvariantCulture);
+            this.InitFeatureStatus();
             UniTask.Delay(TimeSpan.FromSeconds(1)).ContinueWith(() => { this.View.backGround.DOFade(0, 3).SetEase(Ease.OutQuad); });
             return UniTask.CompletedTask;
+        }
+
+        private void InitFeatureStatus()
+        {
+            this.View.questButton.gameObject.SetActive(this.featureLocalDataController.GetFeatureData(FeatureName.Quest).Value);
+            this.View.talentButton.gameObject.SetActive(this.featureLocalDataController.GetFeatureData(FeatureName.Talent).Value);
         }
     }
 }
