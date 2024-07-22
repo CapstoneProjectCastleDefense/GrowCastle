@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.Utilities.LogService;
@@ -27,7 +28,8 @@
         [field: SerializeField] public ItemInventoryAdapter Adapter              { get; private set; }
         [field: SerializeField] public Button               CloseButton          { get; private set; }
         [field: SerializeField] public Button               CategoryButtonPrefab { get; private set; }
-        [field: SerializeField] public Transform            CategoryContainer    { get; private set; }
+        [field: SerializeField] public RectTransform        CategoryContainer    { get; private set; }
+        [field: SerializeField] public RectTransform        ViewField            { get; private set; }
     }
 
     [PopupInfo(nameof(ItemInventoryPopupView), isCloseWhenTapOutside: false)]
@@ -41,8 +43,19 @@
             this.inventoryLocalDataController = inventoryLocalDataController;
             this.diContainer                  = diContainer;
         }
+
+        private float ViewFieldWidth => this.View.ViewField.rect.width + this.View.CategoryContainer.rect.width;
+        private float ViewWidth      => this.View.ViewField.parent.GetComponent<RectTransform>().rect.width;
+
+        protected override void OnViewReady()
+        {
+            base.OnViewReady();
+            this.View.CloseButton.onClick.AddListener(this.CloseView);
+        }
         public override async UniTask BindData(ItemInventoryPopupModel model)
         {
+            this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0);
+            this.View.ViewField.DOLocalMoveX(this.ViewWidth - this.ViewFieldWidth * 1.5f, 0.5f).SetEase(Ease.InQuad);
             List<IItemModel> items = new();
             if (model.Equippable == null)
             {
@@ -54,6 +67,11 @@
             }
 
             await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable)).ToList(), this.diContainer);
+        }
+
+        public override void CloseView()
+        {
+            this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0.5f).SetEase(Ease.InQuad).onComplete += () => { base.CloseView(); };
         }
     }
 }
