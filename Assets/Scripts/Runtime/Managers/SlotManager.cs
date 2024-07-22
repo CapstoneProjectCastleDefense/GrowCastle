@@ -1,6 +1,4 @@
-﻿using TypeExtension = Extensions.TypeExtension;
-
-namespace Runtime.Managers
+﻿namespace Runtime.Managers
 {
     using System.Linq;
     using Cysharp.Threading.Tasks;

@@ -24,11 +24,12 @@
         private readonly EnemyManager             enemyManager;
         private readonly WaveBlueprint            waveBlueprint;
         private readonly LevelLocalDataController levelLocalDataController;
+        private readonly UserLocalDataController  userLocalDataController;
 
         public WaveSystem(
             EnemyGroupLoaderService enemyGroupLoaderService,
             LevelBlueprint levelBlueprint,
-            SignalBus signalBus, EnemyManager enemyManager,WaveBlueprint waveBlueprint, LevelLocalDataController levelLocalDataController)
+            SignalBus signalBus, EnemyManager enemyManager,WaveBlueprint waveBlueprint, LevelLocalDataController levelLocalDataController,UserLocalDataController userLocalDataController)
         {
             this.enemyGroupLoaderService  = enemyGroupLoaderService;
             this.levelBlueprint           = levelBlueprint;
@@ -36,6 +37,7 @@
             this.enemyManager             = enemyManager;
             this.waveBlueprint            = waveBlueprint;
             this.levelLocalDataController = levelLocalDataController;
+            this.userLocalDataController  = userLocalDataController;
         }
 
         public void Initialize() { this.signalBus.Subscribe<TimeCooldownSignal>(this.OnTimeCooldown); }
@@ -93,7 +95,8 @@
         private void CompleteCurrentWave()
         {
             this.waveWithDelayTimeQueue.Clear();
-            this.isActiveWave = false;
+            this.isActiveWave                              = false;
+            this.userLocalDataController.IsWinCurrentLevel = true;
             this.levelLocalDataController.PassCurrentLevel();
             this.GetCurrentContainer().Resolve<GameStateMachine>().TransitionTo<GameEndWaveState>();
         }
