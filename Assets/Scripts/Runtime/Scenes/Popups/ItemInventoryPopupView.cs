@@ -63,7 +63,7 @@
         {
             this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0);
             this.View.ViewField.DOLocalMoveX(this.ViewWidth - this.ViewFieldWidth * 1.5f, 0.5f).SetEase(Ease.InQuad);
-            Dictionary<string,IItemModel> items = new();
+            Dictionary<string, IItemModel> items = new();
             if (model.Equippable == null)
             {
                 items = this.inventoryLocalDataController.GetAllItems();
@@ -75,24 +75,58 @@
 
             if (items.Count == 0)
             {
-                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Test", new()
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "dagger", new()
                 {
                     { StatEnum.Attack, (typeof(int), 10) },
                     { StatEnum.Defense, (typeof(int), 10) },
                     { StatEnum.Health, (typeof(int), 10) }
                 }, EquipmentType.Weapon, ItemType.Equipment, RarityEnum.Common, 1));
                 await UniTask.Delay(100);
-                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Test", new(), EquipmentType.Weapon, ItemType.Equipment,
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "axe", new(), EquipmentType.Weapon, ItemType.Equipment,
                     RarityEnum.Legendary, 1));
                 await UniTask.Delay(100);
                 this.inventoryLocalDataController.AddItem(
-                    new EquipmentModel("Environment_1", "Test", new(), EquipmentType.Weapon, ItemType.Equipment, RarityEnum.Rare, 1));
+                    new EquipmentModel("Environment_1", "book", new(), EquipmentType.Weapon, ItemType.Equipment, RarityEnum.Rare, 1));
                 await UniTask.Delay(100);
-                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Test", new(), EquipmentType.Weapon, ItemType.Equipment, RarityEnum.Common,
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "owlstaff", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Common,
                     1));
                 await UniTask.Delay(100);
-                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Test", new(), EquipmentType.Weapon, ItemType.Equipment,
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "book", new(), EquipmentType.Weapon, ItemType.Equipment,
                     RarityEnum.Legendary, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "bow", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Legendary, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "spear of heaven", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Common, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "snow talimans", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Common, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "sword of kunasagi", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Legendary, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Locket of Harmony", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Legendary, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Staff of the Damned", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Rare, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "staff", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Legendary, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "bua cu", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Common, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "frostbite", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Rare, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "amulet", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Rare, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "ring", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Common, 1));
             }
 
             if (model.Equippable == null)
