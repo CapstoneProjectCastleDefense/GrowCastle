@@ -58,10 +58,10 @@
 
             if (target == null) return;
 
-            var activeSkill = towerDataRecord.ActiveSkill;
-            this.CastSkillInternal(activeSkill.skillName, activeSkill.animationName, target, new BaseProjectileSkillModel()
+            var attackSkill = towerDataRecord.AttackSkill;
+            this.CastSkillInternal(attackSkill.skillName, attackSkill.animationName, target, new BaseProjectileSkillModel()
             {
-                Id         = activeSkill.skillName,
+                Id         = attackSkill.skillName,
                 StartPoint = this.View.spawnProjectilePos.position,
                 EndPoint   = target.GetGameObject().transform.position,
                 Target     = target,

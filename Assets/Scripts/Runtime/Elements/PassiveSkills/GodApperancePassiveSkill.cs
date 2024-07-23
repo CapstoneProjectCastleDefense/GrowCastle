@@ -18,7 +18,7 @@
         public void Tick()
         {
             if (this.HeroPresenter == null) return;
-            if (this.HeroPresenter.AttackCount == 3)
+            if (this.HeroPresenter.AttackCount == 7)
             {
                 this.ActiveSkill();
                 this.HeroPresenter.AttackCount = 0;

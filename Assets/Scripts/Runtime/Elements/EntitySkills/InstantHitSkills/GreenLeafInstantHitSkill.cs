@@ -40,7 +40,7 @@
             for (int i = 0; i < targets.Count; i++)
             {
                 this.effectManager.Execute(targets[i], new InstantDamageTag() { Damage = this.Damage });
-                this.effectManager.Execute(targets[i], new SlowTag() { Duration        = 3, Timer = 0, InitialSpeed = targets[i].GetStats().GetStat<float>(StatEnum.MoveSpeed) });
+                this.effectManager.Execute(targets[i], new SlowTag() { Duration        = 1.5f, Timer = 0, InitialSpeed = targets[i].GetStats().GetStat<float>(StatEnum.MoveSpeed) });
             }
         }
     }
