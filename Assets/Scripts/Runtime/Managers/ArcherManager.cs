@@ -87,5 +87,25 @@
             this.castleManager.OnArcherUpgrade();
             this.CreateSingleArcher(newArcher);
         }
+
+        public void UpdateStatAllArcher()
+        {
+            var baseAttackSpeed = this.archerConfigBlueprint.BaseAttackSpeed;
+            this.entities.ForEach(archer =>
+            {
+                archer.Model.Stats = new Dictionary<StatEnum, (Type, object)>
+                {
+                    { StatEnum.Attack, (typeof(float), 2f) },
+                    { StatEnum.Health, (typeof(float), 10f) },
+                    {
+                        StatEnum.AttackSpeed,
+                        (typeof(float),
+                            baseAttackSpeed + this.talentBlueprint[TalentType.IncreaseArcherAttack]
+                                .TalentLevelToDataRecords[this.talentLocalDataController.GetTalentLevel(TalentType.IncreaseArcherAttack)].EffectValue / 100 * baseAttackSpeed)
+                    },
+                    { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) }
+                };
+            });
+        }
     }
 }

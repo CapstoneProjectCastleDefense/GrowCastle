@@ -16,6 +16,7 @@
         private readonly HeroManager              heroManager;
         private readonly SummonerManager          summonerManager;
         private readonly TowerManager             towerManager;
+        private readonly CastleManager            castleManager;
         private readonly LevelLocalDataController levelLocalDataController;
 
         public GameStartWaveState(
@@ -26,6 +27,7 @@
             HeroManager heroManager,
             SummonerManager summonerManager,
             TowerManager towerManager,
+            CastleManager castleManager,
             LevelLocalDataController levelLocalDataController)
         {
             this.waveSystem               = waveSystem;
@@ -35,6 +37,7 @@
             this.heroManager              = heroManager;
             this.summonerManager          = summonerManager;
             this.towerManager             = towerManager;
+            this.castleManager            = castleManager;
             this.levelLocalDataController = levelLocalDataController;
         }
         public override void Enter()
@@ -45,6 +48,8 @@
             this.archerManager.ChangeAttackStatusOfAllArcher(true);
             this.heroManager.ChangeAttackStatusOfAllHero(true);
             this.towerManager.ChangeAttackStatusOfAllTower(true);
+            this.archerManager.UpdateStatAllArcher();
+            this.castleManager.UpdateStatForCurrentCastle();
         }
 
         public override void Exit() { }

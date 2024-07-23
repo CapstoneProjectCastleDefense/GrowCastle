@@ -152,6 +152,12 @@
             popUp.gameObject.SetActive(true);
             popUp.DOAnchorPosY(2f, 0.3f).OnComplete(() => { popUp.gameObject.GetComponent<CanvasGroup>().DOFade(0f, 0.3f).OnComplete(() => { popUp.gameObject.SetActive(false); }); });
         }
+
+        public void UpdateStat()
+        {
+            this.Model.Stats = this.castleLocalDataController.GetCastleStat();
+            this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
+        }
     }
 
     public class CastleModel : ICombatant

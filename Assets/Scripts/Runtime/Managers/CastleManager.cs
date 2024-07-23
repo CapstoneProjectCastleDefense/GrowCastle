@@ -11,16 +11,19 @@
     using Runtime.Extensions;
     using Runtime.Managers.Base;
     using Sirenix.Utilities;
+    using Zenject;
 
     public class CastleManager : BaseElementManager<CastleModel,CastlePresenter,CastleView>
     {
         private readonly CastleLocalDataController castleLocalDataController;
-        private readonly SlotManager slotManager;
+        private readonly SlotManager               slotManager;
+        private readonly SignalBus                 signalBus;
 
-        public CastleManager(BaseElementPresenter<CastleModel, CastleView, CastlePresenter>.Factory factory, CastleLocalDataController castleLocalDataController, SlotManager slotManager)
+        public CastleManager(BaseElementPresenter<CastleModel, CastleView, CastlePresenter>.Factory factory, CastleLocalDataController castleLocalDataController, SlotManager slotManager,SignalBus signalBus)
             : base(factory) {
             this.castleLocalDataController = castleLocalDataController;
-            this.slotManager = slotManager;
+            this.slotManager               = slotManager;
+            this.signalBus                 = signalBus;
         }
         public override void Initialize()
         {
@@ -51,6 +54,12 @@
 
         public void OnArcherUpgrade() {
             this.entities.First().ArcherUpgradePopUp();
+        }
+
+        public void UpdateStatForCurrentCastle()
+        {
+            if(this.entities.Count==0) return;
+            this.entities.First().UpdateStat();
         }
     }
 }
