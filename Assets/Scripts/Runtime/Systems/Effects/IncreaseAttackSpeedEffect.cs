@@ -15,7 +15,7 @@
         {
             var targetStat  = target.GetStats();
             var targetSpeed = targetStat.GetStat<float>(StatEnum.AttackSpeed);
-            targetSpeed += targetSpeed * 2f;
+            targetSpeed += targetSpeed * 0.2f;
             targetStat.SetStat(StatEnum.AttackSpeed, targetSpeed);
             target.UpdateStats();
         }

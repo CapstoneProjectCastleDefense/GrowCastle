@@ -21,7 +21,7 @@
         {
             var targetStat  = target.GetStats();
             var targetCooldown = targetStat.GetStat<float>(StatEnum.ActiveSkillCooldown);
-            targetCooldown -= targetCooldown * 0.5f;
+            targetCooldown -= targetCooldown * 0.3f;
             targetStat.SetStat(StatEnum.ActiveSkillCooldown, targetCooldown);
             target.UpdateStats();
         }
