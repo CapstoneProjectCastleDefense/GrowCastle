@@ -6,8 +6,7 @@
 
     public interface IEquippable
     {
-        Dictionary<EquipmentType, IEquipment> Equipment { get; }
-        void Equip(IEquipment equipment);
-        void UnEquip(IEquipment equipment);
+        void Equip(string equipmentId);
+        void UnEquip(string equipmentId);
     }
 }

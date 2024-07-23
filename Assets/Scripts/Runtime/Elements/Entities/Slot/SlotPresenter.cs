@@ -32,6 +32,7 @@
         private readonly SlotLocalDataController slotLocalDataController;
         private readonly ScreenManager           screenManager;
         private readonly HeroLocalDataController heroLocalDataController;
+        private readonly HeroManager             heroManager;
         public           SlotManager             slotManager;
 
         public SlotPresenter(
@@ -40,13 +41,15 @@
             IGameAssets gameAssets,
             SlotLocalDataController slotLocalDataController,
             ScreenManager screenManager,
-            HeroLocalDataController heroLocalDataController)
+            HeroLocalDataController heroLocalDataController,
+            HeroManager heroManager)
             : base(model, objectPoolManager)
         {
             this.gameAssets              = gameAssets;
             this.slotLocalDataController = slotLocalDataController;
             this.screenManager           = screenManager;
             this.heroLocalDataController = heroLocalDataController;
+            this.heroManager             = heroManager;
         }
 
         public SlotView GetSlotView => this.View;
@@ -117,11 +120,21 @@
 
         private async void ShowCharacterInfo(string characterId)
         {
-            await this.screenManager.OpenScreen<CharacterInfoPopupPresenter, CharacterInfoPopupModel>(new()
-                { heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(characterId), currentSelectedSlotType = this.slotManager.GetCurrentSelectedSlotModel().SlotRecord.SlotType });
+            var hero = this.heroManager.entities.Find(e => e.Model.Id.Equals(characterId));
+            await this.screenManager.OpenScreen<CharacterInfoPopupPresenter, CharacterInfoPopupModel>(
+                new(
+                    this.slotManager.GetCurrentSelectedSlotModel().SlotRecord.SlotType,
+                    this.heroLocalDataController.GetHeroRuntimeData(characterId),
+                    hero
+                )
+            );
         }
 
-        private async void ShowInventory() { await this.screenManager.OpenScreen<CharacterInventoryPopupPresenter,CharacterInventoryPopupModel>(new CharacterInventoryPopupModel(){SlotType = this.Model.SlotRecord.SlotType}); }
+        private async void ShowInventory()
+        {
+            await this.screenManager.OpenScreen<CharacterInventoryPopupPresenter, CharacterInventoryPopupModel>(new CharacterInventoryPopupModel()
+                { SlotType = this.Model.SlotRecord.SlotType });
+        }
 
         public override void Dispose() { }
     }

@@ -128,7 +128,7 @@
             this.resourceLocalDataController.GetResource(ResourceType.Exp).Subscribe(this.OnUserExpUpdate);
             this.userLocalDataController.GetCurrentUserLevel.Subscribe(this.OnUserLevelUpdate);
         }
-
+        
         #region Feature
 
         private void OnQuestFeatureUnlock(int value)
@@ -148,10 +148,9 @@
         }
 
         #endregion
-
-        private async void OnTalentBtnClick()             { await this.screenManager.OpenScreen<TalentPopupPresenter>(); }
-        private async void OnQuestBtnClick()              { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
-        private void OnInventoryBtnClick() { this.screenManager.OpenScreen<ItemInventoryPopupPresenter, ItemInventoryPopupModel>(new(null)).Forget(); }
+        
+        private async void OnQuestBtnClick() { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
+        private void OnInventoryBtnClick() { this.screenManager.OpenScreen<ItemInventoryPopupPresenter, ItemInventoryPopupModel>(new(null, null)).Forget(); }
         private async void OnTalentBtnClick() { await this.screenManager.OpenScreen<TalentPopupPresenter>(); }
         private void OnUserExpUpdate(float value) { this.View.userExpBar.DOFillAmount(value / this.resourceLocalDataController.GetCurrentTargetExpToLevelUp(), 0.1f); }
         private void OnUserLevelUpdate(float value) { this.View.userLevelValue.text = $"Level {value}"; }

@@ -8,6 +8,7 @@
     using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
+    using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Elements.EntitySkills;
     using Runtime.Enums;
@@ -22,11 +23,12 @@
 
     public class HeroPresenter : BaseCombatantPresenter<HeroModel, HeroView, HeroPresenter>, IHeroPresenter
     {
-        private readonly EntitySkillSystem entitySkillSystem;
-        private readonly HeroBlueprint     heroBlueprint;
-        private readonly FindTargetSystem  findTargetSystem;
-        private readonly SkillBlueprint    skillBlueprint;
-        private readonly CastleManager     castleManager;
+        private readonly EntitySkillSystem       entitySkillSystem;
+        private readonly HeroBlueprint           heroBlueprint;
+        private readonly FindTargetSystem        findTargetSystem;
+        private readonly SkillBlueprint          skillBlueprint;
+        private readonly CastleManager           castleManager;
+        private readonly HeroLocalDataController heroLocalDataController;
 
         private HeroManager                  heroManager;
         private bool                         canAttack;
@@ -41,14 +43,16 @@
             HeroBlueprint heroBlueprint,
             FindTargetSystem findTargetSystem,
             SkillBlueprint skillBlueprint,
-            CastleManager castleManager)
+            CastleManager castleManager,
+            HeroLocalDataController heroLocalDataController)
             : base(model, objectPoolManager)
         {
-            this.entitySkillSystem = entitySkillSystem;
-            this.heroBlueprint     = heroBlueprint;
-            this.findTargetSystem  = findTargetSystem;
-            this.skillBlueprint    = skillBlueprint;
-            this.castleManager     = castleManager;
+            this.entitySkillSystem       = entitySkillSystem;
+            this.heroBlueprint           = heroBlueprint;
+            this.findTargetSystem        = findTargetSystem;
+            this.skillBlueprint          = skillBlueprint;
+            this.castleManager           = castleManager;
+            this.heroLocalDataController = heroLocalDataController;
         }
 
         public void SetManager(HeroManager heroManager) => this.heroManager = heroManager;
@@ -150,11 +154,15 @@
 
         #region Implement IEquipable
 
-        public Dictionary<EquipmentType, IEquipment> Equipment { get; } = new();
+        public void Equip(string equipmentId)
+        {
+            this.heroLocalDataController.EquipEquipment(this.Model.Id, equipmentId);
+        }
 
-        public void Equip(IEquipment equipment) { equipment.OnEquip(this.Model); }
-
-        public void UnEquip(IEquipment equipment) { equipment.OnUnEquip(this.Model); }
+        public void UnEquip(string equipmentId)
+        {
+            this.heroLocalDataController.UnEquipEquipment(this.Model.Id, equipmentId);
+        }
 
         #endregion
 
@@ -170,7 +178,8 @@
             transform.localPosition = Vector3.zero;
             var activeSkill = this.heroBlueprint.GetDataById(this.Model.Id).ActiveSkill;
             this.View.OnClickAction = () => this.CastSkill(activeSkill.skillName, activeSkill.animationName, null);
-            this.heroBlueprint.GetDataById(this.Model.Id).PassiveSkill?.ForEach(passiveSkillName => { this.entitySkillSystem.ActivePassiveSkill(passiveSkillName, this); });
+            this.heroBlueprint.GetDataById(this.Model.Id).PassiveSkill
+                ?.ForEach(passiveSkillName => { this.entitySkillSystem.ActivePassiveSkill(passiveSkillName, this); });
         }
 
         public override void Dispose()

@@ -9,6 +9,6 @@
     {
         public void Init() {  }
 
-        public List<IItemModel> Items = new();
+        public Dictionary<string,IItemModel> Items = new();
     }
 }

@@ -16,10 +16,12 @@
     {
         public readonly IItemModel  ItemModel;
         public readonly IEquippable Equippable;
-        public ItemInventoryItemModel(IItemModel itemModel, IEquippable equippable)
+        public readonly string      InventoryId;
+        public ItemInventoryItemModel(IItemModel itemModel, IEquippable equippable, string inventoryId)
         {
-            this.ItemModel  = itemModel;
-            this.Equippable = equippable;
+            this.ItemModel   = itemModel;
+            this.Equippable  = equippable;
+            this.InventoryId = inventoryId;
         }
     }
 
@@ -37,12 +39,12 @@
         public ItemInventoryItemPresenter(IGameAssets gameAssets, IScreenManager screenManager) : base(gameAssets) { this.screenManager = screenManager; }
         public override async void BindData(ItemInventoryItemModel param)
         {
-            this.View.image.sprite       = await this.GameAssets.LoadAssetAsync<Sprite>("");
-            this.View.rarityImage.sprite = await this.GameAssets.LoadAssetAsync<Sprite>("");
+            this.View.image.sprite       = await this.GameAssets.LoadAssetAsync<Sprite>(param.ItemModel.AddressableName);
+            this.View.rarityImage.sprite = await this.GameAssets.LoadAssetAsync<Sprite>(param.ItemModel.Rarity.ToString());
             this.View.quantity.text      = param.ItemModel.Quantity.ToString();
             this.View.button.onClick.AddListener(() =>
             {
-                this.screenManager.OpenScreen<ItemDetailPopupPresenter, ItemDetailPopupModel>(new(param.ItemModel, param.Equippable)).Forget();
+                this.screenManager.OpenScreen<ItemDetailPopupPresenter, ItemDetailPopupModel>(new(param.ItemModel, param.Equippable, param.InventoryId)).Forget();
             });
         }
     }

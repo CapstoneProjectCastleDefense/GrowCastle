@@ -7,7 +7,9 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.Utilities.LogService;
+    using global::Extensions;
     using Models.LocalData.LocalDataController;
+    using Runtime.Elements.Equipment;
     using Runtime.Enums;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
@@ -19,8 +21,13 @@
 
     public class ItemInventoryPopupModel
     {
-        public ItemInventoryPopupModel(IEquippable equippable) { this.Equippable = equippable; }
+        public ItemInventoryPopupModel(IEquippable equippable, string id)
+        {
+            this.Equippable = equippable;
+            this.Id         = id;
+        }
         public IEquippable Equippable { get; set; }
+        public string      Id         { get; set; }
     }
 
     public class ItemInventoryPopupView : BaseView
@@ -56,7 +63,7 @@
         {
             this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0);
             this.View.ViewField.DOLocalMoveX(this.ViewWidth - this.ViewFieldWidth * 1.5f, 0.5f).SetEase(Ease.InQuad);
-            List<IItemModel> items = new();
+            Dictionary<string,IItemModel> items = new();
             if (model.Equippable == null)
             {
                 items = this.inventoryLocalDataController.GetAllItems();
@@ -66,12 +73,43 @@
                 items = this.inventoryLocalDataController.GetItems(ItemType.Equipment);
             }
 
-            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable)).ToList(), this.diContainer);
+            if (items.Count == 0)
+            {
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Test", new()
+                {
+                    { StatEnum.Attack, (typeof(int), 10) },
+                    { StatEnum.Defense, (typeof(int), 10) },
+                    { StatEnum.Health, (typeof(int), 10) }
+                }, EquipmentType.Weapon, ItemType.Equipment, RarityEnum.Common, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Test", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Legendary, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(
+                    new EquipmentModel("Environment_1", "Test", new(), EquipmentType.Weapon, ItemType.Equipment, RarityEnum.Rare, 1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Test", new(), EquipmentType.Weapon, ItemType.Equipment, RarityEnum.Common,
+                    1));
+                await UniTask.Delay(100);
+                this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Test", new(), EquipmentType.Weapon, ItemType.Equipment,
+                    RarityEnum.Legendary, 1));
+            }
+
+            if (model.Equippable == null)
+            {
+                items = this.inventoryLocalDataController.GetAllItems();
+            }
+            else
+            {
+                items = this.inventoryLocalDataController.GetItems(ItemType.Equipment);
+            }
+
+            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x.Value, this.Model.Equippable, x.Key)).ToList(), this.diContainer);
+            if (this.Model.Id.IsNullOrEmpty()) return;
+            var index = items.Values.ToList().FindIndex(x => x.Id == this.Model.Id);
+            this.View.Adapter.SmoothScrollTo(index, 0.5f);
         }
 
-        public override void CloseView()
-        {
-            this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0.5f).SetEase(Ease.InQuad).onComplete += () => { base.CloseView(); };
-        }
+        public override void CloseView() { this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0.5f).SetEase(Ease.InQuad).onComplete += () => { base.CloseView(); }; }
     }
 }
