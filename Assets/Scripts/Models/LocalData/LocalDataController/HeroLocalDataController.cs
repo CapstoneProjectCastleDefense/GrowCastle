@@ -12,7 +12,8 @@
         private readonly HeroConfigBlueprint         heroConfigBlueprint;
         private readonly ResourceLocalDataController resourceLocalDataController;
 
-        public HeroLocalDataController(HeroLocalData heroLocalData, HeroBlueprint heroBlueprint, HeroConfigBlueprint heroConfigBlueprint, ResourceLocalDataController resourceLocalDataController)
+        public HeroLocalDataController(HeroLocalData heroLocalData, HeroBlueprint heroBlueprint, HeroConfigBlueprint heroConfigBlueprint,
+            ResourceLocalDataController resourceLocalDataController)
         {
             this.heroLocalData               = heroLocalData;
             this.heroBlueprint               = heroBlueprint;
@@ -25,10 +26,7 @@
             if (this.heroLocalData.listHeroData.Count == 0)
             {
                 this.heroLocalData.listHeroData = new();
-                this.heroBlueprint.ForEach(hero =>
-                {
-                    this.heroLocalData.listHeroData.Add(new() { id = hero.Key, level = 1 });
-                });
+                this.heroBlueprint.ForEach(hero => { this.heroLocalData.listHeroData.Add(new() { id = hero.Key, level = 1, listEquipmentId = new() }); });
                 this.heroLocalData.listHeroData[0].HeroStatus.Value = HeroStatus.Equip;
             }
         }
@@ -53,10 +51,7 @@
             return heroRuntimeData;
         }
 
-        public List<HeroRuntimeData> GetAllHeroRuntimeData()
-        {
-            return this.heroLocalData.listHeroData.Select(data => this.GetHeroRuntimeData(data.id)).ToList();
-        }
+        public List<HeroRuntimeData> GetAllHeroRuntimeData() { return this.heroLocalData.listHeroData.Select(data => this.GetHeroRuntimeData(data.id)).ToList(); }
 
         public void EquipHero(string heroId)
         {
@@ -98,6 +93,12 @@
 
             return true;
         }
+
+        public List<string> GetEquipments(string heroId) { return this.GetHeroLocalData(heroId).listEquipmentId; }
+
+        public void EquipEquipment(string heroId, string equipmentId) { this.GetHeroLocalData(heroId).listEquipmentId.Add(equipmentId); }
+
+        public void UnEquipEquipment(string heroId, string equipmentId) { this.GetHeroLocalData(heroId).listEquipmentId.Remove(equipmentId); }
     }
 
     public class HeroRuntimeData

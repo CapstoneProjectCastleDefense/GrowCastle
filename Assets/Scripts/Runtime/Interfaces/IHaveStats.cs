@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Runtime.Enums;
+    using Runtime.Extensions;
 
     public interface IHaveStats
     {
@@ -13,5 +14,15 @@
     public interface IHaveStatsModel
     {
         Dictionary<StatEnum, (Type, object)> Stats { get; set; }
+        
+        public static IHaveStatsModel operator +(IHaveStatsModel a, IHaveStatsModel b)
+        {
+            foreach (var stat in b.Stats)
+            {
+                a.SetStat(stat.Key, stat.Value.Item2);
+            }
+
+            return a;
+        }
     }
 }

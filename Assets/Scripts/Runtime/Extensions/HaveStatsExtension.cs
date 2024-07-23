@@ -31,6 +31,51 @@
         {
             return (T) Enum.Parse(typeof(T), value, true);
         }
+        
+        public static void PlusStat(this IHaveStatsModel haveStats, StatEnum statEnum, (Type, object) value)
+        {
+            var currentValue = haveStats.GetStat<object>(statEnum);
+            if (currentValue is int intValue)
+            {
+                haveStats.SetStat(statEnum, intValue + (int)value.Item2);
+            }
+            else if (currentValue is float floatValue)
+            {
+                haveStats.SetStat(statEnum, floatValue + (float)value.Item2);
+            }
+            else
+            {
+                Debug.LogError($"[{nameof(HaveStatsExtension)}]: Cannot add {value.Item1} to {currentValue}");
+            }
+        }
+        
+        public static void MinusStat(this IHaveStatsModel haveStats, StatEnum statEnum, (Type, object) value)
+        {
+            var currentValue = haveStats.GetStat<object>(statEnum);
+            if (currentValue is int intValue)
+            {
+                haveStats.SetStat(statEnum, intValue - (int)value.Item2);
+            }
+            else if (currentValue is float floatValue)
+            {
+                haveStats.SetStat(statEnum, floatValue - (float)value.Item2);
+            }
+            else
+            {
+                Debug.LogError($"[{nameof(HaveStatsExtension)}]: Cannot subtract {value.Item1} from {currentValue}");
+            }
+        }
+        
+        public static void Plus(this IHaveStatsModel haveStats, IHaveStatsModel otherStats)
+        {
+            otherStats.Stats.ForEach(stat => haveStats.PlusStat(stat.Key, stat.Value));
+        }
+        
+        public static void Minus(this IHaveStatsModel haveStats, IHaveStatsModel otherStats)
+        {
+            otherStats.Stats.ForEach(stat => haveStats.MinusStat(stat.Key, stat.Value));
+        }
+        
 
         public static T GetStat<T>(this Dictionary<StatEnum, (Type, object)> stats, StatEnum statEnum)
         {

@@ -395,6 +395,26 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 475200305426243243, guid: 2f431abb86d3b6c43af971de5b1f2833,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475200305426243243, guid: 2f431abb86d3b6c43af971de5b1f2833,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475200305426243243, guid: 2f431abb86d3b6c43af971de5b1f2833,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 475200305426243243, guid: 2f431abb86d3b6c43af971de5b1f2833,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3490610340683094571, guid: 2f431abb86d3b6c43af971de5b1f2833,
         type: 3}
       propertyPath: m_Name
@@ -524,6 +544,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 4578893369968515212}
+    - targetCorrespondingSourceObject: {fileID: 2580574558878019075, guid: 2f431abb86d3b6c43af971de5b1f2833,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7795772934939183621}
   m_SourcePrefab: {fileID: 100100000, guid: 2f431abb86d3b6c43af971de5b1f2833, type: 3}
 --- !u!114 &3783753239105800343 stripped
 MonoBehaviour:
@@ -612,7 +636,7 @@ MonoBehaviour:
       m_Calls: []
   m_Sprite: {fileID: 21300000, guid: dbe7d37a1e626fc4590a5259fec26555, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -620,3 +644,17 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7795772934939183621
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6649640747435076291}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 86710e43de46f6f4bac7c8e50813a599, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_AspectMode: 4
+  m_AspectRatio: 2.5006106

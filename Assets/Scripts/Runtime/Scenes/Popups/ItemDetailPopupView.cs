@@ -1,0 +1,77 @@
+﻿namespace Runtime.Scenes.Popups
+{
+    using System.Linq;
+    using Cysharp.Threading.Tasks;
+    using GameFoundation.Scripts.AssetLibrary;
+    using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
+    using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using GameFoundation.Scripts.Utilities.LogService;
+    using Runtime.Interfaces.Entities;
+    using Runtime.Interfaces.Items;
+    using TMPro;
+    using UnityEngine;
+    using UnityEngine.UI;
+    using Zenject;
+
+    public class ItemDetailPopupModel
+    {
+        public ItemDetailPopupModel(IItemModel itemModel, IEquippable equippable, string inventoryId)
+        {
+            this.ItemModel   = itemModel;
+            this.Equippable  = equippable;
+            this.InventoryId = inventoryId;
+        }
+        public IItemModel  ItemModel   { get; set; }
+        public IEquippable Equippable  { get; set; }
+        public string      InventoryId { get; private set; }
+    }
+
+    public class ItemDetailPopupView : BaseView
+    {
+        public Button   CloseButton;
+        public Button   EquipButton;
+        public Button   UnequipButton;
+        public Image    ItemImage;
+        public Image    RarityImage;
+        public TMP_Text Description;
+        public TMP_Text Quantity;
+    }
+
+    [PopupInfo(nameof(ItemDetailPopupView), isCloseWhenTapOutside: false, isOverlay: true)]
+    public class ItemDetailPopupPresenter : BasePopupPresenter<ItemDetailPopupView, ItemDetailPopupModel>
+    {
+        private readonly IGameAssets gameAssets;
+        public ItemDetailPopupPresenter(SignalBus signalBus, ILogService logService, IGameAssets gameAssets) : base(signalBus, logService)
+        {
+            this.gameAssets = gameAssets;
+        }
+        protected override void OnViewReady()
+        {
+            base.OnViewReady();
+            this.View.EquipButton.onClick.AddListener(() =>
+            {
+                this.Model.Equippable.Equip(this.Model.InventoryId);
+                this.CloseView();
+            });
+            this.View.UnequipButton.onClick.AddListener(() =>
+            {
+                this.Model.Equippable.UnEquip(this.Model.InventoryId);
+                this.CloseView();
+            });
+            this.View.CloseButton.onClick.AddListener(this.CloseView);
+        }
+        public override async UniTask BindData(ItemDetailPopupModel popupModel)
+        {
+            this.View.RarityImage.sprite = await this.gameAssets.LoadAssetAsync<Sprite>(popupModel.ItemModel.Rarity.ToString());
+            this.View.ItemImage.sprite   = await this.gameAssets.LoadAssetAsync<Sprite>(popupModel.ItemModel.AddressableName);
+            this.View.Quantity.text      = popupModel.ItemModel.Quantity.ToString();
+            this.View.Description.text = popupModel.ItemModel.Stats.Count > 0
+                ? popupModel.ItemModel.Stats
+                    .Select(stat => $"{stat.Key}: +{stat.Value.Item2}")
+                    .Aggregate((current, next) => $"{current}\n{next}")
+                : "";
+            this.View.EquipButton.gameObject.SetActive(this.Model.Equippable != null && !popupModel.ItemModel.IsEquipped);
+            this.View.UnequipButton.gameObject.SetActive(this.Model.Equippable != null && popupModel.ItemModel.IsEquipped);
+        }
+    }
+}

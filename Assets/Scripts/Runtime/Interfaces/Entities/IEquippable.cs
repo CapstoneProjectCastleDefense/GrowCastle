@@ -1,10 +1,12 @@
 ﻿namespace Runtime.Interfaces.Entities
 {
+    using System.Collections.Generic;
+    using Runtime.Enums;
     using Runtime.Interfaces.Items;
 
     public interface IEquippable
     {
-        void Equip(IEquipment equipment);
-        void UnEquip(IEquipment equipment);
+        void Equip(string equipmentId);
+        void UnEquip(string equipmentId);
     }
 }

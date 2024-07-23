@@ -24,7 +24,10 @@
         private const    string           DeathAnimName  = "dead";
         private const    string           MoveAnimName   = "animation2";
         private          LeaderManager    leaderManager;
-        protected LeaderPresenter(LeaderModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem) : base(model, objectPoolManager) { this.findTargetSystem = findTargetSystem; }
+        protected LeaderPresenter(LeaderModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem) : base(model, objectPoolManager)
+        {
+            this.findTargetSystem = findTargetSystem;
+        }
 
         public void SetManager(LeaderManager manager) => this.leaderManager = manager;
 
@@ -74,18 +77,17 @@
                     ? this.TargetThatImAttacking
                     : this.TargetThatAttackingMe is { IsDead: false }
                         ? this.TargetThatAttackingMe
-                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(),1).FirstOrDefault();
+                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 1).FirstOrDefault();
         }
 
         public         float    AttackCooldownTime { get; private set; } = 0;
         public virtual Type[]   GetManagerTypes()  { return new[] { typeof(CastleManager), typeof(EnemyManager) }; }
         public virtual string[] GetTags()          { return new[] { "Fly", "Ground", "Boss", "Building" }; }
 
-        public void CastSkill(string skillId,string animationName, ITargetable target) { throw new NotImplementedException(); }
+        public void CastSkill(string skillId, string animationName, ITargetable target) { throw new NotImplementedException(); }
+        public void Equip(string equipmentId)                                           { throw new NotImplementedException(); }
 
-        public void Equip(IEquipment equipment) { throw new NotImplementedException(); }
-
-        public void UnEquip(IEquipment equipment) { throw new NotImplementedException(); }
+        public void UnEquip(string equipmentId) { throw new NotImplementedException(); }
 
         private void UpdateHealthView()
         {
@@ -159,7 +161,7 @@
         public bool                                 IsDead     { get; private set; } = false;
         public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats; }
 
-        public GameObject                    GetGameObject() { return this.View.gameObject; }
+        public GameObject                   GetGameObject() { return this.View.gameObject; }
         public Dictionary<Type, IEffectTag> CurrentTag      { get; set; }
 
         protected override UniTask<GameObject> CreateView()

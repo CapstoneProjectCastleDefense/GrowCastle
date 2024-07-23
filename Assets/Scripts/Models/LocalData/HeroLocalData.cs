@@ -3,19 +3,19 @@
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
     using R3;
+    using Runtime.Elements.Equipment;
 
     public class HeroLocalData : ILocalDataHaveController<HeroLocalDataController>
     {
         public List<HeroData> listHeroData = new();
-        public void Init()
-        {
-        }
+        public void           Init() { }
     }
 
     public class HeroData
     {
         public string                       id;
         public int                          level;
+        public List<string>                 listEquipmentId;
         public ReactiveProperty<HeroStatus> HeroStatus { get; set; } = new(LocalDataController.HeroStatus.Lock);
     }
 
@@ -25,5 +25,4 @@
         UnLock,
         Lock,
     }
-
 }

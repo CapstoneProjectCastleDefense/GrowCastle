@@ -3,6 +3,7 @@
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.MVP;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
+    using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Spine.Unity;
     using TMPro;
@@ -57,11 +58,8 @@
 
         private async void OnSelectButtonClick()
         {
-            var characterInfoModel = new CharacterInfoPopupModel()
-            {
-                heroRuntimeData = this.model.heroRuntimeData,
-            };
-            if (characterInfoModel.heroRuntimeData.heroStatus == HeroStatus.Equip) characterInfoModel.heroRuntimeData.heroStatus = HeroStatus.UnLock;
+            var characterInfoModel = new CharacterInfoPopupModel(SlotType.Hero, this.model.heroRuntimeData, null);
+            if (characterInfoModel.HeroRuntimeData.heroStatus == HeroStatus.Equip) characterInfoModel.HeroRuntimeData.heroStatus = HeroStatus.UnLock;
             await this.screenManager.OpenScreen<CharacterInfoPopupPresenter, CharacterInfoPopupModel>(characterInfoModel);
         }
     }
