@@ -106,6 +106,10 @@
             transform.localPosition = Vector3.zero;
         }
 
-        public override void Dispose() { }
+        public override void Dispose()
+        {
+            if (this.View != null) this.View.Recycle();
+            this.ElementManager.entities.Remove(this);
+        }
     }
 }

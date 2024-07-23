@@ -2308,6 +2308,7 @@ MonoBehaviour:
   skillDescription: {fileID: 5489399293793285531}
   attackInfo: {fileID: 3820607252087498461}
   attackSpeedInfo: {fileID: 2546453390822163991}
+  title: {fileID: 1210878747884557952}
   exitBtn: {fileID: 3378074399652367442}
   equipmentSlots:
   - {fileID: 6910484843787031543}

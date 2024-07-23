@@ -117,6 +117,11 @@
                     this.heroManager.entities.First(hero => hero.Model.Id.Equals(currentSlotData.DeployObjectId)).Dispose();
                     this.heroLocalDataController.UnEquipHero(currentSlotData.DeployObjectId);
                 }
+                if (currentSlotModel.SlotRecord.SlotType == SlotType.Tower)
+                {
+                    this.towerManager.entities.First(tower => tower.Model.Id.Equals(currentSlotData.DeployObjectId)).Dispose();
+                    this.heroLocalDataController.UnEquipHero(currentSlotData.DeployObjectId);
+                }
             }
 
             this.slotLocalDataController.UnEquipCharacter(this.GetCurrentSelectedSlotModel().SlotRecord.Id);

@@ -42,6 +42,7 @@
         public TextMeshProUGUI     skillDescription;
         public TextMeshProUGUI     attackInfo;
         public TextMeshProUGUI     attackSpeedInfo;
+        public TextMeshProUGUI     title;
         public Button              exitBtn;
         public List<EquipmentSlot> equipmentSlots;
 
@@ -84,6 +85,7 @@
 
         public override async UniTask BindData(CharacterInfoPopupModel popupModel)
         {
+            this.View.title.text                   = this.Model.CurrentSelectedSlotType.ToString();
             this.View.viewField.transform.position = this.View.startPos.position;
             this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
             var equipmentList = this.heroLocalDataController.GetEquipments(this.Model.HeroRuntimeData.heroRecord.HeroId);

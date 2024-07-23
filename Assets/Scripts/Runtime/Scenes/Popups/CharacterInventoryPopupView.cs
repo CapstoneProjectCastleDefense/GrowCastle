@@ -12,6 +12,7 @@
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Adapters.CharacterInventory;
     using Runtime.Scenes.CharacterInventory;
+    using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
@@ -28,6 +29,7 @@
         public GameObject                viewField;
         public Transform                 startPos;
         public Transform                 endPos;
+        public TextMeshProUGUI           title;
     }
 
     [PopupInfo(nameof(CharacterInventoryPopupView), isOverlay: true)]
@@ -64,6 +66,8 @@
                 .Where(e => e.heroRecord.HeroType == popupModel.SlotType)
                 .Select(e => new CharacterInventoryItemModel() { heroRuntimeData = e, resourceIcon = this.resourceBlueprint.GetDataById(e.resourceType).Image })
                 .ToList();
+
+            this.View.title.text = this.Model.SlotType.ToString();
 
             await this.View.characterInventoryAdapter.InitItemAdapter(listModel, this.diContainer);
         }
