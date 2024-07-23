@@ -132,6 +132,7 @@
         public void OnDeath()
         {
             if (this.IsDead) return;
+            ((EnemyManager)this.ElementManager).UpdateEnemyDeathCounter();
             this.View.Rigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition;
             float goldDrop = this.Model.GetStat<float>(StatEnum.Gold);
             this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
@@ -214,9 +215,9 @@
 
         public override void Dispose()
         {
-            this.ObjectPoolManager.Recycle(this.View);
+            if(this.View.gameObject.activeSelf) this.View.Recycle();
             this.ElementManager.entities.Remove(this);
-            ((EnemyManager)this.ElementManager).UpdateEnemyDeathCounter();
+            this.IsDead = true;
         }
 
         public override void Tick()

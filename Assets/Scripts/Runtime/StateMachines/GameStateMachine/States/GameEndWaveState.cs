@@ -5,6 +5,7 @@
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Managers;
     using Runtime.Scenes.Popups;
+    using Runtime.Systems.Waves;
 
     public class GameEndWaveState : BaseGameState
     {
@@ -13,19 +14,22 @@
         private readonly ProjectileManager       projectileManager;
         private readonly ScreenManager           screenManager;
         private readonly UserLocalDataController userLocalDataController;
-        public GameEndWaveState(EnemyManager enemyManager, SummonerManager summonerManager,ProjectileManager projectileManager,ScreenManager screenManager,UserLocalDataController userLocalDataController)
+        private readonly WaveSystem              waveSystem;
+        public GameEndWaveState(EnemyManager enemyManager, SummonerManager summonerManager,ProjectileManager projectileManager,ScreenManager screenManager,UserLocalDataController userLocalDataController, WaveSystem waveSystem)
         {
             this.enemyManager            = enemyManager;
             this.summonerManager         = summonerManager;
             this.projectileManager       = projectileManager;
             this.screenManager           = screenManager;
             this.userLocalDataController = userLocalDataController;
+            this.waveSystem              = waveSystem;
         }
         public override async void Enter()
         {
             this.enemyManager.DisposeAllElement();
             this.summonerManager.DisposeAllElement();
             this.projectileManager.DisposeAllElement();
+            this.waveSystem.ClearWave();
             await this.screenManager.OpenScreen<EndGamePopupPresenter, EndGamePopupModel>(new EndGamePopupModel() { IsWin = this.userLocalDataController.IsWinCurrentLevel });
         }
 

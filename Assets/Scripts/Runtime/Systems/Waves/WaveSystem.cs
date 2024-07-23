@@ -52,7 +52,7 @@
             {
                 var record = this.waveWithDelayTimeQueue[0];
 
-                this.enemyGroupLoaderService.LoadWave(record.waveId);
+                this.enemyGroupLoaderService.LoadEnemyFromWave(record.waveId);
                 this.waveLoadCoolDown = record.delayTime;
 
                 this.waveWithDelayTimeQueue.Remove(record);
@@ -90,6 +90,12 @@
             {
                 this.waveWithDelayTimeQueue.Add((record.WaveId, record.Delay));
             }
+        }
+        public void ClearWave()
+        {
+            this.waveWithDelayTimeQueue.Clear();
+            this.isActiveWave = false;
+            this.enemyGroupLoaderService.UnloadEnemyFromWave();
         }
 
         private void CompleteCurrentWave()

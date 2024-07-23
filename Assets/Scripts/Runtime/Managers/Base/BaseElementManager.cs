@@ -27,11 +27,11 @@
         public void DisposeAllElement()
         {
             var cache = this.entities.ToArray();
-            this.entities.Clear();
             foreach (var entity in cache)
             {
                 entity.Dispose();
             }   
+            this.entities.Clear();
         }
         
         public          IEnumerable<T> GetAllElementPresenter<T>() { return this.entities as IEnumerable<T>;}

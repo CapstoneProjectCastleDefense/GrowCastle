@@ -43,13 +43,18 @@
             }
         }
 
-        public void LoadWave(int waveId)
+        public void LoadEnemyFromWave(int waveId)
         {
             var waveRecord = this.waveBlueprint[waveId];
             foreach (var (_, record) in waveRecord.WaveToEnemy)
             {
                 this.inQueueWaves.Add(record);
             }
+        }
+
+        public void UnloadEnemyFromWave()
+        {
+            this.inQueueWaves.Clear();
         }
 
         private void SpawnEnemyGroup(string enemyId, int quantity)
