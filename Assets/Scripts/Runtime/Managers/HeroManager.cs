@@ -1,17 +1,21 @@
 ﻿namespace Runtime.Managers
 {
     using Cysharp.Threading.Tasks;
+    using GameFoundation.Scripts.Utilities.Extension;
     using Models.Blueprints;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Hero;
     using Runtime.Enums;
     using Runtime.Managers.Base;
+    using Runtime.StateMachines.GameStateMachine;
+    using Runtime.StateMachines.GameStateMachine.States;
     using UnityEngine;
 
     public class HeroManager : BaseElementManager<HeroModel, HeroPresenter, HeroView>
     {
-        private readonly SkillBlueprint skillBlueprint;
-        private readonly HeroBlueprint  heroBlueprint;
+        private readonly SkillBlueprint   skillBlueprint;
+        private readonly HeroBlueprint    heroBlueprint;
+        private          GameStateMachine gameStateMachine;
         public HeroManager(BaseElementPresenter<HeroModel, HeroView, HeroPresenter>.Factory factory, SkillBlueprint skillBlueprint, HeroBlueprint heroBlueprint)
             : base(factory)
         {
@@ -39,6 +43,24 @@
             heroPresenter.SetManager(this);
             return heroPresenter;
         }
+        
+        public override void Tick()
+        {
+            base.Tick();
+            if (this.gameStateMachine.CurrentState is GamePrepareState)
+            {
+                this.entities.ForEach(e =>
+                {
+                    e.SetRaycastActive(false);
+                });
+                return;
+            }
+            this.entities.ForEach(e =>
+            {
+                e.SetRaycastActive(true);
+            });
+            
+        }
 
         public void ChangeAttackStatusOfAllHero(bool canAttack)
         {
@@ -46,9 +68,13 @@
             {
                 if (!canAttack) e.ResetCooldown();
                 e.SetAttackStatus(canAttack);
+                e.SetRaycastActive(canAttack);
             });
         }
 
-        public override void Initialize() { }
+        public override void Initialize()
+        {
+            this.gameStateMachine = this.GetCurrentContainer().Resolve<GameStateMachine>();
+        }
     }
 }

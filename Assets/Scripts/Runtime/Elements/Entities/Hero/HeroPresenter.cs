@@ -99,6 +99,12 @@
             this.View.cooldownSkillBar.fillAmount = 1;
         }
 
+        public void SetRaycastActive(bool isActive)
+        {
+            if (this.View == null) return;
+            this.View.GetComponent<BoxCollider2D>().enabled = isActive;
+        }
+
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(CastleManager), typeof(EnemyManager) }; }
         public virtual string[] GetTags()         { return new[] { "Fly", "Ground", "Boss", }; }
 

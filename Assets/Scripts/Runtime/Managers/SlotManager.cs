@@ -1,13 +1,18 @@
 ﻿namespace Runtime.Managers
 {
+    using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
+    using GameFoundation.Scripts.Utilities.Extension;
     using global::Extensions;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Slot;
     using Runtime.Managers.Base;
+    using Runtime.StateMachines.GameStateMachine;
+    using Runtime.StateMachines.GameStateMachine.States;
     using Runtime.StaticValues;
 
     public class SlotManager : BaseElementManager<SlotModel, SlotPresenter, SlotView>
@@ -18,7 +23,9 @@
         private readonly TowerManager            towerManager;
         private readonly HeroLocalDataController heroLocalDataController;
         private readonly EffectManager           effectManager;
+        private readonly ScreenManager           screenManager;
         private          SlotPresenter           currentSelectedSlot;
+        private          GameStateMachine        gameStateMachine;
 
         public SlotManager(
             BaseElementPresenter<SlotModel, SlotView, SlotPresenter>.Factory factory,
@@ -27,7 +34,8 @@
             LeaderManager leaderManager,
             TowerManager towerManager,
             HeroLocalDataController heroLocalDataController,
-            EffectManager effectManager)
+            EffectManager effectManager,
+            ScreenManager screenManager)
             : base(factory)
         {
             this.slotLocalDataController = slotLocalDataController;
@@ -36,9 +44,25 @@
             this.towerManager            = towerManager;
             this.heroLocalDataController = heroLocalDataController;
             this.effectManager           = effectManager;
+            this.screenManager           = screenManager;
         }
 
-        public override void Initialize() { }
+        public override void Initialize()
+        {
+            this.gameStateMachine = this.GetCurrentContainer().Resolve<GameStateMachine>();
+        }
+
+        [Obsolete("Obsolete")] public override void Tick()
+        {
+            base.Tick();
+            if (this.gameStateMachine.CurrentState is GamePrepareState && this.screenManager.CurrentOverlayRoot.GetChildCount() == 0)
+            {
+                this.SetActiveRayCastAllSlot(true);
+                return;
+            }
+
+            this.SetActiveRayCastAllSlot(false);
+        }
 
         public SlotModel GetCurrentSelectedSlotModel() => this.currentSelectedSlot.Model;
 
@@ -139,6 +163,8 @@
 
         public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
         public void ActiveAllSlot()   => this.entities.ForEach(e => e.ActiveView());
+
+        public void SetActiveRayCastAllSlot(bool isActive) => this.entities.ForEach(e => e.SetActiveRayCast(isActive));
 
         public void UpdateAllSlots() { this.entities.ForEach(presenter => { presenter.UpdateSlotBaseOnCurrentLevel(); }); }
     }

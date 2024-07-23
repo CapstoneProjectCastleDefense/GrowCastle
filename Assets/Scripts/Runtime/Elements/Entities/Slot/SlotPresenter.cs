@@ -100,6 +100,11 @@
             this.View.image.DOFade(0, 0.1f);
             this.View.image.GetComponent<BoxCollider2D>().enabled = false;
         }
+        public void SetActiveRayCast(bool isActive)
+        {
+            if(this.View==null) return;
+            this.View.image.GetComponent<BoxCollider2D>().enabled = isActive;
+        }
 
         public async void ActiveView()
         {

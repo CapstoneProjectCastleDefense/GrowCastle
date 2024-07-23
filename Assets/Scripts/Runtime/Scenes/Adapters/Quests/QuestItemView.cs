@@ -63,13 +63,13 @@
             switch (questData.QuestStatus)
             {
                 case QuestStatus.Claimed:
-                    this.View.claimed.SetActive(true);
+                    //this.View.claimed.SetActive(true);
                     break;
                 case QuestStatus.Complete:
                     this.View.claimButton.gameObject.SetActive(true);
                     break;
                 case QuestStatus.Inprogress:
-                    this.View.inprogress.SetActive(true);
+                    //this.View.inprogress.SetActive(true);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -78,6 +78,7 @@
         
         private void OnCurrentValueChange(float value)
         {
+            if(this.View==null) return;
             var questRecord = this.questBlueprint.GetDataById(this.model.QuestId);
             this.View.currentValue.text      = $"{value}";
             this.View.progressBar.fillAmount = value / questRecord.TargetValue;
