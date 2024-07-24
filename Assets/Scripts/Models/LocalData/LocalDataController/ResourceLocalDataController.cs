@@ -23,6 +23,7 @@
 
         public void ReceiveResource(ResourceType resourceType, float receiveValue)
         {
+            if(!this.resourceLocalData.Resource.ContainsKey(resourceType)) return;
             this.resourceLocalData.Resource[resourceType].Value += receiveValue;
         }
 

@@ -1,5 +1,9 @@
-﻿ChestId,ItemQuantity,PoolItems
-CommonChest,3,Gold|50
-,,Diamond|20
-,,Gold|20
-GoldChest,2,Item_1|1
+﻿ChestType,ItemQuantity,ItemType,Weight,Value,ChestIcon
+CommonChest,2,Gold,50,50,chest
+,,Diamond,20,10,
+,,Gold,30,100,
+SliverChest,3,Gold,20,70,chest
+,,Diamond,20,20,
+,,Gold,40,20,
+,,Gold,10,100,
+,,Diamond,10,25,

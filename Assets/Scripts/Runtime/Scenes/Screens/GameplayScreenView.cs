@@ -28,18 +28,22 @@
 
     public class GameplayScreenView : BaseView
     {
-        public Image      backGround;
-        public Button     startWaveButton;
-        public Button     upgradeCastle;
-        public Button     upgradeArcher;
-        public Button     dailyRewardButton;
-        public Button     talentButton;
-        public Button     questButton;
-        public Button     inventoryButton;
-        public Image      castleHealthBar;
-        public Image      castleManaBar;
-        public Image      waveBar;
-        public Image      userExpBar;
+        public Image backGround;
+
+        public Button startWaveButton;
+        public Button upgradeCastle;
+        public Button upgradeArcher;
+        public Button dailyRewardButton;
+        public Button talentButton;
+        public Button questButton;
+        public Button inventoryButton;
+        public Button chestButton;
+        
+        public Image  castleHealthBar;
+        public Image  castleManaBar;
+        public Image  waveBar;
+        public Image  userExpBar;
+
         public GameObject waveIndicator;
         public GameObject upgradeField;
 
@@ -110,6 +114,7 @@
             this.View.talentButton.onClick.AddListener(this.OnTalentBtnClick);
             this.View.questButton.onClick.AddListener(this.OnQuestBtnClick);
             this.View.inventoryButton.onClick.AddListener(this.OnInventoryBtnClick);
+            this.View.chestButton.onClick.AddListener(this.OnChestBtnClick);
 
             this.resourceLocalDataController.GetResource(ResourceType.Gold).Subscribe(this.OnGoldValueChange);
             this.resourceLocalDataController.GetResource(ResourceType.Diamond).Subscribe(this.OnDiamondValueChange);
@@ -128,32 +133,33 @@
             this.resourceLocalDataController.GetResource(ResourceType.Exp).Subscribe(this.OnUserExpUpdate);
             this.userLocalDataController.GetCurrentUserLevel.Subscribe(this.OnUserLevelUpdate);
         }
-        
+
         #region Feature
 
         private void OnQuestFeatureUnlock(int value)
         {
-            if(this.featureLocalDataController.CheckFeatureIsUnlock(FeatureName.Quest,value))
+            if (this.featureLocalDataController.CheckFeatureIsUnlock(FeatureName.Quest, value))
             {
                 this.View.questButton.gameObject.SetActive(true);
             }
         }
-        
+
         private void OnTalentFeatureUnlock(int value)
         {
-            if(this.featureLocalDataController.CheckFeatureIsUnlock(FeatureName.Talent,value))
+            if (this.featureLocalDataController.CheckFeatureIsUnlock(FeatureName.Talent, value))
             {
                 this.View.talentButton.gameObject.SetActive(true);
             }
         }
 
         #endregion
-        
-        private async void OnQuestBtnClick() { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
-        private void OnInventoryBtnClick() { this.screenManager.OpenScreen<ItemInventoryPopupPresenter, ItemInventoryPopupModel>(new(null, null)).Forget(); }
-        private async void OnTalentBtnClick() { await this.screenManager.OpenScreen<TalentPopupPresenter>(); }
-        private void OnUserExpUpdate(float value) { this.View.userExpBar.DOFillAmount(value / this.resourceLocalDataController.GetCurrentTargetExpToLevelUp(), 0.1f); }
-        private void OnUserLevelUpdate(float value) { this.View.userLevelValue.text = $"Level {value}"; }
+
+        private async void OnChestBtnClick()              { await this.screenManager.OpenScreen<ChestPopupPresenter>();}
+        private async void OnQuestBtnClick()              { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
+        private       void OnInventoryBtnClick()          { this.screenManager.OpenScreen<ItemInventoryPopupPresenter, ItemInventoryPopupModel>(new(null, null)).Forget(); }
+        private async void OnTalentBtnClick()             { await this.screenManager.OpenScreen<TalentPopupPresenter>(); }
+        private       void OnUserExpUpdate(float value)   { this.View.userExpBar.DOFillAmount(value / this.resourceLocalDataController.GetCurrentTargetExpToLevelUp(), 0.1f); }
+        private       void OnUserLevelUpdate(float value) { this.View.userLevelValue.text = $"Level {value}"; }
 
         private void OnCastleStatChange(UpdateCastleStatSignal signal)
         {
