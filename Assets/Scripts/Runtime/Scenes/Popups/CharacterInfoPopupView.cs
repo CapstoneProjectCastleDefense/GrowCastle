@@ -7,6 +7,7 @@
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.Utilities.LogService;
     using Models.Blueprints;
     using Models.LocalData;
@@ -24,11 +25,14 @@
         public SlotType        CurrentSelectedSlotType { get; private set; }
         public HeroRuntimeData HeroRuntimeData         { get; set; }
         public IEquippable     Equippable              { get; private set; }
-        public CharacterInfoPopupModel(SlotType currentSelectedSlotType, HeroRuntimeData heroRuntimeData, IEquippable equippable)
+        public bool            IsInfoOnly              { get; set; }
+
+        public CharacterInfoPopupModel(SlotType currentSelectedSlotType, HeroRuntimeData heroRuntimeData, IEquippable equippable, bool isInfoOnly = true)
         {
             this.CurrentSelectedSlotType = currentSelectedSlotType;
             this.HeroRuntimeData         = heroRuntimeData;
             this.Equippable              = equippable;
+            this.IsInfoOnly              = isInfoOnly;
         }
     }
 
@@ -46,6 +50,8 @@
         public Button              exitBtn;
         public List<EquipmentSlot> equipmentSlots;
 
+        public Button changeClassBtn;
+
         public GameObject viewField;
         public Transform  startPos;
         public Transform  endPos;
@@ -59,15 +65,24 @@
         private readonly SlotManager             slotManager;
         private readonly HeroLocalDataController heroLocalDataController;
         private readonly DiContainer             diContainer;
+        private readonly ScreenManager           screenManager;
 
-        public CharacterInfoPopupPresenter(SignalBus signalBus, ILogService logService, IGameAssets gameAssets, SkillBlueprint skillBlueprint, SlotManager slotManager,
-            HeroLocalDataController heroLocalDataController, DiContainer diContainer) : base(signalBus, logService)
+        public CharacterInfoPopupPresenter(SignalBus signalBus,
+                                           ILogService logService,
+                                           IGameAssets gameAssets,
+                                           SkillBlueprint skillBlueprint,
+                                           SlotManager slotManager,
+                                           HeroLocalDataController heroLocalDataController,
+                                           DiContainer diContainer,
+                                           ScreenManager screenManager)
+            : base(signalBus, logService)
         {
             this.gameAssets              = gameAssets;
             this.skillBlueprint          = skillBlueprint;
             this.slotManager             = slotManager;
             this.heroLocalDataController = heroLocalDataController;
             this.diContainer             = diContainer;
+            this.screenManager           = screenManager;
         }
 
         protected override void OnViewReady()
@@ -77,6 +92,7 @@
             this.View.buyBtn.onClick.AddListener(this.OnUnlockButtonClick);
             this.View.unEquipBtn.onClick.AddListener(this.OnUnEquipButtonClick);
             this.View.exitBtn.onClick.AddListener(this.CloseView);
+            this.View.changeClassBtn.onClick.AddListener(this.ChangeClass);
             foreach (var viewEquipmentSlot in this.View.equipmentSlots)
             {
                 this.diContainer.Inject(viewEquipmentSlot);
@@ -106,6 +122,7 @@
             this.View.attackInfo.text       = $"{popupModel.HeroRuntimeData.attack}";
             this.View.attackSpeedInfo.text  = $"{popupModel.HeroRuntimeData.attackSpeed}";
 
+            var heroStatus = popupModel.HeroRuntimeData.heroStatus;
             this.View.equipBtn.gameObject.SetActive(false);
             this.View.levelUpBtn.gameObject.SetActive(false);
             this.View.unEquipBtn.gameObject.SetActive(false);
@@ -174,9 +191,22 @@
             this.UpdateView(this.Model);
         }
 
+        private void ChangeClass()
+        {
+            base.CloseView();
+            this.screenManager.OpenScreen<CharacterEvolvePopupPresenter, CharacterEvolvePopupModel>(new CharacterEvolvePopupModel()
+                {
+                    CharacterId = this.Model.HeroRuntimeData.heroRecord.HeroId
+                })
+                .Forget();
+        }
+
         public override void CloseView()
         {
-            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.OutElastic).onComplete += () => { base.CloseView(); };
+            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.OutElastic).onComplete += () =>
+            {
+                base.CloseView();
+            };
         }
     }
 }
