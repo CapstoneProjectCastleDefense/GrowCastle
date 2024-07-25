@@ -18,7 +18,12 @@ MonoBehaviour:
   m_GUID: f9dcfd8d199681f47878d8f6d5dbe4f9
   m_SerializeEntries:
   - m_GUID: 9b25a7fe58f2cfd4b9c3d7f02b7b5507
-    m_Address: CharacterEvolvePopupView
+    m_Address: ElementEvolvePopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 44ba4fb0b55761f45b7130d929ea4b85
+    m_Address: ConfirmEvolutionPopupView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

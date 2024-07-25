@@ -12,7 +12,7 @@
     using UnityEngine.UI;
     using Zenject;
 
-    public class CharacterEvolvePopupView : BaseView
+    public class ElementEvolvePopupView : BaseView
     {
         [SerializeField] private EvolveItemUI     evolveItemUI;
         [SerializeField] private List<GameObject> levelPos;
@@ -27,20 +27,23 @@
         public GameObject       EvolveItemUIContainer => this.evolveItemUIContainer;
     }
 
-    [PopupInfo(nameof(CharacterEvolvePopupView), isOverlay: true)]
-    public class CharacterEvolvePopupPresenter : BasePopupPresenter<CharacterEvolvePopupView, CharacterEvolvePopupModel>
+    [PopupInfo(nameof(ElementEvolvePopupView), isOverlay: true)]
+    public class ElementEvolvePopupPresenter : BasePopupPresenter<ElementEvolvePopupView, ElementEvolvePopupModel>
     {
         private readonly EvolutionBlueprint evolutionBlueprint;
         private readonly ObjectPoolManager  objectPoolManager;
+        private readonly DiContainer        diContainer;
 
-        public CharacterEvolvePopupPresenter(SignalBus signalBus,
-                                             ILogService logService,
-                                             EvolutionBlueprint evolutionBlueprint,
-                                             ObjectPoolManager objectPoolManager)
+        public ElementEvolvePopupPresenter(SignalBus signalBus,
+            ILogService logService,
+            EvolutionBlueprint evolutionBlueprint,
+            ObjectPoolManager objectPoolManager,
+            DiContainer diContainer)
             : base(signalBus, logService)
         {
             this.evolutionBlueprint = evolutionBlueprint;
             this.objectPoolManager  = objectPoolManager;
+            this.diContainer        = diContainer;
         }
 
         protected override void OnViewReady()
@@ -49,7 +52,7 @@
             this.View.CloseButton.onClick.AddListener(this.CloseView);
         }
 
-        public override UniTask BindData(CharacterEvolvePopupModel popupModel)
+        public override UniTask BindData(ElementEvolvePopupModel popupModel)
         {
             var evolutionRecord = this.evolutionBlueprint[popupModel.CharacterId];
             foreach (var (level, record) in evolutionRecord.LevelToEvolutionDetailRecords)
@@ -59,10 +62,12 @@
                     var evolveItemUI = this.objectPoolManager.Spawn(this.View.EvolveItemUI, this.View.EvolveItemUIContainer.transform);
                     evolveItemUI.BindData(new EvolveItemUIModel
                     {
+                        ElementId             = this.Model.CharacterId,
                         EvolutionDetailRecord = evolutionDetailRecord,
                         LevelPos              = this.View.LevelPos[level - 1].transform.position,
                         LinePos               = this.View.LinePos
                     });
+                    this.diContainer.InjectGameObject(evolveItemUI.gameObject);
                 }
             }
 
@@ -70,7 +75,7 @@
         }
     }
 
-    public class CharacterEvolvePopupModel
+    public class ElementEvolvePopupModel
     {
         public string CharacterId;
     }
