@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using Models.LocalData.LocalDataController;
     using R3;
+    using Runtime.Enums;
 
     public class ResourceLocalData : ILocalDataHaveController<ResourceLocalDataController>
     {

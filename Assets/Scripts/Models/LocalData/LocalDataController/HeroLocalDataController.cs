@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Models.Blueprints;
+    using Runtime.Enums;
     using Sirenix.Utilities;
 
     public class HeroLocalDataController : ILocalDataController

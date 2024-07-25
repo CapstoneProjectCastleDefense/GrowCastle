@@ -2,6 +2,7 @@
 {
     using BlueprintFlow.BlueprintReader;
     using Models.LocalData;
+    using Runtime.Enums;
 
     [BlueprintReader("HeroConfig", true)] [CsvHeaderKey("HeroId")]
     public class HeroConfigBlueprint : GenericBlueprintReaderByRow<string, HeroConfigRecord>

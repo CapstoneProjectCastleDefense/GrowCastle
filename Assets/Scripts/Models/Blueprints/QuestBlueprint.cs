@@ -2,6 +2,7 @@
 {
     using BlueprintFlow.BlueprintReader;
     using Models.LocalData;
+    using Runtime.Enums;
 
     [BlueprintReader("Quest", true)]
     [CsvHeaderKey("QuestId")]

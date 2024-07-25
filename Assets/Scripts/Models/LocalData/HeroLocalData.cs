@@ -3,7 +3,6 @@
     using System.Collections.Generic;
     using System.Runtime.CompilerServices;
     using R3;
-    using Runtime.Elements.Equipment;
 
     public class HeroLocalData : ILocalDataHaveController<HeroLocalDataController>
     {

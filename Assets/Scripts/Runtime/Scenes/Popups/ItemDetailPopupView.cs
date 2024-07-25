@@ -15,13 +15,13 @@
 
     public class ItemDetailPopupModel
     {
-        public ItemDetailPopupModel(IItemModel itemModel, IEquippable equippable, string inventoryId)
+        public ItemDetailPopupModel(ItemModel itemModel, IEquippable equippable, string inventoryId)
         {
             this.ItemModel   = itemModel;
             this.Equippable  = equippable;
             this.InventoryId = inventoryId;
         }
-        public IItemModel  ItemModel   { get; set; }
+        public ItemModel  ItemModel   { get; set; }
         public IEquippable Equippable  { get; set; }
         public string      InventoryId { get; private set; }
     }
@@ -65,7 +65,7 @@
             this.View.RarityImage.sprite = await this.gameAssets.LoadAssetAsync<Sprite>(popupModel.ItemModel.Rarity.ToString());
             this.View.ItemImage.sprite   = await this.gameAssets.LoadAssetAsync<Sprite>(popupModel.ItemModel.AddressableName);
             this.View.Quantity.text      = popupModel.ItemModel.Quantity.ToString();
-            this.View.Description.text = popupModel.ItemModel.Stats.Count > 0
+            this.View.Description.text = popupModel.ItemModel.Stats is { Count: > 0 }
                 ? popupModel.ItemModel.Stats
                     .Select(stat => $"{stat.Key}: +{stat.Value.Item2}")
                     .Aggregate((current, next) => $"{current}\n{next}")

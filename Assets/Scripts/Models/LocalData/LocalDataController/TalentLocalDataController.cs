@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Models.Blueprints;
+    using Runtime.Enums;
     using Sirenix.Utilities;
 
     public class TalentLocalDataController : ILocalDataController

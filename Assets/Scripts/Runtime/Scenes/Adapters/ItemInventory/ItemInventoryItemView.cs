@@ -14,10 +14,10 @@
 
     public class ItemInventoryItemModel
     {
-        public readonly IItemModel  ItemModel;
+        public readonly ItemModel  ItemModel;
         public readonly IEquippable Equippable;
         public readonly string      InventoryId;
-        public ItemInventoryItemModel(IItemModel itemModel, IEquippable equippable, string inventoryId)
+        public ItemInventoryItemModel(ItemModel itemModel, IEquippable equippable, string inventoryId)
         {
             this.ItemModel   = itemModel;
             this.Equippable  = equippable;

@@ -2,7 +2,7 @@
 {
     public enum ItemType
     {
-        Resource,
+        InventoryResource,
         Equipment,
         Consumable
     }
