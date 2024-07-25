@@ -12,6 +12,7 @@
     using Runtime.Managers;
     using Runtime.Managers.Entity;
     using UnityEngine;
+    using Random = System.Random;
 
     public class FindTargetSystem : IGameSystem
     {
@@ -81,6 +82,17 @@
             return cache.Where(x =>
                     x is ITargetable { IsDead: false } target && target.Tags.ContainsAll(new[] { ElementTag.Enemy, ElementTag.Fly }))
                 .Select(x => x as ITargetable)
+                .ToList();
+        }
+        
+        public List<ITargetable> GetRandomEnemies(int number)
+        {
+            var cache = this.getCustomPresenterSystem.GetAllElementPresenters(typeof(EnemyManager));
+            if (cache.Count < number) return null;
+            Random random     = new Random();
+            return cache.Where(x =>
+                    x is ITargetable { IsDead: false })
+                .Select(x => x as ITargetable).OrderBy(x=> random.Next()).Take(number)
                 .ToList();
         }
 

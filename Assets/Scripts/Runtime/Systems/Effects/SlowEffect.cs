@@ -12,6 +12,18 @@
         public override Type EffectTagType                               => typeof(SlowTag);
         public override void Execute(ITargetable target, IEffectTag tag) { this.AddEffectToTarget(target, tag); }
 
+        protected override void AddEffectToTarget(ITargetable target, IEffectTag tag)
+        {
+            if (!target.CurrentEffectTags.ContainsKey(this.EffectTagType))
+            {
+                target.CurrentEffectTags.Add(tag.GetType(), tag);
+                this.AffectedElements.Add(target);
+                return;
+            }
+
+            ((SlowTag)target.CurrentEffectTags[tag.GetType()]).Duration+= ((SlowTag)tag).Duration;
+        }
+
         protected override void Filter()
         {
             for (var index = 0; index < this.AffectedElements.Count; index++)

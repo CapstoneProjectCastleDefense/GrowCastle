@@ -38,7 +38,7 @@
         public          List<ITargetable> AffectedElements { get; set; } = new();
         public abstract void              Execute(ITargetable target, IEffectTag tag);
 
-        protected void AddEffectToTarget(ITargetable target, IEffectTag tag)
+        protected virtual void AddEffectToTarget(ITargetable target, IEffectTag tag)
         {
             if (!target.CurrentEffectTags.ContainsKey(this.EffectTagType))
             {
@@ -50,7 +50,7 @@
             target.CurrentEffectTags[tag.GetType()] = tag;
         }
 
-        protected void RemoveEffectOnTarget(ITargetable target)
+        protected virtual void RemoveEffectOnTarget(ITargetable target)
         {
             if (!target.CurrentEffectTags.ContainsKey(this.EffectTagType)) return;
             target.CurrentEffectTags.Remove(this.EffectTagType);

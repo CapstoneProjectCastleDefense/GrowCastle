@@ -15,6 +15,7 @@
         IncreaseAttackSpeed,
         DecreaseSkillCooldown,
         IncreaseBasicAttack,
+        DeathEffect
         
     }
 }

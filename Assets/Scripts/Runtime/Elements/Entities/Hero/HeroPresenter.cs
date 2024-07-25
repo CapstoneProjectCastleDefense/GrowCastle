@@ -36,7 +36,8 @@
         public  int                          AttackCount;
         public  List<IPassiveSkillPresenter> PassiveSkillPresenters = new();
 
-        public Action OnActiveSkillCasted;
+        public Action              OnActiveSkillCasted;
+        public Action<ITargetable> OnAttackComplete;
 
         protected HeroPresenter(
             HeroModel model,
@@ -142,6 +143,8 @@
                 Target     = target,
                 Damage     = this.Model.GetStat<float>(StatEnum.Attack),
             });
+            this.OnAttackComplete?.Invoke(target);
+            this.OnAttackComplete = null;
         }
 
         public ITargetable FindTarget()
