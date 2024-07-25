@@ -7,3 +7,5 @@ lightning_rod,Projectile,0,0, Summon lighting rod
 green_leaf_attack,InstantHit,30,3,Create a sword strike in the air that slows enemies
 gray_mage_attack,InstantHit,25,3,Create a spell that causes enemies to bleed
 wizard_attack_skill,InstantHit,30,3,"Create golden lightning that deals damage, slows, and causes enemies to bleed for 1 second"
+justice_sanction_skill,InstantHit,30,3,Stun all ground enemies 2 seconds
+cursed_volley,InstantHit,30,3,Summon death arrow

@@ -30,5 +30,6 @@
     {
         Summon,
         Attack,
+        Buff
     }
 }

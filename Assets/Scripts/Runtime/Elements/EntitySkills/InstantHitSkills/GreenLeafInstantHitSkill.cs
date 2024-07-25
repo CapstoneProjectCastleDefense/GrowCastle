@@ -33,14 +33,14 @@
             this.effectManager    = effectManager;
         }
         public override string SkillId { get; set; } = EntitySkillName.GreenLeafAttack;
-        protected override  void InternalActivate()
+        protected override void InternalActivate()
         {
             this.vfxService.SpawnVFX(this.VFXName, new Vector3(-3, -1, 0), Quaternion.identity, scale: new Vector3(2, 2, 1));
             var targets = this.findTargetSystem.GetAllEnemyTarget();
             for (int i = 0; i < targets.Count; i++)
             {
-                this.effectManager.Execute(targets[i], new InstantDamageTag() { Damage = this.Damage });
-                this.effectManager.Execute(targets[i], new SlowTag() { Duration        = 1.5f, Timer = 0, InitialSpeed = targets[i].GetStats().GetStat<float>(StatEnum.MoveSpeed) });
+                this.effectManager.AddEffectToTarget(targets[i], new InstantDamageTag() { Damage = this.Damage });
+                this.effectManager.AddEffectToTarget(targets[i], new SlowTag() { Duration        = 1.5f, Timer = 0 });
             }
         }
     }

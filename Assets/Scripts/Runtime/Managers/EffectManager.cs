@@ -20,21 +20,21 @@
             });
         }
 
-        public void Execute(ITargetable target, IEffectTag tag)
+        public void AddEffectToTarget(ITargetable target, IEffectTag tag)
         {
             if (this.tagTypeToEffect.TryGetValue(tag.GetType(), out var effect))
             {
                 effect.Execute(target, tag);
             }
         }
-        public void Execute(ITargetable target, Type tagType)
+        public void AddEffectToTarget(ITargetable target, Type tagType)
         {
             if (this.tagTypeToEffect.TryGetValue(tagType, out var effect))
             {
                 effect.Execute(target, null);
             }
         }
-        
+
         public void Tick()
         {
             foreach (var effectSystem in this.tagTypeToEffect.Values)

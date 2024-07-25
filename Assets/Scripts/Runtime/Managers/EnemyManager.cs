@@ -55,16 +55,18 @@
                     Stats = new()
                     {
                         { StatEnum.Attack, (typeof(float), enemyRecord.Attack.baseValue) },
+                        { StatEnum.MaxAttack, (typeof(float), enemyRecord.Attack.baseValue) },
                         { StatEnum.Health, (typeof(float), enemyRecord.HP.baseValue) },
                         { StatEnum.MaxHealth, (typeof(float), enemyRecord.HP.baseValue) },
                         { StatEnum.MoveSpeed, (typeof(float), enemyRecord.Speed.baseValue) },
+                        { StatEnum.MaxSpeed, (typeof(float), enemyRecord.Speed.baseValue) },
                         { StatEnum.AttackRange, (typeof(float), enemyRecord.AttackRange) },
                         { StatEnum.AttackSpeed, (typeof(float), 1f) },
                         { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Building) },
                         { StatEnum.Gold, (typeof(float), enemyRecord.Gold.baseValue) },
                         { StatEnum.Exp, (typeof(float), enemyRecord.Exp.baseValue) }
                     },
-                    StartPos = new(Random.Range(15f, 20f), Random.Range(-2.5f, -1.5f), 0)
+                    StartPos = new(Random.Range(15f, 20f), Random.Range(-2.5f, -1.5f), 0),
                 });
                 enemyPresenter.UpdateView().Forget();
                 enemyPresenter.SetManager(this);

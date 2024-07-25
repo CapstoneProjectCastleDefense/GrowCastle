@@ -1,8 +1,10 @@
 ﻿namespace Models.Blueprints
 {
+    using System.Collections.Generic;
     using BlueprintFlow.BlueprintReader;
     using BlueprintFlow.BlueprintReader.Converter;
     using Models.Blueprints.Converters;
+    using Models.Tags;
 
     [BlueprintReader("Enemy", true)] [CsvHeaderKey("Id")]
     public class EnemyBlueprint : GenericBlueprintReaderByRow<string, EnemyRecord>
@@ -22,6 +24,7 @@
         public (float baseValue, float coefficient) Speed       { get; set; }
         public (float baseValue, float coefficient) Gold        { get; set; }
         public (float baseValue, float coefficient) Exp         { get; set; }
+        public List<ElementTag>                     Tags        { get; set; }
     }
 
     public enum AttackType

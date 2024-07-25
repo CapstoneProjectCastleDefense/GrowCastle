@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Codice.Client.BaseCommands.BranchExplorer;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using GameFoundation.Scripts.Utilities.Extension;
@@ -29,12 +30,16 @@
         private readonly SkillBlueprint          skillBlueprint;
         private readonly CastleManager           castleManager;
         private readonly HeroLocalDataController heroLocalDataController;
+        private readonly EffectManager           effectManager;
 
         private HeroManager                  heroManager;
         private bool                         canAttack;
         private float                        timer;
         public  int                          AttackCount;
         public  List<IPassiveSkillPresenter> PassiveSkillPresenters = new();
+
+        public Action              OnActiveSkillCasted;
+        public Action<ITargetable> OnAttackComplete;
 
         protected HeroPresenter(
             HeroModel model,
@@ -44,7 +49,8 @@
             FindTargetSystem findTargetSystem,
             SkillBlueprint skillBlueprint,
             CastleManager castleManager,
-            HeroLocalDataController heroLocalDataController)
+            HeroLocalDataController heroLocalDataController,
+            EffectManager effectManager)
             : base(model, objectPoolManager)
         {
             this.entitySkillSystem       = entitySkillSystem;
@@ -53,6 +59,7 @@
             this.skillBlueprint          = skillBlueprint;
             this.castleManager           = castleManager;
             this.heroLocalDataController = heroLocalDataController;
+            this.effectManager           = effectManager;
         }
 
         public void SetManager(HeroManager heroManager) => this.heroManager = heroManager;
@@ -90,6 +97,7 @@
             });
             this.View.cooldownSkillBar.fillAmount = 0;
             this.StartRefillCooldown(this.Model.GetStat<float>(StatEnum.ActiveSkillCooldown));
+            this.OnActiveSkillCasted?.Invoke();
         }
 
         private void StartRefillCooldown(float cooldownTime)
@@ -139,6 +147,7 @@
                 Target     = target,
                 Damage     = this.Model.GetStat<float>(StatEnum.Attack),
             });
+            this.OnAttackComplete?.Invoke(target);
         }
 
         public ITargetable FindTarget()
@@ -154,15 +163,9 @@
 
         #region Implement IEquipable
 
-        public void Equip(string equipmentId)
-        {
-            this.heroLocalDataController.EquipEquipment(this.Model.Id, equipmentId);
-        }
+        public void Equip(string equipmentId) { this.heroLocalDataController.EquipEquipment(this.Model.Id, equipmentId); }
 
-        public void UnEquip(string equipmentId)
-        {
-            this.heroLocalDataController.UnEquipEquipment(this.Model.Id, equipmentId);
-        }
+        public void UnEquip(string equipmentId) { this.heroLocalDataController.UnEquipEquipment(this.Model.Id, equipmentId); }
 
         #endregion
 

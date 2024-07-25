@@ -7,6 +7,7 @@
     using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using global::Extensions;
+    using Models.Blueprints;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
@@ -30,6 +31,7 @@
         private readonly FindTargetSystem            findTargetSystem;
         private readonly ResourceLocalDataController resourceLocalDataController;
         private readonly SignalBus                   signalBus;
+        private readonly EnemyBlueprint              enemyBlueprint;
 
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
         public virtual string[] GetTags()         { return new[] { "Ally", "Building" }; }
@@ -39,12 +41,14 @@
             ObjectPoolManager objectPoolManager,
             FindTargetSystem findTargetSystem,
             ResourceLocalDataController resourceLocalDataController,
-            SignalBus signalBus)
+            SignalBus signalBus,
+            EnemyBlueprint enemyBlueprint)
             : base(model, objectPoolManager)
         {
             this.findTargetSystem            = findTargetSystem;
             this.resourceLocalDataController = resourceLocalDataController;
             this.signalBus                   = signalBus;
+            this.enemyBlueprint              = enemyBlueprint;
         }
         public override async UniTask UpdateView()
         {
@@ -55,6 +59,7 @@
             this.View.transform.position                                          = this.Model.StartPos + Vector3.up * (this.View.tag.Equals("Fly") ? 5 : 0);
             this.View.SkeletonAnimation.GetComponent<MeshRenderer>().sortingOrder = (int)((this.Model.StartPos.y + 10) * -100);
             this.View.Rigidbody2D.constraints                                     = RigidbodyConstraints2D.None;
+            this.Tags                                                             = this.enemyBlueprint.GetDataById(this.Model.Id).Tags;
         }
 
 
@@ -143,7 +148,7 @@
             this.View.HealthBarContainer.gameObject.SetActive(false);
 
             this.DropCoin();
-            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.KillEnemy,Value = 1});
+            this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = QuestTriggerSignalId.KillEnemy, Value = 1 });
 
             var wait = 0f;
             if (!DeathAnimName.IsNullOrEmpty() &&
@@ -215,7 +220,7 @@
 
         public override void Dispose()
         {
-            if(this.View.gameObject.activeSelf) this.View.Recycle();
+            if (this.View.gameObject.activeSelf) this.View.Recycle();
             this.ElementManager.entities.Remove(this);
             this.IsDead = true;
         }
