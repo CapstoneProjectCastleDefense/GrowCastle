@@ -10,6 +10,7 @@
         BonusReduceMana,
         ActiveSkillCooldown,
         MaxSpeed,
+        MaxAttack,
         
         Attack,
         Defense,

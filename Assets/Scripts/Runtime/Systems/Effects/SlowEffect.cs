@@ -38,12 +38,12 @@
         protected override void ActiveEffect(ITargetable target)
         {
             var tagData = (SlowTag)target.CurrentEffectTags[this.EffectTagType];
-            var speed   = tagData.InitialSpeed * 0.2f;
+            var speed   = target.GetStats().GetStat<float>(StatEnum.MaxSpeed) * 0.2f;
             target.GetStats().SetStat(StatEnum.MoveSpeed, speed);
 
             if (tagData.Timer >= tagData.Duration)
             {
-                target.GetStats().SetStat(StatEnum.MoveSpeed, tagData.InitialSpeed);
+                target.GetStats().SetStat(StatEnum.MoveSpeed,  target.GetStats().GetStat<float>(StatEnum.MaxSpeed));
                 tagData.Duration = 0;
             }
 

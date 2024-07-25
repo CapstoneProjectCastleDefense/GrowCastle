@@ -1,8 +1,6 @@
 ﻿namespace Runtime.Elements.EntitySkills.BuffSkills
 {
-    using Models.Blueprints;
     using Models.Tags;
-    using Runtime.Elements.EntitySkills.InstantHitSkills;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Skills;

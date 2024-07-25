@@ -32,6 +32,7 @@
                 this.HeroPresenter.OnAttackComplete = (target) =>
                 {
                     this.effectManager.AddEffectToTarget(target, new DeathEffectTag() { HpPercentRemainToTrigger = 100 });
+                    this.HeroPresenter.OnAttackComplete = null;
                 };
             }
         }

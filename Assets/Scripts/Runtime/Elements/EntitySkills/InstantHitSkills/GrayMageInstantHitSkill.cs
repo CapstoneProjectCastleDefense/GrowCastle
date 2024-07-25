@@ -39,7 +39,7 @@
             {
                 this.effectManager.AddEffectToTarget(targets[i], new InstantDamageTag() { Damage = this.Damage });
                 this.effectManager.AddEffectToTarget(targets[i], new BleedTag() { Duration       = 3, Timer = 0, TimeDelay    = 0.2f });
-                this.effectManager.AddEffectToTarget(targets[i], new SlowTag() { Duration        = 1, Timer = 0, InitialSpeed = targets[i].GetStats().GetStat<float>(StatEnum.MaxSpeed) });
+                this.effectManager.AddEffectToTarget(targets[i], new SlowTag() { Duration        = 1, Timer = 0});
             }
         }
     }

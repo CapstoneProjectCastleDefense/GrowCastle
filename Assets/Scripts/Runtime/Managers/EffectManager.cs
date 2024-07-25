@@ -34,7 +34,7 @@
                 effect.Execute(target, null);
             }
         }
-        
+
         public void Tick()
         {
             foreach (var effectSystem in this.tagTypeToEffect.Values)

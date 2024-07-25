@@ -28,7 +28,7 @@
             {
                 this.effectManager.AddEffectToTarget(e, new SlowTag()
                 {
-                    Duration = 1.5f, Timer = 0, InitialSpeed = e.GetStats().GetStat<float>(StatEnum.MaxSpeed)
+                    Duration = 1.5f, Timer = 0
                 });
             });
         }

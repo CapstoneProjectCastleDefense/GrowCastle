@@ -55,6 +55,7 @@
                     Stats = new()
                     {
                         { StatEnum.Attack, (typeof(float), enemyRecord.Attack.baseValue) },
+                        { StatEnum.MaxAttack, (typeof(float), enemyRecord.Attack.baseValue) },
                         { StatEnum.Health, (typeof(float), enemyRecord.HP.baseValue) },
                         { StatEnum.MaxHealth, (typeof(float), enemyRecord.HP.baseValue) },
                         { StatEnum.MoveSpeed, (typeof(float), enemyRecord.Speed.baseValue) },

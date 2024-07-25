@@ -12,11 +12,15 @@
             { GodLightPassiveSkill, typeof(GodLightPassiveSkill) },
             { ControlGravityPassiveSkill, typeof(ControlGravityPassiveSkill) },
             { IntimidationPassiveSkill, typeof(IntimidationPassiveSkill) },
+            { TheFearPassiveSkill, typeof(TheFearPassiveSkill) },
+            { DeadlyArrowPassiveSkill, typeof(DeadlyArrowPassiveSkill) },
         };
 
         public static string GodApperancePassiveSkill   => "GodApperancePassiveSkill";
         public static string GodLightPassiveSkill       => "GodLightPassiveSkill";
         public static string ControlGravityPassiveSkill => "ControlGravityPassiveSkill";
         public static string IntimidationPassiveSkill   => "IntimidationPassiveSkill";
+        public static string TheFearPassiveSkill        => "TheFearPassiveSkill";
+        public static string DeadlyArrowPassiveSkill    => "DeadlyArrowPassiveSkill";
     }
 }
