@@ -8,12 +8,13 @@
     public enum EffectTagEnum
     {
         BleedEffect,
-        StunEffect,
+        FreezeEffect,
         FearEffect,
         InstantDamageEffect,
         SlowEffect,
         IncreaseAttackSpeed,
         DecreaseSkillCooldown,
-        IncreaseBasicAttack
+        IncreaseBasicAttack,
+        
     }
 }

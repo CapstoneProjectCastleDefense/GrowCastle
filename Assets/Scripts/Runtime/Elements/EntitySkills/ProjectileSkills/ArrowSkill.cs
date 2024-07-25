@@ -35,7 +35,7 @@
                 if (targetableView != null &&
                     !targetableView.GetTargetablePresenter().IsDead)
                 {
-                    this.effectManager.Execute(targetableView.GetTargetablePresenter(), new InstantDamageTag() { Damage = this.Model.Damage });
+                    this.effectManager.AddEffectToTarget(targetableView.GetTargetablePresenter(), new InstantDamageTag() { Damage = this.Model.Damage });
                     projectile.GetView().transform.DOKill();
                     projectile.GetView().Recycle();
                     projectile.isFlyComplete = true;

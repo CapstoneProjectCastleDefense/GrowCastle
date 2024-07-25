@@ -39,8 +39,8 @@
             var targets = this.findTargetSystem.GetAllEnemyTarget();
             for (int i = 0; i < targets.Count; i++)
             {
-                this.effectManager.Execute(targets[i], new InstantDamageTag() { Damage = this.Damage });
-                this.effectManager.Execute(targets[i], new SlowTag() { Duration        = 1.5f, Timer = 0, InitialSpeed = targets[i].GetStats().GetStat<float>(StatEnum.MoveSpeed) });
+                this.effectManager.AddEffectToTarget(targets[i], new InstantDamageTag() { Damage = this.Damage });
+                this.effectManager.AddEffectToTarget(targets[i], new SlowTag() { Duration        = 1.5f, Timer = 0, InitialSpeed = targets[i].GetStats().GetStat<float>(StatEnum.MaxSpeed) });
             }
         }
     }

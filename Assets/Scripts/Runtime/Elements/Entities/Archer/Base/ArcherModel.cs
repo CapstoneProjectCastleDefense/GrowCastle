@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using Models.Tags;
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Interfaces;
@@ -14,6 +15,6 @@
         public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
         public int                                  Level           { get; set; }
         public int                                  Index           { get; set; }
-        public Transform                            ParentView   { get; set; }
+        public Transform                            ParentView      { get; set; }
     }
 }

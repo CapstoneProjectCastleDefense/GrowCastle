@@ -3,6 +3,8 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using GameFoundation.Scripts.Utilities.Extension;
+    using Models.Tags;
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
@@ -35,7 +37,12 @@
             return targets.Count <= count ? targets : this.GetTaggedTarget(host, priority, tagList, targets, count);
         }
 
-        public List<ITargetable> GetTargetsInRange(IElementPresenter host, AttackPriorityEnum priority, List<string> tagList, Type[] managerTypes, Vector3 center,
+        public List<ITargetable> GetTargetsInRange(
+            IElementPresenter host,
+            AttackPriorityEnum priority,
+            List<string> tagList,
+            Type[] managerTypes,
+            Vector3 center,
             float range)
         {
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(managerTypes);
@@ -55,6 +62,24 @@
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(typeof(EnemyManager));
             return cache.Where(x =>
                     x is ITargetable { IsDead: false })
+                .Select(x => x as ITargetable)
+                .ToList();
+        }
+
+        public List<ITargetable> GetAllGroundEnemies()
+        {
+            var cache = this.getCustomPresenterSystem.GetAllElementPresenters(typeof(EnemyManager));
+            return cache.Where(x =>
+                    x is ITargetable { IsDead: false } target && target.Tags.ContainsAll(new[] { ElementTag.Enemy, ElementTag.Ground }))
+                .Select(x => x as ITargetable)
+                .ToList();
+        }
+        
+        public List<ITargetable> GetAllFlyEnemies()
+        {
+            var cache = this.getCustomPresenterSystem.GetAllElementPresenters(typeof(EnemyManager));
+            return cache.Where(x =>
+                    x is ITargetable { IsDead: false } target && target.Tags.ContainsAll(new[] { ElementTag.Enemy, ElementTag.Fly }))
                 .Select(x => x as ITargetable)
                 .ToList();
         }

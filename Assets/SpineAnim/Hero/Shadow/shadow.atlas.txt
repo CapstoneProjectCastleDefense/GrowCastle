@@ -1,0 +1,62 @@
+
+shadow.png
+size: 1305,246
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+s1/body copy
+  rotate: false
+  xy: 730, 6
+  size: 189, 238
+  orig: 189, 238
+  offset: 0, 0
+  index: -1
+shadow/body copy
+  rotate: false
+  xy: 730, 6
+  size: 189, 238
+  orig: 189, 238
+  offset: 0, 0
+  index: -1
+shadow/body
+  rotate: false
+  xy: 1127, 36
+  size: 176, 208
+  orig: 176, 208
+  offset: 0, 0
+  index: -1
+shadow/bow
+  rotate: false
+  xy: 405, 58
+  size: 323, 186
+  orig: 323, 186
+  offset: 0, 0
+  index: -1
+shadow/head
+  rotate: true
+  xy: 921, 39
+  size: 205, 204
+  orig: 205, 204
+  offset: 0, 0
+  index: -1
+shadow/head copy
+  rotate: true
+  xy: 2, 2
+  size: 242, 401
+  orig: 242, 401
+  offset: 0, 0
+  index: -1
+shadow/leg 1
+  rotate: true
+  xy: 405, 31
+  size: 25, 81
+  orig: 25, 81
+  offset: 0, 0
+  index: -1
+shadow/leg 2
+  rotate: true
+  xy: 405, 6
+  size: 23, 81
+  orig: 23, 81
+  offset: 0, 0
+  index: -1

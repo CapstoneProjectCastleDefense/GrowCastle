@@ -19,7 +19,7 @@
 
         protected override void ActiveEffect(ITargetable target)
         {
-            var tagData = (BleedTag)target.CurrentTag[this.EffectTagType];
+            var tagData = (BleedTag)target.CurrentEffectTags[this.EffectTagType];
             if (tagData.Timer >= tagData.TimeDelay)
             {
                 var targetStats = target.GetStats();
@@ -47,7 +47,7 @@
             for (var index = 0; index < this.AffectedElements.Count; index++)
             {
                 var target = this.AffectedElements[index];
-                if (((BleedTag)target.CurrentTag[this.EffectTagType]).Duration <= 0)
+                if (((BleedTag)target.CurrentEffectTags[this.EffectTagType]).Duration <= 0)
                 {
                     this.RemoveEffectOnTarget(target);
                 }

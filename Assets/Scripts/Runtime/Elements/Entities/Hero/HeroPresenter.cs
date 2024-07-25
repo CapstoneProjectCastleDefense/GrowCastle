@@ -36,6 +36,8 @@
         public  int                          AttackCount;
         public  List<IPassiveSkillPresenter> PassiveSkillPresenters = new();
 
+        public Action OnActiveSkillCasted;
+
         protected HeroPresenter(
             HeroModel model,
             ObjectPoolManager objectPoolManager,
@@ -90,6 +92,7 @@
             });
             this.View.cooldownSkillBar.fillAmount = 0;
             this.StartRefillCooldown(this.Model.GetStat<float>(StatEnum.ActiveSkillCooldown));
+            this.OnActiveSkillCasted?.Invoke();
         }
 
         private void StartRefillCooldown(float cooldownTime)

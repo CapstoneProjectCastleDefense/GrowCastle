@@ -1,0 +1,55 @@
+
+storm.png
+size: 893,410
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+body
+  rotate: true
+  xy: 469, 236
+  size: 172, 255
+  orig: 172, 255
+  offset: 0, 0
+  index: -1
+hammer
+  rotate: false
+  xy: 726, 196
+  size: 165, 212
+  orig: 165, 212
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 469, 18
+  size: 218, 216
+  orig: 218, 216
+  offset: 0, 0
+  index: -1
+leg 1
+  rotate: false
+  xy: 689, 149
+  size: 26, 85
+  orig: 26, 85
+  offset: 0, 0
+  index: -1
+leg 2
+  rotate: false
+  xy: 689, 62
+  size: 24, 85
+  orig: 24, 85
+  offset: 0, 0
+  index: -1
+vong
+  rotate: true
+  xy: 2, 8
+  size: 400, 465
+  orig: 400, 465
+  offset: 0, 0
+  index: -1
+vong co
+  rotate: false
+  xy: 717, 2
+  size: 169, 192
+  orig: 169, 192
+  offset: 0, 0
+  index: -1

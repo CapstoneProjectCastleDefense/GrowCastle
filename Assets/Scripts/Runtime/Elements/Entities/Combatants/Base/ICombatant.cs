@@ -12,6 +12,7 @@
 
     public interface ICombatant : IElementModel, IHaveStatsModel
     {
+
     }
 
     public interface ICombatantPresenter : IElementPresenter, ITargetable
@@ -34,8 +35,9 @@
 
         public virtual void UpdateStats() { }
 
-        public virtual GameObject                   GetGameObject() { return this.View.gameObject; }
-        public         Dictionary<Type, IEffectTag> CurrentTag      { get; set; } = new();
+        public virtual GameObject                   GetGameObject()   { return this.View.gameObject; }
+        public         Dictionary<Type, IEffectTag> CurrentEffectTags { get; set; } = new();
+        public         List<ElementTag>             Tags              { get; set; }
 
         public override async UniTask UpdateView()
         {

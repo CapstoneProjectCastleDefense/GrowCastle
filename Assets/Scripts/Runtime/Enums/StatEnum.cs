@@ -9,6 +9,7 @@
         MaxMana,
         BonusReduceMana,
         ActiveSkillCooldown,
+        MaxSpeed,
         
         Attack,
         Defense,

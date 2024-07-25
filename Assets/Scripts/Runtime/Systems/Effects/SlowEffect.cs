@@ -17,7 +17,7 @@
             for (var index = 0; index < this.AffectedElements.Count; index++)
             {
                 var target = this.AffectedElements[index];
-                if (((SlowTag)target.CurrentTag[this.EffectTagType]).Duration <= 0)
+                if (((SlowTag)target.CurrentEffectTags[this.EffectTagType]).Duration <= 0)
                 {
                     this.RemoveEffectOnTarget(target);
                 }
@@ -25,7 +25,7 @@
         }
         protected override void ActiveEffect(ITargetable target)
         {
-            var tagData = (SlowTag)target.CurrentTag[this.EffectTagType];
+            var tagData = (SlowTag)target.CurrentEffectTags[this.EffectTagType];
             var speed   = tagData.InitialSpeed * 0.2f;
             target.GetStats().SetStat(StatEnum.MoveSpeed, speed);
 

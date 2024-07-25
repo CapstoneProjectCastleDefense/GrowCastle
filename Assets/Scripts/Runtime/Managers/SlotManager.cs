@@ -96,7 +96,7 @@
                     var hero = this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
                     if (!this.GetCurrentSelectedSlotModel().SlotRecord.EffectId.IsNullOrEmpty())
                     {
-                        this.effectManager.Execute(hero, EffectIdToEffectType.EffectIdToEffect[this.GetCurrentSelectedSlotModel().SlotRecord.EffectId]);
+                        this.effectManager.AddEffectToTarget(hero, EffectIdToEffectType.EffectIdToEffect[this.GetCurrentSelectedSlotModel().SlotRecord.EffectId]);
                     }
 
                     break;
@@ -151,7 +151,7 @@
                 var hero = this.heroManager.CreateSingleHero(slotData.DeployObjectId, slotPresenter.GetSlotView.heroPos);
                 if (!slotPresenter.Model.SlotRecord.EffectId.IsNullOrEmpty())
                 {
-                    this.effectManager.Execute(hero, EffectIdToEffectType.EffectIdToEffect[slotPresenter.Model.SlotRecord.EffectId]);
+                    this.effectManager.AddEffectToTarget(hero, EffectIdToEffectType.EffectIdToEffect[slotPresenter.Model.SlotRecord.EffectId]);
                 }
             }
             else if (slotData.SlotType == SlotType.Leader)

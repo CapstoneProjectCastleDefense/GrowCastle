@@ -1,0 +1,55 @@
+
+judge.png
+size: 984,257
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1/body
+  rotate: false
+  xy: 445, 10
+  size: 188, 245
+  orig: 188, 245
+  offset: 0, 0
+  index: -1
+2/hammer 2
+  rotate: false
+  xy: 235, 14
+  size: 208, 241
+  orig: 208, 241
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 635, 51
+  size: 180, 204
+  orig: 180, 204
+  offset: 0, 0
+  index: -1
+hammer
+  rotate: false
+  xy: 817, 49
+  size: 165, 206
+  orig: 165, 206
+  offset: 0, 0
+  index: -1
+head
+  rotate: true
+  xy: 2, 2
+  size: 253, 231
+  orig: 253, 231
+  offset: 0, 0
+  index: -1
+leg 1
+  rotate: true
+  xy: 635, 24
+  size: 25, 80
+  orig: 25, 80
+  offset: 0, 0
+  index: -1
+leg 2
+  rotate: true
+  xy: 717, 26
+  size: 23, 79
+  orig: 23, 79
+  offset: 0, 0
+  index: -1
