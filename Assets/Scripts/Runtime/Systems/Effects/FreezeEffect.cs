@@ -18,7 +18,7 @@
             for (var index = 0; index < this.AffectedElements.Count; index++)
             {
                 var target = this.AffectedElements[index];
-                if (((SlowTag)target.CurrentEffectTags[this.EffectTagType]).Duration <= 0)
+                if (((FreezeTag)target.CurrentEffectTags[this.EffectTagType]).Duration <= 0)
                 {
                     this.RemoveEffectOnTarget(target);
                 }
@@ -27,11 +27,11 @@
         protected override void ActiveEffect(ITargetable target)
         {
             var tagData = (FreezeTag)target.CurrentEffectTags[this.EffectTagType];
-            target.GetStats().SetStat(StatEnum.MoveSpeed, 0);
+            target.GetStats().SetStat(StatEnum.MoveSpeed, 0f);
 
             if (tagData.Timer >= tagData.Duration)
             {
-                target.GetStats().SetStat(StatEnum.MoveSpeed, tagData.InitialSpeed);
+                target.GetStats().SetStat(StatEnum.MoveSpeed, target.GetStats().GetStat<float>(StatEnum.MaxSpeed));
                 tagData.Duration = 0;
             }
 

@@ -1,5 +1,7 @@
 ﻿namespace Runtime.Elements.PassiveSkills
 {
+    using System;
+    using Cysharp.Threading.Tasks;
     using Models.Tags;
     using Runtime.Elements.Entities.Hero;
     using Runtime.Enums;
@@ -21,8 +23,9 @@
         }
         public void Init() { this.HeroPresenter.OnActiveSkillCasted = this.ActiveSkill; }
         public void Tick() { }
-        public void ActiveSkill()
+        public async void ActiveSkill()
         {
+            await UniTask.Delay(TimeSpan.FromSeconds(2));
             var targets = this.findTargetSystem.GetAllFlyEnemies();
             targets.ForEach(e =>
             {

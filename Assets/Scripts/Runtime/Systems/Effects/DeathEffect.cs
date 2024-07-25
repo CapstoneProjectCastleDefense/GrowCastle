@@ -22,7 +22,7 @@
             var tagData         = (DeathEffectTag)tag;
             var hpPercentRemain = (target.GetStats().GetStat<float>(StatEnum.Health) / target.GetStats().GetStat<float>(StatEnum.MaxHealth)) * 100;
             if (!(hpPercentRemain < tagData.HpPercentRemainToTrigger)) return;
-            target.GetStats().SetStat(StatEnum.Health,0);
+            target.GetStats().SetStat(StatEnum.Health,0f);
             target.UpdateStats();
         }
     }

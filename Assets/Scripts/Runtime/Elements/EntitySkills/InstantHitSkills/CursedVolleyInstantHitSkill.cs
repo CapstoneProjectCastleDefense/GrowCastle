@@ -39,7 +39,7 @@
         protected override void InternalActivate()
         {
             List<GameObject> arrows   = new();
-            var          startPos = new Vector3(-1f, -1, 0);
+            var          startPos = new Vector3(0f, 3, 0);
             var            range    = 0.5f;
             for (var i = 0; i < 3; i++)
             {
@@ -53,10 +53,12 @@
             for (var i = 0; i < targets.Count; i++)
             {
                 var index = i;
+                arrows[index].transform.DOLookAt(targets[index].GetGameObject().transform.position, 0.1f,AxisConstraint.Y| AxisConstraint.W);
                 arrows[index].transform.DOMove(targets[index].GetGameObject().transform.position, 0.5f).onComplete += () =>
                 {
                     this.effectManager.AddEffectToTarget(targets[index], new InstantDamageTag() { Damage          = this.Damage });
-                    this.effectManager.AddEffectToTarget(targets[index], new DeathEffectTag() { HpPercentRemainToTrigger = 20 });
+                    this.effectManager.AddEffectToTarget(targets[index], new DeathEffectTag() { HpPercentRemainToTrigger = 100 });
+                    arrows[index].Recycle();
                 };
             }
         }
