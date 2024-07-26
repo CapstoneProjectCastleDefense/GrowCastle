@@ -2,34 +2,34 @@
 {
     using System;
     using System.Collections.Generic;
+    using JetBrains.Annotations;
+    using Models.Blueprints;
+    using Models.LocalData;
     using Runtime.Elements.Base;
     using Runtime.Enums;
 
     public class ItemModel : IHaveStatsModel, IIdentifier
     {
-        public ItemModel(string id, Dictionary<StatEnum, (Type, object)> stats, ItemType itemType, int quantity, RarityEnum rarity, string addressableName,
-            bool isEquipped, int level, int tier, EquipmentType equipmentType)
+        private readonly ItemBlueprint itemBlueprint;
+        public ItemModel(ItemData itemData, ItemBlueprint itemBlueprint)
         {
-            this.Id              = id;
-            this.Stats           = stats;
-            this.ItemType        = itemType;
-            this.Quantity        = quantity;
-            this.Rarity          = rarity;
-            this.AddressableName = addressableName;
-            this.IsEquipped      = isEquipped;
-            this.Level           = level;
-            this.Tier            = tier;
-            this.EquipmentType   = equipmentType;
+            this.ItemData      = itemData;
+            this.itemBlueprint = itemBlueprint;
         }
-        public string                               Id              { get; set; }
-        public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
-        public ItemType                             ItemType        { get; protected set; }
-        public int                                  Quantity        { get; protected set; }
-        public RarityEnum                           Rarity          { get; protected set; }
-        public string                               AddressableName { get; protected set; }
-        public bool                                 IsEquipped      { get; protected set; }
-        public int                                  Level           { get; set; }
-        public int                                  Tier            { get; set; }
-        public EquipmentType                        EquipmentType   { get; set; }
+
+        public string Id { get => this.ItemData.BlueprintId; set { } }
+
+        public string InventoryId => this.ItemData.InventoryId;
+
+        public Dictionary<StatEnum, (Type, object)> Stats           { get => this.ItemData.Stats; set => this.ItemData.Stats = value; }
+        public ItemType                             ItemType        => this.itemBlueprint.GetDataById(this.Id).ItemType;
+        public int                                  Quantity        { get => this.ItemData.Quantity; protected set => this.ItemData.Quantity = value; }
+        public RarityEnum                           Rarity          { get => this.ItemData.Rarity;   protected set => this.ItemData.Rarity = value; }
+        public string                               AddressableName => this.itemBlueprint.GetDataById(this.Id).ImageAddress;
+        public bool                                 IsEquipped      { get => this.ItemData.IsEquipped; protected set => this.ItemData.IsEquipped = value; }
+        public int                                  Level           { get => this.ItemData.Level;      set => this.ItemData.Level = value; }
+        public int                                  Tier            { get => this.ItemData.Tier;       set => this.ItemData.Tier = value; }
+        public EquipmentType                        EquipmentType   => this.itemBlueprint.GetDataById(this.Id).EquipmentType;
+        public ItemData                             ItemData        { get; protected set; }
     }
 }

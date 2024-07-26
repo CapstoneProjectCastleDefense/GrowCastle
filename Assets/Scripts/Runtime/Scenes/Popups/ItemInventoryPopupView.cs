@@ -137,22 +137,18 @@
                 foreach (var itemBlueprintValue in this.itemBlueprint.Values)
                 {
                     this.inventoryLocalDataController.AddItem(
-                        new ItemModel(
-                            itemBlueprintValue.Id,
-                            new()
-                            {
-                                { StatEnum.Attack, (typeof(float), Random.Range(1, 10)) },
-                                { StatEnum.Defense, (typeof(float), Random.Range(1, 10)) },
-                                { StatEnum.Health, (typeof(float), Random.Range(1, 10)) }
-                            },
-                            itemBlueprintValue.ItemType,
-                            1,
-                            (RarityEnum)enums.GetValue(Random.Range(0, enums.Length)),
-                            itemBlueprintValue.ImageAddress,
-                            false,
-                            1,
-                            0,
-                            EquipmentType.Weapon));
+                        itemBlueprintValue.Id,
+                        1,
+                        (RarityEnum)enums.GetValue(Random.Range(0, enums.Length)),
+                        false,
+                        1,
+                        0,
+                        new()
+                        {
+                            { StatEnum.Attack, (typeof(float), Random.Range(1, 10)) },
+                            { StatEnum.Defense, (typeof(float), Random.Range(1, 10)) },
+                            { StatEnum.Health, (typeof(float), Random.Range(1, 10)) }
+                        });
                 }
 
                 if (model.Equippable == null)

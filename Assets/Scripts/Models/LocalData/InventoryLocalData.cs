@@ -31,18 +31,7 @@
     {
         public static ItemModel ToModel(this ItemData itemData, ItemBlueprint itemBlueprint)
         {
-            return new(
-                itemData.InventoryId,
-                itemData.Stats,
-                itemBlueprint.GetDataById(itemData.BlueprintId).ItemType,
-                itemData.Quantity,
-                itemData.Rarity,
-                itemBlueprint.GetDataById(itemData.BlueprintId).ImageAddress,
-                itemData.IsEquipped,
-                itemData.Level,
-                itemData.Tier,
-                itemBlueprint.GetDataById(itemData.BlueprintId).EquipmentType
-            );
+            return new(itemData, itemBlueprint);
         }
     }
 }

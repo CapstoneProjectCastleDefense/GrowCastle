@@ -26,22 +26,22 @@
         }
         public List<ItemData> GetAllItems()      { return this.inventoryLocalData.Items; }
         public ItemData       GetItem(string id) { return this.inventoryLocalData.Items.FirstOrDefault(x => x.InventoryId == id); }
-        public void AddItem(ItemModel item)
+        public void AddItem(string blueprintId, int quantity, RarityEnum rarity, bool isEquipped, int level, int tier, Dictionary<StatEnum, (Type, object)> stats)
         {
             var sha256      = new System.Security.Cryptography.SHA256Managed();
             var hash        = sha256.ComputeHash(System.Text.Encoding.UTF8.GetBytes(DateTime.Now.ToString(CultureInfo.InvariantCulture) + DateTime.Now.Millisecond));
             var id          = BitConverter.ToString(hash).Replace("-", string.Empty);
-            var isEquipment = this.itemBlueprint.GetDataById(item.Id).ItemType == ItemType.Equipment;
+            var isEquipment = this.itemBlueprint.GetDataById(blueprintId).ItemType == ItemType.Equipment;
             var itemData = new ItemData
             {
                 InventoryId = id,
-                BlueprintId = item.Id,
-                Quantity    = item.Quantity,
-                Rarity      = item.Rarity,
-                IsEquipped  = isEquipment && item.IsEquipped,
-                Level       = item.Level,
-                Tier        = item.Tier,
-                Stats       = item.Stats
+                BlueprintId = blueprintId,
+                Quantity    = quantity,
+                Rarity      = rarity,
+                IsEquipped  = isEquipment && isEquipped,
+                Level       = level,
+                Tier        = tier,
+                Stats       = stats
             };
 
             this.inventoryLocalData.Items.Add(itemData);
@@ -50,7 +50,7 @@
         public void EquipItem(string itemId)
         {
             var item = this.inventoryLocalData.Items.FirstOrDefault(x => x.InventoryId == itemId);
-            if(item == null) return;
+            if (item == null) return;
             var blueprintData = this.itemBlueprint.GetDataById(item.BlueprintId);
             if (blueprintData.ItemType == ItemType.Equipment && !item.IsEquipped)
             {
@@ -61,7 +61,7 @@
         public void UnEquipItem(string itemId)
         {
             var item = this.inventoryLocalData.Items.FirstOrDefault(x => x.InventoryId == itemId);
-            if(item == null) return;
+            if (item == null) return;
             var blueprintData = this.itemBlueprint.GetDataById(item.BlueprintId);
             if (blueprintData.ItemType == ItemType.Equipment && item.IsEquipped)
             {
