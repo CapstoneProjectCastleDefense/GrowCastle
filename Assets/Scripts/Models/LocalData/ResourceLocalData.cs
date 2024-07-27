@@ -17,15 +17,4 @@
             this.Resource.Add(ResourceType.Exp,new ReactiveProperty<float>(0));
         }
     }
-
-    
-    public enum ResourceType
-    {
-        Gold,
-        Diamond,
-        Ticket,
-        TalentPoint,
-        Exp,
-        Item
-    }
 }

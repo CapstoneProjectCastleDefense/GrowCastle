@@ -2,9 +2,11 @@
 {
     using BlueprintFlow.BlueprintReader;
     using Models.LocalData;
+    using Runtime.Enums;
 
-    [BlueprintReader("Chest", true)] [CsvHeaderKey("ChestType")]
-    public class ChestBlueprint : GenericBlueprintReaderByRow<ChestType,ChestRecord>
+    [BlueprintReader("Chest", true)]
+    [CsvHeaderKey("ChestType")]
+    public class ChestBlueprint : GenericBlueprintReaderByRow<ChestType, ChestRecord>
     {
     }
 
@@ -28,6 +30,6 @@
     {
         public ResourceType ItemType { get; set; }
         public int          Value    { get; set; }
-        public float          Weight   { get; set; }
+        public float        Weight   { get; set; }
     }
 }

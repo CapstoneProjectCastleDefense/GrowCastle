@@ -7,5 +7,6 @@
         Ticket,
         TalentPoint,
         Exp,
+        Item
     }
 }
