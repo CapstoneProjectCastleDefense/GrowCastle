@@ -21,15 +21,16 @@
 
         public string InventoryId => this.ItemData.InventoryId;
 
-        public Dictionary<StatEnum, (Type, object)> Stats           { get => this.ItemData.Stats; set => this.ItemData.Stats = value; }
-        public ItemType                             ItemType        => this.itemBlueprint.GetDataById(this.Id).ItemType;
-        public int                                  Quantity        { get => this.ItemData.Quantity; protected set => this.ItemData.Quantity = value; }
-        public RarityEnum                           Rarity          { get => this.ItemData.Rarity;   protected set => this.ItemData.Rarity = value; }
-        public string                               AddressableName => this.itemBlueprint.GetDataById(this.Id).ImageAddress;
+        public Dictionary<StatEnum, (Type, object)> Stats           { get => this.ItemData.Stats;      set => this.ItemData.Stats = value; }
+        public int                                  Quantity        { get => this.ItemData.Quantity;   protected set => this.ItemData.Quantity = value; }
+        public RarityEnum                           Rarity          { get => this.ItemData.Rarity;     protected set => this.ItemData.Rarity = value; }
         public bool                                 IsEquipped      { get => this.ItemData.IsEquipped; protected set => this.ItemData.IsEquipped = value; }
         public int                                  Level           { get => this.ItemData.Level;      set => this.ItemData.Level = value; }
         public int                                  Tier            { get => this.ItemData.Tier;       set => this.ItemData.Tier = value; }
+        public ItemData                             ItemData        { get;                             protected set; }
+        public ItemType                             ItemType        => this.itemBlueprint.GetDataById(this.Id).ItemType;
+        public string                               AddressableName => this.itemBlueprint.GetDataById(this.Id).ImageAddress;
         public EquipmentType                        EquipmentType   => this.itemBlueprint.GetDataById(this.Id).EquipmentType;
-        public ItemData                             ItemData        { get; protected set; }
+        public string                               Name            => this.itemBlueprint.GetDataById(this.Id).Name;
     }
 }

@@ -8,6 +8,7 @@
     using Runtime.Enums;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
+    using Runtime.StaticValues;
 
     public class InventoryLocalDataController : ILocalDataController
     {
@@ -66,6 +67,23 @@
             if (blueprintData.ItemType == ItemType.Equipment && item.IsEquipped)
             {
                 item.IsEquipped = false;
+            }
+        }
+
+        public void RecycleItem(string itemId)
+        {
+            var item = this.inventoryLocalData.Items.FirstOrDefault(x => x.InventoryId == itemId);
+            if (item == null) return;
+            this.inventoryLocalData.Items.Remove(item);
+            var fragmentCount = item.Rarity.GetFragments();
+            item = this.inventoryLocalData.Items.FirstOrDefault(x => x.BlueprintId == ResourceValue.ItemFragment);
+            if (item == null)
+            {
+                this.AddItem(ResourceValue.ItemFragment, fragmentCount, RarityEnum.Common, false, 0, 0, new());
+            }
+            else
+            {
+                item.Quantity += fragmentCount;
             }
         }
     }

@@ -14,3 +14,4 @@ Id,Name,Description,ImageAddress,ItemType,EquipmentType,MaxLevel,MaxTier
 13,Staff of the Damned,,StaffOfTheDamned_Image,Equipment,Weapon,100,10
 14,Staff,,Staff_Image,Equipment,Weapon,100,10
 15,Sword of Kunasagi,,SwordOfKunasagi_Image,Equipment,Weapon,100,10
+16,Fragment,,Test,InventoryResource,Weapon,0,0

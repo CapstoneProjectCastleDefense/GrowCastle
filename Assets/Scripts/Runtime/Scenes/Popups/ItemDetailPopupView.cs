@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Scenes.Popups
 {
+    using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
@@ -7,6 +8,7 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.Utilities.LogService;
+    using Models.LocalData.LocalDataController;
     using Runtime.Enums;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
@@ -17,41 +19,48 @@
 
     public class ItemDetailPopupModel
     {
-        public ItemDetailPopupModel(ItemModel itemModel, IEquippable equippable, string inventoryId)
+        public ItemModel   ItemModel   { get; }
+        public IEquippable Equippable  { get; }
+        public string      InventoryId { get; }
+        public Action      OnRecycle   { get; }
+        public ItemDetailPopupModel(ItemModel itemModel, IEquippable equippable, string inventoryId, Action onRecycle)
         {
             this.ItemModel   = itemModel;
             this.Equippable  = equippable;
             this.InventoryId = inventoryId;
+            this.OnRecycle   = onRecycle;
         }
-        public ItemModel   ItemModel   { get; set; }
-        public IEquippable Equippable  { get; set; }
-        public string      InventoryId { get; private set; }
     }
 
     public class ItemDetailPopupView : BaseView
     {
         public Button   CloseButton;
         public Button   EquipButton;
+        public Button   UnequipButton;
         public Button   LevelButton;
         public Button   TierButton;
-        public Button   UnequipButton;
+        public Button   RecycleButton;
         public Image    ItemImage;
         public Image    RarityImage;
         public TMP_Text Description;
         public TMP_Text Quantity;
         public TMP_Text Level;
         public TMP_Text Tier;
+        public TMP_Text Name;
     }
 
     [PopupInfo(nameof(ItemDetailPopupView), isCloseWhenTapOutside: false, isOverlay: true)]
     public class ItemDetailPopupPresenter : BasePopupPresenter<ItemDetailPopupView, ItemDetailPopupModel>
     {
-        private readonly IGameAssets    gameAssets;
-        private readonly IScreenManager screenManager;
-        public ItemDetailPopupPresenter(SignalBus signalBus, ILogService logService, IGameAssets gameAssets, IScreenManager screenManager) : base(signalBus, logService)
+        private readonly IGameAssets                  gameAssets;
+        private readonly IScreenManager               screenManager;
+        private readonly InventoryLocalDataController inventoryLocalDataController;
+        public ItemDetailPopupPresenter(SignalBus signalBus, ILogService logService, IGameAssets gameAssets, IScreenManager screenManager,
+            InventoryLocalDataController inventoryLocalDataController) : base(signalBus, logService)
         {
-            this.gameAssets    = gameAssets;
-            this.screenManager = screenManager;
+            this.gameAssets                   = gameAssets;
+            this.screenManager                = screenManager;
+            this.inventoryLocalDataController = inventoryLocalDataController;
         }
         protected override void OnViewReady()
         {
@@ -69,6 +78,13 @@
             {
                 this.screenManager.OpenScreen<TierUpPopupPresenter, TierUpPopupModel>(new(this.Model.InventoryId, this.OnTierUp)).Forget();
             });
+
+            this.View.RecycleButton.onClick.AddListener(() =>
+            {
+                this.inventoryLocalDataController.RecycleItem(this.Model.InventoryId);
+                this.Model.OnRecycle();
+                this.CloseView();
+            });
         }
 
         private void OnLevelUp()
@@ -84,6 +100,10 @@
             this.Model                   = popupModel;
             this.View.RarityImage.sprite = await this.gameAssets.LoadAssetAsync<Sprite>(this.Model.ItemModel.Rarity.ToString());
             this.View.ItemImage.sprite   = await this.gameAssets.LoadAssetAsync<Sprite>(this.Model.ItemModel.AddressableName);
+            this.View.Name.text          = this.Model.ItemModel.Name;
+            this.View.Level.gameObject.SetActive(this.Model.ItemModel.ItemType == ItemType.Equipment);
+            this.View.Tier.gameObject.SetActive(this.Model.ItemModel.ItemType == ItemType.Equipment);
+            this.View.Quantity.gameObject.SetActive(this.Model.ItemModel.ItemType != ItemType.Equipment);
             this.BindVolatileData();
         }
 
@@ -108,8 +128,7 @@
                 && this.Model.ItemModel.IsEquipped);
             this.View.LevelButton.gameObject.SetActive(this.Model.ItemModel.ItemType == ItemType.Equipment && !canTierUp);
             this.View.TierButton.gameObject.SetActive(this.Model.ItemModel.ItemType == ItemType.Equipment && canTierUp);
-            this.View.Level.gameObject.SetActive(this.Model.ItemModel.ItemType == ItemType.Equipment);
-            this.View.Tier.gameObject.SetActive(this.Model.ItemModel.ItemType == ItemType.Equipment);
+            this.View.RecycleButton.gameObject.SetActive(this.Model.ItemModel.ItemType == ItemType.Equipment && !this.Model.ItemModel.IsEquipped);
         }
     }
 }

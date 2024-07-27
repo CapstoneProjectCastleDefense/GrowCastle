@@ -68,8 +68,13 @@
         {
             this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0);
             this.View.ViewField.DOLocalMoveX(this.ViewWidth - this.ViewFieldWidth * 1.5f, 0.5f).SetEase(Ease.InQuad);
+            this.BindItems().Forget();
+        }
+
+        private async UniTaskVoid BindItems()
+        {
             List<ItemModel> items = new();
-            if (model.Equippable == null)
+            if (this.Model.Equippable == null)
             {
                 items = this.inventoryLocalDataController.GetAllItems().Select(x => x.ToModel(this.itemBlueprint)).ToList();
             }
@@ -80,59 +85,6 @@
 
             if (items.Count == 0)
             {
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "dagger", new()
-                // {
-                //     { StatEnum.Attack, (typeof(int), 10) },
-                //     { StatEnum.Defense, (typeof(int), 10) },
-                //     { StatEnum.Health, (typeof(int), 10) }
-                // }, EquipmentType.Weapon, ItemType.Equipment, RarityEnum.Common, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "axe", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Legendary, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(
-                //     new EquipmentModel("Environment_1", "book", new(), EquipmentType.Weapon, ItemType.Equipment, RarityEnum.Rare, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "owlstaff", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Common,
-                //     1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "book", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Legendary, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "bow", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Legendary, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "spear of heaven", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Common, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "snow talimans", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Common, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "sword of kunasagi", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Legendary, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Locket of Harmony", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Legendary, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "Staff of the Damned", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Rare, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "staff", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Legendary, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "bua cu", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Common, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "frostbite", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Rare, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "amulet", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Rare, 1, 0, 0));
-                // await UniTask.Delay(100);
-                // this.inventoryLocalDataController.AddItem(new EquipmentModel("Environment_1", "ring", new(), EquipmentType.Weapon, ItemType.Equipment,
-                //     RarityEnum.Common, 1, 0, 0));
-
                 var enums = Enum.GetValues(typeof(RarityEnum));
                 foreach (var itemBlueprintValue in this.itemBlueprint.Values)
                 {
@@ -151,7 +103,7 @@
                         });
                 }
 
-                if (model.Equippable == null)
+                if (this.Model.Equippable == null)
                 {
                     items = this.inventoryLocalDataController.GetAllItems().Select(x => x.ToModel(this.itemBlueprint)).ToList();
                 }
@@ -161,11 +113,20 @@
                 }
             }
 
+            if(items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup != 0)
+                items.AddRange(Enumerable.Repeat<ItemModel>(new(new(){InventoryId = null}, this.itemBlueprint), this.View.Adapter.Parameters.Grid.MaxCellsPerGroup - items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup));
 
-            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, x.Id)).ToList(), this.diContainer);
+            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, x.InventoryId, this.OnRecycle)).ToList(),
+                this.diContainer);
             if (this.Model.Id.IsNullOrEmpty()) return;
             var index = items.FindIndex(x => x.Id == this.Model.Id);
             this.View.Adapter.SmoothScrollTo(index, 0.5f);
+        }
+
+        private void OnRecycle()
+        {
+            
+            this.BindItems().Forget();
         }
 
         public override void CloseView() { this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0.5f).SetEase(Ease.InQuad).onComplete += () => { base.CloseView(); }; }
