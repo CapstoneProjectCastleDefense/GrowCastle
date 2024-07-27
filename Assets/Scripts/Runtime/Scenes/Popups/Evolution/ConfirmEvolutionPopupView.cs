@@ -44,7 +44,11 @@
 
         public override UniTask BindData(ConfirmEvolutionPopupModel popupModel)
         {
-            this.View.ElementGenericInfoView.BindData(popupModel.CharacterInfoPopupModel);
+            this.View.ElementGenericInfoView.BindData(new ElementGenericInfoModel()
+            {
+                ElementId   = popupModel.ElementId,
+                EvolutionId = popupModel.EvolutionId
+            });
             return UniTask.CompletedTask;
         }
 

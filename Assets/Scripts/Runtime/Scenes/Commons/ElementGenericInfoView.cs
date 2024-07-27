@@ -1,9 +1,11 @@
 ﻿namespace Runtime.Scenes.Commons
 {
     using System.Collections.Generic;
+    using System.Linq;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
     using Models.Blueprints;
+    using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Adapters.Evolution;
     using Runtime.Scenes.Popups;
     using Spine.Unity;
@@ -22,38 +24,39 @@
         [SerializeField] private TMP_Text        skillDescription, attackInfoTxt, attackInfoSpeedTxt;
         [SerializeField] private AbilityAdapter  abilityAdapter;
 
-        private SkillBlueprint         skillBlueprint;
-        private IGameAssets            gameAssets;
-        private EvolutionInfoBlueprint evolutionInfoBlueprint;
-        private DiContainer            diContainer;
+        private IGameAssets             gameAssets;
+        private EvolutionInfoBlueprint  evolutionInfoBlueprint;
+        private DiContainer             diContainer;
+        private HeroLocalDataController heroLocalDataController;
 
         [Inject]
-        public void Construct(SkillBlueprint skillBlueprint,
-            IGameAssets gameAssets,
+        public void Construct(IGameAssets gameAssets,
             EvolutionInfoBlueprint evolutionInfoBlueprint,
-            DiContainer diContainer)
+            DiContainer diContainer,
+            HeroLocalDataController heroLocalDataController)
         {
-            this.skillBlueprint         = skillBlueprint;
-            this.gameAssets             = gameAssets;
-            this.evolutionInfoBlueprint = evolutionInfoBlueprint;
-            this.diContainer            = diContainer;
+            this.gameAssets              = gameAssets;
+            this.evolutionInfoBlueprint  = evolutionInfoBlueprint;
+            this.diContainer             = diContainer;
+            this.heroLocalDataController = heroLocalDataController;
         }
 
-        public void BindData(CharacterInfoPopupModel popupModel)
+        public void BindData(ElementGenericInfoModel model)
         {
-            this.skillDescription.text   = this.skillBlueprint.GetDataById(popupModel.HeroRuntimeData.heroRecord.ActiveSkill.skillName).Description;
-            this.attackInfoTxt.text      = $"{popupModel.HeroRuntimeData.attack}";
-            this.attackInfoSpeedTxt.text = $"{popupModel.HeroRuntimeData.attackSpeed}";
+            var heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(model.ElementId);
+            this.attackInfoTxt.text      = $"{heroRuntimeData.attack}";
+            this.attackInfoSpeedTxt.text = $"{heroRuntimeData.attackSpeed}";
 
-            var skeletonDataAsset = this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(popupModel.HeroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion();
+            var skeletonDataAsset = this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(heroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion();
             this.avatarAnim.ChangeSkeletonDataAsset(skeletonDataAsset, "idle");
 
-            this.InitAdapter(popupModel).Forget();
+            this.InitAdapter(model).Forget();
         }
 
-        private async UniTaskVoid InitAdapter(CharacterInfoPopupModel popupModel)
+        private async UniTaskVoid InitAdapter(ElementGenericInfoModel model)
         {
-            var abilityRecords = this.evolutionInfoBlueprint.GetDataById(ElementId).AbilityRecords;
+            var abilityRecords = this.evolutionInfoBlueprint.GetDataById(model.EvolutionId).AbilityRecords;
+            this.selectedAbilityId = abilityRecords.First().Key;
             var modelList      = new List<AbilityUIModel>();
             foreach (var (key, record) in abilityRecords)
             {
@@ -69,6 +72,7 @@
 
             this.disableSelectAbility = true;
             await this.abilityAdapter.InitItemAdapter(modelList, this.diContainer);
+            this.OnAbilityUISelected(this.selectedAbilityId);
             this.disableSelectAbility = false;
         }
 
@@ -81,5 +85,12 @@
             var description    = abilityRecords[this.selectedAbilityId].AbilityDescription;
             this.skillDescription.text = description;
         }
+    }
+
+    public class ElementGenericInfoModel
+    {
+        public string ElementId;
+        public string EvolutionId;
+        public string SkeletonDataAsset;
     }
 }

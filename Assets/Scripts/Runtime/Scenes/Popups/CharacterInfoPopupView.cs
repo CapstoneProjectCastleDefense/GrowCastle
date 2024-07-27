@@ -51,8 +51,9 @@
         public GameObject viewField;
         public Transform  startPos;
         public Transform  endPos;
-        
-        [FormerlySerializedAs("characterGenericInfoView")] [SerializeField] private ElementGenericInfoView elementGenericInfoView;
+
+        [FormerlySerializedAs("characterGenericInfoView")] [SerializeField]
+        private ElementGenericInfoView elementGenericInfoView;
 
         public ElementGenericInfoView ElementGenericInfoView => this.elementGenericInfoView;
     }
@@ -60,23 +61,26 @@
     [PopupInfo(nameof(CharacterInfoPopupView), isOverlay: true)]
     public class CharacterInfoPopupPresenter : BasePopupPresenter<CharacterInfoPopupView, CharacterInfoPopupModel>
     {
-        private readonly SlotManager             slotManager;
-        private readonly HeroLocalDataController heroLocalDataController;
-        private readonly DiContainer             diContainer;
-        private readonly ScreenManager           screenManager;
+        private readonly SlotManager                slotManager;
+        private readonly HeroLocalDataController    heroLocalDataController;
+        private readonly DiContainer                diContainer;
+        private readonly ScreenManager              screenManager;
+        private readonly ElementLocalDataController elementLocalDataController;
 
         public CharacterInfoPopupPresenter(SignalBus signalBus,
-                                           ILogService logService,
-                                           SlotManager slotManager,
-                                           HeroLocalDataController heroLocalDataController,
-                                           DiContainer diContainer,
-                                           ScreenManager screenManager)
+            ILogService logService,
+            SlotManager slotManager,
+            HeroLocalDataController heroLocalDataController,
+            DiContainer diContainer,
+            ScreenManager screenManager,
+            ElementLocalDataController elementLocalDataController)
             : base(signalBus, logService)
         {
-            this.slotManager             = slotManager;
-            this.heroLocalDataController = heroLocalDataController;
-            this.diContainer             = diContainer;
-            this.screenManager           = screenManager;
+            this.slotManager                = slotManager;
+            this.heroLocalDataController    = heroLocalDataController;
+            this.diContainer                = diContainer;
+            this.screenManager              = screenManager;
+            this.elementLocalDataController = elementLocalDataController;
         }
 
         protected override void OnViewReady()
@@ -91,7 +95,7 @@
             {
                 this.diContainer.Inject(viewEquipmentSlot);
             }
-            
+
             this.diContainer.InjectGameObject(this.View.ElementGenericInfoView.gameObject);
         }
 
@@ -105,8 +109,8 @@
             {
                 await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : ""));
             }
-            
-            this.View.ElementGenericInfoView.BindData(popupModel);
+
+            this.BindGenericInfo(popupModel);
 
             this.UpdateView(popupModel);
         }
@@ -139,6 +143,17 @@
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void BindGenericInfo(CharacterInfoPopupModel model)
+        {
+            var id          = model.HeroRuntimeData.heroRecord.HeroId;
+            var evolutionId = this.elementLocalDataController.GetEvolutionElementData(id).EvolutionId;
+            this.View.ElementGenericInfoView.BindData(new ElementGenericInfoModel()
+            {
+                ElementId   = model.HeroRuntimeData.heroRecord.HeroId,
+                EvolutionId = evolutionId
+            });
         }
 
         private void OnEquipButtonClick()
@@ -193,12 +208,6 @@
                 .Forget();
         }
 
-        public override void CloseView()
-        {
-            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.OutElastic).onComplete += () =>
-            {
-                base.CloseView();
-            };
-        }
+        public override void CloseView() { this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.OutElastic).onComplete += () => { base.CloseView(); }; }
     }
 }
