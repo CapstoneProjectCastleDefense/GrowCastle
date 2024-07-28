@@ -1,0 +1,20 @@
+﻿AbilityId,AbilityName,AbilityIcon,AbilityDescription
+Knight_SK1,Undead Army,,Summon two skeletons
+Knight_SK2,Fight Forever,,Spawner get more ATK
+Knight_SK3,Great Admiral,,Buff self ATK
+Grey_SK1,God Realm,,"Summon god sword, deal damage to 10 enemy"
+Grey_SK2,God Supremacy,,Increase skill crit
+Grey_SK3,God Light,,Reduce skill mana
+Grey_SK4,God Apperance,,Use God Realm on 3 arbitrary enemy
+White_SK1,Healing Light,,Heal tower 10% of HP lost
+White_SK2,Blinding,,White Mage normal attack has slow effect
+White_SK3,Time Flow,,Reduce skill cooldown 10%
+GL_SK1,Sylvan Wrath,,Green Leaf fire an arrow rooting enemy in 2s
+GL_SK2,Elven Mark,,Mark enemy with weak point. Enemy with weak point gained more damage 10%
+GL_SK3,Hunter Zone,,Increase normal attack crit 15%
+BS_SK1,Fire Golem,,Summon two fire golems exists in 2s
+BS_SK2,Bloodlust,,Increase golem's attack speed 20%
+BS_SK3,Warlord,,Increase golem's normal attack damage 15%
+SF_SK1,Cursed Volley,,"Summon 3 arrow fear enemy, kill them if hp is lower than 40%"
+SF_SK2,Deadly arrow,,Fourth normal attack has 60% chance of critical
+SF_SK3,The Fear,,"If tower's hp < 30%, all heroes' normal attack has 30% chance of fear enemy"

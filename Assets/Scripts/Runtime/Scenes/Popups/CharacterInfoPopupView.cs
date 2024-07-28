@@ -4,18 +4,18 @@
     using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
-    using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.Utilities.LogService;
-    using Models.Blueprints;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
-    using Spine.Unity;
+    using Runtime.Scenes.Commons;
     using TMPro;
     using UnityEngine;
+    using UnityEngine.Serialization;
     using UnityEngine.UI;
     using Zenject;
 
@@ -24,50 +24,63 @@
         public SlotType        CurrentSelectedSlotType { get; private set; }
         public HeroRuntimeData HeroRuntimeData         { get; set; }
         public IEquippable     Equippable              { get; private set; }
-        public CharacterInfoPopupModel(SlotType currentSelectedSlotType, HeroRuntimeData heroRuntimeData, IEquippable equippable)
+        public bool            IsInfoOnly              { get; set; }
+
+        public CharacterInfoPopupModel(SlotType currentSelectedSlotType, HeroRuntimeData heroRuntimeData, IEquippable equippable, bool isInfoOnly = false)
         {
             this.CurrentSelectedSlotType = currentSelectedSlotType;
             this.HeroRuntimeData         = heroRuntimeData;
             this.Equippable              = equippable;
+            this.IsInfoOnly              = isInfoOnly;
         }
     }
 
     public class CharacterInfoPopupView : BaseView
     {
-        public SkeletonGraphic     avatarAnim;
         public Button              equipBtn;
         public Button              buyBtn;
         public Button              unEquipBtn;
         public Button              levelUpBtn;
-        public TextMeshProUGUI     skillDescription;
-        public TextMeshProUGUI     attackInfo;
-        public TextMeshProUGUI     attackSpeedInfo;
         public TextMeshProUGUI     title;
         public Button              exitBtn;
         public List<EquipmentSlot> equipmentSlots;
 
+
+        public Button changeClassBtn;
+
         public GameObject viewField;
         public Transform  startPos;
         public Transform  endPos;
+
+        [FormerlySerializedAs("characterGenericInfoView")] [SerializeField]
+        private ElementGenericInfoView elementGenericInfoView;
+
+        public ElementGenericInfoView ElementGenericInfoView => this.elementGenericInfoView;
     }
 
     [PopupInfo(nameof(CharacterInfoPopupView), isOverlay: true)]
     public class CharacterInfoPopupPresenter : BasePopupPresenter<CharacterInfoPopupView, CharacterInfoPopupModel>
     {
-        private readonly IGameAssets             gameAssets;
-        private readonly SkillBlueprint          skillBlueprint;
-        private readonly SlotManager             slotManager;
-        private readonly HeroLocalDataController heroLocalDataController;
-        private readonly DiContainer             diContainer;
+        private readonly SlotManager                slotManager;
+        private readonly HeroLocalDataController    heroLocalDataController;
+        private readonly DiContainer                diContainer;
+        private readonly ScreenManager              screenManager;
+        private readonly ElementLocalDataController elementLocalDataController;
 
-        public CharacterInfoPopupPresenter(SignalBus signalBus, ILogService logService, IGameAssets gameAssets, SkillBlueprint skillBlueprint, SlotManager slotManager,
-            HeroLocalDataController heroLocalDataController, DiContainer diContainer) : base(signalBus, logService)
+        public CharacterInfoPopupPresenter(SignalBus signalBus,
+            ILogService logService,
+            SlotManager slotManager,
+            HeroLocalDataController heroLocalDataController,
+            DiContainer diContainer,
+            ScreenManager screenManager,
+            ElementLocalDataController elementLocalDataController)
+            : base(signalBus, logService)
         {
-            this.gameAssets              = gameAssets;
-            this.skillBlueprint          = skillBlueprint;
-            this.slotManager             = slotManager;
-            this.heroLocalDataController = heroLocalDataController;
-            this.diContainer             = diContainer;
+            this.slotManager                = slotManager;
+            this.heroLocalDataController    = heroLocalDataController;
+            this.diContainer                = diContainer;
+            this.screenManager              = screenManager;
+            this.elementLocalDataController = elementLocalDataController;
         }
 
         protected override void OnViewReady()
@@ -77,14 +90,19 @@
             this.View.buyBtn.onClick.AddListener(this.OnUnlockButtonClick);
             this.View.unEquipBtn.onClick.AddListener(this.OnUnEquipButtonClick);
             this.View.exitBtn.onClick.AddListener(this.CloseView);
+            this.View.changeClassBtn.onClick.AddListener(this.ChangeClass);
             foreach (var viewEquipmentSlot in this.View.equipmentSlots)
             {
                 this.diContainer.Inject(viewEquipmentSlot);
             }
+
+            this.diContainer.InjectGameObject(this.View.ElementGenericInfoView.gameObject);
         }
 
         public override async UniTask BindData(CharacterInfoPopupModel popupModel)
         {
+            this.View.changeClassBtn.gameObject.SetActive(!popupModel.IsInfoOnly);
+            
             this.View.title.text                   = this.Model.CurrentSelectedSlotType.ToString();
             this.View.viewField.transform.position = this.View.startPos.position;
             this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
@@ -94,17 +112,14 @@
                 await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : ""));
             }
 
+            this.BindGenericInfo(popupModel);
+
             this.UpdateView(popupModel);
         }
 
         private void UpdateView(CharacterInfoPopupModel popupModel)
         {
             this.Model = popupModel;
-            var skeletonDataAsset = this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(popupModel.HeroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion();
-            this.View.avatarAnim.ChangeSkeletonDataAsset(skeletonDataAsset, "idle");
-            this.View.skillDescription.text = this.skillBlueprint.GetDataById(popupModel.HeroRuntimeData.heroRecord.ActiveSkill.skillName).Description;
-            this.View.attackInfo.text       = $"{popupModel.HeroRuntimeData.attack}";
-            this.View.attackSpeedInfo.text  = $"{popupModel.HeroRuntimeData.attackSpeed}";
 
             this.View.equipBtn.gameObject.SetActive(false);
             this.View.levelUpBtn.gameObject.SetActive(false);
@@ -130,6 +145,17 @@
                 default:
                     throw new ArgumentOutOfRangeException();
             }
+        }
+
+        private void BindGenericInfo(CharacterInfoPopupModel model)
+        {
+            var id          = model.HeroRuntimeData.heroRecord.HeroId;
+            var evolutionId = this.elementLocalDataController.GetEvolutionElementData(id).EvolutionId;
+            this.View.ElementGenericInfoView.BindData(new ElementGenericInfoModel()
+            {
+                ElementId   = model.HeroRuntimeData.heroRecord.HeroId,
+                EvolutionId = evolutionId
+            });
         }
 
         private void OnEquipButtonClick()
@@ -174,9 +200,16 @@
             this.UpdateView(this.Model);
         }
 
-        public override void CloseView()
+        private void ChangeClass()
         {
-            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.OutElastic).onComplete += () => { base.CloseView(); };
+            base.CloseView();
+            this.screenManager.OpenScreen<ElementEvolvePopupPresenter, ElementEvolvePopupModel>(new ElementEvolvePopupModel()
+                {
+                    CharacterId = this.Model.HeroRuntimeData.heroRecord.HeroId
+                })
+                .Forget();
         }
+
+        public override void CloseView() { this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.OutElastic).onComplete += () => { base.CloseView(); }; }
     }
 }
