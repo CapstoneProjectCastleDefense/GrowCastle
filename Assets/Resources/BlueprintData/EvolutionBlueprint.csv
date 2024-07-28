@@ -1,4 +1,9 @@
 CharacterId,Level,EvolutionId,LineIndex,ParentId,ParentPathIndex,IconImg,NormalAttackSkills,PassiveSkills,ActiveSkills,Price
 Knight,1,knight_evolve_1,1,,-1,,KnightSkill_1,,,10
 ,2,knight_evolve_2,1,knight_evolve_1,1,,KnightSkill_1,,,10
-xelNaga_evolve,1,xelNaga_evolve_1,1,,-1,,XelNagaSkill_1,,,10
+Wizard,1,xelNaga_evolve_1,1,,-1,,XelNagaSkill_1,,,10
+GreenLeaf,1,xelNaga_evolve_1,1,,-1,,XelNagaSkill_1,,,10
+GrayMage,1,xelNaga_evolve_1,1,,-1,,XelNagaSkill_1,,,10
+Xel'Naga,1,xelNaga_evolve_1,1,,-1,,XelNagaSkill_1,,,10
+Judge,1,xelNaga_evolve_1,1,,-1,,XelNagaSkill_1,,,10
+Shadow,1,xelNaga_evolve_1,1,,-1,,XelNagaSkill_1,,,10

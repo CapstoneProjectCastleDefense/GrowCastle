@@ -13,10 +13,11 @@
     public class ConfirmEvolutionPopupView : BaseView
     {
         [SerializeField] private ElementGenericInfoView elementGenericInfoView;
-        [SerializeField] private Button                 changeClassBtn;
+        [SerializeField] private Button                 changeClassBtn, closeBtn;
 
         public ElementGenericInfoView ElementGenericInfoView => this.elementGenericInfoView;
         public Button                 ChangeClassBtn         => this.changeClassBtn;
+        public Button                 CloseBtn               => this.closeBtn;
     }
 
     [PopupInfo(nameof(ConfirmEvolutionPopupView), isOverlay: true)]
@@ -39,6 +40,7 @@
         {
             base.OnViewReady();
             this.View.ChangeClassBtn.onClick.AddListener(this.UpdateEvolutionId);
+            this.View.CloseBtn.onClick.AddListener(this.CloseView);
             this.diContainer.InjectGameObject(this.View.ElementGenericInfoView.gameObject);
         }
 

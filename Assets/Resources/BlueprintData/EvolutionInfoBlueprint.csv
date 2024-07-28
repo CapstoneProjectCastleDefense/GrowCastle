@@ -1,3 +1,4 @@
-﻿EvolutionId,EvolutionDescription,AbilityId,AbilityIcon,AbilityDescription
-knight_evolve_1,,Knight_SK1,,Summon two skeletons
-,,Knight_SK2,,Test display multiple abilities
+﻿EvolutionId,EvolutionDescription,Abilities
+knight_evolve_1,,Knight_SK1
+knight_evolve_2,,"Knight_SK1,Knight_SK2"
+knight_evolve_3,,"Knight_SK1,Knight_SK2,Knight_SK3"

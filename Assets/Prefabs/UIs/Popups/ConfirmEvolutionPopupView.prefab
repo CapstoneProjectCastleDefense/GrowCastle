@@ -773,7 +773,7 @@ PrefabInstance:
     - target: {fileID: 2164503498026093104, guid: 3b408a90a7a8cfd42afa7d58181be28a,
         type: 3}
       propertyPath: m_Name
-      value: ConfirmEvolutionPopupPresenter
+      value: ConfirmEvolutionPopupView
       objectReference: {fileID: 0}
     - target: {fileID: 7962338205743104088, guid: 3b408a90a7a8cfd42afa7d58181be28a,
         type: 3}
@@ -938,6 +938,7 @@ MonoBehaviour:
   screenTransition: {fileID: 0}
   elementGenericInfoView: {fileID: 2120533760071638180}
   changeClassBtn: {fileID: 5875262608652553794}
+  closeBtn: {fileID: 3378074399652367442}
 --- !u!1 &1316289801560758656 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 984305939547078168, guid: 3b408a90a7a8cfd42afa7d58181be28a,
@@ -996,6 +997,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3221138671451501628}
     m_Modifications:
+    - target: {fileID: 682362438095558675, guid: cdca29ed90a570a4bb52a997c750e15d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1293
+      objectReference: {fileID: 0}
     - target: {fileID: 6220784805454572087, guid: cdca29ed90a570a4bb52a997c750e15d,
         type: 3}
       propertyPath: avatarAnim

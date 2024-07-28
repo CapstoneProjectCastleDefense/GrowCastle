@@ -2231,6 +2231,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 3221138671451501628}
     m_Modifications:
+    - target: {fileID: 682362438095558675, guid: cdca29ed90a570a4bb52a997c750e15d,
+        type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: -1200
+      objectReference: {fileID: 0}
     - target: {fileID: 6220784805454572087, guid: cdca29ed90a570a4bb52a997c750e15d,
         type: 3}
       propertyPath: avatarAnim
