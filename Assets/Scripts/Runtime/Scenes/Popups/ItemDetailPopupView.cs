@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Scenes.Popups
 {
     using System;
+    using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
@@ -12,6 +13,7 @@
     using Runtime.Enums;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
+    using Runtime.StaticValues;
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
@@ -62,6 +64,9 @@
             this.screenManager                = screenManager;
             this.inventoryLocalDataController = inventoryLocalDataController;
         }
+        
+        private Action OnClose { get; set; }
+        
         protected override void OnViewReady()
         {
             base.OnViewReady();
@@ -71,7 +76,12 @@
 
             this.View.LevelButton.onClick.AddListener(() =>
             {
-                this.screenManager.OpenScreen<LevelUpPopupPresenter, LevelUpPopupModel>(new(this.Model.InventoryId, this.OnLevelUp)).Forget();
+                this.screenManager.OpenScreen<LevelUpPopupPresenter, LevelUpPopupModel>(new(this.Model.InventoryId, this.OnLevelUp,
+                    new()
+                    {
+                        (ResourceValue.ItemFragment, 1),
+                    }, this.OnClose)
+                ).Forget();
             });
 
             this.View.TierButton.onClick.AddListener(() =>
@@ -89,7 +99,7 @@
 
         private void OnLevelUp()
         {
-            this.Model.ItemModel.Level++;
+            this.Model.OnRecycle();
             this.BindVolatileData();
         }
 
@@ -129,6 +139,12 @@
             this.View.LevelButton.gameObject.SetActive(this.Model.ItemModel.ItemType == ItemType.Equipment && !canTierUp);
             this.View.TierButton.gameObject.SetActive(this.Model.ItemModel.ItemType == ItemType.Equipment && canTierUp);
             this.View.RecycleButton.gameObject.SetActive(this.Model.ItemModel.ItemType == ItemType.Equipment && !this.Model.ItemModel.IsEquipped);
+        }
+
+        public override void CloseView()
+        {
+            base.CloseView();
+            this.OnClose?.Invoke();
         }
     }
 }

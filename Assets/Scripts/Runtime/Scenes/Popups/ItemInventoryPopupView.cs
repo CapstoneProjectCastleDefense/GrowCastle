@@ -116,7 +116,7 @@
             if(items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup != 0)
                 items.AddRange(Enumerable.Repeat<ItemModel>(new(new(){InventoryId = null}, this.itemBlueprint), this.View.Adapter.Parameters.Grid.MaxCellsPerGroup - items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup));
 
-            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, x.InventoryId, this.OnRecycle)).ToList(),
+            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, this.OnRecycle, x.Quantity)).ToList(),
                 this.diContainer);
             if (this.Model.Id.IsNullOrEmpty()) return;
             var index = items.FindIndex(x => x.Id == this.Model.Id);

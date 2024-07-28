@@ -19,7 +19,18 @@
             this.inventoryLocalData = inventoryLocalData;
             this.itemBlueprint      = itemBlueprint;
         }
-        public void InitData() { }
+        public void InitData()
+        {
+            var resources = this.itemBlueprint.Values.Where(x=>x.ItemType == ItemType.InventoryResource).ToList();
+            foreach (var resource in resources)
+            {
+                var item = this.inventoryLocalData.Items.FirstOrDefault(x => x.BlueprintId == resource.Id);
+                if (item == null)
+                {
+                    this.AddItem(resource.Id, 0, RarityEnum.Common, false, 0, 0, new());
+                }
+            }
+        }
 
         public List<ItemData> GetItems(ItemType itemType)
         {

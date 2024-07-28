@@ -19,13 +19,14 @@
         public Action      OnRecycle   { get; }
         public ItemModel   Model       { get; }
         public IEquippable Equippable  { get; }
-        public string      InventoryId { get; }
-        public ItemInventoryItemModel(ItemModel itemModel, IEquippable equippable, string inventoryId, Action onRecycle)
+        public string      InventoryId => this.Model.InventoryId;
+        public int         Quantity    { get; }
+        public ItemInventoryItemModel(ItemModel itemModel, IEquippable equippable, Action onRecycle, int quantity)
         {
             this.OnRecycle   = onRecycle;
+            this.Quantity    = quantity;
             this.Model       = itemModel;
             this.Equippable  = equippable;
-            this.InventoryId = inventoryId;
         }
     }
 
@@ -67,7 +68,7 @@
         private async void BindVolatileData()
         {
             this.View.rarityImage.sprite = await this.GameAssets.LoadAssetAsync<Sprite>(this.model.Model.Rarity.ToString());
-            this.View.quantity.text      = this.model.Model.Quantity.ToString();
+            this.View.quantity.text      = this.model.Quantity.ToString();
         }
     }
 }
