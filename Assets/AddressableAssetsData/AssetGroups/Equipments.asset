@@ -1,0 +1,100 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Equipments
+  m_EditorClassIdentifier: 
+  m_GroupName: Equipments
+  m_Data:
+    m_SerializedData: []
+  m_GUID: f9dcfd8d199681f47878d8f6d5dbe4f9
+  m_SerializeEntries:
+  - m_GUID: 587c76a6a8c783d478157b32cd560389
+    m_Address: StaffOfTheDamned_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e0a0db6132b60c458af1f1a9a67ebde
+    m_Address: LocketOfHarmory_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: aa959846ecb3f644698227e444e61cfe
+    m_Address: Ring_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4476ac7047ec0c64a80e1013b49d153b
+    m_Address: Amulet_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b716c2a5d60fe04ea349d42afa91a3a
+    m_Address: Frostbite_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4194704dc0512ca43ab63067ac086955
+    m_Address: OwlCharm_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3d5cbabc0d36cec4195d02dbc7aeb329
+    m_Address: Staff_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 174ddcf2d1de0a14b8a17bf5e8e4221e
+    m_Address: SwordOfKunasagi_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 21f4dea3b92e91b48be3c0dfe3cfa005
+    m_Address: SnowTalisman_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 52c392cf7f50b9d46933197b03979cf4
+    m_Address: SpearOfHeaven_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5a734c0d494b09b468d6cc7dd7ed9df3
+    m_Address: Bow_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a3b91faba6e8dcf49855bb23132813b0
+    m_Address: Book_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5bb7e17bdfa53b24db5fdb8b9cc51fdb
+    m_Address: OwlStaff_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 56ffbe63b8b93ca49805228cb1746db9
+    m_Address: Axe_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 282ce552576aada4dad6d19632d7fff4
+    m_Address: Dagger_Image
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: f694f099f03aad14693e48e80db4d9ac, type: 2}
+    - {fileID: 11400000, guid: 5f667c5c003d28945a0c16d810342196, type: 2}

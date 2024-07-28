@@ -2,6 +2,7 @@
 {
     using BlueprintFlow.BlueprintReader;
     using Models.LocalData;
+    using Runtime.Enums;
 
     [BlueprintReader("Resource", true)]
     [CsvHeaderKey("ResourceType")]

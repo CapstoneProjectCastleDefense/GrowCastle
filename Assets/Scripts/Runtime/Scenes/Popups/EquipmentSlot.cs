@@ -33,6 +33,7 @@
         [Inject] private IGameAssets                  gameAssets;
         [Inject] private InventoryLocalDataController inventoryLocalDataController;
         [Inject] private IScreenManager               screenManager;
+        [Inject] private ItemBlueprint                itemBlueprint;
 
         public async UniTask BindData(EquipmentSlotModel model)
         {
@@ -47,8 +48,8 @@
             }
 
             var item = this.inventoryLocalDataController.GetItem(this.model.InventoryId);
-
-            this.itemImage.sprite   = await this.gameAssets.LoadAssetAsync<Sprite>(item.AddressableName);
+            var blueprint = this.itemBlueprint.GetDataById(item.BlueprintId);
+            this.itemImage.sprite   = await this.gameAssets.LoadAssetAsync<Sprite>(blueprint.ImageAddress);
             this.rarityImage.sprite = await this.gameAssets.LoadAssetAsync<Sprite>(item.Rarity.ToString());
         }
         private void OnClick()

@@ -1,3 +1,17 @@
-Id,Tier,PrefabName,SkillId,MaxLevel
-Item_1,1,Item_1,Skill_1,10
-,2,Item_2,Skill_1,20
+Id,Name,Description,ImageAddress,ItemType,EquipmentType,MaxLevel,MaxTier
+1,Amulet,,Amulet_Image,Equipment,Accessory,100,10
+2,Axe,,Axe_Image,Equipment,Weapon,100,10
+3,Book,,Book_Image,Equipment,Weapon,100,10
+4,Bow,,Bow_Image,Equipment,Weapon,100,10
+5,Owl Charm,,OwlCharm_Image,Equipment,Accessory,100,10
+6,Dagger,,Dagger_Image,Equipment,Weapon,100,10
+7,Frostbite,,Frostbite_Image,Equipment,Weapon,100,10
+8,Locket of Harmory,,LocketOfHarmory_Image,Equipment,Accessory,100,10
+9,Owl Staff,,OwlStaff_Image,Equipment,Weapon,100,10
+10,Ring,,Ring_Image,Equipment,Accessory,100,10
+11,Snow Talisman,,SnowTalisman_Image,Equipment,Accessory,100,10
+12,Spear of Heaven,,SpearOfHeaven_Image,Equipment,Weapon,100,10
+13,Staff of the Damned,,StaffOfTheDamned_Image,Equipment,Weapon,100,10
+14,Staff,,Staff_Image,Equipment,Weapon,100,10
+15,Sword of Kunasagi,,SwordOfKunasagi_Image,Equipment,Weapon,100,10
+16,Fragment,,Test,InventoryResource,Weapon,0,0

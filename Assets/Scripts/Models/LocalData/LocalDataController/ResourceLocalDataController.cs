@@ -1,6 +1,7 @@
 ﻿namespace Models.LocalData.LocalDataController
 {
     using R3;
+    using Runtime.Enums;
 
     public class ResourceLocalDataController : ILocalDataController
     {

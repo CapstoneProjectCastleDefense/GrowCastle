@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using Models.LocalData.LocalDataController;
     using R3;
+    using Runtime.Enums;
 
     public class ResourceLocalData : ILocalDataHaveController<ResourceLocalDataController>
     {
@@ -15,16 +16,5 @@
             this.Resource.Add(ResourceType.TalentPoint,new ReactiveProperty<float>(3));
             this.Resource.Add(ResourceType.Exp,new ReactiveProperty<float>(0));
         }
-    }
-
-    
-    public enum ResourceType
-    {
-        Gold,
-        Diamond,
-        Ticket,
-        TalentPoint,
-        Exp,
-        Item
     }
 }

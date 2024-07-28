@@ -15,6 +15,7 @@
     using UnityEngine.UI;
     using Zenject;
     using R3;
+    using Runtime.Enums;
 
     public class TalentPopupView : BaseView
     {

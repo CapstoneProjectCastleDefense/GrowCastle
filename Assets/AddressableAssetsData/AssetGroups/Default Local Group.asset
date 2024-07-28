@@ -277,81 +277,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 282ce552576aada4dad6d19632d7fff4
-    m_Address: dagger
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 56ffbe63b8b93ca49805228cb1746db9
-    m_Address: axe
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5bb7e17bdfa53b24db5fdb8b9cc51fdb
-    m_Address: owlstaff
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a3b91faba6e8dcf49855bb23132813b0
-    m_Address: book
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5a734c0d494b09b468d6cc7dd7ed9df3
-    m_Address: bow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 52c392cf7f50b9d46933197b03979cf4
-    m_Address: spear of heaven
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 21f4dea3b92e91b48be3c0dfe3cfa005
-    m_Address: snow talimans
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 174ddcf2d1de0a14b8a17bf5e8e4221e
-    m_Address: sword of kunasagi
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 3d5cbabc0d36cec4195d02dbc7aeb329
-    m_Address: staff
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4194704dc0512ca43ab63067ac086955
-    m_Address: bua cu
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5b716c2a5d60fe04ea349d42afa91a3a
-    m_Address: frostbite
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 4476ac7047ec0c64a80e1013b49d153b
-    m_Address: amulet
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: aa959846ecb3f644698227e444e61cfe
-    m_Address: ring
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 0e0a0db6132b60c458af1f1a9a67ebde
-    m_Address: Locket of Harmony
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 587c76a6a8c783d478157b32cd560389
-    m_Address: Staff of the Damned
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 76790f27ef3c66340bf1ceb17e86ac8e
     m_Address: chest
     m_ReadOnly: 0
@@ -369,6 +294,11 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 19ef96ff3f11fe847956b404ec74048e
     m_Address: DeathArrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6263bb89ef3646b439ee573fc6c7c879
+    m_Address: LevelUpPopupView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
