@@ -1,9 +1,7 @@
 ﻿namespace Models.LocalData
 {
-    using System;
     using System.Collections.Generic;
     using Models.LocalData.LocalDataController;
-    using Runtime.Enums;
 
     public class ElementLocalData : ILocalDataHaveController<ElementLocalDataController>
     {
@@ -17,7 +15,8 @@
 
     public class EvolutionElementData
     {
-        public string ElementId   { get; set; }
-        public string EvolutionId { get; set; }
+        public string       ElementId       { get; set; }
+        public string       EvolutionId     { get; set; }
+        public List<string> OwnedEvolutions { get; set; }
     }
 }

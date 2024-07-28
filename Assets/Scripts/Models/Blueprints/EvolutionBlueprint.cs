@@ -1,17 +1,34 @@
 ﻿namespace Models
 {
+    using System;
     using System.Collections.Generic;
     using BlueprintFlow.BlueprintReader;
 
     [BlueprintReader("EvolutionBlueprint", true)]
-    [CsvHeaderKey("CharacterId")]
+    [CsvHeaderKey("ElementId")]
     public class EvolutionBlueprint : GenericBlueprintReaderByRow<string, EvolutionRecord>
     {
+        public EvolutionDetailRecord GetEvolutionDetailRecord(string elementId, string evolutionId)
+        {
+            var                   evolutionRecord       = this.GetDataById(elementId);
+            foreach (var (_,detailRecord) in evolutionRecord.LevelToEvolutionDetailRecords)
+            {
+                foreach (var record in detailRecord.EvolutionDetailRecords)
+                {
+                    if (record.Value.EvolutionId == evolutionId)
+                    {
+                        return record.Value;
+                    }
+                }
+            }
+
+            throw new Exception($"Does not have evolution id: {evolutionId}");
+        }
     }
 
     public class EvolutionRecord
     {
-        public string                                            CharacterId;
+        public string                                            ElementId;
         public BlueprintByRow<int, LevelToEvolutionDetailRecord> LevelToEvolutionDetailRecords;
     }
 

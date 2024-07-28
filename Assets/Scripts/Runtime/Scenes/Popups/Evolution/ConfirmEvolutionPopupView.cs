@@ -1,9 +1,12 @@
 ﻿namespace Runtime.Scenes.Popups
 {
+    using System.Linq;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.Utilities.LogService;
+    using global::Extensions;
+    using Models;
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Commons;
     using UnityEngine;
@@ -25,15 +28,18 @@
     {
         private readonly ElementLocalDataController elementLocalDataController;
         private readonly DiContainer                diContainer;
+        private readonly EvolutionBlueprint         evolutionBlueprint;
 
         public ConfirmEvolutionPopupPresenter(SignalBus signalBus,
             ILogService logService,
             ElementLocalDataController elementLocalDataController,
-            DiContainer diContainer)
+            DiContainer diContainer,
+            EvolutionBlueprint evolutionBlueprint)
             : base(signalBus, logService)
         {
             this.elementLocalDataController = elementLocalDataController;
             this.diContainer                = diContainer;
+            this.evolutionBlueprint         = evolutionBlueprint;
         }
 
         protected override void OnViewReady()
@@ -51,6 +57,13 @@
                 ElementId   = popupModel.ElementId,
                 EvolutionId = popupModel.EvolutionId
             });
+
+            var evolutionLocalData    = this.elementLocalDataController.GetEvolutionElementData(popupModel.ElementId);
+            var evolutionDetailRecord = this.evolutionBlueprint.GetEvolutionDetailRecord(popupModel.ElementId, popupModel.EvolutionId);
+            var parentId              = evolutionDetailRecord.ParentId;
+            var canChangeClass        = parentId.IsNullOrEmpty() || evolutionLocalData.OwnedEvolutions.Contains(parentId);
+            this.View.ChangeClassBtn.gameObject.SetActive(canChangeClass);
+            
             return UniTask.CompletedTask;
         }
 

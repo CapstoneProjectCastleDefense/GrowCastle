@@ -1,24 +1,36 @@
 ﻿namespace Models.LocalData.LocalDataController
 {
     using System;
+    using System.Collections.Generic;
+    using System.Linq;
 
     public class ElementLocalDataController : ILocalDataController
     {
-        private readonly ElementLocalData elementLocalData;
+        private readonly ElementLocalData   elementLocalData;
+        private readonly EvolutionBlueprint evolutionBlueprint;
 
-        public ElementLocalDataController(ElementLocalData elementLocalData) { this.elementLocalData = elementLocalData; }
+        public ElementLocalDataController(ElementLocalData elementLocalData,
+            EvolutionBlueprint evolutionBlueprint)
+        {
+            this.elementLocalData   = elementLocalData;
+            this.evolutionBlueprint = evolutionBlueprint;
+        }
 
         public void InitData()
         {
             if (this.elementLocalData.ElementIdToEvolveData == null || this.elementLocalData.ElementIdToEvolveData.Count == 0)
             {
-                this.elementLocalData.ElementIdToEvolveData!.Add("Knight", new EvolutionElementData()
+                foreach (var (key, record) in this.evolutionBlueprint)
                 {
-                    ElementId   = "Knight",
-                    EvolutionId = "knight_evolve_1"
-                });
+                    var firstEvolutionId = record.LevelToEvolutionDetailRecords[1].EvolutionDetailRecords.First().Key;
+                    this.elementLocalData.ElementIdToEvolveData!.Add(key, new EvolutionElementData()
+                    {
+                        ElementId       = key,
+                        EvolutionId     = firstEvolutionId,
+                        OwnedEvolutions = new List<string> { key }
+                    });
+                }
             }
-            
         }
 
         public EvolutionElementData GetEvolutionElementData(string id)
@@ -39,6 +51,10 @@
             }
 
             evolutionElementData.EvolutionId = evolutionId;
+            if (!evolutionElementData.OwnedEvolutions.Contains(evolutionId))
+            {
+                evolutionElementData.OwnedEvolutions.Add(evolutionId);
+            }
         }
     }
 }
