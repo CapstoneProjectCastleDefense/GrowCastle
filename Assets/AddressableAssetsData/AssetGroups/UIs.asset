@@ -77,9 +77,12 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 50ffdd0e375c50b4392855bd131f6d1f
+    m_Address: ItemInventoryForTierUpPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
   m_SchemaSet:
-    m_Schemas:
-    - {fileID: 11400000, guid: f8f479474e49b314a9d18a702da68a61, type: 2}
-    - {fileID: 11400000, guid: 10ce42b398b45c64eadbddfe8882403b, type: 2}
+    m_Schemas: []

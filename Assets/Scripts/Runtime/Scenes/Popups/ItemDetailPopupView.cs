@@ -64,9 +64,9 @@
             this.screenManager                = screenManager;
             this.inventoryLocalDataController = inventoryLocalDataController;
         }
-        
-        private Action OnClose { get; set; }
-        
+
+        private IScreenPresenter screenPresenter;
+
         protected override void OnViewReady()
         {
             base.OnViewReady();
@@ -74,19 +74,19 @@
             this.View.UnequipButton.onClick.AddListener(() => { this.Model.Equippable.UnEquip(this.Model.InventoryId); });
             this.View.CloseButton.onClick.AddListener(this.CloseView);
 
-            this.View.LevelButton.onClick.AddListener(() =>
+            this.View.LevelButton.onClick.AddListener(async () =>
             {
-                this.screenManager.OpenScreen<LevelUpPopupPresenter, LevelUpPopupModel>(new(this.Model.InventoryId, this.OnLevelUp,
+                this.screenPresenter = await this.screenManager.OpenScreen<LevelUpPopupPresenter, LevelUpPopupModel>(new(this.Model.InventoryId, this.OnLevelUp,
                     new()
                     {
-                        (ResourceValue.ItemFragment, 1),
-                    }, this.OnClose)
-                ).Forget();
+                        (MiscValue.ItemFragment, 1),
+                    })
+                );
             });
 
-            this.View.TierButton.onClick.AddListener(() =>
+            this.View.TierButton.onClick.AddListener(async () =>
             {
-                this.screenManager.OpenScreen<TierUpPopupPresenter, TierUpPopupModel>(new(this.Model.InventoryId, this.OnTierUp)).Forget();
+                this.screenPresenter = await this.screenManager.OpenScreen<TierUpPopupPresenter, TierUpPopupModel>(new(this.Model.InventoryId, this.OnTierUp));
             });
 
             this.View.RecycleButton.onClick.AddListener(() =>
@@ -100,10 +100,16 @@
         private void OnLevelUp()
         {
             this.Model.OnRecycle();
+            this.screenPresenter = null;
             this.BindVolatileData();
         }
 
-        private void OnTierUp() { }
+        private void OnTierUp()
+        {
+            this.Model.OnRecycle();
+            this.screenPresenter = null;
+            this.BindVolatileData();
+        }
 
         public override async UniTask BindData(ItemDetailPopupModel popupModel)
         {
@@ -144,7 +150,7 @@
         public override void CloseView()
         {
             base.CloseView();
-            this.OnClose?.Invoke();
+            this.screenPresenter?.CloseView();
         }
     }
 }

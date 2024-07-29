@@ -87,15 +87,21 @@
             if (item == null) return;
             this.inventoryLocalData.Items.Remove(item);
             var fragmentCount = item.Rarity.GetFragments();
-            item = this.inventoryLocalData.Items.FirstOrDefault(x => x.BlueprintId == ResourceValue.ItemFragment);
+            item = this.inventoryLocalData.Items.FirstOrDefault(x => x.BlueprintId == MiscValue.ItemFragment);
             if (item == null)
             {
-                this.AddItem(ResourceValue.ItemFragment, fragmentCount, RarityEnum.Common, false, 0, 0, new());
+                this.AddItem(MiscValue.ItemFragment, fragmentCount, RarityEnum.Common, false, 0, 0, new());
             }
             else
             {
                 item.Quantity += fragmentCount;
             }
+        }
+        public void RemoveItem(string itemId)
+        {
+            var item = this.inventoryLocalData.Items.FirstOrDefault(x => x.InventoryId == itemId);
+            if (item == null) return;
+            this.inventoryLocalData.Items.Remove(item);
         }
     }
 }
