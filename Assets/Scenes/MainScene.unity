@@ -544,6 +544,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: GameplayScreenView
       objectReference: {fileID: 0}
+    - target: {fileID: 2480382068501073433, guid: c8112c9b15139e1498ff62752510dc09,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 5916078745763447921, guid: c8112c9b15139e1498ff62752510dc09,
         type: 3}
       propertyPath: m_Pivot.x

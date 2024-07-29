@@ -18,28 +18,36 @@
         private          float                               waveLoadCoolDown;
         private readonly List<(int waveId, float delayTime)> waveWithDelayTimeQueue = new();
 
-        private readonly EnemyGroupLoaderService  enemyGroupLoaderService;
-        private readonly LevelBlueprint           levelBlueprint;
-        private readonly SignalBus                signalBus;
-        private readonly EnemyManager             enemyManager;
-        private readonly WaveBlueprint            waveBlueprint;
-        private readonly LevelLocalDataController levelLocalDataController;
-        private readonly UserLocalDataController  userLocalDataController;
-        private readonly DungeonModeBlueprint     dungeonModeBlueprint;
+        private readonly EnemyGroupLoaderService    enemyGroupLoaderService;
+        private readonly LevelBlueprint             levelBlueprint;
+        private readonly SignalBus                  signalBus;
+        private readonly EnemyManager               enemyManager;
+        private readonly WaveBlueprint              waveBlueprint;
+        private readonly LevelLocalDataController   levelLocalDataController;
+        private readonly UserLocalDataController    userLocalDataController;
+        private readonly DungeonModeBlueprint       dungeonModeBlueprint;
+        private readonly DungeonLocalDataController dungeonLocalDataController;
 
         public WaveSystem(
             EnemyGroupLoaderService enemyGroupLoaderService,
             LevelBlueprint levelBlueprint,
-            SignalBus signalBus, EnemyManager enemyManager,WaveBlueprint waveBlueprint, LevelLocalDataController levelLocalDataController,UserLocalDataController userLocalDataController, DungeonModeBlueprint dungeonModeBlueprint)
+            SignalBus signalBus,
+            EnemyManager enemyManager,
+            WaveBlueprint waveBlueprint,
+            LevelLocalDataController levelLocalDataController,
+            UserLocalDataController userLocalDataController,
+            DungeonModeBlueprint dungeonModeBlueprint,
+            DungeonLocalDataController dungeonLocalDataController)
         {
-            this.enemyGroupLoaderService  = enemyGroupLoaderService;
-            this.levelBlueprint           = levelBlueprint;
-            this.signalBus                = signalBus;
-            this.enemyManager             = enemyManager;
-            this.waveBlueprint            = waveBlueprint;
-            this.levelLocalDataController = levelLocalDataController;
-            this.userLocalDataController  = userLocalDataController;
-            this.dungeonModeBlueprint = dungeonModeBlueprint;
+            this.enemyGroupLoaderService    = enemyGroupLoaderService;
+            this.levelBlueprint             = levelBlueprint;
+            this.signalBus                  = signalBus;
+            this.enemyManager               = enemyManager;
+            this.waveBlueprint              = waveBlueprint;
+            this.levelLocalDataController   = levelLocalDataController;
+            this.userLocalDataController    = userLocalDataController;
+            this.dungeonModeBlueprint       = dungeonModeBlueprint;
+            this.dungeonLocalDataController = dungeonLocalDataController;
         }
 
         public void Initialize() { this.signalBus.Subscribe<TimeCooldownSignal>(this.OnTimeCooldown); }
@@ -65,58 +73,52 @@
         }
 
         #region Dungeon
+
         public void StartDungeonWave(string dungeonId)
         {
             this.InitDungeonWaveQueue(dungeonId);
             this.isActiveWave = true;
         }
-        
+
         private void InitDungeonWaveQueue(string dungeonId)
         {
             this.waveWithDelayTimeQueue.Clear();
             var waveRecord = this.dungeonModeBlueprint[dungeonId].DungeonWaveRecord;
-            foreach (var  record in waveRecord)
+            foreach (var record in waveRecord)
             {
                 this.waveWithDelayTimeQueue.Add((record.WaveId, record.Delay));
             }
         }
-        
+
         public void ClearDungeon()
         {
             this.waveWithDelayTimeQueue.Clear();
             this.isActiveWave = false;
             this.enemyGroupLoaderService.UnloadEnemyFromWave();
         }
-        
+
         private void EndCurrentDungeon(bool isComplete)
         {
             this.waveWithDelayTimeQueue.Clear();
-            this.isActiveWave                              = false;
-            this.userLocalDataController.IsWinCurrentDungeon = isComplete;
+            this.isActiveWave                                   = false;
+            this.dungeonLocalDataController.isWinCurrentDungeon = isComplete;
             this.GetCurrentContainer().Resolve<GameStateMachine>().TransitionTo<GameDungeonModeEndState>();
         }
-        
+
         #endregion
 
         public void StartCurrentWave(int level)
         {
             this.InitWaveQueue(level);
             this.isActiveWave = true;
-            this.enemyManager.StartCounterDeathEnemy(this.CountEnemyInWave(level),this.CompleteCurrentWave);
+            this.enemyManager.StartCounterDeathEnemy(this.CountEnemyInWave(level), this.CompleteCurrentWave);
         }
-        
-       
+
 
         private int CountEnemyInWave(int level)
         {
             int totalEnemy = 0;
-            this.levelBlueprint[level].LevelToWaveRecords.ForEach(e =>
-            {
-                this.waveBlueprint[e.WaveId].WaveToEnemy.ForEach(enemy =>
-                {
-                    totalEnemy+=enemy.Value.Quantity;
-                });
-            });
+            this.levelBlueprint[level].LevelToWaveRecords.ForEach(e => { this.waveBlueprint[e.WaveId].WaveToEnemy.ForEach(enemy => { totalEnemy += enemy.Value.Quantity; }); });
             return totalEnemy;
         }
 
@@ -124,20 +126,20 @@
         {
             this.waveWithDelayTimeQueue.Clear();
             var waveRecord = this.levelBlueprint[level].LevelToWaveRecords;
-            foreach (var  record in waveRecord)
+            foreach (var record in waveRecord)
             {
                 this.waveWithDelayTimeQueue.Add((record.WaveId, record.Delay));
             }
         }
 
-        
+
         public void ClearWave()
         {
             this.waveWithDelayTimeQueue.Clear();
             this.isActiveWave = false;
             this.enemyGroupLoaderService.UnloadEnemyFromWave();
         }
-        
+
 
         private void CompleteCurrentWave()
         {
@@ -148,7 +150,6 @@
             this.GetCurrentContainer().Resolve<GameStateMachine>().TransitionTo<GameEndWaveState>();
         }
 
-        
 
         public void Dispose() { this.signalBus.Unsubscribe<TimeCooldownSignal>(this.OnTimeCooldown); }
     }

@@ -38,14 +38,17 @@
         public Button questButton;
         public Button inventoryButton;
         public Button chestButton;
+        public Button dungeonModeBtn;
         
-        public Image  castleHealthBar;
-        public Image  castleManaBar;
-        public Image  waveBar;
-        public Image  userExpBar;
+        public Image castleHealthBar;
+        public Image castleManaBar;
+        public Image waveBar;
+        public Image userExpBar;
+        public Image bossHealthBar;
 
         public GameObject waveIndicator;
         public GameObject upgradeField;
+        public GameObject bossHealth;
 
         public TextMeshProUGUI castleCoinUpgradeValue;
         public TextMeshProUGUI archerCoinUpgradeValue;
@@ -57,6 +60,7 @@
         public TextMeshProUGUI healthCurrentValue;
         public TextMeshProUGUI manaCurrentValue;
         public TextMeshProUGUI userLevelValue;
+        public TextMeshProUGUI bossHealthValue;
     }
 
     [ScreenInfo(nameof(GameplayScreenView))]
@@ -72,6 +76,7 @@
         private readonly ArcherLocalDataController   archerLocalDataController;
         private readonly UserLocalDataController     userLocalDataController;
         private readonly FeatureLocalDataController  featureLocalDataController;
+        private readonly EnemyManager                enemyManager;
         private readonly SignalBus                   signalBus;
         public GameplayScreenPresenter(
             SignalBus signalBus,
@@ -84,7 +89,8 @@
             CastleLocalDataController castleLocalDataController,
             ArcherLocalDataController archerLocalDataController,
             UserLocalDataController userLocalDataController,
-            FeatureLocalDataController featureLocalDataController)
+            FeatureLocalDataController featureLocalDataController,
+            EnemyManager enemyManager)
             : base(signalBus)
         {
             this.gameStateMachine            = gameStateMachine;
@@ -97,6 +103,7 @@
             this.archerLocalDataController   = archerLocalDataController;
             this.userLocalDataController     = userLocalDataController;
             this.featureLocalDataController  = featureLocalDataController;
+            this.enemyManager                = enemyManager;
             this.signalBus                   = signalBus;
         }
 
@@ -106,6 +113,7 @@
             this.OpenViewAsync().Forget();
             this.signalBus.Subscribe<UpdateCastleStatSignal>(this.OnCastleStatChange);
             this.signalBus.Subscribe<OnStateEnterSignal>(this.OnEnterNewGameState);
+            this.signalBus.Subscribe<SpawnedBossInDungeon>(this.OnStartDungeon);
 
             this.View.startWaveButton.onClick.AddListener(this.OnStartWaveButtonClick);
             this.View.upgradeCastle.onClick.AddListener(this.OnUpgradeCastleButtonClick);
@@ -115,6 +123,7 @@
             this.View.questButton.onClick.AddListener(this.OnQuestBtnClick);
             this.View.inventoryButton.onClick.AddListener(this.OnInventoryBtnClick);
             this.View.chestButton.onClick.AddListener(this.OnChestBtnClick);
+            this.View.dungeonModeBtn.onClick.AddListener(this.OnDungeonBtnClick);
 
             this.resourceLocalDataController.GetResource(ResourceType.Gold).Subscribe(this.OnGoldValueChange);
             this.resourceLocalDataController.GetResource(ResourceType.Diamond).Subscribe(this.OnDiamondValueChange);
@@ -154,6 +163,7 @@
 
         #endregion
 
+        private async void OnDungeonBtnClick()            { await this.screenManager.OpenScreen<DungeonSelectLevelPopupPresenter>();}
         private async void OnChestBtnClick()              { await this.screenManager.OpenScreen<ChestPopupPresenter>();}
         private async void OnQuestBtnClick()              { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
         private       void OnInventoryBtnClick()          { this.screenManager.OpenScreen<ItemInventoryPopupPresenter, ItemInventoryPopupModel>(new(null, null)).Forget(); }
@@ -187,6 +197,7 @@
 
         private void OnEnterNewGameState(OnStateEnterSignal signal)
         {
+            this.View.bossHealth.SetActive(false);
             switch (signal.State)
             {
                 case GamePrepareState:
@@ -195,8 +206,30 @@
                 case GameStartWaveState:
                     this.DoStartWaveAnim(1f);
                     break;
+                case GameDungeonModeState:
+                    this.DoStartWaveAnim(1f);
+                    this.View.waveIndicator.SetActive(false);
+                    break;
             }
         }
+
+        private void OnStartDungeon()
+        {
+            this.View.bossHealth.SetActive(true);
+            this.enemyManager.CurrentBossHealth.Subscribe(this.OnUpdateBossHealth);
+        }
+        
+        private void OnUpdateBossHealth(float bossHealth)
+        {
+            if (bossHealth < 0)
+            {
+                bossHealth = 0;
+                this.gameStateMachine.TransitionTo<GameDungeonModeEndState>();
+            }
+            this.View.bossHealthBar.DOFillAmount(bossHealth / this.enemyManager.MaxBossHealth, 0.01f);
+            this.View.bossHealthValue.text = $"{bossHealth} / {this.enemyManager.MaxBossHealth}";
+        }
+        
 
         private void DoPrepareStateAnim(float fadeTime)
         {

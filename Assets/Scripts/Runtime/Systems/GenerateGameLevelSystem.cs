@@ -54,11 +54,6 @@ namespace Runtime.Systems
             this.mapLevelManager.CreateElement(new() { AddressableName = currentLevelRecord.PrefabName, EnvironmentId = currentLevelRecord.LevelToWaveRecords.First().EnvironmentId});
         }
 
-        private void GenerateMapDungeon()
-        {
-            
-        }
-
         private UniTask GenerateCastle()
         {
             CastleModel castleModel = new CastleModel() { Stats = this.castleLocalDataController.GetCastleStat(), AddressableName = "Castle" };

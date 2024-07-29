@@ -36,6 +36,8 @@
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
         public virtual string[] GetTags()         { return new[] { "Ally", "Building" }; }
 
+        public Action<float> OnUpdateHpStat;
+
         protected EnemyPresenter(
             EnemyModel model,
             ObjectPoolManager objectPoolManager,
@@ -125,9 +127,12 @@
         private void UpdateHpStat()
         {
             if (this.IsDead) return;
-            var currentHealth = this.Model.GetStat<float>(StatEnum.Health);
-
+            var currentHealth                     = this.Model.GetStat<float>(StatEnum.Health);
+            if (currentHealth <= 0) currentHealth = 0; 
+            
             this.Model.SetStat(StatEnum.Health, currentHealth);
+            this.OnUpdateHpStat?.Invoke(this.Model.GetStat<float>(StatEnum.Health));
+            
             if (currentHealth <= 0)
                 this.OnDeath();
             else

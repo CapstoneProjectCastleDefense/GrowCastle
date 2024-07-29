@@ -13,18 +13,7 @@ using Zenject;
 
 namespace Runtime.Scenes.Popups
 {
-    public class DungeonLevelItem : TViewMono
-    {
-        public string dungeonId;
-        public TextMeshProUGUI dungeonIdText;
-        public Button dungeonSelectBtn;
-        public Action<string> onDungeonSelectBtnClick;
-
-        private void Awake()
-        {
-            this.dungeonSelectBtn.onClick.AddListener(()=>{this.onDungeonSelectBtnClick?.Invoke(this.dungeonId);});
-        }
-    }
+   
     public class DungeonSelectLevelPopupView : BaseView
     {
         public Button exitButton;
@@ -61,6 +50,7 @@ namespace Runtime.Scenes.Popups
                 {
                     this.dungeonLocalDataController.currentSelectedDungeon = dungeonId;
                     this.gameStateMachine.TransitionTo<GameDungeonModeState>();
+                    this.CloseView();
                 };
                 item.gameObject.SetActive(this.dungeonLocalDataController.CheckDungeonIsUnlock(item.dungeonId));
             });
