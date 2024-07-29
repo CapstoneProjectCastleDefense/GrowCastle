@@ -18,17 +18,15 @@
 
     public class LevelUpPopupModel
     {
-        public LevelUpPopupModel(string inventoryId, Action onLevelUp, List<(string, int)> itemsToLevelUp, Action onClose)
+        public LevelUpPopupModel(string inventoryId, Action onLevelUp, List<(string, int)> itemsToLevelUp)
         {
             this.OnLevelUp      = onLevelUp;
             this.ItemsToLevelUp = itemsToLevelUp;
-            this.OnClose        = onClose;
             this.InventoryId    = inventoryId;
         }
         public Action              OnLevelUp      { get; private set; }
         public List<(string, int)> ItemsToLevelUp { get; private set; }
         public string              InventoryId    { get; private set; }
-        public Action              OnClose        { get; set; }
     }
 
     public class LevelUpPopupView : BaseView
@@ -65,14 +63,15 @@
                 {
                     localData.FirstOrDefault(x => x.BlueprintId == item.Item1).Quantity -= item.Item2;
                 }
+
                 this.Model.OnLevelUp?.Invoke();
                 this.CloseView();
             });
         }
         public override async UniTask BindData(LevelUpPopupModel popupModel)
         {
-            var list      = new List<ItemInventoryItemModel>();
-            var localData = this.inventoryLocalDataController.GetItems(ItemType.InventoryResource);
+            var list       = new List<ItemInventoryItemModel>();
+            var localData  = this.inventoryLocalDataController.GetItems(ItemType.InventoryResource);
             var canLevelUp = true;
             foreach (var item in popupModel.ItemsToLevelUp)
             {
@@ -82,7 +81,8 @@
                     Debug.LogError("Item not found");
                     continue;
                 }
-                list.Add(new(itemData.ToModel(this.itemBlueprint), null, null, item.Item2));
+
+                list.Add(new(itemData.ToModel(this.itemBlueprint), null, null, item.Item2, null));
                 if (itemData.Quantity < item.Item2)
                 {
                     canLevelUp = false;
@@ -90,7 +90,6 @@
             }
 
             this.View.ConfirmBtn.interactable = canLevelUp;
-            this.Model.OnClose = this.CloseView;
             await this.View.Adapter.InitItemAdapter(list, this.diContainer);
         }
     }

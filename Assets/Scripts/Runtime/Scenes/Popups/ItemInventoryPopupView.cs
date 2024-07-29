@@ -24,13 +24,13 @@
 
     public class ItemInventoryPopupModel
     {
-        public ItemInventoryPopupModel(IEquippable equippable, string id)
+        public ItemInventoryPopupModel(IEquippable equippable, string selectedItemInventoryId)
         {
-            this.Equippable = equippable;
-            this.Id         = id;
+            this.Equippable              = equippable;
+            this.SelectedItemInventoryId = selectedItemInventoryId;
         }
-        public IEquippable Equippable { get; set; }
-        public string      Id         { get; set; }
+        public IEquippable Equippable              { get; set; }
+        public string      SelectedItemInventoryId { get; set; }
     }
 
     public class ItemInventoryPopupView : BaseView
@@ -83,24 +83,30 @@
                 items = this.inventoryLocalDataController.GetItems(ItemType.Equipment).Select(x => x.ToModel(this.itemBlueprint)).ToList();
             }
 
-            if (items.Count == 0)
+#if UNITY_EDITOR || CREATIVE
+            if (items.Count(x => x.ItemType == ItemType.Equipment) == 0)
             {
-                var enums = Enum.GetValues(typeof(RarityEnum));
-                foreach (var itemBlueprintValue in this.itemBlueprint.Values)
+                var enums      = Enum.GetValues(typeof(RarityEnum));
+                var equipments = this.itemBlueprint.Values.Where(x => x.ItemType == ItemType.Equipment).ToList();
+                for (var _ = 0; _ < 10; _++)
                 {
-                    this.inventoryLocalDataController.AddItem(
-                        itemBlueprintValue.Id,
-                        1,
-                        (RarityEnum)enums.GetValue(Random.Range(0, enums.Length)),
-                        false,
-                        1,
-                        0,
-                        new()
-                        {
-                            { StatEnum.Attack, (typeof(float), Random.Range(1, 10)) },
-                            { StatEnum.Defense, (typeof(float), Random.Range(1, 10)) },
-                            { StatEnum.Health, (typeof(float), Random.Range(1, 10)) }
-                        });
+                    foreach (var itemBlueprintValue in equipments)
+                    {
+                        this.inventoryLocalDataController.AddItem(
+                            itemBlueprintValue.Id,
+                            1,
+                            (RarityEnum)enums.GetValue(Random.Range(0, enums.Length)),
+                            false,
+                            1,
+                            0,
+                            new()
+                            {
+                                { StatEnum.Attack, (typeof(float), Random.Range(1, 10)) },
+                                { StatEnum.Defense, (typeof(float), Random.Range(1, 10)) },
+                                { StatEnum.Health, (typeof(float), Random.Range(1, 10)) }
+                            });
+                        await UniTask.Delay(10);
+                    }
                 }
 
                 if (this.Model.Equippable == null)
@@ -112,22 +118,20 @@
                     items = this.inventoryLocalDataController.GetItems(ItemType.Equipment).Select(x => x.ToModel(this.itemBlueprint)).ToList();
                 }
             }
+#endif
 
-            if(items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup != 0)
-                items.AddRange(Enumerable.Repeat<ItemModel>(new(new(){InventoryId = null}, this.itemBlueprint), this.View.Adapter.Parameters.Grid.MaxCellsPerGroup - items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup));
+            if (items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup != 0)
+                items.AddRange(Enumerable.Repeat<ItemModel>(new(new() { InventoryId = null }, this.itemBlueprint),
+                    this.View.Adapter.Parameters.Grid.MaxCellsPerGroup - items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup));
 
-            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, this.OnRecycle, x.Quantity)).ToList(),
+            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, this.OnRecycle, x.Quantity, null)).ToList(),
                 this.diContainer);
-            if (this.Model.Id.IsNullOrEmpty()) return;
-            var index = items.FindIndex(x => x.Id == this.Model.Id);
+            if (this.Model.SelectedItemInventoryId.IsNullOrEmpty()) return;
+            var index = items.FindIndex(x => x.Id == this.Model.SelectedItemInventoryId);
             this.View.Adapter.SmoothScrollTo(index, 0.5f);
         }
 
-        private void OnRecycle()
-        {
-            
-            this.BindItems().Forget();
-        }
+        private void OnRecycle() { this.BindItems().Forget(); }
 
         public override void CloseView() { this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0.5f).SetEase(Ease.InQuad).onComplete += () => { base.CloseView(); }; }
     }

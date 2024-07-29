@@ -16,17 +16,19 @@
 
     public class ItemInventoryItemModel
     {
-        public Action      OnRecycle   { get; }
-        public ItemModel   Model       { get; }
-        public IEquippable Equippable  { get; }
-        public string      InventoryId => this.Model.InventoryId;
-        public int         Quantity    { get; }
-        public ItemInventoryItemModel(ItemModel itemModel, IEquippable equippable, Action onRecycle, int quantity)
+        public Action         OnRecycle   { get; }
+        public Action<string> OnSelect    { get; }
+        public ItemModel      Model       { get; }
+        public IEquippable    Equippable  { get; }
+        public string         InventoryId => this.Model.InventoryId;
+        public int            Quantity    { get; }
+        public ItemInventoryItemModel(ItemModel itemModel, IEquippable equippable, Action onRecycle, int quantity, Action<string> onSelect)
         {
-            this.OnRecycle   = onRecycle;
-            this.Quantity    = quantity;
-            this.Model       = itemModel;
-            this.Equippable  = equippable;
+            this.OnRecycle  = onRecycle;
+            this.Quantity   = quantity;
+            this.OnSelect   = onSelect;
+            this.Model      = itemModel;
+            this.Equippable = equippable;
         }
     }
 
@@ -45,23 +47,18 @@
         public ItemInventoryItemPresenter(IGameAssets gameAssets, IScreenManager screenManager) : base(gameAssets) { this.screenManager = screenManager; }
         public override async void BindData(ItemInventoryItemModel param)
         {
-            this.model             = param;
+            this.model = param;
             this.View.button.onClick.RemoveAllListeners();
             if (this.model == null || this.model.InventoryId.IsNullOrEmpty())
             {
                 this.View.gameObject.SetActive(false);
                 return;
             }
+
             this.View.gameObject.SetActive(true);
             this.View.image.sprite = await this.GameAssets.LoadAssetAsync<Sprite>(this.model.Model.AddressableName);
             this.View.quantity.gameObject.SetActive(this.model.Model.ItemType != ItemType.Equipment);
-            this.View.button.onClick.AddListener(() =>
-            {
-                this.screenManager
-                    .OpenScreen<ItemDetailPopupPresenter, ItemDetailPopupModel>(
-                        new(this.model.Model, this.model.Equippable, this.model.InventoryId, this.model.OnRecycle))
-                    .Forget();
-            });
+            this.View.button.onClick.AddListener(this.OnSelect);
             this.BindVolatileData();
         }
 
@@ -69,6 +66,19 @@
         {
             this.View.rarityImage.sprite = await this.GameAssets.LoadAssetAsync<Sprite>(this.model.Model.Rarity.ToString());
             this.View.quantity.text      = this.model.Quantity.ToString();
+        }
+
+        private void OnSelect()
+        {
+            if (this.model.OnSelect != null)
+                this.model.OnSelect.Invoke(this.model.InventoryId);
+            else
+            {
+                this.screenManager
+                    .OpenScreen<ItemDetailPopupPresenter, ItemDetailPopupModel>(
+                        new(this.model.Model, this.model.Equippable, this.model.InventoryId, this.model.OnRecycle))
+                    .Forget();
+            }
         }
     }
 }
