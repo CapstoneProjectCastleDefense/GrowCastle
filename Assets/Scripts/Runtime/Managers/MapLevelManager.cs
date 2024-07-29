@@ -1,14 +1,12 @@
-﻿namespace Runtime.Managers
-{
-    using System.Collections.Generic;
-    using System.Linq;
-    using Cysharp.Threading.Tasks;
-    using Models.Blueprints;
-    using Models.LocalData.LocalDataController;
-    using Runtime.Elements.Base;
-    using Runtime.Elements.Entities.MapLevel;
-    using Runtime.Managers.Base;
+﻿using System.Linq;
+using Cysharp.Threading.Tasks;
+using Models.LocalData.LocalDataController;
+using Runtime.Elements.Base;
+using Runtime.Elements.Entities.MapLevel;
+using Runtime.Managers.Base;
 
+namespace Runtime.Managers
+{
     public class MapLevelManager : BaseElementManager<MapLevelModel,MapLevelPresenter,MapLevelView>
     {
         private readonly LevelLocalDataController levelLocalDataController;
@@ -32,13 +30,13 @@
             }
             this.currentMapLevel = this.Factory.Create(model);
             this.currentMapLevel.UpdateView().Forget();
-            this.CreateEnvironmentInternal(model.LevelRecord.LevelToWaveRecords.First().WaveId);
+            this.CreateEnvironmentInternal();
             return this.currentMapLevel;
         }
-        private async void CreateEnvironmentInternal(int waveId)
+        private async void CreateEnvironmentInternal()
         {
             //await UniTask.Delay(TimeSpan.FromSeconds(environment.Value.Delay));
-            this.currentMapLevel.SpawnEnvironment(waveId);
+            this.currentMapLevel.SpawnEnvironment();
         }
     }
 }

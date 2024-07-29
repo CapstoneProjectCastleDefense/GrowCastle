@@ -25,11 +25,12 @@
         private readonly WaveBlueprint            waveBlueprint;
         private readonly LevelLocalDataController levelLocalDataController;
         private readonly UserLocalDataController  userLocalDataController;
+        private readonly DungeonModeBlueprint     dungeonModeBlueprint;
 
         public WaveSystem(
             EnemyGroupLoaderService enemyGroupLoaderService,
             LevelBlueprint levelBlueprint,
-            SignalBus signalBus, EnemyManager enemyManager,WaveBlueprint waveBlueprint, LevelLocalDataController levelLocalDataController,UserLocalDataController userLocalDataController)
+            SignalBus signalBus, EnemyManager enemyManager,WaveBlueprint waveBlueprint, LevelLocalDataController levelLocalDataController,UserLocalDataController userLocalDataController, DungeonModeBlueprint dungeonModeBlueprint)
         {
             this.enemyGroupLoaderService  = enemyGroupLoaderService;
             this.levelBlueprint           = levelBlueprint;
@@ -38,6 +39,7 @@
             this.waveBlueprint            = waveBlueprint;
             this.levelLocalDataController = levelLocalDataController;
             this.userLocalDataController  = userLocalDataController;
+            this.dungeonModeBlueprint = dungeonModeBlueprint;
         }
 
         public void Initialize() { this.signalBus.Subscribe<TimeCooldownSignal>(this.OnTimeCooldown); }
@@ -62,12 +64,48 @@
             this.waveLoadCoolDown -= Time.deltaTime;
         }
 
+        #region Dungeon
+        public void StartDungeonWave(string dungeonId)
+        {
+            this.InitDungeonWaveQueue(dungeonId);
+            this.isActiveWave = true;
+        }
+        
+        private void InitDungeonWaveQueue(string dungeonId)
+        {
+            this.waveWithDelayTimeQueue.Clear();
+            var waveRecord = this.dungeonModeBlueprint[dungeonId].DungeonWaveRecord;
+            foreach (var  record in waveRecord)
+            {
+                this.waveWithDelayTimeQueue.Add((record.WaveId, record.Delay));
+            }
+        }
+        
+        public void ClearDungeon()
+        {
+            this.waveWithDelayTimeQueue.Clear();
+            this.isActiveWave = false;
+            this.enemyGroupLoaderService.UnloadEnemyFromWave();
+        }
+        
+        private void EndCurrentDungeon(bool isComplete)
+        {
+            this.waveWithDelayTimeQueue.Clear();
+            this.isActiveWave                              = false;
+            this.userLocalDataController.IsWinCurrentDungeon = isComplete;
+            this.GetCurrentContainer().Resolve<GameStateMachine>().TransitionTo<GameDungeonModeEndState>();
+        }
+        
+        #endregion
+
         public void StartCurrentWave(int level)
         {
             this.InitWaveQueue(level);
             this.isActiveWave = true;
             this.enemyManager.StartCounterDeathEnemy(this.CountEnemyInWave(level),this.CompleteCurrentWave);
         }
+        
+       
 
         private int CountEnemyInWave(int level)
         {
@@ -91,12 +129,15 @@
                 this.waveWithDelayTimeQueue.Add((record.WaveId, record.Delay));
             }
         }
+
+        
         public void ClearWave()
         {
             this.waveWithDelayTimeQueue.Clear();
             this.isActiveWave = false;
             this.enemyGroupLoaderService.UnloadEnemyFromWave();
         }
+        
 
         private void CompleteCurrentWave()
         {
@@ -106,6 +147,8 @@
             this.levelLocalDataController.PassCurrentLevel();
             this.GetCurrentContainer().Resolve<GameStateMachine>().TransitionTo<GameEndWaveState>();
         }
+
+        
 
         public void Dispose() { this.signalBus.Unsubscribe<TimeCooldownSignal>(this.OnTimeCooldown); }
     }
