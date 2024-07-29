@@ -15,7 +15,7 @@ MonoBehaviour:
   m_GroupName: UIs
   m_Data:
     m_SerializedData: []
-  m_GUID: f9dcfd8d199681f47878d8f6d5dbe4f9
+  m_GUID: 75999017d5e28b349894bae466a8b6e1
   m_SerializeEntries:
   - m_GUID: 9b25a7fe58f2cfd4b9c3d7f02b7b5507
     m_Address: ElementEvolvePopupView
@@ -27,9 +27,59 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c152af8ea049ffe4398599b19a6a3a94
+    m_Address: TierUpPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7627cca5389a0154baf30c7dfaf3032a
+    m_Address: ItemInventoryPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 262945eae3e34594294360af07355273
+    m_Address: ItemDetailPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6263bb89ef3646b439ee573fc6c7c879
+    m_Address: LevelUpPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6bd68deb02971bb4f87c4b4715def2be
+    m_Address: LoadingScreenView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8112c9b15139e1498ff62752510dc09
+    m_Address: GameplayScreenView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 11439a41c11e78f4eb41fef1adfaa9bc
+    m_Address: CharacterInventoryPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 371a4e5a56e5e7244892f21503aafe90
+    m_Address: CharacterInfoPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eeffbb23555403d4a85b27ca8a3a0aa0
+    m_Address: QuestPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 656736a113a6f5745b74a65dd7d67b54
+    m_Address: EndGamePopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: f694f099f03aad14693e48e80db4d9ac, type: 2}
-    - {fileID: 11400000, guid: 5f667c5c003d28945a0c16d810342196, type: 2}
+    - {fileID: 11400000, guid: f8f479474e49b314a9d18a702da68a61, type: 2}
+    - {fileID: 11400000, guid: 10ce42b398b45c64eadbddfe8882403b, type: 2}

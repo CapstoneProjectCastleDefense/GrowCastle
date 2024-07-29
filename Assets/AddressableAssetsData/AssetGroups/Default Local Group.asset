@@ -22,11 +22,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6bd68deb02971bb4f87c4b4715def2be
-    m_Address: LoadingScreenView
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 1a4b9dcee797f2b4ea8372f177f15647
     m_Address: Level_1
     m_ReadOnly: 0
@@ -54,11 +49,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 219407c84a9779e43a30ed592a7d719c
     m_Address: castle 8
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c8112c9b15139e1498ff62752510dc09
-    m_Address: GameplayScreenView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -132,11 +122,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 11439a41c11e78f4eb41fef1adfaa9bc
-    m_Address: CharacterInventoryPopupView
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 17916c53d720da640acae947a31cb2dd
     m_Address: archer
     m_ReadOnly: 0
@@ -144,11 +129,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: cd87977eed55d7444941a35e40881a8b
     m_Address: GoldIcon
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 371a4e5a56e5e7244892f21503aafe90
-    m_Address: CharacterInfoPopupView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -217,11 +197,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: eeffbb23555403d4a85b27ca8a3a0aa0
-    m_Address: QuestPopupView
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 035c280b474d6cc41accb1b0f1bbf0d2
     m_Address: tower update
     m_ReadOnly: 0
@@ -232,11 +207,6 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 656736a113a6f5745b74a65dd7d67b54
-    m_Address: EndGamePopupView
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 49e8d6a2a99b41b45861075d24e24b0f
     m_Address: shield
     m_ReadOnly: 0
@@ -244,16 +214,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 9665eb6a8c0138549948bc038642a414
     m_Address: arrow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7627cca5389a0154baf30c7dfaf3032a
-    m_Address: ItemInventoryPopupView
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 262945eae3e34594294360af07355273
-    m_Address: ItemDetailPopupView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -294,11 +254,6 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 19ef96ff3f11fe847956b404ec74048e
     m_Address: DeathArrow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6263bb89ef3646b439ee573fc6c7c879
-    m_Address: LevelUpPopupView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
