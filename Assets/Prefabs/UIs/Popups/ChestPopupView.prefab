@@ -676,7 +676,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f543f7053aa347bb90547971020f3577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestType: 1
+  chestType: 7
   chestButton: {fileID: 8883022526096003254}
   chestIcon: {fileID: 2778157479358876697}
   chestNumber: {fileID: 477579662904410897}
@@ -1253,7 +1253,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f543f7053aa347bb90547971020f3577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestType: 3
+  chestType: 9
   chestButton: {fileID: 8045360939205518303}
   chestIcon: {fileID: 3208322450710580979}
   chestNumber: {fileID: 1048203326916557170}
@@ -1603,7 +1603,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f543f7053aa347bb90547971020f3577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestType: 0
+  chestType: 6
   chestButton: {fileID: 7317735005100098244}
   chestIcon: {fileID: 2265407750950600568}
   chestNumber: {fileID: 2997659097285152196}
@@ -2236,7 +2236,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f543f7053aa347bb90547971020f3577, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  chestType: 2
+  chestType: 8
   chestButton: {fileID: 7132037538198438124}
   chestIcon: {fileID: 7631737283078610311}
   chestNumber: {fileID: 5006952536802332365}

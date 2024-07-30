@@ -2,6 +2,8 @@
 
 namespace Models.Blueprints
 {
+    using Runtime.Enums;
+
     [CsvHeaderKey("Id")] [BlueprintReader("DungeonMode", true)]
     public class DungeonModeBlueprint : GenericBlueprintReaderByRow<string, DungeonModeRecord>
     {
@@ -26,7 +28,7 @@ namespace Models.Blueprints
 
     [CsvHeaderKey("RewardType")] public class DungeonRewardRecord
     {
-        public ChestType RewardType { get; set; }
-        public int       Value      { get; set; }
+        public ResourceType RewardType { get; set; }
+        public int          Value      { get; set; }
     }
 }

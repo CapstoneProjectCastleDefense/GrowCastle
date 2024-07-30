@@ -7,6 +7,10 @@
         Ticket,
         TalentPoint,
         Exp,
-        Item
+        Item,
+        CommonChest,
+        SliverChest,
+        GoldenChest,
+        DiamondChest
     }
 }

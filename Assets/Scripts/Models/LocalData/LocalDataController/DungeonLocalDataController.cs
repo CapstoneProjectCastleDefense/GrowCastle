@@ -4,6 +4,8 @@ using Models.Blueprints;
 
 namespace Models.LocalData.LocalDataController
 {
+    using Extensions;
+
     public class DungeonLocalDataController : ILocalDataController
     {
         private readonly DungeonModeBlueprint     dungeonModeBlueprint;
@@ -33,6 +35,7 @@ namespace Models.LocalData.LocalDataController
         public bool CheckDungeonIsUnlock(string dungeonId) { return this.dungeonLocalData.dungeonData[dungeonId].IsUnlock; }
 
         public DungeonData GetDungeonData(string dungeonId) { return this.dungeonLocalData.dungeonData[dungeonId]; }
+        
         public DungeonModeRecord GetDungeonRecord(string dungeonId) { return this.dungeonModeBlueprint.GetDataById(dungeonId); }
         public void CheckStatusOfAllDungeon()
         {
@@ -50,6 +53,11 @@ namespace Models.LocalData.LocalDataController
             });
         }
 
-        public void CompleteDungeon(string dungeonId) { this.dungeonLocalData.dungeonData[dungeonId].NumberCompleted++; }
+        public void CompleteCurrentDungeon()
+        {
+            if(this.currentSelectedDungeon.IsNullOrEmpty()) return;
+            this.isWinCurrentDungeon = true;
+            this.dungeonLocalData.dungeonData[this.currentSelectedDungeon].NumberCompleted++;
+        }
     }
 }

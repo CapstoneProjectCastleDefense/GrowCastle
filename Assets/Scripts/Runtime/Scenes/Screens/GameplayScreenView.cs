@@ -221,7 +221,7 @@
         
         private void OnUpdateBossHealth(float bossHealth)
         {
-            if (bossHealth < 0)
+            if (bossHealth <= 0)
             {
                 bossHealth = 0;
                 this.gameStateMachine.TransitionTo<GameDungeonModeEndState>();

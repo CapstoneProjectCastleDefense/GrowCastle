@@ -10,6 +10,7 @@
     using Models.Blueprints;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
+    using Runtime.Enums;
     using Runtime.Signals;
     using UnityEngine;
     using UnityEngine.UI;
@@ -77,7 +78,7 @@
             chestView.chestButton.onClick.AddListener(() => { this.OpenChest(chestDataSample.ChestType); });
         }
 
-        private async void OpenChest(ChestType chestType)
+        private async void OpenChest(ResourceType chestType)
         {
             await this.screenManager.OpenScreen<ConfirmOpenChestPopupPresenter, ConfirmOpenChestPopupModel>(new ConfirmOpenChestPopupModel() { ChestType = chestType });
         }
