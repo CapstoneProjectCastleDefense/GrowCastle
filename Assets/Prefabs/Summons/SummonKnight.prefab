@@ -168,7 +168,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 21300000, guid: 438386a51a4353946af664d56d4f03e0, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a8aa3a75ed6bd084faac2c1e1804e30e, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -429,7 +429,7 @@ MeshRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1939197609
-  m_SortingLayer: 2
+  m_SortingLayer: 3
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
 --- !u!33 &2891489464148289866
@@ -525,6 +525,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d04c8481c418460eaa52b5e5d0771106, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  attackAnimations: []
+  deathAnimations: []
+  moveAnimation: 
   <SkeletonAnimation>k__BackingField: {fileID: 4674233140242320668}
   <GraphicCollider2D>k__BackingField: {fileID: 6213419577085878024}
   <AttackRangeCollider2D>k__BackingField: {fileID: 6613015328776528364}

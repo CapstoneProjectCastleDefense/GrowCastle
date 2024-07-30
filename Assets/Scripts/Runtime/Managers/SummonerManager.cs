@@ -28,11 +28,13 @@
                 SortingIndex    = sortingIndex,
                 Stats = new() //TODO : Replace with data from blueprint
                 {
-                    { StatEnum.Attack, (typeof(float), 10f) },
+                    { StatEnum.Attack, (typeof(float), 5f) },
                     { StatEnum.AttackSpeed, (typeof(float), 1f) },
                     { StatEnum.Health, (typeof(float), 10f) },
                     { StatEnum.MoveSpeed, (typeof(float), 10f) },
-                    { StatEnum.AttackRange, (typeof(float), 1f) }
+                    { StatEnum.AttackRange, (typeof(float), 1f) },
+                    { StatEnum.ExistTime, (typeof(float), 3f) },
+                    { StatEnum.MaxExistTime, (typeof(float), 3f) }
                 }
             });
             presenter.UpdateView().Forget();

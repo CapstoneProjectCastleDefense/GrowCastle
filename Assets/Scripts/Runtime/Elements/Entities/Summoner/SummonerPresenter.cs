@@ -22,11 +22,13 @@
         private const    string           DeathAnimName  = "idle";
         private const    string           MoveAnimName   = "run";
         private readonly FindTargetSystem findTargetSystem;
+        private readonly EffectManager    effectManager;
 
-        public SummonerPresenter(SummonerModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem)
+        public SummonerPresenter(SummonerModel model, ObjectPoolManager objectPoolManager, FindTargetSystem findTargetSystem, EffectManager effectManager)
             : base(model, objectPoolManager)
         {
             this.findTargetSystem = findTargetSystem;
+            this.effectManager    = effectManager;
         }
 
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
@@ -61,7 +63,7 @@
                 this.UpdateHealthView();
         }
 
-        public void OnDeath()
+        public override void OnDeath()
         {
             if (this.IsDead) return;
             this.IsDead = true;
@@ -74,10 +76,10 @@
                 wait = this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
             }
 
-            UniTask.Delay(TimeSpan.FromSeconds(wait)).ContinueWith(this.Dispose).Forget();
+            UniTask.Delay(TimeSpan.FromSeconds(0.3f)).ContinueWith(this.Dispose).Forget();
         }
 
-        public ITargetable TargetThatImAttacking
+        private ITargetable TargetThatImAttacking
         {
             get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatImAttacking);
             set
@@ -97,7 +99,7 @@
             }
         }
 
-        public ITargetable TargetThatAttackingMe
+        private ITargetable TargetThatAttackingMe
         {
             get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatAttackingMe);
             set
@@ -107,10 +109,10 @@
             }
         }
 
-        public bool                                 IsDead          { get; private set; }
-        public Dictionary<StatEnum, (Type, object)> GetStats()      { return this.Model.Stats; }
-        public GameObject                           GetGameObject() { return this.View.gameObject; }
-        public Dictionary<Type, IEffectTag>        CurrentTag      { get; set; }
+        private bool                                 IsDead          { get; set; }
+        public  Dictionary<StatEnum, (Type, object)> GetStats()      { return this.Model.Stats; }
+        public  GameObject                           GetGameObject() { return this.View.gameObject; }
+        public  Dictionary<Type, IEffectTag>         CurrentTag      { get; set; }
 
         private void DoMove(Vector3 endPos, float distance)
         {
@@ -135,7 +137,7 @@
             {
                 this.View.transform.DOKill();
                 this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
-                target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
+                this.effectManager.AddEffectToTarget(target, new InstantDamageTag() { Damage = this.Model.GetStat<float>(StatEnum.Attack) });
                 target.TargetThatAttackingMe = this;
                 var attackSpeed                   = this.Model.GetStat<float>(StatEnum.AttackSpeed);
                 if (attackSpeed <= 0) attackSpeed = 1f / this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
@@ -157,13 +159,13 @@
                     ? this.TargetThatImAttacking
                     : this.TargetThatAttackingMe is { IsDead: false }
                         ? this.TargetThatAttackingMe
-                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(),1).FirstOrDefault();
+                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 1).FirstOrDefault();
         }
 
         private void UpdateHealthView()
         {
             DOTween.Kill(this.View.HealthBar);
-            this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.Health) / this.Model.GetStat<float>(StatEnum.MaxHealth), 0.1f);
+            this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.ExistTime) / this.Model.GetStat<float>(StatEnum.MaxExistTime), 0.01f);
         }
 
         public         float    AttackCooldownTime { get; private set; }
@@ -174,12 +176,15 @@
         {
             base.Tick();
             if (!this.IsViewInit) return;
-            if (this.IsDead)
+            if (this.Model.GetStat<float>(StatEnum.ExistTime) <= 0)
             {
                 this.View.transform.DOKill();
+                this.OnDeath();
                 return;
             }
 
+            this.Model.SetStat(StatEnum.ExistTime, this.Model.GetStat<float>(StatEnum.ExistTime) - Time.deltaTime);
+            this.UpdateHealthView();
             if (this.TargetThatImAttacking == null)
             {
                 this.TargetThatImAttacking = this.FindTarget();

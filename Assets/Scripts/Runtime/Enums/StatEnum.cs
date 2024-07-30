@@ -11,6 +11,7 @@
         ActiveSkillCooldown,
         MaxSpeed,
         MaxAttack,
+        MaxExistTime,
         
         Attack,
         Defense,
@@ -21,6 +22,7 @@
         CritChance,
         CritDamage,
         ManaCost,
+        ExistTime,
         
         Gold,
         Exp,
