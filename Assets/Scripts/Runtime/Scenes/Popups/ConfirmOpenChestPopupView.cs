@@ -8,6 +8,7 @@
     using GameFoundation.Scripts.Utilities.LogService;
     using Models.Blueprints;
     using Models.LocalData.LocalDataController;
+    using Runtime.Enums;
     using Runtime.Signals;
     using UnityEngine;
     using UnityEngine.UI;
@@ -15,7 +16,7 @@
 
     public class ConfirmOpenChestPopupModel
     {
-        public ChestType ChestType;
+        public ResourceType ChestType;
     }
 
     public class ConfirmOpenChestPopupView : BaseView

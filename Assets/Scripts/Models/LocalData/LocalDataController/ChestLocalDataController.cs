@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Models.Blueprints;
+    using Runtime.Enums;
     using Runtime.Extensions;
     using Sirenix.Utilities;
 
@@ -37,11 +38,11 @@
 
         public ChestLocalData GetChestLocalData() => this.chestLocalData;
 
-        public ChestData GetChestData(ChestType chestType) => this.chestLocalData.ChestData.First(e => e.ChestType == chestType);
+        public ChestData GetChestData(ResourceType chestType) => this.chestLocalData.ChestData.First(e => e.ChestType == chestType);
 
-        public void ReceiveChest(ChestType chestType) { this.chestLocalData.ChestData.Add(new ChestData() { ChestType = chestType }); }
+        public void ReceiveChest(ResourceType chestType) { this.chestLocalData.ChestData.Add(new ChestData() { ChestType = chestType }); }
 
-        public List<PoolItem> OpenChest(ChestType chestType)
+        public List<PoolItem> OpenChest(ResourceType chestType)
         {
             if (this.chestLocalData.ChestData.All(e => e.ChestType != chestType)) return null;
             var            chestData = this.chestLocalData.ChestData.First(e => e.ChestType == chestType);

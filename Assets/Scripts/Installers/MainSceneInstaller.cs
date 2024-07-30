@@ -122,6 +122,7 @@
             this.Container.DeclareSignal<TimeCooldownSignal>();
             this.Container.DeclareSignal<UpdateCastleStatSignal>();
             this.Container.DeclareSignal<OpenChestSignal>();
+            this.Container.DeclareSignal<SpawnedBossInDungeon>();
         }
     }
 }

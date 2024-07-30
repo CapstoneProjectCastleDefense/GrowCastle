@@ -4,9 +4,11 @@
     using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
     using Models.Blueprints;
+    using R3;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Enemy;
     using Runtime.Enums;
+    using Runtime.Extensions;
     using Runtime.Managers.Base;
     using UnityEngine;
     using Random = UnityEngine.Random;
@@ -18,7 +20,9 @@
         private Action onCounterComplete;
         private bool   isStartCounter;
 
-        private readonly EnemyBlueprint enemyBlueprint;
+        private readonly EnemyBlueprint          enemyBlueprint;
+        public readonly  ReactiveProperty<float> CurrentBossHealth = new(0);
+        public           float                   MaxBossHealth;
         public EnemyManager(
             BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>.Factory factory,
             EnemyBlueprint enemyBlueprint
@@ -44,7 +48,7 @@
             if (this.counterDeathEnemy >= this.targetCounterDeathEnemy) this.onCounterComplete?.Invoke();
         }
 
-        public void SpawnEnemy(string enemyId)
+        public EnemyPresenter SpawnEnemy(string enemyId)
         {
             var enemyRecord = this.enemyBlueprint[enemyId];
             {
@@ -70,9 +74,21 @@
                 });
                 enemyPresenter.UpdateView().Forget();
                 enemyPresenter.SetManager(this);
+                Debug.Log("Spawn enemy");
+                return enemyPresenter;
             }
+        }
 
-            Debug.Log("Spawn enemy");
+        public EnemyPresenter SpawnBossEnemy(string bossId)
+        {
+            var boss = this.SpawnEnemy(bossId);
+            boss.OnUpdateHpStat = (value) =>
+            {
+                this.CurrentBossHealth.Value = value;
+            };
+            this.MaxBossHealth           = boss.Model.GetStat<float>(StatEnum.MaxHealth);
+            this.CurrentBossHealth.Value = boss.Model.GetStat<float>(StatEnum.Health);
+            return boss;
         }
     }
 }

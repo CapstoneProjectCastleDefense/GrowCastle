@@ -18,7 +18,7 @@
         {
             this.environmentBlueprint = environmentBlueprint;
         }
-        protected override UniTask<GameObject> CreateView()      { return this.ObjectPoolManager.Spawn(this.Model.LevelRecord.PrefabName); }
+        protected override UniTask<GameObject> CreateView()      { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
         public override async UniTask UpdateView()
         {
@@ -26,11 +26,11 @@
             this.View.transform.position = Vector3.zero;
         }
 
-        public async void SpawnEnvironment(int waveId)
+        public async void SpawnEnvironment()
         {
             await UniTask.WaitUntil(() => this.View != null);
             if (this.currentEnvi != null) Object.Destroy(this.currentEnvi);
-            var environmentPrefabName = this.environmentBlueprint.GetDataById(this.Model.LevelRecord.LevelToWaveRecords.First().EnvironmentId).PrefabName;
+            var environmentPrefabName = this.environmentBlueprint.GetDataById(this.Model.EnvironmentId).PrefabName;
             this.currentEnvi                    = await this.ObjectPoolManager.Spawn(environmentPrefabName, this.View.transform);
             this.currentEnvi.transform.position = this.View.environmentPos.position;
         }
@@ -45,7 +45,7 @@
     {
         public string      Id              { get; set; }
         public string      AddressableName { get; set; }
-        public LevelRecord LevelRecord     { get; set; }
+        public string      EnvironmentId   { get; set; }
         public string      CurrentWaveId   { get; set; }
     }
 }

@@ -5,21 +5,19 @@
     using Models.LocalData.LocalDataController;
     using Newtonsoft.Json;
     using R3;
+    using Runtime.Enums;
 
     public class ChestLocalData : ILocalDataHaveController<ChestLocalDataController>
     {
         public List<ChestData> ChestData = new();
-        public bool   IsInit;
+        public bool            IsInit;
 
-        public void Init()
-        {
-            
-        }
+        public void Init() { }
     }
+
     public class ChestData
     {
-        public ChestType   ChestType;
-        [JsonIgnore]
-        public ChestRecord ChestRecord;
+        public              ResourceType ChestType;
+        [JsonIgnore] public ChestRecord  ChestRecord;
     }
 }
