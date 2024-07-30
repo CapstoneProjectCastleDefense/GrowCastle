@@ -19,7 +19,11 @@
         public Button       achievementQuestButton;
         public Button       exitButton;
         public QuestAdapter questAdapter;
-        
+
+        public GameObject dailyMask;
+        public GameObject weeklyMask;
+        public GameObject achievementMask;
+
         public Transform  startPos;
         public Transform  endPos;
         public GameObject viewField;
@@ -51,24 +55,37 @@
             this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
             return UniTask.CompletedTask;
         }
+        private void SetCurrentActiveButton(GameObject mask)
+        {
+            this.View.dailyMask.SetActive(true);
+            this.View.weeklyMask.SetActive(true);
+            this.View.achievementMask.SetActive(true);
+            mask.SetActive(false);
+        }
 
-        private void InitDailyQuest() { this.InitQuestWithType(QuestType.Daily); }
+        private void InitDailyQuest()
+        {
+            this.InitQuestWithType(QuestType.Daily);
+            this.SetCurrentActiveButton(this.View.dailyMask);
+        }
 
-        private void InitWeeklyQuest() { this.InitQuestWithType(QuestType.Weekly); }
+        private void InitWeeklyQuest()
+        {
+            this.InitQuestWithType(QuestType.Weekly);
+            this.SetCurrentActiveButton(this.View.weeklyMask);
+        }
 
-        private void InitAchievementQuest() { this.InitQuestWithType(QuestType.Achievement); }
+        private void InitAchievementQuest()
+        {
+            this.InitQuestWithType(QuestType.Achievement);
+            this.SetCurrentActiveButton(this.View.achievementMask);
+        }
 
         private async void InitQuestWithType(QuestType questType)
         {
             var listData = this.questLocalDataController.GetAllQuestWithType(questType).Select(e => new QuestItemModel() { QuestId = e.QuestId }).ToList();
             await this.View.questAdapter.InitItemAdapter(listData, this.diContainer);
         }
-        public override void CloseView()
-        {
-            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
-            {
-                base.CloseView();
-            };
-        }
+        public override void CloseView() { this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () => { base.CloseView(); }; }
     }
 }
