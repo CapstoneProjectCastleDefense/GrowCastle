@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Runtime.Elements.PassiveSkills;
+    using Runtime.Elements.PassiveSkills.Shadow;
 
     public static class PassiveSkillName
     {

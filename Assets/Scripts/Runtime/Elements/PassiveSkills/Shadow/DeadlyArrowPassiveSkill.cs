@@ -1,4 +1,4 @@
-﻿namespace Runtime.Elements.PassiveSkills
+﻿namespace Runtime.Elements.PassiveSkills.Shadow
 {
     using Models.Tags;
     using Runtime.Elements.Entities.Hero;
