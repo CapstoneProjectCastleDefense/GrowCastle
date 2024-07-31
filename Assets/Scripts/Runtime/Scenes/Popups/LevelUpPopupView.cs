@@ -82,7 +82,7 @@
                     continue;
                 }
 
-                list.Add(new(itemData.ToModel(this.itemBlueprint), null, null, item.Item2, null));
+                list.Add(new(itemData.ToModel(this.itemBlueprint), null, null, item.Item2, null, null));
                 if (itemData.Quantity < item.Item2)
                 {
                     canLevelUp = false;
