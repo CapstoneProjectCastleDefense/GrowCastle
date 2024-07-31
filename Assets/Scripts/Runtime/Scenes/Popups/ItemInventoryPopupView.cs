@@ -24,10 +24,12 @@
 
     public class ItemInventoryPopupModel
     {
-        public ItemInventoryPopupModel(IEquippable equippable, string selectedItemInventoryId)
+        public Action CharacterInfoRefresh { get; }
+        public ItemInventoryPopupModel(IEquippable equippable, string selectedItemInventoryId, Action characterInfoRefresh)
         {
             this.Equippable              = equippable;
             this.SelectedItemInventoryId = selectedItemInventoryId;
+            this.CharacterInfoRefresh    = characterInfoRefresh;
         }
         public IEquippable Equippable              { get; set; }
         public string      SelectedItemInventoryId { get; set; }
@@ -42,7 +44,7 @@
         [field: SerializeField] public RectTransform        ViewField            { get; private set; }
     }
 
-    [PopupInfo(nameof(ItemInventoryPopupView), isCloseWhenTapOutside: false)]
+    [PopupInfo(nameof(ItemInventoryPopupView), isCloseWhenTapOutside: false, isOverlay: true)]
     public class ItemInventoryPopupPresenter : BasePopupPresenter<ItemInventoryPopupView, ItemInventoryPopupModel>
     {
         private readonly InventoryLocalDataController inventoryLocalDataController;
@@ -124,7 +126,7 @@
                 items.AddRange(Enumerable.Repeat<ItemModel>(new(new() { InventoryId = null }, this.itemBlueprint),
                     this.View.Adapter.Parameters.Grid.MaxCellsPerGroup - items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup));
 
-            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, this.OnRecycle, x.Quantity, null)).ToList(),
+            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, this.OnRecycle, x.Quantity, null, this.Model.CharacterInfoRefresh)).ToList(),
                 this.diContainer);
             if (this.Model.SelectedItemInventoryId.IsNullOrEmpty()) return;
             var index = items.FindIndex(x => x.Id == this.Model.SelectedItemInventoryId);

@@ -102,14 +102,14 @@
         public override async UniTask BindData(CharacterInfoPopupModel popupModel)
         {
             this.View.changeClassBtn.gameObject.SetActive(!popupModel.IsInfoOnly);
-            
+
             this.View.title.text                   = this.Model.CurrentSelectedSlotType.ToString();
             this.View.viewField.transform.position = this.View.startPos.position;
             this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
             var equipmentList = this.heroLocalDataController.GetEquipments(this.Model.HeroRuntimeData.heroRecord.HeroId);
             for (var i = 0; i < this.View.equipmentSlots.Count; i++)
             {
-                await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : ""));
+                await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : "", this.ReBindData));
             }
 
             this.BindGenericInfo(popupModel);
@@ -193,10 +193,15 @@
             }
         }
 
-        private void ReBindData()
+        private async void ReBindData()
         {
             var heroId = this.Model.HeroRuntimeData.heroRecord.HeroId;
             this.Model.HeroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(heroId);
+            var equipmentList = this.heroLocalDataController.GetEquipments(this.Model.HeroRuntimeData.heroRecord.HeroId);
+            for (var i = 0; i < this.View.equipmentSlots.Count; i++)
+            {
+                await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : "", this.ReBindData));
+            }
             this.UpdateView(this.Model);
         }
 
@@ -210,6 +215,9 @@
                 .Forget();
         }
 
-        public override void CloseView() { this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.OutElastic).onComplete += () => { base.CloseView(); }; }
+        public override void CloseView()
+        {
+            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.Linear).onComplete += () => { base.CloseView(); };
+        }
     }
 }

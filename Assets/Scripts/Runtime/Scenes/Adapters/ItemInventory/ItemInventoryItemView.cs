@@ -16,19 +16,21 @@
 
     public class ItemInventoryItemModel
     {
-        public Action         OnRecycle   { get; }
-        public Action<string> OnSelect    { get; }
-        public ItemModel      Model       { get; }
-        public IEquippable    Equippable  { get; }
-        public string         InventoryId => this.Model.InventoryId;
-        public int            Quantity    { get; }
-        public ItemInventoryItemModel(ItemModel itemModel, IEquippable equippable, Action onRecycle, int quantity, Action<string> onSelect)
+        public Action         OnRecycle            { get; }
+        public Action<string> OnSelect             { get; }
+        public Action         CharacterInfoRefresh { get; }
+        public ItemModel      Model                { get; }
+        public IEquippable    Equippable           { get; }
+        public string         InventoryId          => this.Model.InventoryId;
+        public int            Quantity             { get; }
+        public ItemInventoryItemModel(ItemModel itemModel, IEquippable equippable, Action onRecycle, int quantity, Action<string> onSelect, Action characterInfoRefresh)
         {
-            this.OnRecycle  = onRecycle;
-            this.Quantity   = quantity;
-            this.OnSelect   = onSelect;
-            this.Model      = itemModel;
-            this.Equippable = equippable;
+            this.OnRecycle            = onRecycle;
+            this.Quantity             = quantity;
+            this.OnSelect             = onSelect;
+            this.CharacterInfoRefresh = characterInfoRefresh;
+            this.Model                = itemModel;
+            this.Equippable           = equippable;
         }
     }
 
@@ -76,7 +78,7 @@
             {
                 this.screenManager
                     .OpenScreen<ItemDetailPopupPresenter, ItemDetailPopupModel>(
-                        new(this.model.Model, this.model.Equippable, this.model.InventoryId, this.model.OnRecycle))
+                        new(this.model.Model, this.model.Equippable, this.model.InventoryId, this.model.OnRecycle, this.model.CharacterInfoRefresh))
                     .Forget();
             }
         }
