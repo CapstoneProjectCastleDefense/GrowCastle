@@ -27,7 +27,7 @@
                     {
                         ElementId       = key,
                         EvolutionId     = firstEvolutionId,
-                        OwnedEvolutions = new List<string> { key }
+                        OwnedEvolutions = new List<string> { firstEvolutionId }
                     });
                 }
             }
