@@ -41,7 +41,7 @@
         [field: SerializeField] public RectTransform        ViewField            { get; private set; }
     }
 
-    [PopupInfo(nameof(ItemInventoryForTierUpPopupView), isCloseWhenTapOutside: false)]
+    [PopupInfo(nameof(ItemInventoryForTierUpPopupView), isCloseWhenTapOutside: false, isOverlay: true)]
     public class ItemInventoryForTierUpPopupPresenter : BasePopupPresenter<ItemInventoryForTierUpPopupView, ItemInventoryForTierUpPopupModel>
     {
         private readonly InventoryLocalDataController inventoryLocalDataController;
@@ -84,7 +84,7 @@
                 items.AddRange(Enumerable.Repeat<ItemModel>(new(new() { InventoryId = null }, this.itemBlueprint),
                     this.View.Adapter.Parameters.Grid.MaxCellsPerGroup - items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup));
 
-            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, null, null, x.Quantity, this.OnSelectItem)).ToList(),
+            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, null, null, x.Quantity, this.OnSelectItem,null)).ToList(),
                 this.diContainer);
         }
         

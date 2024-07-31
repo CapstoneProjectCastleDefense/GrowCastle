@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Scenes.Popups
 {
+    using System;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
@@ -14,10 +15,12 @@
 
     public class EquipmentSlotModel
     {
-        public EquipmentSlotModel(IEquippable equippable, string inventoryId)
+        public Action CharacterInfoRefresh { get; }
+        public EquipmentSlotModel(IEquippable equippable, string inventoryId, Action characterInfoRefresh)
         {
-            this.Equippable  = equippable;
-            this.InventoryId = inventoryId;
+            this.Equippable           = equippable;
+            this.InventoryId          = inventoryId;
+            this.CharacterInfoRefresh = characterInfoRefresh;
         }
         public IEquippable Equippable  { get; set; }
         public string      InventoryId { get; set; }
@@ -54,7 +57,7 @@
         }
         private void OnClick()
         {
-            this.screenManager.OpenScreen<ItemInventoryPopupPresenter, ItemInventoryPopupModel>(new(this.model.Equippable, this.model.InventoryId)).Forget();
+            this.screenManager.OpenScreen<ItemInventoryPopupPresenter, ItemInventoryPopupModel>(new(this.model.Equippable, this.model.InventoryId, this.model.CharacterInfoRefresh)).Forget();
         }
     }
 }

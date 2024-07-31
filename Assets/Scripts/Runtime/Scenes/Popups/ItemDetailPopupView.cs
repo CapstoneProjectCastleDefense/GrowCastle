@@ -21,16 +21,18 @@
 
     public class ItemDetailPopupModel
     {
-        public ItemModel   ItemModel   { get; }
-        public IEquippable Equippable  { get; }
-        public string      InventoryId { get; }
-        public Action      OnRecycle   { get; }
-        public ItemDetailPopupModel(ItemModel itemModel, IEquippable equippable, string inventoryId, Action onRecycle)
+        public ItemModel   ItemModel            { get; }
+        public IEquippable Equippable           { get; }
+        public string      InventoryId          { get; }
+        public Action      OnRecycle            { get; }
+        public Action      CharacterInfoRefresh { get; }
+        public ItemDetailPopupModel(ItemModel itemModel, IEquippable equippable, string inventoryId, Action onRecycle, Action characterInfoRefresh)
         {
-            this.ItemModel   = itemModel;
-            this.Equippable  = equippable;
-            this.InventoryId = inventoryId;
-            this.OnRecycle   = onRecycle;
+            this.ItemModel            = itemModel;
+            this.Equippable           = equippable;
+            this.InventoryId          = inventoryId;
+            this.OnRecycle            = onRecycle;
+            this.CharacterInfoRefresh = characterInfoRefresh;
         }
     }
 
@@ -70,8 +72,16 @@
         protected override void OnViewReady()
         {
             base.OnViewReady();
-            this.View.EquipButton.onClick.AddListener(() => { this.Model.Equippable.Equip(this.Model.InventoryId); });
-            this.View.UnequipButton.onClick.AddListener(() => { this.Model.Equippable.UnEquip(this.Model.InventoryId); });
+            this.View.EquipButton.onClick.AddListener(() =>
+            {
+                this.Model.Equippable.Equip(this.Model.InventoryId);
+                this.Model.CharacterInfoRefresh?.Invoke();
+            });
+            this.View.UnequipButton.onClick.AddListener(() =>
+            {
+                this.Model.Equippable.UnEquip(this.Model.InventoryId);
+                this.Model.CharacterInfoRefresh?.Invoke();
+            });
             this.View.CloseButton.onClick.AddListener(this.CloseView);
 
             this.View.LevelButton.onClick.AddListener(async () =>
