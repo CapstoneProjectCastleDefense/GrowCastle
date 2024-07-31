@@ -58,6 +58,13 @@
             return cache.Count == 0 ? null : targets;
         }
 
+        public List<ITargetable> GetEnemiesInRange(IElementPresenter host,AttackPriorityEnum priority,Vector3 center,float range)
+        {
+            var tagList     = new List<string>() { "Enemy" };
+            var managerType = new Type[] { typeof(EnemyManager) };
+            return this.GetTargetsInRange(host, priority, tagList, managerType, center, range);
+        }
+
         public List<ITargetable> GetAllEnemyTarget()
         {
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(typeof(EnemyManager));

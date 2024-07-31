@@ -4,6 +4,7 @@
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
     using Models.Blueprints;
+    using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Skills;
@@ -66,13 +67,14 @@
 
     public class BaseProjectileSkillModel : IEntitySkillModel
     {
-        public string      Id              { get; set; }
-        public string      AddressableName { get; set; }
-        public string      Description     { get; }
-        public string      Name            { get; }
-        public Vector3     StartPoint;
-        public Vector3     EndPoint;
-        public ITargetable Target;
-        public float       Damage;
+        public string            Id              { get; set; }
+        public string            AddressableName { get; set; }
+        public string            Description     { get; }
+        public string            Name            { get; }
+        public Vector3           StartPoint;
+        public Vector3           EndPoint;
+        public ITargetable       Target;
+        public float             Damage;
+        public IElementPresenter Caster;
     }
 }
