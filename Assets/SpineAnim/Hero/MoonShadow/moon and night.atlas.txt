@@ -1,0 +1,125 @@
+
+moon and night.png
+size: 1786,322
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+1/Layer 22
+  rotate: false
+  xy: 1004, 150
+  size: 313, 170
+  orig: 313, 170
+  offset: 0, 0
+  index: -1
+1/Layer 24
+  rotate: true
+  xy: 606, 8
+  size: 86, 293
+  orig: 86, 293
+  offset: 0, 0
+  index: -1
+1/Layer 32
+  rotate: false
+  xy: 1048, 4
+  size: 48, 56
+  orig: 48, 56
+  offset: 0, 0
+  index: -1
+1/as1
+  rotate: false
+  xy: 1098, 9
+  size: 52, 51
+  orig: 52, 51
+  offset: 0, 0
+  index: -1
+1/as1.1
+  rotate: false
+  xy: 901, 16
+  size: 65, 78
+  orig: 65, 78
+  offset: 0, 0
+  index: -1
+1/body Copy
+  rotate: true
+  xy: 1634, 145
+  size: 175, 144
+  orig: 175, 144
+  offset: 0, 0
+  index: -1
+1/head
+  rotate: false
+  xy: 304, 20
+  size: 300, 300
+  orig: 300, 300
+  offset: 0, 0
+  index: -1
+body
+  rotate: false
+  xy: 1496, 4
+  size: 143, 139
+  orig: 143, 139
+  offset: 0, 0
+  index: -1
+leg 1
+  rotate: false
+  xy: 968, 2
+  size: 78, 58
+  orig: 78, 58
+  offset: 0, 0
+  index: -1
+leg 2
+  rotate: false
+  xy: 968, 2
+  size: 78, 58
+  orig: 78, 58
+  offset: 0, 0
+  index: -1
+luoi hai
+  rotate: false
+  xy: 1319, 152
+  size: 313, 168
+  orig: 313, 168
+  offset: 0, 0
+  index: -1
+night/Layer 24 Copy
+  rotate: true
+  xy: 1004, 62
+  size: 86, 293
+  orig: 86, 293
+  offset: 0, 0
+  index: -1
+night/Layer 26
+  rotate: false
+  xy: 606, 188
+  size: 396, 132
+  orig: 396, 132
+  offset: 0, 0
+  index: -1
+night/body Copy 2
+  rotate: false
+  xy: 1319, 6
+  size: 175, 144
+  orig: 175, 144
+  offset: 0, 0
+  index: -1
+night/body Copy 3
+  rotate: false
+  xy: 1641, 4
+  size: 143, 139
+  orig: 143, 139
+  offset: 0, 0
+  index: -1
+night/choi
+  rotate: false
+  xy: 606, 96
+  size: 396, 90
+  orig: 396, 90
+  offset: 0, 0
+  index: -1
+night/head
+  rotate: false
+  xy: 2, 17
+  size: 300, 303
+  orig: 300, 303
+  offset: 0, 0
+  index: -1
