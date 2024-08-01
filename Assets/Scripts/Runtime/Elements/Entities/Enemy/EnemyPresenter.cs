@@ -36,7 +36,9 @@
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
         public virtual string[] GetTags()         { return new[] { "Ally", "Building" }; }
 
-        public Action<float> OnUpdateHpStat;
+        public Action<float> onUpdateHpStat;
+
+        public Action<EnemyPresenter> onAttackComplete;
 
         protected EnemyPresenter(
             EnemyModel model,
@@ -89,6 +91,7 @@
                 var attackSpeed                   = this.Model.GetStat<float>(StatEnum.AttackSpeed);
                 if (attackSpeed <= 0) attackSpeed = 1f / this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
                 this.AttackCooldownTime = Time.time + 1f / attackSpeed;
+                this.onAttackComplete?.Invoke(this);
             }
         }
 
@@ -128,11 +131,11 @@
         {
             if (this.IsDead) return;
             var currentHealth                     = this.Model.GetStat<float>(StatEnum.Health);
-            if (currentHealth <= 0) currentHealth = 0; 
-            
+            if (currentHealth <= 0) currentHealth = 0;
+
             this.Model.SetStat(StatEnum.Health, currentHealth);
-            this.OnUpdateHpStat?.Invoke(this.Model.GetStat<float>(StatEnum.Health));
-            
+            this.onUpdateHpStat?.Invoke(this.Model.GetStat<float>(StatEnum.Health));
+
             if (currentHealth <= 0)
                 this.OnDeath();
             else

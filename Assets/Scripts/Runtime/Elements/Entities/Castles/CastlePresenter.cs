@@ -95,6 +95,19 @@
             return false;
         }
 
+        public void ReceiveMana(float manaValue)
+        {
+            var currentMana = this.Model.GetStat<float>(StatEnum.Mana) + manaValue;
+            if (currentMana > this.Model.GetStat<float>(StatEnum.MaxMana))
+            {
+                currentMana = this.Model.GetStat<float>(StatEnum.MaxMana);
+            }
+
+            this.Model.SetStat(StatEnum.Mana, currentMana);
+            this.castleLocalDataController.UpdateStats(this.Model.GetStat<float>(StatEnum.Health), currentMana);
+            this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
+        }
+
         public void ResetHealthAndMana()
         {
             this.TargetThatAttackingMe = null;

@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using Runtime.Elements.PassiveSkills;
+    using Runtime.Elements.PassiveSkills.ARise;
     using Runtime.Elements.PassiveSkills.Shadow;
 
     public static class PassiveSkillName
@@ -15,6 +16,8 @@
             { IntimidationPassiveSkill, typeof(IntimidationPassiveSkill) },
             { TheFearPassiveSkill, typeof(TheFearPassiveSkill) },
             { DeadlyArrowPassiveSkill, typeof(DeadlyArrowPassiveSkill) },
+            { DarknessArise, typeof(DarknessArise) },
+            { ShadowLord, typeof(ShadowLord) },
         };
 
         public static string GodApperancePassiveSkill   => "GodApperancePassiveSkill";
@@ -23,5 +26,7 @@
         public static string IntimidationPassiveSkill   => "IntimidationPassiveSkill";
         public static string TheFearPassiveSkill        => "TheFearPassiveSkill";
         public static string DeadlyArrowPassiveSkill    => "DeadlyArrowPassiveSkill";
+        public static string DarknessArise              => "DarknessArise";
+        public static string ShadowLord                 => "ShadowLord";
     }
 }

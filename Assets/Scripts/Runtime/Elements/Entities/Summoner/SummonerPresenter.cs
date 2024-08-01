@@ -36,16 +36,18 @@
         public override async UniTask UpdateView()
         {
             await base.UpdateView();
-            this.View.SkeletonAnimation.SetAnimation(MoveAnimName);
+            //this.View.SkeletonAnimation.SetAnimation(MoveAnimName);
             this.View.HealthBarContainer.gameObject.SetActive(true);
             this.View.HealthBar.fillAmount = 1;
             this.View.transform.position   = this.Model.StartPos;
         }
+
         public override void Dispose()
         {
             this.View.Recycle();
             this.ElementManager.entities.Remove(this);
         }
+
         public void OnGetHit(float damage)
         {
             if (this.IsDead) return;
@@ -69,12 +71,12 @@
             this.IsDead = true;
             this.View.HealthBarContainer.gameObject.SetActive(false);
             var wait = 0f;
-            if (!DeathAnimName.IsNullOrEmpty() &&
-                this.View.SkeletonAnimation != null)
+            if (!DeathAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation != null)
             {
                 this.View.SkeletonAnimation.SetAnimation(DeathAnimName, false);
                 wait = this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
             }
+            this.Model.OnSummonerDeath?.Invoke();
 
             UniTask.Delay(TimeSpan.FromSeconds(0.3f)).ContinueWith(this.Dispose).Forget();
         }
@@ -109,31 +111,31 @@
             }
         }
 
-        private bool                                 IsDead          { get; set; }
-        public  Dictionary<StatEnum, (Type, object)> GetStats()      { return this.Model.Stats; }
-        public  GameObject                           GetGameObject() { return this.View.gameObject; }
-        public  Dictionary<Type, IEffectTag>         CurrentTag      { get; set; }
+        private bool IsDead { get; set; }
+
+        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats; }
+
+        public GameObject GetGameObject() { return this.View.gameObject; }
+
+        public Dictionary<Type, IEffectTag> CurrentTag { get; set; }
 
         private void DoMove(Vector3 endPos, float distance)
         {
-            if (this.TargetThatImAttacking == null ||
-                this.TargetThatImAttacking.IsDead) return;
+            if (this.TargetThatImAttacking == null || this.TargetThatImAttacking.IsDead) return;
             this.View.transform.DOKill();
             this.View.transform.DOMoveX(endPos.x, distance / this.Model.GetStat<float>(StatEnum.MoveSpeed));
         }
 
         public void Attack(ITargetable target) //TODO : Replace with a skill called attack
         {
-            if (this.TargetThatImAttacking == null ||
-                this.TargetThatImAttacking.IsDead)
+            if (this.TargetThatImAttacking == null || this.TargetThatImAttacking.IsDead)
             {
                 this.FindTarget();
+
                 return;
             }
 
-            if (!AttackAnimName.IsNullOrEmpty() &&
-                this.View.SkeletonAnimation &&
-                Time.time >= this.AttackCooldownTime)
+            if (!AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation && Time.time >= this.AttackCooldownTime)
             {
                 this.View.transform.DOKill();
                 this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
@@ -168,18 +170,22 @@
             this.View.HealthBar.DOFillAmount(this.Model.GetStat<float>(StatEnum.ExistTime) / this.Model.GetStat<float>(StatEnum.MaxExistTime), 0.01f);
         }
 
-        public         float    AttackCooldownTime { get; private set; }
-        public virtual Type[]   GetManagerTypes()  { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
-        public virtual string[] GetTags()          { return new[] { "Fly", "Ground", "Boss", "Building" }; }
+        public float AttackCooldownTime { get; private set; }
+
+        public virtual Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
+
+        public virtual string[] GetTags() { return new[] { "Fly", "Ground", "Boss", "Building" }; }
 
         public override void Tick()
         {
             base.Tick();
+
             if (!this.IsViewInit) return;
             if (this.Model.GetStat<float>(StatEnum.ExistTime) <= 0)
             {
                 this.View.transform.DOKill();
                 this.OnDeath();
+
                 return;
             }
 
@@ -188,6 +194,7 @@
             if (this.TargetThatImAttacking == null)
             {
                 this.TargetThatImAttacking = this.FindTarget();
+
                 return;
             }
 
@@ -210,5 +217,6 @@
         public Vector3                              StartPos        { get; set; }
         public int                                  SortingIndex    { get; set; }
         public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
+        public Action                               OnSummonerDeath { get; set; }
     }
 }

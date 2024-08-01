@@ -42,7 +42,12 @@
         {
             return this.entities.First().UseManaForSkill(manaValue);
         }
-        
+
+        public void ReceiveMana(float manaValue)
+        {
+            this.entities.First().ReceiveMana(manaValue);
+        }
+
 
         public void ResetCurrentCastleHealthAndMana()
         {

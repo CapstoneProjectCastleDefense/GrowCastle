@@ -12,6 +12,7 @@
         public static string WizardAttackSkill  = "wizard_attack_skill";
         public static string RasenShurikenSkill = "rasen_shuriken_skill";
         public static string DeathScytheSkill   = "death_scythe";
+        public static string SkeletonArmy      = "skeleton_army";
 
         #region Buff
 

@@ -6,3 +6,4 @@ GrayMage,GrayMage,Attack,WizardEvol_1,gray_mage_attack|skill,gray mage_SkeletonD
 Xel'Naga,TowerXelNaga,Attack,XelNaga_Evol,wizard_normal_attack|idle,turret_SkeletonData,Tower,,wizard_normal_attack|atk
 Judge,Judge,Buff,WizardEvol_1,justice_sanction_skill|skill,judge_SkeletonData,Hero,"ControlGravityPassiveSkill,IntimidationPassiveSkill",none|atk
 Shadow,Shadow,Attack,WizardEvol_1,cursed_volley|skill,shadow_SkeletonData,Hero,"TheFearPassiveSkill,DeadlyArrowPassiveSkill",arrow_skill|attack
+Arise,Arise,Summon,KnightEvol_1,skeleton_army|atk,rise_SkeletonData,Hero,"ShadowLord,DarknessArise",none|atk

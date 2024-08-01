@@ -2,8 +2,10 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Cysharp.Threading.Tasks;
     using Models.Blueprints;
+    using Models.Tags;
     using R3;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Enemy;
@@ -82,13 +84,18 @@
         public EnemyPresenter SpawnBossEnemy(string bossId)
         {
             var boss = this.SpawnEnemy(bossId);
-            boss.OnUpdateHpStat = (value) =>
+            boss.onUpdateHpStat = (value) =>
             {
                 this.CurrentBossHealth.Value = value;
             };
             this.MaxBossHealth           = boss.Model.GetStat<float>(StatEnum.MaxHealth);
             this.CurrentBossHealth.Value = boss.Model.GetStat<float>(StatEnum.Health);
             return boss;
+        }
+
+        public List<EnemyPresenter> GetAllBossEnemies()
+        {
+            return this.entities.Where(e => e.Tags.Contains(ElementTag.Boss)).ToList();
         }
     }
 }

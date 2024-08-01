@@ -1,0 +1,97 @@
+
+rise.png
+size: 825,280
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+2/head Copy
+  rotate: false
+  xy: 239, 91
+  size: 188, 187
+  orig: 188, 187
+  offset: 0, 0
+  index: -1
+head
+  rotate: false
+  xy: 239, 91
+  size: 188, 187
+  orig: 188, 187
+  offset: 0, 0
+  index: -1
+3/Layer 2 Copy
+  rotate: true
+  xy: 429, 151
+  size: 127, 394
+  orig: 127, 394
+  offset: 0, 0
+  index: -1
+3/body Copy 2
+  rotate: true
+  xy: 649, 13
+  size: 136, 169
+  orig: 136, 169
+  offset: 0, 0
+  index: -1
+body
+  rotate: true
+  xy: 649, 13
+  size: 136, 169
+  orig: 136, 169
+  offset: 0, 0
+  index: -1
+3/body2 Copy
+  rotate: false
+  xy: 429, 7
+  size: 218, 142
+  orig: 218, 142
+  offset: 0, 0
+  index: -1
+3/head Copy 2
+  rotate: false
+  xy: 2, 83
+  size: 235, 195
+  orig: 235, 195
+  offset: 0, 0
+  index: -1
+3/leg 1 Copy 3
+  rotate: true
+  xy: 293, 60
+  size: 29, 77
+  orig: 29, 77
+  offset: 0, 0
+  index: -1
+leg 1 Copy
+  rotate: true
+  xy: 293, 60
+  size: 29, 77
+  orig: 29, 77
+  offset: 0, 0
+  index: -1
+3/leg 2 Copy 3
+  rotate: false
+  xy: 372, 12
+  size: 28, 77
+  orig: 28, 77
+  offset: 0, 0
+  index: -1
+leg 2 Copy
+  rotate: false
+  xy: 372, 12
+  size: 28, 77
+  orig: 28, 77
+  offset: 0, 0
+  index: -1
+3/wand Copy 2
+  rotate: true
+  xy: 2, 2
+  size: 79, 289
+  orig: 79, 289
+  offset: 0, 0
+  index: -1
+wand
+  rotate: true
+  xy: 2, 2
+  size: 79, 289
+  orig: 79, 289
+  offset: 0, 0
+  index: -1
