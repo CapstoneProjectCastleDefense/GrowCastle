@@ -60,7 +60,7 @@
 
         public List<ITargetable> GetEnemiesInRange(IElementPresenter host,AttackPriorityEnum priority,Vector3 center,float range)
         {
-            var tagList     = new List<string>() { "Enemy" };
+            var tagList     = new List<string>() { "Ground","Fly" };
             var managerType = new Type[] { typeof(EnemyManager) };
             return this.GetTargetsInRange(host, priority, tagList, managerType, center, range);
         }

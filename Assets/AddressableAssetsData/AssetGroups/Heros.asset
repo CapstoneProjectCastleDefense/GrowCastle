@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: Heros
-  m_EditorClassIdentifier: 
+  m_EditorClassIdentifier:
   m_GroupName: Heros
   m_Data:
     m_SerializedData: []
@@ -49,6 +49,16 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 68cf4b2f42eb5c640ad0a63fe5a3546c
     m_Address: Shadow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8dfe9a8012865c64c9e6345298e8eb61
+    m_Address: Hassan
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be198269317af934e84db799e485e20f
+    m_Address: MoonShadow
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

@@ -94,6 +94,7 @@
             {
                 Id    = skillId,
                 Level = 1,
+                Caster = this,
             });
             this.View.cooldownSkillBar.fillAmount = 0;
             this.StartRefillCooldown(this.Model.GetStat<float>(StatEnum.ActiveSkillCooldown));
