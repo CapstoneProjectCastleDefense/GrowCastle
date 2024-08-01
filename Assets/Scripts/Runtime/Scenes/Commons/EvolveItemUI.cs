@@ -3,12 +3,14 @@
     using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
+    using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Popups;
+    using Spine.Unity;
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
@@ -20,25 +22,29 @@
         private HeroLocalDataController    heroLocalDataController;
         private ElementLocalDataController elementLocalDataController;
         private EvolutionBlueprint         evolutionBlueprint;
+        private IGameAssets                gameAssets;
 
         [Inject]
         public void Construct(ScreenManager screenManager,
             HeroLocalDataController heroLocalDataController,
             ElementLocalDataController elementLocalDataController,
-            EvolutionBlueprint evolutionBlueprint
+            EvolutionBlueprint evolutionBlueprint,
+            IGameAssets gameAssets
         )
         {
             this.screenManager              = screenManager;
             this.heroLocalDataController    = heroLocalDataController;
             this.elementLocalDataController = elementLocalDataController;
             this.evolutionBlueprint         = evolutionBlueprint;
+            this.gameAssets                 = gameAssets;
         }
 
-        [SerializeField] private TMP_Text    priceTxt;
-        [SerializeField] private Button      selectBtn;
-        [SerializeField] private Image       itemImg;
-        [SerializeField] private List<Image> pathFromParents;
-        [SerializeField] private List<Image> greenPathFromParents;
+        [SerializeField] private TMP_Text        priceTxt;
+        [SerializeField] private Button          selectBtn;
+        [SerializeField] private Image           itemImg;
+        [SerializeField] private List<Image>     pathFromParents;
+        [SerializeField] private List<Image>     greenPathFromParents;
+        [SerializeField] private SkeletonGraphic elementSkeleton;
 
         private EvolveItemUIModel     model;
         private EvolutionDetailRecord evolutionDetailRecord;
@@ -55,8 +61,15 @@
 
             this.transform.localScale = Vector3.one;
 
+            this.SetSkeleton();
             this.SetPosition();
             this.SetParentPath();
+        }
+
+        private void SetSkeleton()
+        {
+            var skeleton = this.evolutionDetailRecord.IconImg;
+            this.elementSkeleton.ChangeSkeletonDataAsset(this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(skeleton).WaitForCompletion());
         }
 
         private void SetPosition()
@@ -74,7 +87,7 @@
 
             var listPredecessor = this.evolutionBlueprint.GetPredecessorEvolveId(this.model.ElementId, currentEvolution.EvolutionId);
             listPredecessor.Add(this.model.EvolutionId);
-            var listChild       = this.evolutionBlueprint.GetChildrenEvolutionId(this.model.ElementId, currentEvolution.EvolutionId);
+            var listChild = this.evolutionBlueprint.GetChildrenEvolutionId(this.model.ElementId, currentEvolution.EvolutionId);
 
             var isPredecessor = listPredecessor.Contains(this.model.EvolutionId);
             var isChild       = listChild.Contains(this.model.EvolutionId);
@@ -87,7 +100,7 @@
                 var pathFromParent = pathList[i];
                 var isActive       = i == parentPathIndex;
                 pathFromParent.gameObject.SetActive(isActive);
-                
+
                 if (isActive && isChild)
                 {
                     this.blinkTween = DOTween.Sequence();
