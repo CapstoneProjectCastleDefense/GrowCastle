@@ -46,6 +46,8 @@
             this.diContainer        = diContainer;
         }
 
+        private List<EvolveItemUI> evolveItemUIs = new();
+
         protected override void OnViewReady()
         {
             base.OnViewReady();
@@ -57,21 +59,29 @@
             var evolutionRecord = this.evolutionBlueprint[popupModel.CharacterId];
             foreach (var (level, record) in evolutionRecord.LevelToEvolutionDetailRecords)
             {
-                foreach (var (_, evolutionDetailRecord) in record.EvolutionDetailRecords)
+                foreach (var (evolutionId, _) in record.EvolutionDetailRecords)
                 {
                     var evolveItemUI = this.objectPoolManager.Spawn(this.View.EvolveItemUI, this.View.EvolveItemUIContainer.transform);
+                    this.diContainer.InjectGameObject(evolveItemUI.gameObject);
                     evolveItemUI.BindData(new EvolveItemUIModel
                     {
-                        ElementId             = this.Model.CharacterId,
-                        EvolutionDetailRecord = evolutionDetailRecord,
-                        LevelPos              = this.View.LevelPos[level - 1].transform.position,
-                        LinePos               = this.View.LinePos
+                        ElementId   = this.Model.CharacterId,
+                        EvolutionId = evolutionId,
+                        LevelPos    = this.View.LevelPos[level - 1].transform.position,
+                        LinePos     = this.View.LinePos
                     });
-                    this.diContainer.InjectGameObject(evolveItemUI.gameObject);
+                    this.evolveItemUIs.Add(evolveItemUI);
                 }
             }
 
             return UniTask.CompletedTask;
+        }
+
+        public override void Dispose()
+        {
+            base.Dispose();
+            this.evolveItemUIs.ForEach(item => item.Dispose());
+            this.evolveItemUIs.Clear();
         }
     }
 

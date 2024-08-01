@@ -2,11 +2,15 @@
 {
     using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
+    using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
+    using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Popups;
+    using Spine.Unity;
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
@@ -17,52 +21,98 @@
         private ScreenManager              screenManager;
         private HeroLocalDataController    heroLocalDataController;
         private ElementLocalDataController elementLocalDataController;
+        private EvolutionBlueprint         evolutionBlueprint;
+        private IGameAssets                gameAssets;
 
         [Inject]
         public void Construct(ScreenManager screenManager,
             HeroLocalDataController heroLocalDataController,
-            ElementLocalDataController elementLocalDataController
+            ElementLocalDataController elementLocalDataController,
+            EvolutionBlueprint evolutionBlueprint,
+            IGameAssets gameAssets
         )
         {
             this.screenManager              = screenManager;
             this.heroLocalDataController    = heroLocalDataController;
             this.elementLocalDataController = elementLocalDataController;
+            this.evolutionBlueprint         = evolutionBlueprint;
+            this.gameAssets                 = gameAssets;
         }
 
-        [SerializeField] private TMP_Text    priceTxt;
-        [SerializeField] private Button      selectBtn;
-        [SerializeField] private Image       itemImg;
-        [SerializeField] private List<Image> pathFromParents;
+        [SerializeField] private TMP_Text        priceTxt;
+        [SerializeField] private Button          selectBtn;
+        [SerializeField] private Image           itemImg;
+        [SerializeField] private List<Image>     pathFromParents;
+        [SerializeField] private List<Image>     greenPathFromParents;
+        [SerializeField] private SkeletonGraphic elementSkeleton;
+
+        private EvolveItemUIModel     model;
+        private EvolutionDetailRecord evolutionDetailRecord;
+        private Sequence              blinkTween;
 
         public void BindData(EvolveItemUIModel param)
         {
-            this.priceTxt.text = param.EvolutionDetailRecord.Price.ToString();
+            this.model                 = param;
+            this.evolutionDetailRecord = this.evolutionBlueprint.GetEvolutionDetailRecord(this.model.ElementId, this.model.EvolutionId);
+            this.priceTxt.text         = this.evolutionDetailRecord.Price.ToString();
 
             this.selectBtn.onClick.RemoveAllListeners();
-            this.selectBtn.onClick.AddListener(() => this.OnClickBtnSelect(param));
+            this.selectBtn.onClick.AddListener(() => this.OnClickBtnSelect(this.model));
 
             this.transform.localScale = Vector3.one;
 
-            this.SetPosition(param);
-            this.SetParentPath(param.EvolutionDetailRecord.ParentPathIndex);
+            this.SetSkeleton();
+            this.SetPosition();
+            this.SetParentPath();
         }
 
-        private void SetPosition(EvolveItemUIModel param)
+        private void SetSkeleton()
         {
-            var lineIndex = param.EvolutionDetailRecord.LineIndex;
-            var linePos   = param.LinePos[lineIndex].transform.position;
-            var levelPos  = param.LevelPos;
+            var skeleton = this.evolutionDetailRecord.IconImg;
+            this.elementSkeleton.ChangeSkeletonDataAsset(this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(skeleton).WaitForCompletion());
+        }
+
+        private void SetPosition()
+        {
+            var lineIndex = this.evolutionDetailRecord.LineIndex;
+            var linePos   = this.model.LinePos[lineIndex].transform.position;
+            var levelPos  = this.model.LevelPos;
             var pos       = new Vector3(linePos.x, levelPos.y, linePos.z);
             this.transform.position = pos;
         }
 
-        private void SetParentPath(int parentPathIndex)
+        private void SetParentPath()
         {
-            for (var i = 0; i < this.pathFromParents.Count; i++)
+            var currentEvolution = this.elementLocalDataController.GetEvolutionElementData(this.model.ElementId);
+
+            var listPredecessor = this.evolutionBlueprint.GetPredecessorEvolveId(this.model.ElementId, currentEvolution.EvolutionId);
+            listPredecessor.Add(this.model.EvolutionId);
+            var listChild = this.evolutionBlueprint.GetChildrenEvolutionId(this.model.ElementId, currentEvolution.EvolutionId);
+
+            var isPredecessor = listPredecessor.Contains(this.model.EvolutionId);
+            var isChild       = listChild.Contains(this.model.EvolutionId);
+            var pathList      = isPredecessor || isChild ? this.greenPathFromParents : this.pathFromParents;
+            var otherPathList = isPredecessor || isChild ? this.pathFromParents : this.greenPathFromParents;
+
+            var parentPathIndex = this.evolutionDetailRecord.ParentPathIndex;
+            for (var i = 0; i < pathList.Count; i++)
             {
-                var pathFromParent = this.pathFromParents[i];
-                pathFromParent.gameObject.SetActive(i == parentPathIndex);
+                var pathFromParent = pathList[i];
+                var isActive       = i == parentPathIndex;
+                pathFromParent.gameObject.SetActive(isActive);
+
+                if (isActive && isChild)
+                {
+                    this.blinkTween = DOTween.Sequence();
+                    this.blinkTween
+                        .Append(pathFromParent.DOFade(0, .5f))
+                        .Append(pathFromParent.DOFade(1, .35f))
+                        .SetLoops(-1, LoopType.Restart)
+                        .onKill += () => { pathFromParent.material.color = new Color(1, 1, 1, 1); };
+                }
             }
+
+            otherPathList.ForEach(p => p.gameObject.SetActive(false));
         }
 
         private void OnClickBtnSelect(EvolveItemUIModel param)
@@ -73,7 +123,7 @@
             var heroRuntimeData         = this.heroLocalDataController.GetHeroRuntimeData(param.ElementId);
             var characterInfoPopupModel = new CharacterInfoPopupModel(SlotType.Hero, heroRuntimeData, null, true);
 
-            if (param.EvolutionDetailRecord.EvolutionId == currentSelectEvolution)
+            if (this.evolutionDetailRecord.EvolutionId == currentSelectEvolution)
             {
                 this.screenManager.OpenScreen<CharacterInfoPopupPresenter, CharacterInfoPopupModel>(characterInfoPopupModel).Forget();
             }
@@ -84,17 +134,23 @@
                 {
                     CharacterInfoPopupModel = characterInfoPopupModel,
                     ElementId               = param.ElementId,
-                    EvolutionId             = param.EvolutionDetailRecord.EvolutionId
+                    EvolutionId             = this.evolutionDetailRecord.EvolutionId
                 }).Forget();
             }
+        }
+
+        public void Dispose()
+        {
+            this.Recycle();
+            this.blinkTween.Kill();
         }
     }
 
     public class EvolveItemUIModel
     {
-        public string                ElementId;
-        public Vector3               LevelPos;
-        public List<GameObject>      LinePos;
-        public EvolutionDetailRecord EvolutionDetailRecord;
+        public string           ElementId;
+        public string           EvolutionId;
+        public Vector3          LevelPos;
+        public List<GameObject> LinePos;
     }
 }
