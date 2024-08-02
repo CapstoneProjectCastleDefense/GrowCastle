@@ -2,8 +2,11 @@
 {
     using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.AssetLibrary;
+    using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
+    using Models.Tags;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Interfaces.Entities;
@@ -54,7 +57,24 @@
 
         protected virtual void OnFlyToTarget(ProjectilePresenter projectile) { this.RemoveProjectile(projectile); }
 
-        protected virtual void OnProjectileHit(Collider2D collider2D, ProjectilePresenter projectile) { }
+        protected virtual void OnProjectileHit(Collider2D collider2D, ProjectilePresenter projectile)
+        {
+            var objHit = collider2D.gameObject;
+            //todo: check target layer mask from model instead of static input
+            if (objHit.layer == LayerMask.NameToLayer("Enemy"))
+            {
+                var targetableView = objHit.GetComponentInParent<ITargetableView>();
+                if (targetableView != null &&
+                    !targetableView.GetTargetablePresenter().IsDead)
+                {
+                    this.effectManager.AddEffectToTarget(targetableView.GetTargetablePresenter(), new InstantDamageTag() { Damage = this.Model.Damage });
+                    projectile.GetView().transform.DOKill();
+                    projectile.GetView().Recycle();
+                    projectile.isFlyComplete = true;
+                    this.RemoveProjectile(projectile);
+                }
+            }
+        }
 
         protected void RemoveProjectile(ProjectilePresenter projectile)
         {
