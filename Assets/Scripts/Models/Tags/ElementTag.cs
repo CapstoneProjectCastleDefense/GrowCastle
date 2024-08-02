@@ -5,6 +5,7 @@
         Enemy,
         Ground,
         Fly,
-        Boss
+        Boss,
+        Range
     }
 }

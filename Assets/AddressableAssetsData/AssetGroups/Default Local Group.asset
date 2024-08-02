@@ -297,6 +297,26 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da8b840fba5f7864ba3a00ab4e3940c0
+    m_Address: Scythe
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1884aaf0ce3704e4faeca233dfdd6ab8
+    m_Address: moon and night_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d788483dee89ba84494ca6b444059981
+    m_Address: LightningStrikeSharpPink
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 29536b5a8667ccb4b9d296286f716322
+    m_Address: storm_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
   m_SchemaSet:

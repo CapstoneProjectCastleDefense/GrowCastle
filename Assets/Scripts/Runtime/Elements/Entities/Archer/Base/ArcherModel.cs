@@ -2,10 +2,8 @@
 {
     using System;
     using System.Collections.Generic;
-    using Models.Tags;
     using Runtime.Elements.Base;
     using Runtime.Enums;
-    using Runtime.Interfaces;
     using UnityEngine;
 
     public class ArcherModel : ICombatant

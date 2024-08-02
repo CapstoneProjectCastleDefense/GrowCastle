@@ -3,9 +3,11 @@
     using System;
     using System.Collections.Generic;
     using Runtime.Elements.PassiveSkills;
-    using Runtime.Elements.PassiveSkills.Hassan;
     using Runtime.Elements.PassiveSkills.ARise;
+    using Runtime.Elements.PassiveSkills.Hassan;
+    using Runtime.Elements.PassiveSkills.MoonShadow;
     using Runtime.Elements.PassiveSkills.Shadow;
+    using Runtime.Elements.PassiveSkills.Storm;
 
     public static class PassiveSkillName
     {
@@ -21,6 +23,10 @@
             { ShadowLord, typeof(ShadowLord) },
             { LightFootPassiveSkill, typeof(LightFootPassiveSkill) },
             { StealthPassiveSkill, typeof(StealthPassiveSkill) },
+            { BloodScythe, typeof(BloodScythe) },
+            { PiercingScythe, typeof(PiercingScythe) },
+            { ForesightPassiveSkill, typeof(ForesightPassiveSkill) },
+            { ObscurePassiveSkill, typeof(ObscurePassiveSkill) },
         };
 
         public static string GodApperancePassiveSkill   => "GodApperancePassiveSkill";
@@ -33,5 +39,9 @@
         public static string StealthPassiveSkill        => "StealthPassiveSkill";
         public static string DarknessArise              => "DarknessArise";
         public static string ShadowLord                 => "ShadowLord";
+        public static string BloodScythe                => "BloodScythe";
+        public static string PiercingScythe             => "PiercingScythe";
+        public static string ForesightPassiveSkill      => "ForesightPassiveSkill";
+        public static string ObscurePassiveSkill        => "ObscurePassiveSkill";
     }
 }

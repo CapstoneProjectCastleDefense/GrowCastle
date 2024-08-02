@@ -2,7 +2,6 @@
 {
     using System.Linq;
     using Models.Tags;
-    using Runtime.Elements.Entities.Castles;
     using Runtime.Elements.Entities.Hero;
     using Runtime.Enums;
     using Runtime.Extensions;
