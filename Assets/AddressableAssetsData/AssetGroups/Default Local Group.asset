@@ -312,8 +312,28 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 29536b5a8667ccb4b9d296286f716322
-    m_Address: storm_SkeletonData
+  - m_GUID: 5dccfbfcca2b7814883beea8d6e53420
+    m_Address: silverchest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a0a726989592fd4084e88173063f2da
+    m_Address: diamondchest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4339ad4a5f3b6ca41bfe7b63637ebbe7
+    m_Address: copperchest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eeca61a04731d8a49aca2b25a9c0431f
+    m_Address: goldchest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a1a06b143edf84458abf7fea3660106
+    m_Address: ironchest
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

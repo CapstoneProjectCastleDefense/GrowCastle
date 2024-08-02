@@ -1,8 +1,8 @@
 ﻿ChestType,ItemQuantity,ItemType,Weight,Value,ChestIcon
-CommonChest,2,Gold,50,50,chest
+CommonChest,2,Gold,50,50,copperchest
 ,,Diamond,20,10,
 ,,Gold,30,100,
-SliverChest,3,Gold,20,70,chest
+SliverChest,3,Gold,20,70,silverchest
 ,,Diamond,20,20,
 ,,Gold,40,20,
 ,,Gold,10,100,

@@ -32,8 +32,9 @@
             var startPos = new Vector3(-2f, -2, 0);
             for (var i = 0; i < 2; i++)
             {
-                this.vfxService.SpawnVFX(this.VFXName, startPos + new Vector3(i * 3, 0, 0), Quaternion.identity, scale: new Vector3(3, 3, 1));
-                var targets = this.findTargetSystem.GetEnemiesInRange(this.Model.Caster, AttackPriorityEnum.Ground, startPos + new Vector3(i * -1, 0, 0), 3);
+                var pos = startPos + new Vector3(i * 5, 0, 0);
+                this.vfxService.SpawnVFX(this.VFXName, pos, Quaternion.identity, scale: new Vector3(3, 3, 1));
+                var targets = this.findTargetSystem.GetEnemiesInRange(this.Model.Caster, AttackPriorityEnum.Ground, pos, 8);
                 foreach (var t in targets)
                 {
                     this.effectManager.AddEffectToTarget(targets[i], new InstantDamageTag() { Damage = this.Damage });
