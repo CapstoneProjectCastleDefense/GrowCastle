@@ -24,6 +24,7 @@
         public Button          claimButton;
         public GameObject      inprogress;
         public GameObject      claimed;
+        public GameObject      progressField;
         public Image           progressBar;
     }
     
@@ -63,7 +64,8 @@
             switch (questData.QuestStatus)
             {
                 case QuestStatus.Claimed:
-                    //this.View.claimed.SetActive(true);
+                    this.View.claimed.SetActive(true);
+                    this.View.progressField.SetActive(false);
                     break;
                 case QuestStatus.Complete:
                     this.View.claimButton.gameObject.SetActive(true);

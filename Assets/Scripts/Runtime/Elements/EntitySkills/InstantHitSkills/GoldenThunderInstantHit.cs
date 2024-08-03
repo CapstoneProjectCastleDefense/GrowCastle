@@ -37,7 +37,7 @@
                 var targets = this.findTargetSystem.GetEnemiesInRange(this.Model.Caster, AttackPriorityEnum.Ground, pos, 8);
                 foreach (var t in targets)
                 {
-                    this.effectManager.AddEffectToTarget(targets[i], new InstantDamageTag() { Damage = this.Damage });
+                    this.effectManager.AddEffectToTarget(t, new InstantDamageTag() { Damage = this.Damage });
                 }
             }
         }

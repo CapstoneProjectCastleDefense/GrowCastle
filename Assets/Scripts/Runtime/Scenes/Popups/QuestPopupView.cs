@@ -27,6 +27,8 @@
         public Transform  startPos;
         public Transform  endPos;
         public GameObject viewField;
+        public Transform  activeField;
+        public Transform  deActiveField;
     }
 
     [PopupInfo(nameof(QuestPopupView), isOverlay: true)]
@@ -55,30 +57,34 @@
             this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
             return UniTask.CompletedTask;
         }
-        private void SetCurrentActiveButton(GameObject mask)
+        private void SetCurrentActiveButton(GameObject mask, GameObject button)
         {
             this.View.dailyMask.SetActive(true);
             this.View.weeklyMask.SetActive(true);
             this.View.achievementMask.SetActive(true);
+            this.View.dailyQuestButton.transform.SetParent(this.View.deActiveField);
+            this.View.weeklyQuestButton.transform.SetParent(this.View.deActiveField);
+            this.View.achievementQuestButton.transform.SetParent(this.View.deActiveField);
             mask.SetActive(false);
+            button.transform.SetParent(this.View.activeField);
         }
 
         private void InitDailyQuest()
         {
             this.InitQuestWithType(QuestType.Daily);
-            this.SetCurrentActiveButton(this.View.dailyMask);
+            this.SetCurrentActiveButton(this.View.dailyMask,this.View.dailyQuestButton.gameObject);
         }
 
         private void InitWeeklyQuest()
         {
             this.InitQuestWithType(QuestType.Weekly);
-            this.SetCurrentActiveButton(this.View.weeklyMask);
+            this.SetCurrentActiveButton(this.View.weeklyMask,this.View.weeklyQuestButton.gameObject);
         }
 
         private void InitAchievementQuest()
         {
             this.InitQuestWithType(QuestType.Achievement);
-            this.SetCurrentActiveButton(this.View.achievementMask);
+            this.SetCurrentActiveButton(this.View.achievementMask,this.View.achievementQuestButton.gameObject);
         }
 
         private async void InitQuestWithType(QuestType questType)

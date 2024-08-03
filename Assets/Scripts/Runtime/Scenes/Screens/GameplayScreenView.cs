@@ -61,6 +61,15 @@
         public TextMeshProUGUI manaCurrentValue;
         public TextMeshProUGUI userLevelValue;
         public TextMeshProUGUI bossHealthValue;
+
+        public GameObject topObject;
+        public GameObject midObject;
+        public GameObject bottomObject;
+        public Transform  startPosBottom;
+        public Transform  endPosBottom;
+        public Transform  startPosMid;
+        public Transform  endPosMid;
+
     }
 
     [ScreenInfo(nameof(GameplayScreenView))]
@@ -233,17 +242,15 @@
 
         private void DoPrepareStateAnim(float fadeTime)
         {
-            this.View.upgradeField.GetComponent<RectTransform>().DOAnchorPosX(-420f, fadeTime).SetEase(Ease.OutElastic);
-            this.View.startWaveButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(178f, fadeTime).SetEase(Ease.OutElastic);
-            this.View.dailyRewardButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(157f, fadeTime).SetEase(Ease.OutElastic);
+            this.View.midObject.transform.DOMove(this.View.startPosMid.position,fadeTime).SetEase(Ease.InOutQuint);
+            this.View.bottomObject.transform.DOMove(this.View.startPosBottom.position,fadeTime).SetEase(Ease.InOutQuint);
             this.View.waveIndicator.SetActive(false);
         }
 
         private void DoStartWaveAnim(float fadeTime)
         {
-            this.View.upgradeField.GetComponent<RectTransform>().DOAnchorPosX(1000f, fadeTime).SetEase(Ease.InOutQuint);
-            this.View.startWaveButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(-1000f, fadeTime).SetEase(Ease.InOutQuint);
-            this.View.dailyRewardButton.gameObject.GetComponent<RectTransform>().DOAnchorPosY(-1000f, fadeTime).SetEase(Ease.InOutQuint);
+            this.View.midObject.transform.DOMove(this.View.endPosMid.position,fadeTime).SetEase(Ease.InOutQuint);
+            this.View.bottomObject.transform.DOMove(this.View.endPosBottom.position,fadeTime).SetEase(Ease.InOutQuint);
             this.View.waveIndicator.SetActive(true);
         }
 
