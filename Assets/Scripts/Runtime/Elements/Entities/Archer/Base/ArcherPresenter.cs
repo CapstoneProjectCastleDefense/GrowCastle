@@ -86,6 +86,7 @@
 
         public void Attack(ITargetable target)
         {
+            return;
             if (target == null) return;
 
             this.View.skeletonAnimation.SetAnimation("attack", false);

@@ -1,6 +1,6 @@
 ﻿Id,EnemyId,Quantity,Delay
 1,goblin,1,1
-,slime_2,0,0
+,phantom_1,1,0
 2,goblin,1,1
 ,slime_3,3,2
 3,goblin,5,0.0
@@ -26,3 +26,4 @@
 9,wolf,5,0
 ,skeleton_0,9,2
 ,death,10,4
+100,slime_2,1,0

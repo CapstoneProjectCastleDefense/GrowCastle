@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1001 &7846124608535975350
+--- !u!1001 &3717417318148336256
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
@@ -11,43 +11,28 @@ PrefabInstance:
     - target: {fileID: 814328206612611133, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_Name
-      value: Death
+      value: Phantom 1
       objectReference: {fileID: 0}
     - target: {fileID: 814328206612611133, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_TagString
       value: Ground
       objectReference: {fileID: 0}
-    - target: {fileID: 2025880399275592623, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+    - target: {fileID: 2801570387741010771, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
-      propertyPath: m_TagString
-      value: Ground
+      propertyPath: m_LocalPosition.x
+      value: -2.31
       objectReference: {fileID: 0}
     - target: {fileID: 2801570387741010771, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701615186086625936, guid: 64f87621eefc0fc439272b7e70ebfdfc,
-        type: 3}
-      propertyPath: m_SortingLayer
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701615186086625936, guid: 64f87621eefc0fc439272b7e70ebfdfc,
-        type: 3}
-      propertyPath: m_SortingOrder
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 3701615186086625936, guid: 64f87621eefc0fc439272b7e70ebfdfc,
-        type: 3}
-      propertyPath: m_SortingLayerID
-      value: 1939197609
+      value: 4.94
       objectReference: {fileID: 0}
     - target: {fileID: 3701615186086625936, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 4d1041e4217fdfa499d7fa036169a2f1, type: 2}
+      objectReference: {fileID: 2100000, guid: 69b9c8bce4342a74abc5768ee4fcf65f, type: 2}
     - target: {fileID: 4834788081406469895, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_TagString
@@ -63,46 +48,36 @@ PrefabInstance:
       propertyPath: m_Constraints
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 5696294145884005621, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5890850458954612675, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
-      propertyPath: _animationName
-      value: atk
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5890850458954612675, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: skeletonDataAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 0d6feaf482e87804096f7d63a4db16f3,
+      objectReference: {fileID: 11400000, guid: d45908928965a364bb2a05288710e5d7,
         type: 2}
-    - target: {fileID: 6043152302920338541, guid: 64f87621eefc0fc439272b7e70ebfdfc,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 6
-      objectReference: {fileID: 0}
-    - target: {fileID: 7612229669187565593, guid: 64f87621eefc0fc439272b7e70ebfdfc,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 2.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 7612229669187565593, guid: 64f87621eefc0fc439272b7e70ebfdfc,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 5
-      objectReference: {fileID: 0}
     - target: {fileID: 7612229669187565593, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_Offset.x
-      value: -0.25
+      value: 2.36
       objectReference: {fileID: 0}
     - target: {fileID: 7612229669187565593, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_Offset.y
-      value: 5
+      value: -2.54
       objectReference: {fileID: 0}
     - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: moveAnimation
-      value: run
+      value: Walking
       objectReference: {fileID: 0}
     - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
@@ -117,12 +92,17 @@ PrefabInstance:
     - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: deathAnimations.Array.data[0]
-      value: dead
+      value: Dead
       objectReference: {fileID: 0}
     - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: attackAnimations.Array.data[0]
-      value: atk
+      value: Attack
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: <AttackProjectileSkillId>k__BackingField
+      value: phantom_attack
       objectReference: {fileID: 0}
     - target: {fileID: 8823434734986036782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
