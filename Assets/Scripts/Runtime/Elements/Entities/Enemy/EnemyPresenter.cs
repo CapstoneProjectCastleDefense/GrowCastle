@@ -11,6 +11,7 @@
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
+    using Runtime.Elements.EntitySkills;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
@@ -32,6 +33,7 @@
         private readonly ResourceLocalDataController resourceLocalDataController;
         private readonly SignalBus                   signalBus;
         private readonly EnemyBlueprint              enemyBlueprint;
+        private readonly EntitySkillSystem           entitySkillSystem;
 
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
         public virtual string[] GetTags()         { return new[] { "Ally", "Building" }; }
@@ -46,13 +48,15 @@
             FindTargetSystem findTargetSystem,
             ResourceLocalDataController resourceLocalDataController,
             SignalBus signalBus,
-            EnemyBlueprint enemyBlueprint)
+            EnemyBlueprint enemyBlueprint,
+            EntitySkillSystem entitySkillSystem)
             : base(model, objectPoolManager)
         {
             this.findTargetSystem            = findTargetSystem;
             this.resourceLocalDataController = resourceLocalDataController;
             this.signalBus                   = signalBus;
             this.enemyBlueprint              = enemyBlueprint;
+            this.entitySkillSystem           = entitySkillSystem;
         }
         public override async UniTask UpdateView()
         {
@@ -80,14 +84,31 @@
 
         public void Attack(ITargetable target) //TODO : Replace with a skill called attack
         {
-            if (!AttackAnimName.IsNullOrEmpty() &&
+            if (!this.AttackAnimName.IsNullOrEmpty() &&
                 this.View.SkeletonAnimation &&
                 Time.time >= this.AttackCooldownTime)
             {
+                this.View.Rigidbody2D.velocity = Vector2.zero;
                 this.View.transform.DOKill();
-                this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
-                target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
+                this.View.SkeletonAnimation.SetAnimation(this.AttackAnimName);
+                if (this.enemyBlueprint.GetDataById(this.Model.Id).AttackType == AttackType.Melee || this.View.AttackProjectileSkillId.IsNullOrEmpty())
+                {
+                    target.OnGetHit(this.Model.GetStat<float>(StatEnum.Attack));
+                }
+                else
+                {
+                    this.entitySkillSystem.CastSkill(this.View.AttackProjectileSkillId, new BaseProjectileSkillModel()
+                    {
+                        Id         = this.View.AttackProjectileSkillId,
+                        Target     = target,
+                        Damage     = this.Model.GetStat<float>(StatEnum.Attack),
+                        StartPoint = this.View.SkeletonAnimation.transform.position + Vector3.left * 0.1f,
+                        EndPoint   = target.GetGameObject().transform.position + Vector3.left + Vector3.down
+                    });
+                }
+
                 target.TargetThatAttackingMe = this;
+                this.TargetThatImAttacking   = target;
                 var attackSpeed                   = this.Model.GetStat<float>(StatEnum.AttackSpeed);
                 if (attackSpeed <= 0) attackSpeed = 1f / this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
                 this.AttackCooldownTime = Time.time + 1f / attackSpeed;
@@ -104,13 +125,7 @@
                 this.Model.SetStat(StatEnum.AttackPriority, priority);
             }
 
-            return this.TargetThatImAttacking is { IsDead: false }
-                ? this.TargetThatImAttacking
-                : this.TargetThatAttackingMe is { IsDead: false }
-                    ? this.TargetThatAttackingMe
-                    : this.TargetThatImLookingAt is { IsDead: false }
-                        ? this.TargetThatImLookingAt
-                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 1).FirstOrDefault();
+            return this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 1).FirstOrDefault();
         }
 
         public float AttackCooldownTime { get; private set; }
@@ -142,7 +157,7 @@
                 this.UpdateHealthView();
         }
 
-        public void OnDeath()
+        public override void OnDeath()
         {
             if (this.IsDead) return;
             ((EnemyManager)this.ElementManager).UpdateEnemyDeathCounter();
@@ -190,7 +205,7 @@
             this.View.CoinPopupCanvas.DOFade(1f, 0.3f).OnComplete(() => { this.View.CoinPopupCanvas.DOFade(0f, 0.3f); });
         }
 
-        public ITargetable TargetThatImAttacking
+        public override ITargetable TargetThatImAttacking
         {
             get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatImAttacking);
             set
@@ -200,7 +215,7 @@
             }
         }
 
-        public ITargetable TargetThatImLookingAt
+        public override ITargetable TargetThatImLookingAt
         {
             get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatImLookingAt);
             set
@@ -210,7 +225,7 @@
             }
         }
 
-        public ITargetable TargetThatAttackingMe
+        public override ITargetable TargetThatAttackingMe
         {
             get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatAttackingMe);
             set
@@ -243,13 +258,23 @@
                 return;
             }
 
-            if (this.TargetThatImAttacking == null ||
-                this.TargetThatImAttacking.IsDead)
-            {
+            if (this.TargetThatImAttacking is { IsDead: true })
+                this.TargetThatImAttacking = null;
+
+            if (this.TargetThatAttackingMe is { IsDead: true })
+                this.TargetThatAttackingMe = null;
+
+            if (this.TargetThatImAttacking is { IsDead: false })
+                this.TargetThatImLookingAt = this.TargetThatImAttacking;
+
+            if (this.TargetThatAttackingMe is { IsDead: false })
+                this.TargetThatImLookingAt = this.TargetThatAttackingMe;
+
+            if (this.TargetThatImLookingAt is null or { IsDead: true })
                 this.TargetThatImLookingAt = this.FindTarget();
-            }
 
             if (this.TargetThatImLookingAt == null) return;
+
             var endPos   = this.TargetThatImLookingAt.GetGameObject().transform.position;
             var distance = Vector3.Distance(this.View.transform.position, endPos);
             var range    = this.Model.GetStat<float>(StatEnum.AttackRange);

@@ -12,7 +12,6 @@
 
     public interface ICombatant : IElementModel, IHaveStatsModel
     {
-
     }
 
     public interface ICombatantPresenter : IElementPresenter, ITargetable
@@ -27,17 +26,17 @@
         protected BaseCombatantPresenter(TModel model, ObjectPoolManager objectPoolManager) : base(model, objectPoolManager) { }
         public virtual void                             OnGetHit(float damage) { }
         public virtual void                             OnDeath()              { }
-        public         ITargetable                      TargetThatImAttacking  { get; set; }
-        public         ITargetable                      TargetThatImLookingAt  { get; set; }
-        public         ITargetable                      TargetThatAttackingMe  { get; set; }
-        public         bool                             IsDead                 { get; set; }
+        public virtual ITargetable                      TargetThatImAttacking  { get; set; }
+        public virtual ITargetable                      TargetThatImLookingAt  { get; set; }
+        public virtual ITargetable                      TargetThatAttackingMe  { get; set; }
+        public virtual bool                             IsDead                 { get; set; }
         Dictionary<StatEnum, (Type, object)> IHaveStats.GetStats()             { return this.Model.Stats; }
 
         public virtual void UpdateStats() { }
 
         public virtual GameObject                   GetGameObject()   { return this.View.gameObject; }
-        public         Dictionary<Type, IEffectTag> CurrentEffectTags { get; set; } = new();
-        public         List<ElementTag>             Tags              { get; set; }
+        public virtual Dictionary<Type, IEffectTag> CurrentEffectTags { get; set; } = new();
+        public virtual List<ElementTag>             Tags              { get; set; }
 
         public override async UniTask UpdateView()
         {

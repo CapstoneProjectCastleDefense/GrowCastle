@@ -48,7 +48,7 @@
             this.ElementManager.entities.Remove(this);
         }
 
-        public void OnGetHit(float damage)
+        public override void OnGetHit(float damage)
         {
             if (this.IsDead) return;
             var currentHealth = this.Model.GetStat<float>(StatEnum.Health);
@@ -76,12 +76,13 @@
                 this.View.SkeletonAnimation.SetAnimation(DeathAnimName, false);
                 wait = this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
             }
+
             this.Model.OnSummonerDeath?.Invoke();
 
             UniTask.Delay(TimeSpan.FromSeconds(0.3f)).ContinueWith(this.Dispose).Forget();
         }
 
-        private ITargetable TargetThatImAttacking
+        public override ITargetable TargetThatImAttacking
         {
             get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatImAttacking);
             set
@@ -91,7 +92,7 @@
             }
         }
 
-        public ITargetable TargetThatImLookingAt
+        public override ITargetable TargetThatImLookingAt
         {
             get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatImLookingAt);
             set
@@ -101,7 +102,7 @@
             }
         }
 
-        private ITargetable TargetThatAttackingMe
+        public override ITargetable TargetThatAttackingMe
         {
             get => this.Model.GetStat<ITargetable>(StatEnum.TargetThatAttackingMe);
             set
@@ -111,29 +112,22 @@
             }
         }
 
-        private bool IsDead { get; set; }
-
         public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats; }
 
-        public GameObject GetGameObject() { return this.View.gameObject; }
+        public override GameObject GetGameObject() { return this.View.gameObject; }
 
         public Dictionary<Type, IEffectTag> CurrentTag { get; set; }
 
         private void DoMove(Vector3 endPos, float distance)
         {
-            if (this.TargetThatImAttacking == null || this.TargetThatImAttacking.IsDead) return;
+            if (this.TargetThatImLookingAt == null || this.TargetThatImLookingAt.IsDead) return;
             this.View.transform.DOKill();
             this.View.transform.DOMoveX(endPos.x, distance / this.Model.GetStat<float>(StatEnum.MoveSpeed));
         }
 
         public void Attack(ITargetable target) //TODO : Replace with a skill called attack
         {
-            if (this.TargetThatImAttacking == null || this.TargetThatImAttacking.IsDead)
-            {
-                this.FindTarget();
-
-                return;
-            }
+            if (target == null || target.IsDead) return;
 
             if (!AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation && Time.time >= this.AttackCooldownTime)
             {
@@ -141,6 +135,7 @@
                 this.View.SkeletonAnimation.SetAnimation(AttackAnimName);
                 this.effectManager.AddEffectToTarget(target, new InstantDamageTag() { Damage = this.Model.GetStat<float>(StatEnum.Attack) });
                 target.TargetThatAttackingMe = this;
+                this.TargetThatImAttacking   = target;
                 var attackSpeed                   = this.Model.GetStat<float>(StatEnum.AttackSpeed);
                 if (attackSpeed <= 0) attackSpeed = 1f / this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
                 this.AttackCooldownTime = Time.time + 1f / attackSpeed;
@@ -156,12 +151,7 @@
                 this.Model.SetStat(StatEnum.AttackPriority, priority);
             }
 
-            return this.TargetThatImAttacking
-                = this.TargetThatImAttacking is { IsDead: false }
-                    ? this.TargetThatImAttacking
-                    : this.TargetThatAttackingMe is { IsDead: false }
-                        ? this.TargetThatAttackingMe
-                        : this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 1).FirstOrDefault();
+            return this.findTargetSystem.GetTarget(this, priority, this.GetTags().ToList(), this.GetManagerTypes(), 1).FirstOrDefault();
         }
 
         private void UpdateHealthView()
@@ -191,21 +181,31 @@
 
             this.Model.SetStat(StatEnum.ExistTime, this.Model.GetStat<float>(StatEnum.ExistTime) - Time.deltaTime);
             this.UpdateHealthView();
-            if (this.TargetThatImAttacking == null)
-            {
-                this.TargetThatImAttacking = this.FindTarget();
+            if (this.TargetThatImAttacking is { IsDead: true })
+                this.TargetThatImAttacking = null;
 
-                return;
-            }
+            if (this.TargetThatAttackingMe is { IsDead: true })
+                this.TargetThatAttackingMe = null;
 
-            var endPos   = this.TargetThatImAttacking.GetGameObject().transform.position;
+            if (this.TargetThatImAttacking is { IsDead: false })
+                this.TargetThatImLookingAt = this.TargetThatImAttacking;
+
+            if (this.TargetThatAttackingMe is { IsDead: false })
+                this.TargetThatImLookingAt = this.TargetThatAttackingMe;
+
+            if (this.TargetThatImLookingAt is null or { IsDead: true })
+                this.TargetThatImLookingAt = this.FindTarget();
+
+            if (this.TargetThatImLookingAt == null) return;
+
+            var endPos   = this.TargetThatImLookingAt.GetGameObject().transform.position;
             var distance = Vector3.Distance(this.View.transform.position, endPos);
             var range    = this.Model.GetStat<float>(StatEnum.AttackRange);
             if (distance > range)
                 this.DoMove(endPos, distance);
             else
             {
-                this.Attack(this.TargetThatImAttacking);
+                this.Attack(this.TargetThatImLookingAt);
             }
         }
     }

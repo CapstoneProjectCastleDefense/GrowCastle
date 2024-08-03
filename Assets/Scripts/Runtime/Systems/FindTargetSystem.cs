@@ -28,9 +28,8 @@
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(managerTypes);
             if (cache.Count == 0) return null;
             var targets = cache.Where(x =>
-                    x is ITargetable { IsDead: false } t
+                    x is ITargetable { IsDead: false }
                     && x.GetView() != null && x.GetView().LayerMask != host.GetView().LayerMask
-                    && (t.TargetThatAttackingMe == null || t.TargetThatAttackingMe.IsDead)
                     && x != host
                     && tagList.Contains(x.GetView().gameObject.tag))
                 .Select(x => x as ITargetable)
@@ -58,9 +57,9 @@
             return cache.Count == 0 ? null : targets;
         }
 
-        public List<ITargetable> GetEnemiesInRange(IElementPresenter host,AttackPriorityEnum priority,Vector3 center,float range)
+        public List<ITargetable> GetEnemiesInRange(IElementPresenter host, AttackPriorityEnum priority, Vector3 center, float range)
         {
-            var tagList     = new List<string>() { "Ground","Fly" };
+            var tagList     = new List<string>() { "Ground", "Fly" };
             var managerType = new Type[] { typeof(EnemyManager) };
             return this.GetTargetsInRange(host, priority, tagList, managerType, center, range);
         }
@@ -82,7 +81,7 @@
                 .Select(x => x as ITargetable)
                 .ToList();
         }
-        
+
         public List<ITargetable> GetAllFlyEnemies()
         {
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(typeof(EnemyManager));
@@ -91,15 +90,15 @@
                 .Select(x => x as ITargetable)
                 .ToList();
         }
-        
+
         public List<ITargetable> GetRandomEnemies(int number)
         {
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(typeof(EnemyManager));
             if (cache.Count < number) return null;
-            Random random     = new Random();
+            Random random = new Random();
             return cache.Where(x =>
                     x is ITargetable { IsDead: false })
-                .Select(x => x as ITargetable).OrderBy(x=> random.Next()).Take(number)
+                .Select(x => x as ITargetable).OrderBy(x => random.Next()).Take(number)
                 .ToList();
         }
 
