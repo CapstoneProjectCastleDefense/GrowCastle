@@ -30,8 +30,8 @@
                 {
                     { StatEnum.Attack, (typeof(float), 5f) },
                     { StatEnum.AttackSpeed, (typeof(float), 1f) },
-                    { StatEnum.Health, (typeof(float), 10f) },
-                    { StatEnum.MoveSpeed, (typeof(float), 10f) },
+                    { StatEnum.Health, (typeof(float), 2000f) },
+                    { StatEnum.MoveSpeed, (typeof(float), 2f) },
                     { StatEnum.AttackRange, (typeof(float), 1f) },
                     { StatEnum.ExistTime, (typeof(float), 3f) },
                     { StatEnum.MaxExistTime, (typeof(float), 3f) }

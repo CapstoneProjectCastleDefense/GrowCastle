@@ -75,11 +75,17 @@
             this.View.EquipButton.onClick.AddListener(() =>
             {
                 this.Model.Equippable.Equip(this.Model.InventoryId);
+                this.View.RecycleButton.gameObject.SetActive(false);
+                this.View.EquipButton.gameObject.SetActive(false);
+                this.View.UnequipButton.gameObject.SetActive(true);
                 this.Model.CharacterInfoRefresh?.Invoke();
             });
             this.View.UnequipButton.onClick.AddListener(() =>
             {
                 this.Model.Equippable.UnEquip(this.Model.InventoryId);
+                this.View.RecycleButton.gameObject.SetActive(true);
+                this.View.EquipButton.gameObject.SetActive(true);
+                this.View.UnequipButton.gameObject.SetActive(false);
                 this.Model.CharacterInfoRefresh?.Invoke();
             });
             this.View.CloseButton.onClick.AddListener(this.CloseView);
@@ -89,7 +95,7 @@
                 this.screenPresenter = await this.screenManager.OpenScreen<LevelUpPopupPresenter, LevelUpPopupModel>(new(this.Model.InventoryId, this.OnLevelUp,
                     new()
                     {
-                        (MiscValue.ItemFragment, 1),
+                        (MiscValue.ItemFragment, this.Model.ItemModel.Level),
                     })
                 );
             });
