@@ -101,9 +101,10 @@
                 .FromNewComponentOnNewGameObject()
                 .AsCached()
                 .NonLazy();
+            this.Container.Bind<ElementUpgradeService>().AsCached();
         }
 
-        public void BindSkill()
+        private void BindSkill()
         {
             foreach (var type in ReflectionUtils.GetAllDerivedTypes<IEntitySkillPresenter>())
             {

@@ -61,11 +61,12 @@
     [PopupInfo(nameof(CharacterInfoPopupView), isOverlay: true)]
     public class CharacterInfoPopupPresenter : BasePopupPresenter<CharacterInfoPopupView, CharacterInfoPopupModel>
     {
-        private readonly SlotManager                slotManager;
-        private readonly HeroLocalDataController    heroLocalDataController;
-        private readonly DiContainer                diContainer;
-        private readonly ScreenManager              screenManager;
-        private readonly ElementLocalDataController elementLocalDataController;
+        private readonly SlotManager                       slotManager;
+        private readonly HeroLocalDataController           heroLocalDataController;
+        private readonly DiContainer                       diContainer;
+        private readonly ScreenManager                     screenManager;
+        private readonly ElementLocalDataController        elementLocalDataController;
+        private readonly ElementUpgradeLocalDataController elementUpgradeLocalDataController;
 
         public CharacterInfoPopupPresenter(SignalBus signalBus,
             ILogService logService,
@@ -73,14 +74,16 @@
             HeroLocalDataController heroLocalDataController,
             DiContainer diContainer,
             ScreenManager screenManager,
-            ElementLocalDataController elementLocalDataController)
+            ElementLocalDataController elementLocalDataController,
+            ElementUpgradeLocalDataController elementUpgradeLocalDataController)
             : base(signalBus, logService)
         {
-            this.slotManager                = slotManager;
-            this.heroLocalDataController    = heroLocalDataController;
-            this.diContainer                = diContainer;
-            this.screenManager              = screenManager;
-            this.elementLocalDataController = elementLocalDataController;
+            this.slotManager                       = slotManager;
+            this.heroLocalDataController           = heroLocalDataController;
+            this.diContainer                       = diContainer;
+            this.screenManager                     = screenManager;
+            this.elementLocalDataController        = elementLocalDataController;
+            this.elementUpgradeLocalDataController = elementUpgradeLocalDataController;
         }
 
         protected override void OnViewReady()
@@ -91,6 +94,7 @@
             this.View.unEquipBtn.onClick.AddListener(this.OnUnEquipButtonClick);
             this.View.exitBtn.onClick.AddListener(this.CloseView);
             this.View.changeClassBtn.onClick.AddListener(this.ChangeClass);
+            this.View.levelUpBtn.onClick.AddListener(this.LevelUp);
             foreach (var viewEquipmentSlot in this.View.equipmentSlots)
             {
                 this.diContainer.Inject(viewEquipmentSlot);
@@ -213,6 +217,11 @@
                     CharacterId = this.Model.HeroRuntimeData.heroRecord.HeroId
                 })
                 .Forget();
+        }
+
+        private void LevelUp()
+        {
+            this.elementUpgradeLocalDataController.UpgradeElement(this.Model.HeroRuntimeData.heroRecord.HeroId);   
         }
 
         public override void CloseView()
