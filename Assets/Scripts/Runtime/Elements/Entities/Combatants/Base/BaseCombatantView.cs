@@ -11,5 +11,6 @@
         [field: SerializeField] public List<string> attackAnimations;
         [field: SerializeField] public List<string> deathAnimations;
         [field: SerializeField] public string       moveAnimation;
+        [field: SerializeField] public List<string> tags;
     }
 }

@@ -528,6 +528,10 @@ MonoBehaviour:
   attackAnimations: []
   deathAnimations: []
   moveAnimation: 
+  tags:
+  - Ground
+  - Boss
+  - Building
   <SkeletonAnimation>k__BackingField: {fileID: 4674233140242320668}
   <GraphicCollider2D>k__BackingField: {fileID: 6213419577085878024}
   <AttackRangeCollider2D>k__BackingField: {fileID: 6613015328776528364}
