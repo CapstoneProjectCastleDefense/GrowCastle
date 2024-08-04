@@ -25,11 +25,14 @@
     using Runtime.Systems;
     using Runtime.Systems.Effects;
     using Runtime.Systems.Waves;
+    using UnityEngine;
     using UnityEngine.EventSystems;
     using Zenject;
 
     public class MainSceneInstaller : BaseSceneInstaller
     {
+        [SerializeField] private ToastController toastController;
+
         public override void InstallBindings()
         {
             base.InstallBindings();
@@ -45,6 +48,7 @@
             this.BindSkill();
             GameStateMachineInstaller.Install(this.Container);
             WaveInstaller.Install(this.Container);
+            ServiceInstaller.Install(this.Container, this.toastController);
             this.Container.Bind<EventSystem>().FromComponentInNewPrefabResource("EventSystem").AsSingle().NonLazy();
         }
 
@@ -95,13 +99,11 @@
 
         private void BindService()
         {
-            this.Container.BindInterfacesAndSelfTo<TimeCoolDownService>().AsCached();
             this.Container
                 .Bind<VFXService>()
                 .FromNewComponentOnNewGameObject()
                 .AsCached()
                 .NonLazy();
-            this.Container.Bind<ElementUpgradeService>().AsCached();
         }
 
         private void BindSkill()
