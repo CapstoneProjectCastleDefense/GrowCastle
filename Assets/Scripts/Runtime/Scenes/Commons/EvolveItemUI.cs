@@ -7,9 +7,11 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models;
+    using Models.Blueprints;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Popups;
+    using Runtime.Services;
     using Spine.Unity;
     using TMPro;
     using UnityEngine;
@@ -20,31 +22,37 @@
     {
         private ScreenManager              screenManager;
         private HeroLocalDataController    heroLocalDataController;
-        private ElementLocalDataController elementLocalDataController;
+        private ElementEvolutionLocalDataController elementEvolutionLocalDataController;
         private EvolutionBlueprint         evolutionBlueprint;
         private IGameAssets                gameAssets;
+        private EvolutionInfoBlueprint     evolutionInfoBlueprint;
+        private ElementUpgradeService      elementUpgradeService;
 
         [Inject]
         public void Construct(ScreenManager screenManager,
             HeroLocalDataController heroLocalDataController,
-            ElementLocalDataController elementLocalDataController,
+            ElementEvolutionLocalDataController elementEvolutionLocalDataController,
             EvolutionBlueprint evolutionBlueprint,
-            IGameAssets gameAssets
+            IGameAssets gameAssets,
+            EvolutionInfoBlueprint evolutionInfoBlueprintInject,
+            ElementUpgradeService elementUpgradeServiceInject
         )
         {
             this.screenManager              = screenManager;
             this.heroLocalDataController    = heroLocalDataController;
-            this.elementLocalDataController = elementLocalDataController;
+            this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
             this.evolutionBlueprint         = evolutionBlueprint;
             this.gameAssets                 = gameAssets;
+            this.evolutionInfoBlueprint     = evolutionInfoBlueprintInject;
+            this.elementUpgradeService      = elementUpgradeServiceInject;
         }
 
-        [SerializeField] private TMP_Text        priceTxt;
+        [SerializeField] private TMP_Text        priceTxt, levelUnlockTxt;
         [SerializeField] private Button          selectBtn;
-        [SerializeField] private Image           itemImg;
         [SerializeField] private List<Image>     pathFromParents;
         [SerializeField] private List<Image>     greenPathFromParents;
         [SerializeField] private SkeletonGraphic elementSkeleton;
+        [SerializeField] private GameObject      unlockConditions, priceCondition;
 
         private EvolveItemUIModel     model;
         private EvolutionDetailRecord evolutionDetailRecord;
@@ -54,7 +62,7 @@
         {
             this.model                 = param;
             this.evolutionDetailRecord = this.evolutionBlueprint.GetEvolutionDetailRecord(this.model.ElementId, this.model.EvolutionId);
-            this.priceTxt.text         = this.evolutionDetailRecord.Price.ToString();
+            this.priceTxt.text         = this.evolutionInfoBlueprint[this.model.EvolutionId].Price.ToString();
 
             this.selectBtn.onClick.RemoveAllListeners();
             this.selectBtn.onClick.AddListener(() => this.OnClickBtnSelect(this.model));
@@ -64,6 +72,7 @@
             this.SetSkeleton();
             this.SetPosition();
             this.SetParentPath();
+            this.SetUnlockConditions();
         }
 
         private void SetSkeleton()
@@ -83,7 +92,7 @@
 
         private void SetParentPath()
         {
-            var currentEvolution = this.elementLocalDataController.GetEvolutionElementData(this.model.ElementId);
+            var currentEvolution = this.elementEvolutionLocalDataController.GetEvolutionElementData(this.model.ElementId);
 
             var listPredecessor = this.evolutionBlueprint.GetPredecessorEvolveId(this.model.ElementId, currentEvolution.EvolutionId);
             listPredecessor.Add(this.model.EvolutionId);
@@ -115,9 +124,30 @@
             otherPathList.ForEach(p => p.gameObject.SetActive(false));
         }
 
+        private void SetUnlockConditions()
+        {
+            var isUnlock = this.elementEvolutionLocalDataController.IsEvolutionUnlock(this.model.ElementId, this.model.EvolutionId);
+            this.unlockConditions.gameObject.SetActive(!isUnlock);
+
+            if (isUnlock) return;
+
+            var requireLevel        = this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).RequireLevel;
+            var isReachRequireLevel = this.elementUpgradeService.GetElementLevel(this.model.ElementId) >= requireLevel;
+            this.levelUnlockTxt.gameObject.SetActive(!isReachRequireLevel);
+            this.priceCondition.gameObject.SetActive(isReachRequireLevel);
+            if (!isReachRequireLevel)
+            {
+                this.levelUnlockTxt.text = $"Lv<color=\"green\">{requireLevel}";
+            }
+            else
+            {
+                this.priceTxt.text = $"x{this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).Price}";
+            }
+        }
+
         private void OnClickBtnSelect(EvolveItemUIModel param)
         {
-            var evolutionData          = this.elementLocalDataController.GetEvolutionElementData(param.ElementId);
+            var evolutionData          = this.elementEvolutionLocalDataController.GetEvolutionElementData(param.ElementId);
             var currentSelectEvolution = evolutionData.EvolutionId;
 
             var heroRuntimeData         = this.heroLocalDataController.GetHeroRuntimeData(param.ElementId);

@@ -13,6 +13,7 @@
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
     using Runtime.Scenes.Commons;
+    using Runtime.Services;
     using TMPro;
     using UnityEngine;
     using UnityEngine.Serialization;
@@ -52,20 +53,23 @@
         public Transform  startPos;
         public Transform  endPos;
 
-        [FormerlySerializedAs("characterGenericInfoView")] [SerializeField]
-        private ElementGenericInfoView elementGenericInfoView;
+        [SerializeField] private ElementGenericInfoView elementGenericInfoView;
+        [SerializeField] private TMP_Text               levelUpCostTxt;
 
         public ElementGenericInfoView ElementGenericInfoView => this.elementGenericInfoView;
+        public TMP_Text               LevelUpCostTxt         => this.levelUpCostTxt;
     }
 
     [PopupInfo(nameof(CharacterInfoPopupView), isOverlay: true)]
     public class CharacterInfoPopupPresenter : BasePopupPresenter<CharacterInfoPopupView, CharacterInfoPopupModel>
     {
-        private readonly SlotManager                slotManager;
-        private readonly HeroLocalDataController    heroLocalDataController;
-        private readonly DiContainer                diContainer;
-        private readonly ScreenManager              screenManager;
-        private readonly ElementLocalDataController elementLocalDataController;
+        private readonly SlotManager                       slotManager;
+        private readonly HeroLocalDataController           heroLocalDataController;
+        private readonly DiContainer                       diContainer;
+        private readonly ScreenManager                     screenManager;
+        private readonly ElementEvolutionLocalDataController        elementEvolutionLocalDataController;
+        private readonly ElementUpgradeLocalDataController elementUpgradeLocalDataController;
+        private readonly ElementUpgradeService             elementUpgradeService;
 
         public CharacterInfoPopupPresenter(SignalBus signalBus,
             ILogService logService,
@@ -73,14 +77,18 @@
             HeroLocalDataController heroLocalDataController,
             DiContainer diContainer,
             ScreenManager screenManager,
-            ElementLocalDataController elementLocalDataController)
+            ElementEvolutionLocalDataController elementEvolutionLocalDataController,
+            ElementUpgradeLocalDataController elementUpgradeLocalDataController,
+            ElementUpgradeService elementUpgradeService)
             : base(signalBus, logService)
         {
-            this.slotManager                = slotManager;
-            this.heroLocalDataController    = heroLocalDataController;
-            this.diContainer                = diContainer;
-            this.screenManager              = screenManager;
-            this.elementLocalDataController = elementLocalDataController;
+            this.slotManager                       = slotManager;
+            this.heroLocalDataController           = heroLocalDataController;
+            this.diContainer                       = diContainer;
+            this.screenManager                     = screenManager;
+            this.elementEvolutionLocalDataController        = elementEvolutionLocalDataController;
+            this.elementUpgradeLocalDataController = elementUpgradeLocalDataController;
+            this.elementUpgradeService             = elementUpgradeService;
         }
 
         protected override void OnViewReady()
@@ -91,6 +99,7 @@
             this.View.unEquipBtn.onClick.AddListener(this.OnUnEquipButtonClick);
             this.View.exitBtn.onClick.AddListener(this.CloseView);
             this.View.changeClassBtn.onClick.AddListener(this.ChangeClass);
+            this.View.levelUpBtn.onClick.AddListener(this.LevelUp);
             foreach (var viewEquipmentSlot in this.View.equipmentSlots)
             {
                 this.diContainer.Inject(viewEquipmentSlot);
@@ -112,6 +121,8 @@
                 await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : "", this.ReBindData));
             }
 
+            this.View.LevelUpCostTxt.text = $"{this.elementUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
+            
             this.BindGenericInfo(popupModel);
 
             this.UpdateView(popupModel);
@@ -150,7 +161,7 @@
         private void BindGenericInfo(CharacterInfoPopupModel model)
         {
             var id          = model.HeroRuntimeData.heroRecord.HeroId;
-            var evolutionId = this.elementLocalDataController.GetEvolutionElementData(id).EvolutionId;
+            var evolutionId = this.elementEvolutionLocalDataController.GetEvolutionElementData(id).EvolutionId;
             this.View.ElementGenericInfoView.BindData(new ElementGenericInfoModel()
             {
                 ElementId   = model.HeroRuntimeData.heroRecord.HeroId,
@@ -203,6 +214,8 @@
                 await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : "", this.ReBindData));
             }
             this.UpdateView(this.Model);
+            
+            this.View.ElementGenericInfoView.Rebind();
         }
 
         private void ChangeClass()
@@ -213,6 +226,13 @@
                     CharacterId = this.Model.HeroRuntimeData.heroRecord.HeroId
                 })
                 .Forget();
+        }
+
+        private void LevelUp()
+        {
+            this.elementUpgradeLocalDataController.UpgradeElement(this.Model.HeroRuntimeData.heroRecord.HeroId);
+            this.View.LevelUpCostTxt.text = $"{this.elementUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
+            this.ReBindData();
         }
 
         public override void CloseView()

@@ -14,5 +14,7 @@
         public string       EvolutionId          { get; set; }
         public string       EvolutionDescription { get; set; }
         public List<string> Abilities            { get; set; }
+        public int          Price                { get; set; }
+        public int          RequireLevel         { get; set; }
     }
 }

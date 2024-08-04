@@ -1,0 +1,2 @@
+﻿Id,BaseCost,LevelIntervalToChangeCost,CostChangePerInterval,BaseAttack,AttackEnhancePerInterval,MaxLevel
+Knight,1000,10,250,10,1.5,-1
