@@ -7,6 +7,7 @@
     using Models.Blueprints;
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Adapters.Evolution;
+    using Runtime.Services;
     using Spine.Unity;
     using TMPro;
     using UnityEngine;
@@ -27,26 +28,29 @@
         private DiContainer             diContainer;
         private HeroLocalDataController heroLocalDataController;
         private AbilityInfoBlueprint    abilityInfoBlueprint;
+        private ElementUpgradeService   elementUpgradeService;
 
         [Inject]
         public void Construct(IGameAssets gameAssetsInject,
             EvolutionInfoBlueprint evolutionInfoBlueprintInject,
             DiContainer diContainerInject,
             HeroLocalDataController heroLocalDataControllerInject,
-            AbilityInfoBlueprint abilityInfoBlueprintInject)
+            AbilityInfoBlueprint abilityInfoBlueprintInject,
+            ElementUpgradeService elementUpgradeServiceInject)
         {
             this.gameAssets              = gameAssetsInject;
             this.evolutionInfoBlueprint  = evolutionInfoBlueprintInject;
             this.diContainer             = diContainerInject;
             this.heroLocalDataController = heroLocalDataControllerInject;
             this.abilityInfoBlueprint    = abilityInfoBlueprintInject;
+            this.elementUpgradeService   = elementUpgradeServiceInject;
         }
 
         public void BindData(ElementGenericInfoModel infoModel)
         {
             this.model = infoModel;
             var heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(infoModel.ElementId);
-            this.attackInfoTxt.text      = $"{heroRuntimeData.attack}";
+            this.attackInfoTxt.text      = $"{(int)this.elementUpgradeService.GetCurrentAttack(infoModel.ElementId)}";
             this.attackInfoSpeedTxt.text = $"{heroRuntimeData.attackSpeed}";
 
             var skeletonDataAsset = this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(heroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion();
@@ -55,17 +59,22 @@
             this.InitAdapter(infoModel).Forget();
         }
 
+        public void Rebind()
+        {
+            this.attackInfoTxt.text = $"{(int)this.elementUpgradeService.GetCurrentAttack(this.model.ElementId)}";
+        }
+
         private async UniTaskVoid InitAdapter(ElementGenericInfoModel elementGenericInfoModel)
         {
             var abilities      = this.evolutionInfoBlueprint.GetDataById(elementGenericInfoModel.EvolutionId).Abilities;
             var abilityRecords = abilities.Select(abilityId => this.abilityInfoBlueprint.GetDataById(abilityId)).ToList();
 
-            var firstAbility   = abilityRecords.First();
+            var firstAbility = abilityRecords.First();
             this.skillDescription.text = firstAbility.AbilityDescription;
             this.selectedAbilityId     = firstAbility.AbilityId;
-            
+
             var modelList = new List<AbilityUIModel>();
-            
+
             foreach (var record in abilityRecords)
             {
                 var abilityUIModel = new AbilityUIModel()
@@ -77,7 +86,7 @@
 
                 modelList.Add(abilityUIModel);
             }
-            
+
             this.disableSelectAbility = true;
             await this.abilityAdapter.InitItemAdapter(modelList, this.diContainer);
             this.OnAbilityUISelected(this.selectedAbilityId);

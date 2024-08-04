@@ -13,6 +13,7 @@
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
     using Runtime.Scenes.Commons;
+    using Runtime.Services;
     using TMPro;
     using UnityEngine;
     using UnityEngine.Serialization;
@@ -52,10 +53,11 @@
         public Transform  startPos;
         public Transform  endPos;
 
-        [FormerlySerializedAs("characterGenericInfoView")] [SerializeField]
-        private ElementGenericInfoView elementGenericInfoView;
+        [SerializeField] private ElementGenericInfoView elementGenericInfoView;
+        [SerializeField] private TMP_Text               levelUpCostTxt;
 
         public ElementGenericInfoView ElementGenericInfoView => this.elementGenericInfoView;
+        public TMP_Text               LevelUpCostTxt         => this.levelUpCostTxt;
     }
 
     [PopupInfo(nameof(CharacterInfoPopupView), isOverlay: true)]
@@ -67,6 +69,7 @@
         private readonly ScreenManager                     screenManager;
         private readonly ElementLocalDataController        elementLocalDataController;
         private readonly ElementUpgradeLocalDataController elementUpgradeLocalDataController;
+        private readonly ElementUpgradeService             elementUpgradeService;
 
         public CharacterInfoPopupPresenter(SignalBus signalBus,
             ILogService logService,
@@ -75,7 +78,8 @@
             DiContainer diContainer,
             ScreenManager screenManager,
             ElementLocalDataController elementLocalDataController,
-            ElementUpgradeLocalDataController elementUpgradeLocalDataController)
+            ElementUpgradeLocalDataController elementUpgradeLocalDataController,
+            ElementUpgradeService elementUpgradeService)
             : base(signalBus, logService)
         {
             this.slotManager                       = slotManager;
@@ -84,6 +88,7 @@
             this.screenManager                     = screenManager;
             this.elementLocalDataController        = elementLocalDataController;
             this.elementUpgradeLocalDataController = elementUpgradeLocalDataController;
+            this.elementUpgradeService             = elementUpgradeService;
         }
 
         protected override void OnViewReady()
@@ -116,6 +121,8 @@
                 await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : "", this.ReBindData));
             }
 
+            this.View.LevelUpCostTxt.text = $"{this.elementUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
+            
             this.BindGenericInfo(popupModel);
 
             this.UpdateView(popupModel);
@@ -207,6 +214,8 @@
                 await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : "", this.ReBindData));
             }
             this.UpdateView(this.Model);
+            
+            this.View.ElementGenericInfoView.Rebind();
         }
 
         private void ChangeClass()
@@ -221,7 +230,9 @@
 
         private void LevelUp()
         {
-            this.elementUpgradeLocalDataController.UpgradeElement(this.Model.HeroRuntimeData.heroRecord.HeroId);   
+            this.elementUpgradeLocalDataController.UpgradeElement(this.Model.HeroRuntimeData.heroRecord.HeroId);
+            this.View.LevelUpCostTxt.text = $"{this.elementUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
+            this.ReBindData();
         }
 
         public override void CloseView()

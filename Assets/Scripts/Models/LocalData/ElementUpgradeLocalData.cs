@@ -7,7 +7,19 @@
     {
         public Dictionary<string, ElementUpgradeData> IdToElementUpgradeData { get; set; }
 
-        public void Init() { this.IdToElementUpgradeData = new Dictionary<string, ElementUpgradeData>(); }
+        public void Init()
+        {
+            this.IdToElementUpgradeData = new Dictionary<string, ElementUpgradeData>()
+            {
+                {
+                    "Knight", new ElementUpgradeData()
+                    {
+                        ElementId = "Knight",
+                        Level     = 1
+                    }
+                }
+            };
+        }
     }
 
     public class ElementUpgradeData
