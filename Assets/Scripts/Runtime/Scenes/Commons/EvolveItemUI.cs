@@ -20,13 +20,13 @@
 
     public class EvolveItemUI : MonoBehaviour
     {
-        private ScreenManager              screenManager;
-        private HeroLocalDataController    heroLocalDataController;
+        private ScreenManager                       screenManager;
+        private HeroLocalDataController             heroLocalDataController;
         private ElementEvolutionLocalDataController elementEvolutionLocalDataController;
-        private EvolutionBlueprint         evolutionBlueprint;
-        private IGameAssets                gameAssets;
-        private EvolutionInfoBlueprint     evolutionInfoBlueprint;
-        private ElementUpgradeService      elementUpgradeService;
+        private EvolutionBlueprint                  evolutionBlueprint;
+        private IGameAssets                         gameAssets;
+        private EvolutionInfoBlueprint              evolutionInfoBlueprint;
+        private ElementUpgradeService               elementUpgradeService;
 
         [Inject]
         public void Construct(ScreenManager screenManager,
@@ -38,13 +38,13 @@
             ElementUpgradeService elementUpgradeServiceInject
         )
         {
-            this.screenManager              = screenManager;
-            this.heroLocalDataController    = heroLocalDataController;
+            this.screenManager                       = screenManager;
+            this.heroLocalDataController             = heroLocalDataController;
             this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
-            this.evolutionBlueprint         = evolutionBlueprint;
-            this.gameAssets                 = gameAssets;
-            this.evolutionInfoBlueprint     = evolutionInfoBlueprintInject;
-            this.elementUpgradeService      = elementUpgradeServiceInject;
+            this.evolutionBlueprint                  = evolutionBlueprint;
+            this.gameAssets                          = gameAssets;
+            this.evolutionInfoBlueprint              = evolutionInfoBlueprintInject;
+            this.elementUpgradeService               = elementUpgradeServiceInject;
         }
 
         [SerializeField] private TMP_Text        priceTxt, levelUnlockTxt;
@@ -95,7 +95,7 @@
             var currentEvolution = this.elementEvolutionLocalDataController.GetEvolutionElementData(this.model.ElementId);
 
             var listPredecessor = this.evolutionBlueprint.GetPredecessorEvolveId(this.model.ElementId, currentEvolution.EvolutionId);
-            listPredecessor.Add(this.model.EvolutionId);
+            listPredecessor.Add(currentEvolution.EvolutionId);
             var listChild = this.evolutionBlueprint.GetChildrenEvolutionId(this.model.ElementId, currentEvolution.EvolutionId);
 
             var isPredecessor = listPredecessor.Contains(this.model.EvolutionId);
