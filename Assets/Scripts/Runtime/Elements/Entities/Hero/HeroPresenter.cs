@@ -92,8 +92,8 @@
             if (!this.castleManager.UseManaForSkill(this.skillBlueprint.GetDataById(skillId).Mana - this.Model.GetStat<float>(StatEnum.BonusReduceMana))) return;
             this.CastSkillInternal(skillId, animationName, target, new BasicSkillModel()
             {
-                Id    = skillId,
-                Level = 1,
+                Id     = skillId,
+                Level  = 1,
                 Caster = this,
             });
             this.View.cooldownSkillBar.fillAmount = 0;
@@ -119,7 +119,7 @@
         }
 
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(CastleManager), typeof(EnemyManager) }; }
-        public virtual string[] GetTags()         { return new[] { "Fly", "Ground", "Boss", }; }
+        public virtual string[] GetTags()         { return new[] { "Fly", "Ground", "Building", "Boss", }; }
 
         public void SetAttackStatus(bool attackStatus)
         {

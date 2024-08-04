@@ -276,7 +276,7 @@
             if (this.TargetThatImLookingAt == null) return;
 
             var endPos   = this.TargetThatImLookingAt.GetGameObject().transform.position;
-            var distance = Vector3.Distance(this.View.transform.position, endPos);
+            var distance = Mathf.Abs(endPos.x - this.View.transform.position.x);
             var range    = this.Model.GetStat<float>(StatEnum.AttackRange);
             if (distance > range)
                 this.DoMove(range, distance);
