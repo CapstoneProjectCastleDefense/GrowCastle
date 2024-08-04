@@ -20,7 +20,7 @@
         private ElementGenericInfoModel model;
 
         [SerializeField] private SkeletonGraphic avatarAnim;
-        [SerializeField] private TMP_Text        skillDescription, attackInfoTxt, attackInfoSpeedTxt;
+        [SerializeField] private TMP_Text        skillDescription, levelTxt, attackInfoTxt, attackInfoSpeedTxt;
         [SerializeField] private AbilityAdapter  abilityAdapter;
 
         private IGameAssets             gameAssets;
@@ -49,8 +49,9 @@
         public void BindData(ElementGenericInfoModel infoModel)
         {
             this.model = infoModel;
-            var heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(infoModel.ElementId);
-            this.attackInfoTxt.text      = $"{(int)this.elementUpgradeService.GetCurrentAttack(infoModel.ElementId)}";
+            var heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(this.model.ElementId);
+            this.levelTxt.text           = $"{this.elementUpgradeService.GetElementLevel(this.model.ElementId)}";
+            this.attackInfoTxt.text      = $"{(int)this.elementUpgradeService.GetCurrentAttack(this.model.ElementId)}";
             this.attackInfoSpeedTxt.text = $"{heroRuntimeData.attackSpeed}";
 
             var skeletonDataAsset = this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(heroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion();
@@ -61,6 +62,7 @@
 
         public void Rebind()
         {
+            this.levelTxt.text      = $"{this.elementUpgradeService.GetElementLevel(this.model.ElementId)}";
             this.attackInfoTxt.text = $"{(int)this.elementUpgradeService.GetCurrentAttack(this.model.ElementId)}";
         }
 
