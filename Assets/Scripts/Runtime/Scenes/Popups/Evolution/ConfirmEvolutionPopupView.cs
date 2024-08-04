@@ -7,8 +7,10 @@
     using GameFoundation.Scripts.Utilities.LogService;
     using global::Extensions;
     using Models;
+    using Models.Blueprints;
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Commons;
+    using Runtime.Services;
     using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
@@ -26,20 +28,29 @@
     [PopupInfo(nameof(ConfirmEvolutionPopupView), isOverlay: true)]
     public class ConfirmEvolutionPopupPresenter : BasePopupPresenter<ConfirmEvolutionPopupView, ConfirmEvolutionPopupModel>
     {
+        private readonly DiContainer                         diContainer;
+        private readonly ElementUpgradeService               elementUpgradeService;
+        private readonly ToastController                     toastController;
         private readonly ElementEvolutionLocalDataController elementEvolutionLocalDataController;
-        private readonly DiContainer                diContainer;
-        private readonly EvolutionBlueprint         evolutionBlueprint;
+        private readonly EvolutionBlueprint                  evolutionBlueprint;
+        private readonly EvolutionInfoBlueprint              evolutionInfoBlueprint;
 
         public ConfirmEvolutionPopupPresenter(SignalBus signalBus,
             ILogService logService,
-            ElementEvolutionLocalDataController elementEvolutionLocalDataController,
             DiContainer diContainer,
-            EvolutionBlueprint evolutionBlueprint)
+            ElementUpgradeService elementUpgradeService,
+            ToastController toastController,
+            ElementEvolutionLocalDataController elementEvolutionLocalDataController,
+            EvolutionBlueprint evolutionBlueprint,
+            EvolutionInfoBlueprint evolutionInfoBlueprint)
             : base(signalBus, logService)
         {
+            this.diContainer                         = diContainer;
+            this.elementUpgradeService               = elementUpgradeService;
+            this.toastController                     = toastController;
             this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
-            this.diContainer                = diContainer;
-            this.evolutionBlueprint         = evolutionBlueprint;
+            this.evolutionBlueprint                  = evolutionBlueprint;
+            this.evolutionInfoBlueprint              = evolutionInfoBlueprint;
         }
 
         protected override void OnViewReady()
@@ -63,11 +74,22 @@
             var parentId              = evolutionDetailRecord.ParentId;
             var canChangeClass        = parentId.IsNullOrEmpty() || evolutionLocalData.OwnedEvolutions.Contains(parentId);
             this.View.ChangeClassBtn.gameObject.SetActive(canChangeClass);
-            
+
             return UniTask.CompletedTask;
         }
 
-        private void UpdateEvolutionId() { this.elementEvolutionLocalDataController.UpdateEvolutionId(this.Model.ElementId, this.Model.EvolutionId); }
+        private void UpdateEvolutionId()
+        {
+            var requireLevel        = this.evolutionInfoBlueprint.GetDataById(this.Model.EvolutionId).RequireLevel;
+            var isReachRequireLevel = this.elementUpgradeService.GetElementLevel(this.Model.ElementId) >= requireLevel;
+            if (!isReachRequireLevel)
+            {
+                this.toastController.ShowToast("Level is too low");
+                return;
+            }
+            
+            this.elementEvolutionLocalDataController.UpdateEvolutionId(this.Model.ElementId, this.Model.EvolutionId);
+        }
     }
 
     public class ConfirmEvolutionPopupModel
