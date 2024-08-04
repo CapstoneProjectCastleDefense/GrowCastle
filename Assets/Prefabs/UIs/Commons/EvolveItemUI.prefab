@@ -110,7 +110,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 157.1}
+  m_AnchoredPosition: {x: 0, y: 198}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &2052731779033059111
@@ -318,7 +318,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   priceTxt: {fileID: 1918868230393542970}
   selectBtn: {fileID: 6962524040866689350}
-  itemImg: {fileID: 7389132882024412418}
   pathFromParents:
   - {fileID: 7869756076387708270}
   - {fileID: 4345533926015948562}
@@ -328,6 +327,7 @@ MonoBehaviour:
   - {fileID: 5056515638243116629}
   - {fileID: 1854170990695019392}
   elementSkeleton: {fileID: 5800272876474690448}
+  unlockConditions: {fileID: 7267902840012116074}
 --- !u!114 &6962524040866689350
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -634,7 +634,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 157.1}
+  m_AnchoredPosition: {x: 0, y: 198}
   m_SizeDelta: {x: 400, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &6731000653481754774

@@ -7,6 +7,7 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models;
+    using Models.Blueprints;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Popups;
@@ -23,13 +24,15 @@
         private ElementLocalDataController elementLocalDataController;
         private EvolutionBlueprint         evolutionBlueprint;
         private IGameAssets                gameAssets;
+        private EvolutionInfoBlueprint     evolutionInfoBlueprint;
 
         [Inject]
         public void Construct(ScreenManager screenManager,
             HeroLocalDataController heroLocalDataController,
             ElementLocalDataController elementLocalDataController,
             EvolutionBlueprint evolutionBlueprint,
-            IGameAssets gameAssets
+            IGameAssets gameAssets,
+            EvolutionInfoBlueprint evolutionInfoBlueprintInject
         )
         {
             this.screenManager              = screenManager;
@@ -37,14 +40,15 @@
             this.elementLocalDataController = elementLocalDataController;
             this.evolutionBlueprint         = evolutionBlueprint;
             this.gameAssets                 = gameAssets;
+            this.evolutionInfoBlueprint     = evolutionInfoBlueprintInject;
         }
 
         [SerializeField] private TMP_Text        priceTxt;
         [SerializeField] private Button          selectBtn;
-        [SerializeField] private Image           itemImg;
         [SerializeField] private List<Image>     pathFromParents;
         [SerializeField] private List<Image>     greenPathFromParents;
         [SerializeField] private SkeletonGraphic elementSkeleton;
+        [SerializeField] private GameObject      unlockConditions;
 
         private EvolveItemUIModel     model;
         private EvolutionDetailRecord evolutionDetailRecord;
@@ -54,7 +58,7 @@
         {
             this.model                 = param;
             this.evolutionDetailRecord = this.evolutionBlueprint.GetEvolutionDetailRecord(this.model.ElementId, this.model.EvolutionId);
-            this.priceTxt.text         = this.evolutionDetailRecord.Price.ToString();
+            this.priceTxt.text         = this.evolutionInfoBlueprint[this.model.EvolutionId].Price.ToString();
 
             this.selectBtn.onClick.RemoveAllListeners();
             this.selectBtn.onClick.AddListener(() => this.OnClickBtnSelect(this.model));
@@ -64,6 +68,7 @@
             this.SetSkeleton();
             this.SetPosition();
             this.SetParentPath();
+            this.SetUnlockConditions();
         }
 
         private void SetSkeleton()
@@ -113,6 +118,12 @@
             }
 
             otherPathList.ForEach(p => p.gameObject.SetActive(false));
+        }
+
+        private void SetUnlockConditions()
+        {
+            var isUnlock = this.elementLocalDataController.IsEvolutionUnlock(this.model.ElementId, this.model.EvolutionId);
+            this.unlockConditions.gameObject.SetActive(!isUnlock);
         }
 
         private void OnClickBtnSelect(EvolveItemUIModel param)

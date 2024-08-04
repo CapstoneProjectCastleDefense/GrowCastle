@@ -56,5 +56,15 @@
                 evolutionElementData.OwnedEvolutions.Add(evolutionId);
             }
         }
+
+        public bool IsEvolutionUnlock(string elementId, string evolutionId)
+        {
+            if (!this.elementLocalData.ElementIdToEvolveData.TryGetValue(elementId, out var evolutionElementData))
+            {
+                throw new Exception($"Invalid element id: {elementId}");
+            }
+
+            return evolutionElementData.OwnedEvolutions.Contains(evolutionId);
+        }
     }
 }

@@ -84,6 +84,5 @@
         public List<string> NormalAttackSkills;
         public List<string> PassiveSkills;
         public List<string> ActiveSkills;
-        public int          Price;
     }
 }
