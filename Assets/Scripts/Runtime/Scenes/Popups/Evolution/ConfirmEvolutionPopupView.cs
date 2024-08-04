@@ -26,18 +26,18 @@
     [PopupInfo(nameof(ConfirmEvolutionPopupView), isOverlay: true)]
     public class ConfirmEvolutionPopupPresenter : BasePopupPresenter<ConfirmEvolutionPopupView, ConfirmEvolutionPopupModel>
     {
-        private readonly ElementLocalDataController elementLocalDataController;
+        private readonly ElementEvolutionLocalDataController elementEvolutionLocalDataController;
         private readonly DiContainer                diContainer;
         private readonly EvolutionBlueprint         evolutionBlueprint;
 
         public ConfirmEvolutionPopupPresenter(SignalBus signalBus,
             ILogService logService,
-            ElementLocalDataController elementLocalDataController,
+            ElementEvolutionLocalDataController elementEvolutionLocalDataController,
             DiContainer diContainer,
             EvolutionBlueprint evolutionBlueprint)
             : base(signalBus, logService)
         {
-            this.elementLocalDataController = elementLocalDataController;
+            this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
             this.diContainer                = diContainer;
             this.evolutionBlueprint         = evolutionBlueprint;
         }
@@ -58,7 +58,7 @@
                 EvolutionId = popupModel.EvolutionId
             });
 
-            var evolutionLocalData    = this.elementLocalDataController.GetEvolutionElementData(popupModel.ElementId);
+            var evolutionLocalData    = this.elementEvolutionLocalDataController.GetEvolutionElementData(popupModel.ElementId);
             var evolutionDetailRecord = this.evolutionBlueprint.GetEvolutionDetailRecord(popupModel.ElementId, popupModel.EvolutionId);
             var parentId              = evolutionDetailRecord.ParentId;
             var canChangeClass        = parentId.IsNullOrEmpty() || evolutionLocalData.OwnedEvolutions.Contains(parentId);
@@ -67,7 +67,7 @@
             return UniTask.CompletedTask;
         }
 
-        private void UpdateEvolutionId() { this.elementLocalDataController.UpdateEvolutionId(this.Model.ElementId, this.Model.EvolutionId); }
+        private void UpdateEvolutionId() { this.elementEvolutionLocalDataController.UpdateEvolutionId(this.Model.ElementId, this.Model.EvolutionId); }
     }
 
     public class ConfirmEvolutionPopupModel

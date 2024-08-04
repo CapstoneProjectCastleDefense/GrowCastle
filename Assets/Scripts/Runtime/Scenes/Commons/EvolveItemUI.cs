@@ -22,7 +22,7 @@
     {
         private ScreenManager              screenManager;
         private HeroLocalDataController    heroLocalDataController;
-        private ElementLocalDataController elementLocalDataController;
+        private ElementEvolutionLocalDataController elementEvolutionLocalDataController;
         private EvolutionBlueprint         evolutionBlueprint;
         private IGameAssets                gameAssets;
         private EvolutionInfoBlueprint     evolutionInfoBlueprint;
@@ -31,7 +31,7 @@
         [Inject]
         public void Construct(ScreenManager screenManager,
             HeroLocalDataController heroLocalDataController,
-            ElementLocalDataController elementLocalDataController,
+            ElementEvolutionLocalDataController elementEvolutionLocalDataController,
             EvolutionBlueprint evolutionBlueprint,
             IGameAssets gameAssets,
             EvolutionInfoBlueprint evolutionInfoBlueprintInject,
@@ -40,7 +40,7 @@
         {
             this.screenManager              = screenManager;
             this.heroLocalDataController    = heroLocalDataController;
-            this.elementLocalDataController = elementLocalDataController;
+            this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
             this.evolutionBlueprint         = evolutionBlueprint;
             this.gameAssets                 = gameAssets;
             this.evolutionInfoBlueprint     = evolutionInfoBlueprintInject;
@@ -92,7 +92,7 @@
 
         private void SetParentPath()
         {
-            var currentEvolution = this.elementLocalDataController.GetEvolutionElementData(this.model.ElementId);
+            var currentEvolution = this.elementEvolutionLocalDataController.GetEvolutionElementData(this.model.ElementId);
 
             var listPredecessor = this.evolutionBlueprint.GetPredecessorEvolveId(this.model.ElementId, currentEvolution.EvolutionId);
             listPredecessor.Add(this.model.EvolutionId);
@@ -126,7 +126,7 @@
 
         private void SetUnlockConditions()
         {
-            var isUnlock = this.elementLocalDataController.IsEvolutionUnlock(this.model.ElementId, this.model.EvolutionId);
+            var isUnlock = this.elementEvolutionLocalDataController.IsEvolutionUnlock(this.model.ElementId, this.model.EvolutionId);
             this.unlockConditions.gameObject.SetActive(!isUnlock);
 
             if (isUnlock) return;
@@ -147,7 +147,7 @@
 
         private void OnClickBtnSelect(EvolveItemUIModel param)
         {
-            var evolutionData          = this.elementLocalDataController.GetEvolutionElementData(param.ElementId);
+            var evolutionData          = this.elementEvolutionLocalDataController.GetEvolutionElementData(param.ElementId);
             var currentSelectEvolution = evolutionData.EvolutionId;
 
             var heroRuntimeData         = this.heroLocalDataController.GetHeroRuntimeData(param.ElementId);

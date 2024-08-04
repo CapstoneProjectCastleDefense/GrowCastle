@@ -67,7 +67,7 @@
         private readonly HeroLocalDataController           heroLocalDataController;
         private readonly DiContainer                       diContainer;
         private readonly ScreenManager                     screenManager;
-        private readonly ElementLocalDataController        elementLocalDataController;
+        private readonly ElementEvolutionLocalDataController        elementEvolutionLocalDataController;
         private readonly ElementUpgradeLocalDataController elementUpgradeLocalDataController;
         private readonly ElementUpgradeService             elementUpgradeService;
 
@@ -77,7 +77,7 @@
             HeroLocalDataController heroLocalDataController,
             DiContainer diContainer,
             ScreenManager screenManager,
-            ElementLocalDataController elementLocalDataController,
+            ElementEvolutionLocalDataController elementEvolutionLocalDataController,
             ElementUpgradeLocalDataController elementUpgradeLocalDataController,
             ElementUpgradeService elementUpgradeService)
             : base(signalBus, logService)
@@ -86,7 +86,7 @@
             this.heroLocalDataController           = heroLocalDataController;
             this.diContainer                       = diContainer;
             this.screenManager                     = screenManager;
-            this.elementLocalDataController        = elementLocalDataController;
+            this.elementEvolutionLocalDataController        = elementEvolutionLocalDataController;
             this.elementUpgradeLocalDataController = elementUpgradeLocalDataController;
             this.elementUpgradeService             = elementUpgradeService;
         }
@@ -161,7 +161,7 @@
         private void BindGenericInfo(CharacterInfoPopupModel model)
         {
             var id          = model.HeroRuntimeData.heroRecord.HeroId;
-            var evolutionId = this.elementLocalDataController.GetEvolutionElementData(id).EvolutionId;
+            var evolutionId = this.elementEvolutionLocalDataController.GetEvolutionElementData(id).EvolutionId;
             this.View.ElementGenericInfoView.BindData(new ElementGenericInfoModel()
             {
                 ElementId   = model.HeroRuntimeData.heroRecord.HeroId,
