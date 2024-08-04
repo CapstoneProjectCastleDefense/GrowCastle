@@ -11,6 +11,7 @@
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Popups;
+    using Runtime.Services;
     using Spine.Unity;
     using TMPro;
     using UnityEngine;
@@ -25,6 +26,7 @@
         private EvolutionBlueprint         evolutionBlueprint;
         private IGameAssets                gameAssets;
         private EvolutionInfoBlueprint     evolutionInfoBlueprint;
+        private ElementUpgradeService      elementUpgradeService;
 
         [Inject]
         public void Construct(ScreenManager screenManager,
@@ -32,7 +34,8 @@
             ElementLocalDataController elementLocalDataController,
             EvolutionBlueprint evolutionBlueprint,
             IGameAssets gameAssets,
-            EvolutionInfoBlueprint evolutionInfoBlueprintInject
+            EvolutionInfoBlueprint evolutionInfoBlueprintInject,
+            ElementUpgradeService elementUpgradeServiceInject
         )
         {
             this.screenManager              = screenManager;
@@ -41,14 +44,15 @@
             this.evolutionBlueprint         = evolutionBlueprint;
             this.gameAssets                 = gameAssets;
             this.evolutionInfoBlueprint     = evolutionInfoBlueprintInject;
+            this.elementUpgradeService      = elementUpgradeServiceInject;
         }
 
-        [SerializeField] private TMP_Text        priceTxt;
+        [SerializeField] private TMP_Text        priceTxt, levelUnlockTxt;
         [SerializeField] private Button          selectBtn;
         [SerializeField] private List<Image>     pathFromParents;
         [SerializeField] private List<Image>     greenPathFromParents;
         [SerializeField] private SkeletonGraphic elementSkeleton;
-        [SerializeField] private GameObject      unlockConditions;
+        [SerializeField] private GameObject      unlockConditions, priceCondition;
 
         private EvolveItemUIModel     model;
         private EvolutionDetailRecord evolutionDetailRecord;
@@ -124,6 +128,21 @@
         {
             var isUnlock = this.elementLocalDataController.IsEvolutionUnlock(this.model.ElementId, this.model.EvolutionId);
             this.unlockConditions.gameObject.SetActive(!isUnlock);
+
+            if (isUnlock) return;
+
+            var requireLevel        = this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).RequireLevel;
+            var isReachRequireLevel = this.elementUpgradeService.GetElementLevel(this.model.ElementId) >= requireLevel;
+            this.levelUnlockTxt.gameObject.SetActive(!isReachRequireLevel);
+            this.priceCondition.gameObject.SetActive(isReachRequireLevel);
+            if (!isReachRequireLevel)
+            {
+                this.levelUnlockTxt.text = $"Lv<color=\"green\">{requireLevel}";
+            }
+            else
+            {
+                this.priceTxt.text = $"x{this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).Price}";
+            }
         }
 
         private void OnClickBtnSelect(EvolveItemUIModel param)

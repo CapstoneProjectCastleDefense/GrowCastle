@@ -1,7 +1,7 @@
 ﻿EvolutionId,EvolutionDescription,Abilities,Price,RequireLevel
 knight_evolve_1,"",Knight_SK1,10,0
-knight_evolve_2,"","Knight_SK1,Knight_SK2",10,0
-knight_evolve_3,"","Knight_SK1,Knight_SK2,Knight_SK3",10,0
+knight_evolve_2,"","Knight_SK1,Knight_SK2",10,11
+knight_evolve_3,"","Knight_SK1,Knight_SK2,Knight_SK3",10,31
 wizard_evolve_1,"",aaa,10,0
 green_leaf_evolve_1,"",GL_SK1,10,0
 green_leaf_evolve_2,"",GL_SK1.GL_SK2,10,0
