@@ -11,6 +11,6 @@
         CommonChest,
         SliverChest,
         GoldenChest,
-        DiamondChest
+        DiamondChest,
     }
 }
