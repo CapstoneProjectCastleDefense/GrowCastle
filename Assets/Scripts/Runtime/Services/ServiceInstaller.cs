@@ -20,7 +20,7 @@
             this.Container.BindInterfacesAndSelfTo<TimeCoolDownService>().AsCached();
             
             // Element
-            this.Container.Bind<ElementUpgradeService>().AsCached();
+            this.Container.Bind<HeroUpgradeService>().AsCached();
         }
     }
 }

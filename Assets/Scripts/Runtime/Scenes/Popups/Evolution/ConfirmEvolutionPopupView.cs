@@ -29,7 +29,7 @@
     public class ConfirmEvolutionPopupPresenter : BasePopupPresenter<ConfirmEvolutionPopupView, ConfirmEvolutionPopupModel>
     {
         private readonly DiContainer                         diContainer;
-        private readonly ElementUpgradeService               elementUpgradeService;
+        private readonly HeroUpgradeService               heroUpgradeService;
         private readonly ToastController                     toastController;
         private readonly ElementEvolutionLocalDataController elementEvolutionLocalDataController;
         private readonly EvolutionBlueprint                  evolutionBlueprint;
@@ -38,7 +38,7 @@
         public ConfirmEvolutionPopupPresenter(SignalBus signalBus,
             ILogService logService,
             DiContainer diContainer,
-            ElementUpgradeService elementUpgradeService,
+            HeroUpgradeService heroUpgradeService,
             ToastController toastController,
             ElementEvolutionLocalDataController elementEvolutionLocalDataController,
             EvolutionBlueprint evolutionBlueprint,
@@ -46,7 +46,7 @@
             : base(signalBus, logService)
         {
             this.diContainer                         = diContainer;
-            this.elementUpgradeService               = elementUpgradeService;
+            this.heroUpgradeService               = heroUpgradeService;
             this.toastController                     = toastController;
             this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
             this.evolutionBlueprint                  = evolutionBlueprint;
@@ -81,7 +81,7 @@
         private void UpdateEvolutionId()
         {
             var requireLevel        = this.evolutionInfoBlueprint.GetDataById(this.Model.EvolutionId).RequireLevel;
-            var isReachRequireLevel = this.elementUpgradeService.GetElementLevel(this.Model.ElementId) >= requireLevel;
+            var isReachRequireLevel = this.heroUpgradeService.GetHeroLevel(this.Model.ElementId) >= requireLevel;
             if (!isReachRequireLevel)
             {
                 this.toastController.ShowToast("Level is too low");

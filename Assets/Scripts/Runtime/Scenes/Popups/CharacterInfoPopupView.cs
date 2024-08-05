@@ -71,23 +71,21 @@
         private readonly DiContainer                         diContainer;
         private readonly ScreenManager                       screenManager;
         private readonly ElementEvolutionLocalDataController elementEvolutionLocalDataController;
-        private readonly ElementUpgradeLocalDataController   elementUpgradeLocalDataController;
-        private readonly ElementUpgradeService               elementUpgradeService;
+        private readonly HeroUpgradeService                  heroUpgradeService;
         private readonly SlotBlueprint                       slotBlueprint;
         private readonly StatEffectBlueprint                 statEffectBlueprint;
 
         public CharacterInfoPopupPresenter(
-            SignalBus                           signalBus,
-            ILogService                         logService,
-            SlotManager                         slotManager,
-            HeroLocalDataController             heroLocalDataController,
-            DiContainer                         diContainer,
-            ScreenManager                       screenManager,
+            SignalBus signalBus,
+            ILogService logService,
+            SlotManager slotManager,
+            HeroLocalDataController heroLocalDataController,
+            DiContainer diContainer,
+            ScreenManager screenManager,
             ElementEvolutionLocalDataController elementEvolutionLocalDataController,
-            ElementUpgradeLocalDataController   elementUpgradeLocalDataController,
-            ElementUpgradeService               elementUpgradeService,
-            SlotBlueprint                       slotBlueprint,
-            StatEffectBlueprint                 statEffectBlueprint
+            HeroUpgradeService heroUpgradeService,
+            SlotBlueprint slotBlueprint,
+            StatEffectBlueprint statEffectBlueprint
         )
             : base(signalBus, logService)
         {
@@ -96,8 +94,7 @@
             this.diContainer                         = diContainer;
             this.screenManager                       = screenManager;
             this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
-            this.elementUpgradeLocalDataController   = elementUpgradeLocalDataController;
-            this.elementUpgradeService               = elementUpgradeService;
+            this.heroUpgradeService                  = heroUpgradeService;
             this.slotBlueprint                       = slotBlueprint;
             this.statEffectBlueprint                 = statEffectBlueprint;
         }
@@ -132,7 +129,7 @@
                 await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : "", this.ReBindData));
             }
 
-            this.View.LevelUpCostTxt.text = $"{this.elementUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
+            this.View.LevelUpCostTxt.text = $"{this.heroUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
             var effectSlotRecord = this.statEffectBlueprint.GetDataById(this.slotBlueprint.GetDataById(int.Parse(this.slotManager.GetCurrentSelectedSlotModel().Id)).EffectId);
             this.View.bonusAttackSlot.text         = $"+{effectSlotRecord.AttackBonusPercent}%";
             this.View.bonusAttackSpeedSlot.text    = $"+{effectSlotRecord.AttackSpeedBonusPercent}%";
@@ -227,6 +224,7 @@
             {
                 await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : "", this.ReBindData));
             }
+
             this.UpdateView(this.Model);
 
             this.View.ElementGenericInfoView.Rebind();
@@ -244,17 +242,11 @@
 
         private void LevelUp()
         {
-            this.elementUpgradeLocalDataController.UpgradeElement(this.Model.HeroRuntimeData.heroRecord.HeroId);
-            this.View.LevelUpCostTxt.text = $"{this.elementUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
+            this.heroLocalDataController.UpgradeHero(this.Model.HeroRuntimeData.heroRecord.HeroId);
+            this.View.LevelUpCostTxt.text = $"{this.heroUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
             this.ReBindData();
         }
 
-        public override void CloseView()
-        {
-            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.Linear).onComplete += () =>
-            {
-                base.CloseView();
-            };
-        }
+        public override void CloseView() { this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.Linear).onComplete += () => { base.CloseView(); }; }
     }
 }
