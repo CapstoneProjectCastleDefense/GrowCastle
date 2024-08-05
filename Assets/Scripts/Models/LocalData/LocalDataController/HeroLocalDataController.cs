@@ -1,5 +1,6 @@
 ﻿namespace Models.LocalData.LocalDataController
 {
+    using System;
     using System.Collections.Generic;
     using System.Linq;
     using Models.Blueprints;
@@ -24,35 +25,32 @@
 
         public void InitData()
         {
-            if (this.heroLocalData.listHeroData.Count == 0)
+            if (this.heroLocalData.IdToHeroData.Count == 0)
             {
-                this.heroLocalData.listHeroData = new();
-                this.heroBlueprint.ForEach(hero => { this.heroLocalData.listHeroData.Add(new() { id = hero.Key, level = 1, listEquipmentId = new() }); });
-                this.heroLocalData.listHeroData[0].HeroStatus.Value = HeroStatus.Equip;
+                this.heroLocalData.IdToHeroData = new();
+                this.heroBlueprint.ForEach(hero => { this.heroLocalData.IdToHeroData.Add(hero.Key, new() { Id = hero.Key, Level = 1, ListEquipmentId = new() }); });
+                this.heroLocalData.IdToHeroData.First().Value.HeroStatus.Value = HeroStatus.Equip;
             }
         }
 
-        public HeroData GetHeroLocalData(string heroId) => this.heroLocalData.listHeroData.First(e => e.id.Equals(heroId));
-
         public HeroRuntimeData GetHeroRuntimeData(string heroId)
         {
-            var heroLocalData    = this.GetHeroLocalData(heroId);
             var heroConfigRecord = this.heroConfigBlueprint.GetDataById(heroId);
             var heroRuntimeData = new HeroRuntimeData()
             {
                 heroRecord    = this.heroBlueprint.GetDataById(heroId),
                 attack        = heroConfigRecord.BaseAttack,
                 attackSpeed   = heroConfigRecord.BaseAttackSpeed,
-                avatar        = heroConfigRecord.LevelToConfigRecords[heroLocalData.level].Avatar,
+                avatar        = heroConfigRecord.LevelToConfigRecords[1].Avatar,
                 resourceValue = heroConfigRecord.BaseResource,
                 resourceType  = heroConfigRecord.ResourceType,
-                heroStatus    = this.heroLocalData.listHeroData.First(e => e.id.Equals(heroId)).HeroStatus.Value,
+                heroStatus    = this.heroLocalData.IdToHeroData[heroId].HeroStatus.Value,
             };
 
             return heroRuntimeData;
         }
 
-        public List<HeroRuntimeData> GetAllHeroRuntimeData() { return this.heroLocalData.listHeroData.Select(data => this.GetHeroRuntimeData(data.id)).ToList(); }
+        public List<HeroRuntimeData> GetAllHeroRuntimeData() { return this.heroLocalData.IdToHeroData.Select(data => this.GetHeroRuntimeData(data.Key)).ToList(); }
 
         public void EquipHero(string heroId)
         {
@@ -83,23 +81,31 @@
             return true;
         }
 
-        public bool UpgradeHero(string heroId)
+        public List<string> GetEquipments(string heroId) { return this.GetHeroLocalData(heroId).ListEquipmentId; }
+
+        public void EquipEquipment(string heroId, string equipmentId) { this.GetHeroLocalData(heroId).ListEquipmentId.Add(equipmentId); }
+
+        public void UnEquipEquipment(string heroId, string equipmentId) { this.GetHeroLocalData(heroId).ListEquipmentId.Remove(equipmentId); }
+
+        public HeroData GetHeroLocalData(string heroId)
         {
-            var heroData = this.GetHeroRuntimeData(heroId);
+            if (!this.heroLocalData.IdToHeroData.TryGetValue(heroId, out var elementUpgradeData))
+            {
+                throw new Exception($"Not found element upgrade data of element: {heroId}");
+            }
 
-            if (heroData.heroStatus.Equals(HeroStatus.Lock)) return false;
-
-            if (!this.resourceLocalDataController.SpendResource(ResourceType.Gold, heroData.resourceValue)) return false;
-            this.GetHeroLocalData(heroId).level++;
-
-            return true;
+            return elementUpgradeData;
         }
 
-        public List<string> GetEquipments(string heroId) { return this.GetHeroLocalData(heroId).listEquipmentId; }
+        public void UpgradeHero(string heroId, int levelUpgradeAmount = 1)
+        {
+            if (!this.heroLocalData.IdToHeroData.TryGetValue(heroId, out var elementUpgradeData))
+            {
+                throw new Exception($"Not found element upgrade data of element: {heroId}");
+            }
 
-        public void EquipEquipment(string heroId, string equipmentId) { this.GetHeroLocalData(heroId).listEquipmentId.Add(equipmentId); }
-
-        public void UnEquipEquipment(string heroId, string equipmentId) { this.GetHeroLocalData(heroId).listEquipmentId.Remove(equipmentId); }
+            elementUpgradeData.Level += levelUpgradeAmount;
+        }
     }
 
     public class HeroRuntimeData

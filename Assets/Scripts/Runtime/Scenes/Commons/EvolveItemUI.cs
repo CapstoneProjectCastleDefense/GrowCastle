@@ -26,7 +26,7 @@
         private EvolutionBlueprint                  evolutionBlueprint;
         private IGameAssets                         gameAssets;
         private EvolutionInfoBlueprint              evolutionInfoBlueprint;
-        private ElementUpgradeService               elementUpgradeService;
+        private HeroUpgradeService               heroUpgradeService;
 
         [Inject]
         public void Construct(ScreenManager screenManager,
@@ -35,7 +35,7 @@
             EvolutionBlueprint evolutionBlueprint,
             IGameAssets gameAssets,
             EvolutionInfoBlueprint evolutionInfoBlueprintInject,
-            ElementUpgradeService elementUpgradeServiceInject
+            HeroUpgradeService heroUpgradeServiceInject
         )
         {
             this.screenManager                       = screenManager;
@@ -44,7 +44,7 @@
             this.evolutionBlueprint                  = evolutionBlueprint;
             this.gameAssets                          = gameAssets;
             this.evolutionInfoBlueprint              = evolutionInfoBlueprintInject;
-            this.elementUpgradeService               = elementUpgradeServiceInject;
+            this.heroUpgradeService               = heroUpgradeServiceInject;
         }
 
         [SerializeField] private TMP_Text        priceTxt, levelUnlockTxt;
@@ -132,7 +132,7 @@
             if (isUnlock) return;
 
             var requireLevel        = this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).RequireLevel;
-            var isReachRequireLevel = this.elementUpgradeService.GetElementLevel(this.model.ElementId) >= requireLevel;
+            var isReachRequireLevel = this.heroUpgradeService.GetHeroLevel(this.model.ElementId) >= requireLevel;
             this.levelUnlockTxt.gameObject.SetActive(!isReachRequireLevel);
             this.priceCondition.gameObject.SetActive(isReachRequireLevel);
             if (!isReachRequireLevel)
