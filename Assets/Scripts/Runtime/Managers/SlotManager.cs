@@ -6,8 +6,10 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.Utilities.Extension;
     using global::Extensions;
+    using Models.Blueprints;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
+    using Models.Tags;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Slot;
     using Runtime.Managers.Base;
@@ -24,6 +26,7 @@
         private readonly HeroLocalDataController heroLocalDataController;
         private readonly EffectManager           effectManager;
         private readonly ScreenManager           screenManager;
+        private readonly StatEffectBlueprint     statEffectBlueprint;
         private          SlotPresenter           currentSelectedSlot;
         private          GameStateMachine        gameStateMachine;
 
@@ -35,7 +38,8 @@
             TowerManager towerManager,
             HeroLocalDataController heroLocalDataController,
             EffectManager effectManager,
-            ScreenManager screenManager)
+            ScreenManager screenManager,
+            StatEffectBlueprint statEffectBlueprint)
             : base(factory)
         {
             this.slotLocalDataController = slotLocalDataController;
@@ -45,6 +49,7 @@
             this.heroLocalDataController = heroLocalDataController;
             this.effectManager           = effectManager;
             this.screenManager           = screenManager;
+            this.statEffectBlueprint     = statEffectBlueprint;
         }
 
         public override void Initialize()
@@ -96,7 +101,7 @@
                     var hero = this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
                     if (!this.GetCurrentSelectedSlotModel().SlotRecord.EffectId.IsNullOrEmpty())
                     {
-                        this.effectManager.AddEffectToTarget(hero, EffectIdToEffectType.EffectIdToEffect[this.GetCurrentSelectedSlotModel().SlotRecord.EffectId]);
+                        this.effectManager.AddEffectToTarget(hero, new ChangeStatTag(){EffectStatId = this.GetCurrentSelectedSlotModel().SlotRecord.EffectId});
                     }
 
                     break;
@@ -151,7 +156,7 @@
                 var hero = this.heroManager.CreateSingleHero(slotData.DeployObjectId, slotPresenter.GetSlotView.heroPos);
                 if (!slotPresenter.Model.SlotRecord.EffectId.IsNullOrEmpty())
                 {
-                    this.effectManager.AddEffectToTarget(hero, EffectIdToEffectType.EffectIdToEffect[slotPresenter.Model.SlotRecord.EffectId]);
+                    this.effectManager.AddEffectToTarget(hero,new ChangeStatTag(){EffectStatId = slotPresenter.Model.SlotRecord.EffectId} );
                 }
             }
             else if (slotData.SlotType == SlotType.Leader)
