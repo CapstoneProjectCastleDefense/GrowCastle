@@ -119,7 +119,7 @@
         }
 
         public virtual Type[]   GetManagerTypes() { return new[] { typeof(CastleManager), typeof(EnemyManager) }; }
-        public virtual string[] GetTags()         { return new[] { "Fly", "Ground", "Building", "Boss", }; }
+        public virtual string[] GetTags()         { return new[] { "Fly", "Ground", "Boss", }; }
 
         public void SetAttackStatus(bool attackStatus)
         {

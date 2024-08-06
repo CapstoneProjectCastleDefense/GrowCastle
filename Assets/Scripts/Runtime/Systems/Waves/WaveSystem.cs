@@ -118,7 +118,7 @@
         private int CountEnemyInWave(int level)
         {
             int totalEnemy = 0;
-            this.levelBlueprint[level].LevelToWaveRecords.ForEach(e => { this.waveBlueprint[e.WaveId].WaveToEnemy.ForEach(enemy => { totalEnemy += enemy.Value.Quantity; }); });
+            this.levelBlueprint[level].LevelToWaveRecords.ForEach(e => { this.waveBlueprint[e.WaveId].WaveToEnemy.ForEach(enemy => { totalEnemy += enemy.Quantity; }); });
             return totalEnemy;
         }
 

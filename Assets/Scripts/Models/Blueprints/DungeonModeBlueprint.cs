@@ -16,6 +16,7 @@ namespace Models.Blueprints
         public string                              BossId              { get; set; }
         public int                                 Ticket              { get; set; }
         public int                                 RequireLevel        { get; set; }
+        public float                               BossSpawnDelay      { get; set; }
         public BlueprintByRow<DungeonWaveRecord>   DungeonWaveRecord   { get; set; }
         public BlueprintByRow<DungeonRewardRecord> DungeonRewardRecord { get; set; }
     }

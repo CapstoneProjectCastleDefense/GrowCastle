@@ -16,3 +16,8 @@ phantom_1,Phantom_1,Ranged,NormalGoblin,10|1.1,20|1.2,2|1.1,5,25|1.2,25|1.2,"Ene
 blueDragon,BlueDragon,Ranged,NormalGoblin,5|1.1,30|1.2,2|1.1,2,120|1.2,120|1.2,"Enemy,Ground,Boss"
 redDragon,RedDragon,Ranged,NormalGoblin,5|1.1,30|1.2,2|1.1,2,120|1.2,120|1.2,"Enemy,Ground,Boss"
 greenDragon,GreenDragon,Ranged,NormalGoblin,5|1.1,30|1.2,2|1.1,2,120|1.2,120|1.2,"Enemy,Ground,Boss"
+skeleton_1Boss,Skeleton_1,Melee,NormalGoblin,90|1.1,400|1.2,2|1.1,2,40|1.2,40|1.2,"Enemy,Ground,Boss"
+blueDragonBoss,BlueDragon,Ranged,NormalGoblin,80|1.1,450|1.2,2|1.1,2,120|1.2,120|1.2,"Enemy,Ground,Boss"
+redDragonBoss,RedDragon,Ranged,NormalGoblin,80|1.1,450|1.2,2|1.1,2,120|1.2,120|1.2,"Enemy,Ground,Boss"
+goblinBoss,Goblin,Melee,NormalGoblin,150|1.1,350|1.2,2|1.1,2,10|1.2,10|1.2,"Enemy,Ground,Boss"
+greenDragonBoss,GreenDragon,Ranged,NormalGoblin,170|1.1,600|1.2,2|1.1,2,120|1.2,120|1.2,"Enemy,Ground,Boss"

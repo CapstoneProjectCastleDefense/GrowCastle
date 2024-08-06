@@ -10,8 +10,8 @@
 
     public class WaveRecord
     {
-        public int                                       Id          { get; set; }
-        public BlueprintByRow<string, WaveToEnemyRecord> WaveToEnemy { get; set; }
+        public int                               Id          { get; set; }
+        public BlueprintByRow<WaveToEnemyRecord> WaveToEnemy { get; set; }
     }
 
     [CsvHeaderKey("EnemyId")]
