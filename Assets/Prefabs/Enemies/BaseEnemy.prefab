@@ -106,6 +106,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 3173760951920275999}
   - {fileID: 2801570387741010771}
   - {fileID: 2109597635994609054}
   - {fileID: 2702925236561876959}
@@ -126,6 +127,10 @@ MonoBehaviour:
   attackAnimations: []
   deathAnimations: []
   moveAnimation: 
+  targetTags: []
+  selfTags: []
+  <ProjectileSpawnPoint>k__BackingField: {fileID: 3173760951920275999}
+  <AttackProjectileSkillId>k__BackingField: 
   <SkeletonAnimation>k__BackingField: {fileID: 5890850458954612675}
   <GraphicCollider2D>k__BackingField: {fileID: 7612229669187565593}
   <AttackRangeCollider2D>k__BackingField: {fileID: 497148970014649306}
@@ -378,6 +383,37 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 5
+--- !u!1 &4558385111940357543
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3173760951920275999}
+  m_Layer: 9
+  m_Name: ProjectileStartPos
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3173760951920275999
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4558385111940357543}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8823434734986036782}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &4608881920492560244
 GameObject:
   m_ObjectHideFlags: 0
