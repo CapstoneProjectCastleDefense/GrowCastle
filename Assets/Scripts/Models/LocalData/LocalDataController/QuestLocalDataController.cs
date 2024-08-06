@@ -82,12 +82,12 @@
 
         public QuestData GetQuestLocalData(string questId) => this.questLocalData.AllQuestData[questId];
 
-        public void UpdateQuestProgress(string questId, float value)
+        public void UpdateQuestProgress(string questId, float value,bool isReset = false)
         {
             var questData = this.questLocalData.AllQuestData[questId];
             if (questData.QuestStatus == QuestStatus.Complete) return;
             var currentQuestValue = questData.CurrentValue.Value;
-            currentQuestValue += value;
+            currentQuestValue = isReset ? value : currentQuestValue + value;
             if (currentQuestValue >= this.questBlueprint.GetDataById(questId).TargetValue)
             {
                 currentQuestValue     = this.questBlueprint.GetDataById(questId).TargetValue;

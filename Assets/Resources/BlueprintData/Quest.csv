@@ -4,3 +4,28 @@ UpgradeCastleTime_Daily,Upgrade castle 5 times,5,2,Diamond,Daily,UpgradeCastle,t
 KillEnemy_Weekly,Kill 500 enemies,500,20,Diamond,Weekly,KillEnemy,KillEnemyIcon
 UpgradeCastleTime_Weekly,Upgrade castle 20 times,20,30,Diamond,Weekly,UpgradeCastle,tower update
 UpgradeArcher,Upgrade Archer 30 times,30,10000,Gold,Achievement,UpgradeArcher,archer
+KillEnemy_Achieve,Kill 1000 enemies,1000,10,Ticket,Achievement,KillEnemy,KillEnemyIcon
+ReachToLevel10_Achieve,Reach To Level 10,10,1000,Gold,Achievement,ReachLevel,KillEnemyIcon
+ReachToLevel20_Achieve,Reach To Level 20,20,1500,Gold,Achievement,ReachLevel,tower update
+Complete5Wave_Daily,Complete 5 wave,5,5,Diamond,Daily,CompleteWave,KillEnemyIcon
+CompleteWave20_Weekly,Complete 20 wave,20,10,Diamond,Weekly,CompleteWave,tower update
+UnlockNewHero_Daily,Unlock new hero,1,5,Diamond,Daily,UnlockHero,archer
+UnlockGreenLeafHero_Achieve,Unlock GreenLeaf Hero,1,5,Diamond,Weekly,UnlockGreenLeaf,KillEnemyIcon
+UpgradeCastle30Time_Weekly,Upgrade castle 30 times,30,70,Diamond,Weekly,UpgradeCastle,tower update
+UnlockTowerXelNaga_Achieve,Unlock Xel'Naga Tower,1,7,Diamond,Achievement,UnlockTowerXelNaga,KillEnemyIcon
+UnlockJudgeHero_Achieve,Unlock Judge Hero,1,1000,Gold,Achievement,UnlockJudgeHero,tower update
+UnlockShadowHero_Achieve,Unlock Shadow Hero,1,1,Ticket,Achievement,UnlockShadowHero,KillEnemyIcon
+UnlockHassanHero_Achieve,Unlock Hassan Hero,1,2,Ticket,Achievement,UnlockHassanHero,tower update
+UnlockAriseHero_Achieve,Unlock Arise Hero,1,3,Ticket,Achievement,UnlockAriseHero,archer
+UnlockMoonShadowHero_Achieve,Unlock MoonShadow Hero,1,10,Diamond,Achievement,UnlockMoonShadowHero,KillEnemyIcon
+UnlockStormHero_Achieve,Unlock Storm Hero,1,10,Diamond,Achievement,UnlockStormHero,KillEnemyIcon
+UpgradeKnightHeroToLevel5_Achieve,Upgrade Knight Hero To Level5,5,1500,Gold,Achievement,UpgradeKnightHero,tower update
+UpgradeShadowHeroToLevel5_Achieve,Upgrade Shadow Hero To Level5,5,1500,Gold,Achievement,UpgradeShadowHero,KillEnemyIcon
+UpgradeHero10Time_Daily,Upgrade Hero 10 Times,10,10,Diamond,Daily,UpgradeHero,tower update
+OpenChest5Times_Weekly,Open Chest 5 Times,5,5,Diamond,Weekly,OpenChest,archer
+OpenSliverChest_Daily,Open Sliver Chest,1,1,Ticket,Daily,OpenSliverChest,KillEnemyIcon
+OpenGoldChest_Daily,Open Gold Chest,1,1,Ticket,Daily,OpenGoldChest,KillEnemyIcon
+OpenGoldChest10Time_Achieve,Open Gold Chest 10 Times,10,10,Diamond,Achievement,OpenGoldChest,tower update
+OpenDiamondChest_Daily,Open Diamond Chest,1,1,Ticket,Daily,OpenDiamondChest,KillEnemyIcon
+OpenDiamondChest5Times_Weekly,Open Diamond Chest 5 Times,5,5,Ticket,Weekly,OpenDiamondChest,tower update
+OpenDiamondChest10Times_Achieve,Open Diamond Chest 10 Times,10,20,Diamond,Achievement,OpenDiamondChest,archer

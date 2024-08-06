@@ -4,7 +4,10 @@
     using System.Linq;
     using Models.Blueprints;
     using Runtime.Enums;
+    using Runtime.Signals.Quests;
+    using Runtime.StaticValues;
     using Sirenix.Utilities;
+    using Zenject;
 
     public class HeroLocalDataController : ILocalDataController
     {
@@ -12,14 +15,16 @@
         private readonly HeroBlueprint               heroBlueprint;
         private readonly HeroConfigBlueprint         heroConfigBlueprint;
         private readonly ResourceLocalDataController resourceLocalDataController;
+        private readonly SignalBus                   signalBus;
 
         public HeroLocalDataController(HeroLocalData heroLocalData, HeroBlueprint heroBlueprint, HeroConfigBlueprint heroConfigBlueprint,
-            ResourceLocalDataController resourceLocalDataController)
+            ResourceLocalDataController resourceLocalDataController, SignalBus signalBus)
         {
             this.heroLocalData               = heroLocalData;
             this.heroBlueprint               = heroBlueprint;
             this.heroConfigBlueprint         = heroConfigBlueprint;
             this.resourceLocalDataController = resourceLocalDataController;
+            this.signalBus                   = signalBus;
         }
 
         public void InitData()
@@ -79,7 +84,7 @@
             if (!heroData.heroStatus.Equals(HeroStatus.Lock)) return false;
             if (!this.resourceLocalDataController.SpendResource(ResourceType.Gold, heroData.resourceValue)) return false;
             this.GetHeroLocalData(heroId).HeroStatus.Value = HeroStatus.UnLock;
-
+            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.UnlockHero, Value = 1});
             return true;
         }
 
