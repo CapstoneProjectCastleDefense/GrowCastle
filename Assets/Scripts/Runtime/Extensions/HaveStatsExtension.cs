@@ -31,7 +31,7 @@
         {
             return (T) Enum.Parse(typeof(T), value, true);
         }
-        
+
         public static void PlusStat(this IHaveStatsModel haveStats, StatEnum statEnum, (Type, object) value)
         {
             var currentValue = haveStats.GetStat<object>(statEnum);
@@ -48,7 +48,7 @@
                 Debug.LogError($"[{nameof(HaveStatsExtension)}]: Cannot add {value.Item1} to {currentValue}");
             }
         }
-        
+
         public static void MinusStat(this IHaveStatsModel haveStats, StatEnum statEnum, (Type, object) value)
         {
             var currentValue = haveStats.GetStat<object>(statEnum);
@@ -65,17 +65,17 @@
                 Debug.LogError($"[{nameof(HaveStatsExtension)}]: Cannot subtract {value.Item1} from {currentValue}");
             }
         }
-        
+
         public static void Plus(this IHaveStatsModel haveStats, IHaveStatsModel otherStats)
         {
             otherStats.Stats.ForEach(stat => haveStats.PlusStat(stat.Key, stat.Value));
         }
-        
+
         public static void Minus(this IHaveStatsModel haveStats, IHaveStatsModel otherStats)
         {
             otherStats.Stats.ForEach(stat => haveStats.MinusStat(stat.Key, stat.Value));
         }
-        
+
 
         public static T GetStat<T>(this Dictionary<StatEnum, (Type, object)> stats, StatEnum statEnum)
         {
@@ -97,6 +97,12 @@
         public static void SetStat<T>(this Dictionary<StatEnum, (Type, object)> stats, StatEnum statEnum, T value)
         {
             stats[statEnum] = (typeof(T), value);
+        }
+
+        public static bool IsStringInEnum<T>(this string input)where T: struct, Enum
+        {
+            T enumValue;
+            return Enum.TryParse(input, out enumValue);
         }
     }
 }

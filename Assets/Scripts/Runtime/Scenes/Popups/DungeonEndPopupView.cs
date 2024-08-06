@@ -13,6 +13,8 @@ namespace Runtime.Scenes.Popups
 {
     using System.Collections.Generic;
     using Models.Blueprints;
+    using Runtime.Enums;
+    using Runtime.Extensions;
     using Runtime.Scenes.Adapters.Chest;
     using UnityEngine.UI;
 
@@ -36,11 +38,12 @@ namespace Runtime.Scenes.Popups
         private readonly DiContainer                diContainer;
 
         public DungeonEndPopupPresenter(
-            SignalBus signalBus,
-            GameStateMachine gameStateMachine,
+            SignalBus                  signalBus,
+            GameStateMachine           gameStateMachine,
             DungeonLocalDataController dungeonLocalDataController,
-            ChestLocalDataController chestLocalDataController,
-            DiContainer diContainer)
+            ChestLocalDataController   chestLocalDataController,
+            DiContainer                diContainer
+        )
             : base(signalBus)
         {
             this.gameStateMachine           = gameStateMachine;
@@ -86,15 +89,15 @@ namespace Runtime.Scenes.Popups
             {
                 for (int i = 0; i < reward.Value; i++)
                 {
-                    this.chestLocalDataController.ReceiveChest(reward.RewardType);
+                    this.chestLocalDataController.ReceiveChest(reward.RewardId.ToEnum<ResourceType>());
                 }
 
-                rewardData.Add(new ChestRewardItemModel()
+                rewardData.Add(new()
                 {
-                    PoolItem = new PoolItem()
+                    PoolItem = new()
                     {
-                        ItemType = reward.RewardType, Value = reward.Value
-                    }
+                        ItemId = reward.RewardId, Value = reward.Value,
+                    },
                 });
             });
             await this.View.chestRewardItemAdapter.InitItemAdapter(rewardData, this.diContainer);

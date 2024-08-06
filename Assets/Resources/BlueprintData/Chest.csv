@@ -1,4 +1,4 @@
-﻿ChestType,ItemQuantity,ItemType,Weight,Value,ChestIcon
+﻿ChestType,ItemQuantity,ItemId,Weight,Value,ChestIcon
 CommonChest,2,Gold,50,50,copperchest
 ,,Diamond,20,10,
 ,,Gold,30,100,

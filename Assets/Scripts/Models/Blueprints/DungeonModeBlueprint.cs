@@ -27,9 +27,9 @@ namespace Models.Blueprints
         public float Delay  { get; set; }
     }
 
-    [CsvHeaderKey("RewardType")] public class DungeonRewardRecord
+    [CsvHeaderKey("RewardId")] public class DungeonRewardRecord
     {
-        public ResourceType RewardType { get; set; }
-        public int          Value      { get; set; }
+        public string RewardId { get; set; }
+        public int    Value      { get; set; }
     }
 }

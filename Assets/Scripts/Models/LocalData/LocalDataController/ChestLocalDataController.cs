@@ -12,17 +12,21 @@
 
     public class ChestLocalDataController : ILocalDataController
     {
-        private readonly ChestBlueprint              chestBlueprint;
-        private readonly ChestLocalData              chestLocalData;
-        private readonly ResourceLocalDataController resourceLocalDataController;
-        private readonly SignalBus                   signalBus;
+        private readonly ChestBlueprint               chestBlueprint;
+        private readonly ChestLocalData               chestLocalData;
+        private readonly ResourceLocalDataController  resourceLocalDataController;
+        private readonly SignalBus                    signalBus;
+        private readonly InventoryLocalDataController inventoryLocalDataController;
+        private readonly ItemBlueprint                itemBlueprint;
 
-        public ChestLocalDataController(ChestBlueprint chestBlueprint, ChestLocalData chestLocalData, ResourceLocalDataController resourceLocalDataController, SignalBus signalBus)
+        public ChestLocalDataController(ChestBlueprint chestBlueprint, ChestLocalData chestLocalData, ResourceLocalDataController resourceLocalDataController, SignalBus signalBus, InventoryLocalDataController inventoryLocalDataController, ItemBlueprint itemBlueprint)
         {
-            this.chestBlueprint              = chestBlueprint;
-            this.chestLocalData              = chestLocalData;
-            this.resourceLocalDataController = resourceLocalDataController;
-            this.signalBus                   = signalBus;
+            this.chestBlueprint               = chestBlueprint;
+            this.chestLocalData               = chestLocalData;
+            this.resourceLocalDataController  = resourceLocalDataController;
+            this.signalBus                    = signalBus;
+            this.inventoryLocalDataController = inventoryLocalDataController;
+            this.itemBlueprint                = itemBlueprint;
         }
 
         public void InitData()
@@ -61,7 +65,15 @@
             List<PoolItem> result    = poolItems.RandomGachaWithWeight(poolItems.Select(e => e.Weight).ToList(), chestData.ChestRecord.ItemQuantity, 0);
             poolItems.ForEach(item =>
             {
-                this.resourceLocalDataController.ReceiveResource(item.ItemType, item.Value);
+                if (item.ItemId.IsStringInEnum<ResourceType>())
+                {
+                    this.resourceLocalDataController.ReceiveResource(item.ItemId.ToEnum<ResourceType>(), item.Value);
+                }
+                else
+                {
+                    var itemRecord = this.itemBlueprint.GetDataById(item.ItemId);
+                    this.inventoryLocalDataController.AddItem(itemRecord.Id,1,RarityEnum.Common,false,1,1,new ());
+                }
             });
             this.chestLocalData.ChestData.Remove(chestData);
             this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.OpenChest, Value = 1});
