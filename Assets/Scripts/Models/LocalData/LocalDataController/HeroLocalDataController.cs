@@ -18,8 +18,13 @@
         private readonly ResourceLocalDataController resourceLocalDataController;
         private readonly SignalBus                   signalBus;
 
-        public HeroLocalDataController(HeroLocalData heroLocalData, HeroBlueprint heroBlueprint, HeroConfigBlueprint heroConfigBlueprint,
-            ResourceLocalDataController resourceLocalDataController, SignalBus signalBus)
+        public HeroLocalDataController(
+            HeroLocalData               heroLocalData,
+            HeroBlueprint               heroBlueprint,
+            HeroConfigBlueprint         heroConfigBlueprint,
+            ResourceLocalDataController resourceLocalDataController,
+            SignalBus                   signalBus
+        )
         {
             this.heroLocalData               = heroLocalData;
             this.heroBlueprint               = heroBlueprint;
@@ -33,7 +38,10 @@
             if (this.heroLocalData.IdToHeroData.Count == 0)
             {
                 this.heroLocalData.IdToHeroData = new();
-                this.heroBlueprint.ForEach(hero => { this.heroLocalData.IdToHeroData.Add(hero.Key, new() { Id = hero.Key, Level = 1, ListEquipmentId = new() }); });
+                this.heroBlueprint.ForEach(hero =>
+                {
+                    this.heroLocalData.IdToHeroData.Add(hero.Key, new() { Id = hero.Key, Level = 1, ListEquipmentId = new() });
+                });
                 this.heroLocalData.IdToHeroData.First().Value.HeroStatus.Value = HeroStatus.Equip;
             }
         }
@@ -82,7 +90,9 @@
             if (!heroData.heroStatus.Equals(HeroStatus.Lock)) return false;
             if (!this.resourceLocalDataController.SpendResource(ResourceType.Gold, heroData.resourceValue)) return false;
             this.GetHeroLocalData(heroId).HeroStatus.Value = HeroStatus.UnLock;
-            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.UnlockHero, Value = 1});
+            this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = QuestTriggerSignalId.UnlockHero, Value = 1 });
+            this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = $"Unlock{heroId}", Value               = 1 });
+
             return true;
         }
 
@@ -110,6 +120,8 @@
             }
 
             elementUpgradeData.Level += levelUpgradeAmount;
+            this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = QuestTriggerSignalId.UpgradeHero, Value = elementUpgradeData.Level, isReset = true });
+            this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = $"Upgrade{heroId}", Value               = elementUpgradeData.Level, isReset = true });
         }
     }
 
