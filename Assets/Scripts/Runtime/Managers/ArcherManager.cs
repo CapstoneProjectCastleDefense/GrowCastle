@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using GameFoundation.Scripts.Utilities;
     using Models.Blueprints;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
@@ -76,7 +77,14 @@
         {
             var newArcher = this.archerLocalDataController.UnlockArcher();
 
-            if (newArcher == null) return;
+            if (newArcher == null)
+            {
+                AudioService.Instance.PlaySound("Error");
+                return;
+            }
+            
+            AudioService.Instance.PlaySound("Cash");
+            
             var hasOldArcher = this.entities.Any(e => e.Model.Index == newArcher.index);
             if (hasOldArcher)
             {

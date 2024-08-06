@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using GameFoundation.Scripts.Utilities;
     using Models.LocalData.LocalDataController;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Castles;
@@ -34,8 +35,13 @@
             bool canUpgrade = this.castleLocalDataController.UpgradeCastle();
             if (canUpgrade)
             {
+                AudioService.Instance.PlaySound("Cash");
                 this.entities.First().OnUpgrade();
                 this.slotManager.UpdateAllSlots();
+            }
+            else
+            {
+                AudioService.Instance.PlaySound("Error");
             }
         }
         public bool UseManaForSkill(float manaValue)

@@ -7,6 +7,7 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
+    using GameFoundation.Scripts.Utilities;
     using GameFoundation.Scripts.Utilities.LogService;
     using Models.Blueprints;
     using Models.LocalData;
@@ -87,7 +88,7 @@
             HeroUpgradeService heroUpgradeService,
             SlotBlueprint slotBlueprint,
             StatEffectBlueprint statEffectBlueprint
-        )
+            )
             : base(signalBus, logService)
         {
             this.slotManager                         = slotManager;
@@ -240,6 +241,7 @@
         private void ChangeClass()
         {
             base.CloseView();
+            AudioService.Instance.PlaySound("button_sfx");
             this.screenManager.OpenScreen<ElementEvolvePopupPresenter, ElementEvolvePopupModel>(new ElementEvolvePopupModel()
                 {
                     CharacterId = this.Model.HeroRuntimeData.heroRecord.HeroId
@@ -249,6 +251,7 @@
 
         private void LevelUp()
         {
+            AudioService.Instance.PlaySound("LevelUp");
             this.heroLocalDataController.UpgradeHero(this.Model.HeroRuntimeData.heroRecord.HeroId);
             this.View.LevelUpCostTxt.text = $"{this.heroUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
             this.ReBindData();
