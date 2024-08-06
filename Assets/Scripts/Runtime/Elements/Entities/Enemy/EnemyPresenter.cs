@@ -102,7 +102,7 @@
                         Id         = this.View.AttackProjectileSkillId,
                         Target     = target,
                         Damage     = this.Model.GetStat<float>(StatEnum.Attack),
-                        StartPoint = this.View.SkeletonAnimation.transform.position + Vector3.left * 0.1f,
+                        StartPoint = this.View.ProjectileSpawnPoint.position,
                         EndPoint   = target.GetGameObject().transform.position + Vector3.left + Vector3.down
                     });
                 }
