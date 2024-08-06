@@ -28,7 +28,7 @@
         private DiContainer             diContainer;
         private HeroLocalDataController heroLocalDataController;
         private AbilityInfoBlueprint    abilityInfoBlueprint;
-        private ElementUpgradeService   elementUpgradeService;
+        private HeroUpgradeService   heroUpgradeService;
 
         [Inject]
         public void Construct(IGameAssets gameAssetsInject,
@@ -36,22 +36,22 @@
             DiContainer diContainerInject,
             HeroLocalDataController heroLocalDataControllerInject,
             AbilityInfoBlueprint abilityInfoBlueprintInject,
-            ElementUpgradeService elementUpgradeServiceInject)
+            HeroUpgradeService heroUpgradeServiceInject)
         {
             this.gameAssets              = gameAssetsInject;
             this.evolutionInfoBlueprint  = evolutionInfoBlueprintInject;
             this.diContainer             = diContainerInject;
             this.heroLocalDataController = heroLocalDataControllerInject;
             this.abilityInfoBlueprint    = abilityInfoBlueprintInject;
-            this.elementUpgradeService   = elementUpgradeServiceInject;
+            this.heroUpgradeService   = heroUpgradeServiceInject;
         }
 
         public void BindData(ElementGenericInfoModel infoModel)
         {
             this.model = infoModel;
             var heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(this.model.ElementId);
-            this.levelTxt.text           = $"{this.elementUpgradeService.GetElementLevel(this.model.ElementId)}";
-            this.attackInfoTxt.text      = $"{(int)this.elementUpgradeService.GetCurrentAttack(this.model.ElementId)}";
+            this.levelTxt.text           = $"{this.heroUpgradeService.GetHeroLevel(this.model.ElementId)}";
+            this.attackInfoTxt.text      = $"{(int)this.heroUpgradeService.GetCurrentAttack(this.model.ElementId)}";
             this.attackInfoSpeedTxt.text = $"{heroRuntimeData.attackSpeed}";
 
             var skeletonDataAsset = this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(heroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion();
@@ -62,8 +62,8 @@
 
         public void Rebind()
         {
-            this.levelTxt.text      = $"{this.elementUpgradeService.GetElementLevel(this.model.ElementId)}";
-            this.attackInfoTxt.text = $"{(int)this.elementUpgradeService.GetCurrentAttack(this.model.ElementId)}";
+            this.levelTxt.text      = $"{this.heroUpgradeService.GetHeroLevel(this.model.ElementId)}";
+            this.attackInfoTxt.text = $"{(int)this.heroUpgradeService.GetCurrentAttack(this.model.ElementId)}";
         }
 
         private async UniTaskVoid InitAdapter(ElementGenericInfoModel elementGenericInfoModel)
