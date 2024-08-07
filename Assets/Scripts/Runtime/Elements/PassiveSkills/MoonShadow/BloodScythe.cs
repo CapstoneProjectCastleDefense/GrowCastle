@@ -25,7 +25,7 @@
         }
         public void Tick()
         {
-            var castleModelStat            = this.castleManager.entities.First().Model.Stats;
+            var castleModelStat            = this.castleManager.entities.First().Model.BaseStats;
             var currentCastleHealthPercent = castleModelStat.GetStat<float>(StatEnum.Health) / castleModelStat.GetStat<float>(StatEnum.MaxHealth) * 100;
             if (!(currentCastleHealthPercent < 20))
             {

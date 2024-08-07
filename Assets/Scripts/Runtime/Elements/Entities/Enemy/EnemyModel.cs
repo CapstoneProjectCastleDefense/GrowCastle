@@ -12,7 +12,7 @@
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }
-        public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
+        public Dictionary<StatEnum, (Type, object)> BaseStats           { get; set; }
         public Vector3                              StartPos        { get; set; }
         public Vector3                              EndPos          { get; set; }
     }

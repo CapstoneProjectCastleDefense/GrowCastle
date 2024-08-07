@@ -112,7 +112,7 @@
             }
         }
 
-        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats; }
+        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.BaseStats; }
 
         public override GameObject GetGameObject() { return this.View.gameObject; }
 
@@ -216,7 +216,7 @@
         public string                               AddressableName { get; set; }
         public Vector3                              StartPos        { get; set; }
         public int                                  SortingIndex    { get; set; }
-        public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
+        public Dictionary<StatEnum, (Type, object)> BaseStats           { get; set; }
         public Action                               OnSummonerDeath { get; set; }
     }
 }

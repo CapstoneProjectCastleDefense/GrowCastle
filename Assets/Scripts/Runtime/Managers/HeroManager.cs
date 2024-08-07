@@ -29,7 +29,7 @@
             {
                 Id         = id,
                 ParentView = parent,
-                Stats = new()
+                BaseStats = new()
                 {
                     { StatEnum.Attack, (typeof(float), 2f) },
                     { StatEnum.Health, (typeof(float), 10f) },

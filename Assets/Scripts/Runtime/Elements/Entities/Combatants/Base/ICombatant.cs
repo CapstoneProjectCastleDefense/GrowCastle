@@ -30,7 +30,7 @@
         public virtual ITargetable                      TargetThatImLookingAt  { get; set; }
         public virtual ITargetable                      TargetThatAttackingMe  { get; set; }
         public virtual bool                             IsDead                 { get; set; }
-        Dictionary<StatEnum, (Type, object)> IHaveStats.GetStats()             { return this.Model.Stats; }
+        Dictionary<StatEnum, (Type, object)> IHaveStats.GetStats()             { return this.Model.BaseStats; }
 
         public virtual void UpdateStats() { }
 

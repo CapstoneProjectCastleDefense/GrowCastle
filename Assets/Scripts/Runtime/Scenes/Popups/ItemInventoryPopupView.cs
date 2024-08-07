@@ -107,7 +107,6 @@
             //                     { StatEnum.Defense, (typeof(float), Random.Range(1, 10)) },
             //                     { StatEnum.Health, (typeof(float), Random.Range(1, 10)) }
             //                 });
-            //             await UniTask.Delay(10);
             //         }
             //     }
             //

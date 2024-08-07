@@ -26,7 +26,7 @@
                 AddressableName = summonerRecord.PrefabName,
                 StartPos        = startPos,
                 SortingIndex    = sortingIndex,
-                Stats = new() //TODO : Replace with data from blueprint
+                BaseStats = new() //TODO : Replace with data from blueprint
                 {
                     { StatEnum.Attack, (typeof(float), 5f) },
                     { StatEnum.AttackSpeed, (typeof(float), 1f) },

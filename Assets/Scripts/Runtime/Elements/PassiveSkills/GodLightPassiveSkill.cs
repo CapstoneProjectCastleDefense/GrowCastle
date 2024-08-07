@@ -18,7 +18,7 @@
         }
         public void ActiveSkill()
         {
-            this.HeroPresenter.Model.Stats.SetStat(StatEnum.BonusReduceMana,10f);
+            this.HeroPresenter.Model.BaseStats.SetStat(StatEnum.BonusReduceMana,10f);
         }
     }
 }

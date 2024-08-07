@@ -13,11 +13,11 @@
 
     public interface IHaveStatsModel
     {
-        Dictionary<StatEnum, (Type, object)> Stats { get; set; }
+        Dictionary<StatEnum, (Type, object)> BaseStats { get; set; }
         
         public static IHaveStatsModel operator +(IHaveStatsModel a, IHaveStatsModel b)
         {
-            foreach (var stat in b.Stats)
+            foreach (var stat in b.BaseStats)
             {
                 a.SetStat(stat.Key, stat.Value.Item2);
             }
