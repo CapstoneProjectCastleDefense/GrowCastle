@@ -10,10 +10,16 @@
         public HeroPresenter HeroPresenter { get; set; }
         public void          Init()        { this.ActiveSkill(); }
         public void          Tick()        { }
+
+        private float currentAttackSpeed;
         public void ActiveSkill()
         {
-            var currentAttackSpeed = this.HeroPresenter.Model.GetStat<float>(StatEnum.AttackSpeed);
-            this.HeroPresenter.Model.SetStat(StatEnum.AttackSpeed, currentAttackSpeed * 1.4f);
+            this.currentAttackSpeed = this.HeroPresenter.Model.GetStat<float>(StatEnum.AttackSpeed);
+            this.HeroPresenter.Model.SetStat(StatEnum.AttackSpeed, this.currentAttackSpeed * 1.4f);
+        }
+        public void DeActiveSkill()
+        {
+            this.HeroPresenter.Model.SetStat(StatEnum.AttackSpeed, this.currentAttackSpeed);
         }
     }
 }

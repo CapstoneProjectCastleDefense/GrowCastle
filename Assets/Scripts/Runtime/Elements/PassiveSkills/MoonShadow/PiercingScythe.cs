@@ -4,6 +4,7 @@
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Skills;
+    using UnityEngine;
 
     public class PiercingScythe : IPassiveSkillPresenter
     {
@@ -18,8 +19,13 @@
         }
         public void ActiveSkill()
         {
+            Debug.Log($"active skill {this.GetType().FullName}");
             this.baseHeroAtk                    = this.HeroPresenter.Model.GetStat<float>(StatEnum.Attack);
             this.HeroPresenter.OnAttackComplete = (target) => { this.HeroPresenter.Model.SetStat(StatEnum.Attack, this.baseHeroAtk); };
+        }
+        public void DeActiveSkill()
+        {
+            this.HeroPresenter.OnAttackComplete = null;
         }
     }
 }

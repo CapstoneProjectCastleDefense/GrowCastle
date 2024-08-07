@@ -15,6 +15,6 @@ GL_SK3,Hunter Zone,,Increase normal attack crit 15%
 BS_SK1,Fire Golem,,Summon two fire golems exists in 2s
 BS_SK2,Bloodlust,,Increase golem's attack speed 20%
 BS_SK3,Warlord,,Increase golem's normal attack damage 15%
-SF_SK1,Cursed Volley,,"Summon 3 arrow fear enemy, kill them if hp is lower than 40%"
-SF_SK2,Deadly arrow,,Fourth normal attack has 60% chance of critical
-SF_SK3,The Fear,,"If tower's hp < 30%, all heroes' normal attack has 30% chance of fear enemy"
+cursed_volley,Cursed Volley,,"Summon 3 arrow fear enemy, kill them if hp is lower than 40%"
+DeadlyArrowPassiveSkill,Deadly arrow,,Fourth normal attack has 60% chance of critical
+TheFearPassiveSkill,The Fear,,"If tower's hp < 30%, all heroes' normal attack has 30% chance of fear enemy"

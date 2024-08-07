@@ -41,5 +41,9 @@
                 }
             };
         }
+        public void DeActiveSkill()
+        {
+            this.HeroPresenter.OnAttackComplete = null;
+        }
     }
 }

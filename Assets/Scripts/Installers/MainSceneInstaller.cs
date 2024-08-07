@@ -126,6 +126,7 @@
             this.Container.DeclareSignal<UpdateCastleStatSignal>();
             this.Container.DeclareSignal<OpenChestSignal>();
             this.Container.DeclareSignal<SpawnedBossInDungeon>();
+            this.Container.DeclareSignal<ChangeHeroClassSignal>();
         }
     }
 }

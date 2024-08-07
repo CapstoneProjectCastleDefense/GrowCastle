@@ -8,5 +8,6 @@
         public void          Init();
         public void          Tick();
         public void          ActiveSkill();
+        public void          DeActiveSkill();
     }
 }

@@ -36,6 +36,10 @@
                 boss.onAttackComplete = this.OnEnemyAttackComplete;
             });
         }
+        public void DeActiveSkill()
+        {
+            this.HeroPresenter.OnActiveSkillCasted -= this.ActiveSkill;
+        }
 
         private void OnEnemyAttackComplete(EnemyPresenter enemyPresenter)
         {

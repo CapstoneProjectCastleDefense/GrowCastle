@@ -3,17 +3,27 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using Models.Blueprints;
+    using Runtime.Enums;
+    using UnityEngine;
 
     public class ElementEvolutionLocalDataController : ILocalDataController
     {
         private readonly ElementEvolutionLocalData   elementEvolutionLocalData;
-        private readonly EvolutionBlueprint evolutionBlueprint;
+        private readonly EvolutionBlueprint          evolutionBlueprint;
+        private readonly ResourceLocalDataController resourceLocalDataController;
+        private readonly EvolutionInfoBlueprint      evolutionInfoBlueprint;
 
-        public ElementEvolutionLocalDataController(ElementEvolutionLocalData elementEvolutionLocalData,
-            EvolutionBlueprint evolutionBlueprint)
+        public ElementEvolutionLocalDataController(
+            ElementEvolutionLocalData elementEvolutionLocalData,
+            EvolutionBlueprint evolutionBlueprint,
+            ResourceLocalDataController resourceLocalDataController,
+            EvolutionInfoBlueprint evolutionInfoBlueprint)
         {
             this.elementEvolutionLocalData   = elementEvolutionLocalData;
-            this.evolutionBlueprint = evolutionBlueprint;
+            this.evolutionBlueprint          = evolutionBlueprint;
+            this.resourceLocalDataController = resourceLocalDataController;
+            this.evolutionInfoBlueprint      = evolutionInfoBlueprint;
         }
 
         public void InitData()
@@ -43,18 +53,31 @@
             return evolutionElementData;
         }
 
-        public void UpdateEvolutionId(string elementId, string evolutionId)
+        public bool UpdateEvolutionId(string elementId, string evolutionId)
         {
             if (!this.elementEvolutionLocalData.ElementIdToEvolveData.TryGetValue(elementId, out var evolutionElementData))
             {
                 throw new Exception($"Invalid element id: {elementId}");
             }
 
-            evolutionElementData.EvolutionId = evolutionId;
             if (!evolutionElementData.OwnedEvolutions.Contains(evolutionId))
             {
-                evolutionElementData.OwnedEvolutions.Add(evolutionId);
+                if (this.resourceLocalDataController.SpendResource(ResourceType.Diamond, this.evolutionInfoBlueprint.GetDataById(evolutionId).Price))
+                {
+                    evolutionElementData.EvolutionId = evolutionId;
+                    evolutionElementData.OwnedEvolutions.Add(evolutionId);
+                    return true;
+                }
+                
             }
+            else
+            {
+                evolutionElementData.EvolutionId = evolutionId;
+                return true;
+            }
+
+            Debug.Log($"Use evolution {evolutionId}");
+            return false;
         }
 
         public bool IsEvolutionUnlock(string elementId, string evolutionId)

@@ -26,10 +26,10 @@
         private EvolutionBlueprint                  evolutionBlueprint;
         private IGameAssets                         gameAssets;
         private EvolutionInfoBlueprint              evolutionInfoBlueprint;
-        private HeroUpgradeService               heroUpgradeService;
+        private HeroUpgradeService                  heroUpgradeService;
 
-        [Inject]
-        public void Construct(ScreenManager screenManager,
+        [Inject] public void Construct(
+            ScreenManager screenManager,
             HeroLocalDataController heroLocalDataController,
             ElementEvolutionLocalDataController elementEvolutionLocalDataController,
             EvolutionBlueprint evolutionBlueprint,
@@ -44,7 +44,7 @@
             this.evolutionBlueprint                  = evolutionBlueprint;
             this.gameAssets                          = gameAssets;
             this.evolutionInfoBlueprint              = evolutionInfoBlueprintInject;
-            this.heroUpgradeService               = heroUpgradeServiceInject;
+            this.heroUpgradeService                  = heroUpgradeServiceInject;
         }
 
         [SerializeField] private TMP_Text        priceTxt, levelUnlockTxt;
@@ -141,7 +141,7 @@
             }
             else
             {
-                this.priceTxt.text = $"x{this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).Price}";
+                this.priceTxt.text = $"{this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).Price}";
             }
         }
 

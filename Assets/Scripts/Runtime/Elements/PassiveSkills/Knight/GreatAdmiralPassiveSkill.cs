@@ -2,11 +2,13 @@
 {
     using System.Linq;
     using Runtime.Elements.Entities.Hero;
+    using Runtime.Elements.Entities.Summoner;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Sirenix.Utilities;
+    using UnityEngine;
 
     public class GreatAdmiralPassiveSkill : IPassiveSkillPresenter
     {
@@ -17,11 +19,18 @@
         public void          Tick()        { }
         public void ActiveSkill()
         {
-            this.summonerManager.entities.Where(summoner => summoner.Model.Id.Equals("SummonKnight")).ForEach(e =>
-            {
-                var currentAtk = e.Model.GetStat<float>(StatEnum.Attack);
-                e.Model.SetStat(StatEnum.Attack, currentAtk * 1.2f);
-            });
+            Debug.Log($"active skill {this.GetType().FullName}");
+            this.summonerManager.OnCreateSummonerComplete += this.IncreaseAttackForKnightSummoner;
+        }
+        private void IncreaseAttackForKnightSummoner(SummonerPresenter summonerPresenter)
+        {
+            if (!summonerPresenter.Model.Id.Equals("SummonKnight")) return;
+            var currentAtk = summonerPresenter.Model.GetStat<float>(StatEnum.Attack);
+            summonerPresenter.Model.SetStat(StatEnum.Attack, currentAtk * 1.2f);
+        }
+        public void DeActiveSkill()
+        {
+            this.summonerManager.OnCreateSummonerComplete -= this.IncreaseAttackForKnightSummoner;
         }
     }
 }

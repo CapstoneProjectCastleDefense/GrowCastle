@@ -1,4 +1,4 @@
-﻿namespace Runtime.Elements.PassiveSkills
+﻿namespace Runtime.Elements.PassiveSkills.Shadow
 {
     using System.Linq;
     using Models.Tags;
@@ -43,11 +43,16 @@
         }
         public void ActiveSkill()
         {
+            Debug.Log($"active skill {this.GetType().FullName}");
             var result = Random.Range(0, 100);
             if (result <= 30)
             {
                 this.HeroPresenter.OnAttackComplete += this.AddFearEffect;
             }
+        }
+        public void DeActiveSkill()
+        {
+            this.HeroPresenter.OnAttackComplete -= this.AddFearEffect;
         }
         private void AddFearEffect(ITargetable target)
         {

@@ -35,5 +35,9 @@
                 });
             });
         }
+        public void DeActiveSkill()
+        {
+            this.HeroPresenter.OnActiveSkillCasted = null;
+        }
     }
 }

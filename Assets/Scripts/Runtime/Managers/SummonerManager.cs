@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Managers
 {
+    using System;
     using Cysharp.Threading.Tasks;
     using Models.Blueprints;
     using Runtime.Elements.Base;
@@ -16,6 +17,7 @@
         {
             this.summonerBlueprint = summonerBlueprint;
         }
+        public Action<SummonerPresenter> OnCreateSummonerComplete;
 
         public void CreateSingleSummoner(string summonerId, Vector3 startPos, int sortingIndex)
         {
@@ -37,6 +39,7 @@
                     { StatEnum.MaxExistTime, (typeof(float), 3f) }
                 }
             });
+            this.OnCreateSummonerComplete?.Invoke(presenter);
             presenter.UpdateView().Forget();
         }
         public override void Initialize() { }

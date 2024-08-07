@@ -135,6 +135,12 @@
             this.View.bonusAttackSpeedSlot.text    = $"+{effectSlotRecord.AttackSpeedBonusPercent}%";
             this.View.bonusRecudeCooldownSlot.text = $"-{effectSlotRecord.SkillCooldownBonusPercent}%";
 
+            this.View.changeClassBtn.interactable = this.Model.HeroRuntimeData.heroStatus != HeroStatus.Lock;
+            if (this.Model.HeroRuntimeData.heroRecord.HeroType == SlotType.Tower)
+            {
+                this.View.changeClassBtn.gameObject.SetActive(false);
+            }
+
             this.BindGenericInfo(popupModel);
             this.UpdateView(popupModel);
         }
@@ -225,8 +231,8 @@
                 await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : "", this.ReBindData));
             }
 
+            this.View.changeClassBtn.interactable = this.Model.HeroRuntimeData.heroStatus != HeroStatus.Lock;
             this.UpdateView(this.Model);
-
             this.View.ElementGenericInfoView.Rebind();
         }
 

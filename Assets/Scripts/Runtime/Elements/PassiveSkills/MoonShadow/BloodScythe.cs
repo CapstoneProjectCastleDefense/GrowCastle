@@ -7,6 +7,7 @@
     using Runtime.Extensions;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
+    using UnityEngine;
 
     public class BloodScythe : IPassiveSkillPresenter
     {
@@ -40,11 +41,17 @@
         }
         public void ActiveSkill()
         {
+            Debug.Log($"active skill {this.GetType().FullName}");
             this.HeroPresenter.OnAttackComplete = (target) =>
             {
                 this.effectManager.AddEffectToTarget(target, new BleedTag() { Duration = 1, TimeDelay = 0.2f, Timer = 0 });
                 this.HeroPresenter.OnAttackComplete = null;
             };
+        }
+        public void DeActiveSkill()
+        {
+            this.isStartActive                  = false;
+            this.HeroPresenter.OnAttackComplete = null;
         }
     }
 }

@@ -12,25 +12,34 @@
 
     public class HeroLocalDataController : ILocalDataController
     {
-        private readonly HeroLocalData               heroLocalData;
-        private readonly HeroBlueprint               heroBlueprint;
-        private readonly HeroConfigBlueprint         heroConfigBlueprint;
-        private readonly ResourceLocalDataController resourceLocalDataController;
-        private readonly SignalBus                   signalBus;
+        private readonly HeroLocalData                       heroLocalData;
+        private readonly HeroBlueprint                       heroBlueprint;
+        private readonly HeroConfigBlueprint                 heroConfigBlueprint;
+        private readonly ResourceLocalDataController         resourceLocalDataController;
+        private readonly SignalBus                           signalBus;
+        private readonly EvolutionBlueprint                  evolutionBlueprint;
+        private readonly EvolutionInfoBlueprint              evolutionInfoBlueprint;
+        private readonly ElementEvolutionLocalDataController elementEvolutionLocalDataController;
 
         public HeroLocalDataController(
-            HeroLocalData               heroLocalData,
-            HeroBlueprint               heroBlueprint,
-            HeroConfigBlueprint         heroConfigBlueprint,
+            HeroLocalData heroLocalData,
+            HeroBlueprint heroBlueprint,
+            HeroConfigBlueprint heroConfigBlueprint,
             ResourceLocalDataController resourceLocalDataController,
-            SignalBus                   signalBus
+            SignalBus signalBus,
+            EvolutionBlueprint evolutionBlueprint,
+            EvolutionInfoBlueprint evolutionInfoBlueprint,
+            ElementEvolutionLocalDataController elementEvolutionLocalDataController
         )
         {
-            this.heroLocalData               = heroLocalData;
-            this.heroBlueprint               = heroBlueprint;
-            this.heroConfigBlueprint         = heroConfigBlueprint;
-            this.resourceLocalDataController = resourceLocalDataController;
-            this.signalBus                   = signalBus;
+            this.heroLocalData                       = heroLocalData;
+            this.heroBlueprint                       = heroBlueprint;
+            this.heroConfigBlueprint                 = heroConfigBlueprint;
+            this.resourceLocalDataController         = resourceLocalDataController;
+            this.signalBus                           = signalBus;
+            this.evolutionBlueprint                  = evolutionBlueprint;
+            this.evolutionInfoBlueprint              = evolutionInfoBlueprint;
+            this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
         }
 
         public void InitData()
@@ -38,10 +47,7 @@
             if (this.heroLocalData.IdToHeroData.Count == 0)
             {
                 this.heroLocalData.IdToHeroData = new();
-                this.heroBlueprint.ForEach(hero =>
-                {
-                    this.heroLocalData.IdToHeroData.Add(hero.Key, new() { Id = hero.Key, Level = 1, ListEquipmentId = new() });
-                });
+                this.heroBlueprint.ForEach(hero => { this.heroLocalData.IdToHeroData.Add(hero.Key, new() { Id = hero.Key, Level = 1, ListEquipmentId = new() }); });
                 this.heroLocalData.IdToHeroData.First().Value.HeroStatus.Value = HeroStatus.Equip;
             }
         }
@@ -110,6 +116,12 @@
             }
 
             return elementUpgradeData;
+        }
+
+        public List<string> GetPassiveSkills(string heroId)
+        {
+            var evolutionData         = this.elementEvolutionLocalDataController.GetEvolutionElementData(heroId);
+            return this.evolutionInfoBlueprint.GetDataById(evolutionData.EvolutionId).Abilities.Skip(1).ToList();
         }
 
         public void UpgradeHero(string heroId, int levelUpgradeAmount = 1)

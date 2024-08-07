@@ -31,6 +31,10 @@
         {
             this.summonerManager.entities.Where(e => e.Model.Id.Equals("SummonSkeleton")).ForEach(e => e.Model.OnSummonerDeath = this.OnSkeletonSummonerDeath);
         }
+        public void DeActiveSkill()
+        {
+            this.HeroPresenter.OnActiveSkillCasted -= this.ActiveSkill;
+        }
 
         private void OnSkeletonSummonerDeath()
         {

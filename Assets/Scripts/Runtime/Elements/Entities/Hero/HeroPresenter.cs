@@ -125,6 +125,17 @@
         {
             this.canAttack = attackStatus;
             this.timer     = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
+            
+            if (this.canAttack)
+            {
+                var skills = this.heroLocalDataController.GetPassiveSkills(this.Model.Id);
+                this.heroLocalDataController.GetPassiveSkills(this.Model.Id).ForEach(passiveSkill => { this.entitySkillSystem.ActivePassiveSkill(passiveSkill, this); });
+            }
+            else
+            {
+                this.PassiveSkillPresenters.ForEach(skill => skill.DeActiveSkill());
+                this.PassiveSkillPresenters.Clear();
+            }
         }
 
         public void OnHeroUpgrade() { }
@@ -183,8 +194,6 @@
             transform.localPosition = Vector3.zero;
             var activeSkill = this.heroBlueprint.GetDataById(this.Model.Id).ActiveSkill;
             this.View.OnClickAction = () => this.CastSkill(activeSkill.skillName, activeSkill.animationName, null);
-            this.heroBlueprint.GetDataById(this.Model.Id).PassiveSkill
-                ?.ForEach(passiveSkillName => { this.entitySkillSystem.ActivePassiveSkill(passiveSkillName, this); });
         }
 
         public override void Dispose()

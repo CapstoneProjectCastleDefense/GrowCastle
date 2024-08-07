@@ -11,6 +11,7 @@
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Commons;
     using Runtime.Services;
+    using Runtime.Signals;
     using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
@@ -29,13 +30,14 @@
     public class ConfirmEvolutionPopupPresenter : BasePopupPresenter<ConfirmEvolutionPopupView, ConfirmEvolutionPopupModel>
     {
         private readonly DiContainer                         diContainer;
-        private readonly HeroUpgradeService               heroUpgradeService;
+        private readonly HeroUpgradeService                  heroUpgradeService;
         private readonly ToastController                     toastController;
         private readonly ElementEvolutionLocalDataController elementEvolutionLocalDataController;
         private readonly EvolutionBlueprint                  evolutionBlueprint;
         private readonly EvolutionInfoBlueprint              evolutionInfoBlueprint;
 
-        public ConfirmEvolutionPopupPresenter(SignalBus signalBus,
+        public ConfirmEvolutionPopupPresenter(
+            SignalBus signalBus,
             ILogService logService,
             DiContainer diContainer,
             HeroUpgradeService heroUpgradeService,
@@ -46,7 +48,7 @@
             : base(signalBus, logService)
         {
             this.diContainer                         = diContainer;
-            this.heroUpgradeService               = heroUpgradeService;
+            this.heroUpgradeService                  = heroUpgradeService;
             this.toastController                     = toastController;
             this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
             this.evolutionBlueprint                  = evolutionBlueprint;
@@ -87,8 +89,16 @@
                 this.toastController.ShowToast("Level is too low");
                 return;
             }
-            
-            this.elementEvolutionLocalDataController.UpdateEvolutionId(this.Model.ElementId, this.Model.EvolutionId);
+
+            if (this.elementEvolutionLocalDataController.UpdateEvolutionId(this.Model.ElementId, this.Model.EvolutionId))
+            {
+                this.toastController.ShowToast("change class success");
+                this.SignalBus.Fire<ChangeHeroClassSignal>();
+            }
+            else
+            {
+                this.toastController.ShowToast("Not enough diamond");
+            }
         }
     }
 

@@ -39,5 +39,9 @@
                 this.effectManager.AddEffectToTarget(otherTarget, new InstantDamageTag() { Damage = this.HeroPresenter.Model.GetStat<float>(StatEnum.Attack) * 0.8f });
             };
         }
+        public void DeActiveSkill()
+        {
+            this.HeroPresenter.OnAttackComplete = null;
+        }
     }
 }

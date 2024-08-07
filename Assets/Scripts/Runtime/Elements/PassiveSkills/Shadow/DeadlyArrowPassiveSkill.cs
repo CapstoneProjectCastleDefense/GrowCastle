@@ -26,6 +26,7 @@
         }
         public void ActiveSkill()
         {
+            Debug.Log($"active skill {this.GetType().FullName}");
             var result = Random.Range(0, 100);
             if (result <= 80)
             {
@@ -35,6 +36,10 @@
                     this.HeroPresenter.OnAttackComplete = null;
                 };
             }
+        }
+        public void DeActiveSkill()
+        {
+            this.HeroPresenter.OnAttackComplete = null;
         }
     }
 }

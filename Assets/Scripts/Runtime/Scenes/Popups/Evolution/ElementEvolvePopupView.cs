@@ -8,6 +8,7 @@
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models;
     using Runtime.Scenes.Commons;
+    using Runtime.Signals;
     using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
@@ -52,6 +53,12 @@
         {
             base.OnViewReady();
             this.View.CloseButton.onClick.AddListener(this.CloseView);
+            this.SignalBus.Subscribe<ChangeHeroClassSignal>(this.OnHeroClassChange);
+        }
+
+        private void OnHeroClassChange(ChangeHeroClassSignal signal)
+        {
+            this.BindData(this.Model);
         }
 
         public override UniTask BindData(ElementEvolvePopupModel popupModel)

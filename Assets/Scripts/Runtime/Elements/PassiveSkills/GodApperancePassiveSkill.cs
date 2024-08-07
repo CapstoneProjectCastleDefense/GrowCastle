@@ -32,5 +32,9 @@
                 Id    = EntitySkillName.GreenLeafAttack
             });
         }
+        public void DeActiveSkill()
+        {
+            
+        }
     }
 }

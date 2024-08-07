@@ -1,10 +1,12 @@
 ﻿namespace Runtime.Elements.PassiveSkills.Knight
 {
     using Runtime.Elements.Entities.Hero;
+    using Runtime.Elements.Entities.Summoner;
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
+    using UnityEngine;
 
     public class FightForeverPassiveSkill : IPassiveSkillPresenter
     {
@@ -15,11 +17,19 @@
         public void          Tick()        { }
         public void ActiveSkill()
         {
-            this.summonerManager.entities.ForEach(summoner =>
-            {
-                var currentAtk = summoner.Model.GetStat<float>(StatEnum.Attack);
-                summoner.Model.SetStat(StatEnum.Attack, currentAtk * 1.2f);
-            });
+            Debug.Log($"active skill {this.GetType().FullName}");
+            this.summonerManager.OnCreateSummonerComplete += this.IncreaseAttackForSummoner;
+
+        }
+
+        private void IncreaseAttackForSummoner(SummonerPresenter summonerPresenter)
+        {
+            var currentAtk = summonerPresenter.Model.GetStat<float>(StatEnum.Attack);
+            summonerPresenter.Model.SetStat(StatEnum.Attack, currentAtk * 1.2f);
+        }
+        public void DeActiveSkill()
+        {
+            this.summonerManager.OnCreateSummonerComplete -= this.IncreaseAttackForSummoner;
         }
     }
 }

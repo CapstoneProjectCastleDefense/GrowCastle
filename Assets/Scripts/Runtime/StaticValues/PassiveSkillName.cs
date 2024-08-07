@@ -5,9 +5,11 @@
     using Runtime.Elements.PassiveSkills;
     using Runtime.Elements.PassiveSkills.ARise;
     using Runtime.Elements.PassiveSkills.Hassan;
+    using Runtime.Elements.PassiveSkills.Knight;
     using Runtime.Elements.PassiveSkills.MoonShadow;
     using Runtime.Elements.PassiveSkills.Shadow;
     using Runtime.Elements.PassiveSkills.Storm;
+    using Runtime.Enums;
 
     public static class PassiveSkillName
     {
@@ -27,6 +29,8 @@
             { PiercingScythe, typeof(PiercingScythe) },
             { ForesightPassiveSkill, typeof(ForesightPassiveSkill) },
             { ObscurePassiveSkill, typeof(ObscurePassiveSkill) },
+            { FightForeverPassiveSkill, typeof(FightForeverPassiveSkill) },
+            { GreatAdmiralPassiveSkill, typeof(GreatAdmiralPassiveSkill) },
         };
 
         public static string GodApperancePassiveSkill   => "GodApperancePassiveSkill";
@@ -43,5 +47,8 @@
         public static string PiercingScythe             => "PiercingScythe";
         public static string ForesightPassiveSkill      => "ForesightPassiveSkill";
         public static string ObscurePassiveSkill        => "ObscurePassiveSkill";
+        public static string FightForeverPassiveSkill   => "FightForeverPassiveSkill";
+        public static string GreatAdmiralPassiveSkill   => "GreatAdmiralPassiveSkill";
+
     }
 }
