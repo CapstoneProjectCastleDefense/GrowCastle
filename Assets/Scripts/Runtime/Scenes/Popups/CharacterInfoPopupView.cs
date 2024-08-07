@@ -8,20 +8,21 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.Utilities.LogService;
+    using Models.Blueprints;
     using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Interfaces.Entities;
     using Runtime.Managers;
     using Runtime.Scenes.Commons;
+    using Runtime.Services;
     using TMPro;
     using UnityEngine;
-    using UnityEngine.Serialization;
     using UnityEngine.UI;
     using Zenject;
 
     public class CharacterInfoPopupModel
     {
-        public SlotType        CurrentSelectedSlotType { get; private set; }
+        public SlotType        CurrentSelectedSlotType { get; set; }
         public HeroRuntimeData HeroRuntimeData         { get; set; }
         public IEquippable     Equippable              { get; private set; }
         public bool            IsInfoOnly              { get; set; }
@@ -45,6 +46,9 @@
         public Button              exitBtn;
         public List<EquipmentSlot> equipmentSlots;
 
+        public TextMeshProUGUI bonusAttackSlot;
+        public TextMeshProUGUI bonusAttackSpeedSlot;
+        public TextMeshProUGUI bonusRecudeCooldownSlot;
 
         public Button changeClassBtn;
 
@@ -52,35 +56,47 @@
         public Transform  startPos;
         public Transform  endPos;
 
-        [FormerlySerializedAs("characterGenericInfoView")] [SerializeField]
-        private ElementGenericInfoView elementGenericInfoView;
+        [SerializeField] private ElementGenericInfoView elementGenericInfoView;
+        [SerializeField] private TMP_Text               levelUpCostTxt;
 
         public ElementGenericInfoView ElementGenericInfoView => this.elementGenericInfoView;
+        public TMP_Text               LevelUpCostTxt         => this.levelUpCostTxt;
     }
 
     [PopupInfo(nameof(CharacterInfoPopupView), isOverlay: true)]
     public class CharacterInfoPopupPresenter : BasePopupPresenter<CharacterInfoPopupView, CharacterInfoPopupModel>
     {
-        private readonly SlotManager                slotManager;
-        private readonly HeroLocalDataController    heroLocalDataController;
-        private readonly DiContainer                diContainer;
-        private readonly ScreenManager              screenManager;
-        private readonly ElementLocalDataController elementLocalDataController;
+        private readonly SlotManager                         slotManager;
+        private readonly HeroLocalDataController             heroLocalDataController;
+        private readonly DiContainer                         diContainer;
+        private readonly ScreenManager                       screenManager;
+        private readonly ElementEvolutionLocalDataController elementEvolutionLocalDataController;
+        private readonly HeroUpgradeService                  heroUpgradeService;
+        private readonly SlotBlueprint                       slotBlueprint;
+        private readonly StatEffectBlueprint                 statEffectBlueprint;
 
-        public CharacterInfoPopupPresenter(SignalBus signalBus,
+        public CharacterInfoPopupPresenter(
+            SignalBus signalBus,
             ILogService logService,
             SlotManager slotManager,
             HeroLocalDataController heroLocalDataController,
             DiContainer diContainer,
             ScreenManager screenManager,
-            ElementLocalDataController elementLocalDataController)
+            ElementEvolutionLocalDataController elementEvolutionLocalDataController,
+            HeroUpgradeService heroUpgradeService,
+            SlotBlueprint slotBlueprint,
+            StatEffectBlueprint statEffectBlueprint
+        )
             : base(signalBus, logService)
         {
-            this.slotManager                = slotManager;
-            this.heroLocalDataController    = heroLocalDataController;
-            this.diContainer                = diContainer;
-            this.screenManager              = screenManager;
-            this.elementLocalDataController = elementLocalDataController;
+            this.slotManager                         = slotManager;
+            this.heroLocalDataController             = heroLocalDataController;
+            this.diContainer                         = diContainer;
+            this.screenManager                       = screenManager;
+            this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
+            this.heroUpgradeService                  = heroUpgradeService;
+            this.slotBlueprint                       = slotBlueprint;
+            this.statEffectBlueprint                 = statEffectBlueprint;
         }
 
         protected override void OnViewReady()
@@ -91,6 +107,7 @@
             this.View.unEquipBtn.onClick.AddListener(this.OnUnEquipButtonClick);
             this.View.exitBtn.onClick.AddListener(this.CloseView);
             this.View.changeClassBtn.onClick.AddListener(this.ChangeClass);
+            this.View.levelUpBtn.onClick.AddListener(this.LevelUp);
             foreach (var viewEquipmentSlot in this.View.equipmentSlots)
             {
                 this.diContainer.Inject(viewEquipmentSlot);
@@ -103,7 +120,7 @@
         {
             this.View.changeClassBtn.gameObject.SetActive(!popupModel.IsInfoOnly);
 
-            this.View.title.text                   = this.Model.CurrentSelectedSlotType.ToString();
+            this.View.title.text                   = this.slotBlueprint.GetDataById(int.Parse(this.slotManager.GetCurrentSelectedSlotModel().Id)).SlotType.ToString();
             this.View.viewField.transform.position = this.View.startPos.position;
             this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
             var equipmentList = this.heroLocalDataController.GetEquipments(this.Model.HeroRuntimeData.heroRecord.HeroId);
@@ -112,8 +129,13 @@
                 await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : "", this.ReBindData));
             }
 
-            this.BindGenericInfo(popupModel);
+            this.View.LevelUpCostTxt.text = $"{this.heroUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
+            var effectSlotRecord = this.statEffectBlueprint.GetDataById(this.slotBlueprint.GetDataById(int.Parse(this.slotManager.GetCurrentSelectedSlotModel().Id)).EffectId);
+            this.View.bonusAttackSlot.text         = $"+{effectSlotRecord.AttackBonusPercent}%";
+            this.View.bonusAttackSpeedSlot.text    = $"+{effectSlotRecord.AttackSpeedBonusPercent}%";
+            this.View.bonusRecudeCooldownSlot.text = $"-{effectSlotRecord.SkillCooldownBonusPercent}%";
 
+            this.BindGenericInfo(popupModel);
             this.UpdateView(popupModel);
         }
 
@@ -150,7 +172,7 @@
         private void BindGenericInfo(CharacterInfoPopupModel model)
         {
             var id          = model.HeroRuntimeData.heroRecord.HeroId;
-            var evolutionId = this.elementLocalDataController.GetEvolutionElementData(id).EvolutionId;
+            var evolutionId = this.elementEvolutionLocalDataController.GetEvolutionElementData(id).EvolutionId;
             this.View.ElementGenericInfoView.BindData(new ElementGenericInfoModel()
             {
                 ElementId   = model.HeroRuntimeData.heroRecord.HeroId,
@@ -172,7 +194,7 @@
 
         private void OnUnlockButtonClick()
         {
-            switch (this.Model.CurrentSelectedSlotType)
+            switch (this.slotBlueprint.GetDataById(int.Parse(this.slotManager.GetCurrentSelectedSlotModel().Id)).SlotType)
             {
                 case SlotType.Hero:
                     var heroId = this.Model.HeroRuntimeData.heroRecord.HeroId;
@@ -202,7 +224,10 @@
             {
                 await this.View.equipmentSlots[i].BindData(new(this.Model.Equippable, equipmentList.Count > i ? equipmentList[i] : "", this.ReBindData));
             }
+
             this.UpdateView(this.Model);
+
+            this.View.ElementGenericInfoView.Rebind();
         }
 
         private void ChangeClass()
@@ -215,9 +240,13 @@
                 .Forget();
         }
 
-        public override void CloseView()
+        private void LevelUp()
         {
-            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.Linear).onComplete += () => { base.CloseView(); };
+            this.heroLocalDataController.UpgradeHero(this.Model.HeroRuntimeData.heroRecord.HeroId);
+            this.View.LevelUpCostTxt.text = $"{this.heroUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
+            this.ReBindData();
         }
+
+        public override void CloseView() { this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.Linear).onComplete += () => { base.CloseView(); }; }
     }
 }

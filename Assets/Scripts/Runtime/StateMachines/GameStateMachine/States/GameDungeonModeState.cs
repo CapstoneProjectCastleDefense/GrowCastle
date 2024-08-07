@@ -75,7 +75,7 @@ namespace Runtime.StateMachines.GameStateMachine.States
             this.towerManager.ChangeAttackStatusOfAllTower(true);
             this.archerManager.UpdateStatAllArcher();
             this.castleManager.UpdateStatForCurrentCastle();
-            UniTask.Delay(TimeSpan.FromSeconds(1)).ContinueWith(() =>
+            UniTask.Delay(TimeSpan.FromSeconds(this.dungeonLocalDataController.GetDungeonRecord(this.dungeonLocalDataController.currentSelectedDungeon).BossSpawnDelay)).ContinueWith(() =>
             {
                 this.enemyManager.SpawnBossEnemy(this.dungeonLocalDataController.GetDungeonRecord(this.dungeonLocalDataController.currentSelectedDungeon).BossId);
                 this.suSignalBus.Fire<SpawnedBossInDungeon>();

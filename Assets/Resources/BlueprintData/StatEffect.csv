@@ -1,0 +1,15 @@
+﻿EffectId,AttackBonusPercent,AttackSpeedBonusPercent,SkillCooldownBonusPercent
+EffectOnSlot1,5,10,2
+EffectOnSlot2,5,10,2
+EffectOnSlot3,5,10,2
+EffectOnSlot4,5,10,2
+EffectOnSlot5,5,10,2
+EffectOnSlot6,5,10,2
+EffectOnEnvironment1,5,-10,-5
+EffectOnSlot7,5,10,2
+EffectOnSlot8,5,10,2
+EffectOnSlot9,5,10,2
+EffectOnSlot10,5,10,2
+EffectOnSlot11,5,10,2
+EffectOnSlot12,5,10,2
+EffectOnSlot13,5,10,2

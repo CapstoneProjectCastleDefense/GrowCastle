@@ -164,7 +164,7 @@
 
         public virtual Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager) }; }
 
-        public virtual string[] GetTags() { return new[] { "Fly", "Ground", "Boss", "Building" }; }
+        public virtual string[] GetTags() { return this.View.targetTags.ToArray(); }
 
         public override void Tick()
         {

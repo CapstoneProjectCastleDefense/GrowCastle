@@ -26,12 +26,12 @@
             var questNeedToUpdate = this.questLocalDataController.GetAllQuestHaveTriggerSignal(signal.TriggerSignalId);
             questNeedToUpdate.ForEach(quest =>
             {
-                this.questLocalDataController.UpdateQuestProgress(quest.QuestId,signal.Value);
+                this.questLocalDataController.UpdateQuestProgress(quest.QuestId,signal.Value,signal.isReset);
             });
         }
         public void Tick()
         {
-            
+
         }
         public void Dispose()
         {

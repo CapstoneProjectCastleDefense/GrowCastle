@@ -3,7 +3,7 @@
     using System.Collections.Generic;
     using Models.LocalData.LocalDataController;
 
-    public class ElementLocalData : ILocalDataHaveController<ElementLocalDataController>
+    public class ElementEvolutionLocalData : ILocalDataHaveController<ElementEvolutionLocalDataController>
     {
         public Dictionary<string, EvolutionElementData> ElementIdToEvolveData = new();
         

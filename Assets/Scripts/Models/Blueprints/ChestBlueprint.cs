@@ -17,11 +17,10 @@
         public string                   ChestIcon    { get; set; }
     }
 
-
     public class PoolItem
     {
-        public ResourceType ItemType { get; set; }
-        public int          Value    { get; set; }
-        public float        Weight   { get; set; }
+        public string ItemId { get; set; }
+        public int    Value    { get; set; }
+        public float  Weight   { get; set; }
     }
 }

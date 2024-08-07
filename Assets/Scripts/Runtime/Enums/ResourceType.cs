@@ -10,7 +10,7 @@
         Item,
         CommonChest,
         SliverChest,
-        GoldenChest,
-        DiamondChest
+        GoldChest,
+        DiamondChest,
     }
 }

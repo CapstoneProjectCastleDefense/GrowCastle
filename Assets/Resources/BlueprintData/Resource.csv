@@ -1,5 +1,9 @@
 ﻿ResourceType,Image
 Gold,GoldIcon
 Diamond,DiamondIcon
-SliverChest,chest
-CommonChest,chest
+SliverChest,silverchest
+CommonChest,copperchest
+TalentPoint,talent
+GoldChest,goldchest
+DiamondChest,diamondchest
+Ticket,Ticket

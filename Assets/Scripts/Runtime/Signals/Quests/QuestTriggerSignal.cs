@@ -4,5 +4,6 @@
     {
         public string TriggerSignalId;
         public float  Value;
+        public bool   isReset = false;
     }
 }

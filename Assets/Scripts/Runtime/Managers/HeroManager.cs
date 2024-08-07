@@ -43,7 +43,7 @@
             heroPresenter.SetManager(this);
             return heroPresenter;
         }
-        
+
         public override void Tick()
         {
             base.Tick();
@@ -59,7 +59,7 @@
             {
                 e.SetRaycastActive(true);
             });
-            
+
         }
 
         public void ChangeAttackStatusOfAllHero(bool canAttack)

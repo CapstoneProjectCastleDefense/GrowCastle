@@ -21,7 +21,8 @@ namespace Models.Blueprints
         Resource,
         Item,
         Chest,
-        Character
+        Character,
+        Ticket,
     }
 
 }

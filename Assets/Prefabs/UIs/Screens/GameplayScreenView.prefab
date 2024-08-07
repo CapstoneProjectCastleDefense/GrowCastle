@@ -6227,7 +6227,7 @@ MonoBehaviour:
   questButton: {fileID: 2506759427684854255}
   inventoryButton: {fileID: 7545643976315570111}
   chestButton: {fileID: 4429666086079095101}
-  dungeonModeBtn: {fileID: 7545643976315570111}
+  dungeonModeBtn: {fileID: 7424200609038408729}
   castleHealthBar: {fileID: 4333773665839811897}
   castleManaBar: {fileID: 7340910286428293413}
   waveBar: {fileID: 440975876887130960}

@@ -3,6 +3,8 @@
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.MVP;
     using Models.Blueprints;
+    using Runtime.Enums;
+    using Runtime.Extensions;
     using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
@@ -16,7 +18,7 @@
         public Image           icon;
         public TextMeshProUGUI value;
     }
-    
+
     public class ChestRewardItemPresenter : BaseUIItemPresenter<ChestRewardItemView,ChestRewardItemModel>
     {
         private readonly ResourceBlueprint resourceBlueprint;
@@ -27,10 +29,10 @@
         }
         public override void BindData(ChestRewardItemModel param)
         {
-            string iconImage = "";
-            if (this.resourceBlueprint.ContainsKey(param.PoolItem.ItemType))
+            var iconImage = "";
+            if (param.PoolItem.ItemId.IsStringInEnum<ResourceType>())
             {
-                iconImage = this.resourceBlueprint.GetDataById(param.PoolItem.ItemType).Image;
+                iconImage = this.resourceBlueprint.GetDataById(param.PoolItem.ItemId.ToEnum<ResourceType>()).Image;
             }
             this.View.icon.sprite = this.GameAssets.LoadAssetAsync<Sprite>(iconImage).WaitForCompletion();
             this.View.value.text  = $"{param.PoolItem.Value}";

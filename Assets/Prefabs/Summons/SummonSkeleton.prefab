@@ -387,8 +387,8 @@ CapsuleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: -0.11669445, y: 2.3443127}
-  m_Size: {x: 3.0332747, y: 4.605478}
+  m_Offset: {x: -0.69246596, y: 1.9105128}
+  m_Size: {x: 1.8817331, y: 3.7378764}
   m_Direction: 0
 --- !u!23 &2687911616122025181
 MeshRenderer:
@@ -528,6 +528,10 @@ MonoBehaviour:
   attackAnimations: []
   deathAnimations: []
   moveAnimation: 
+  tags:
+  - Building
+  - Boss
+  - Ground
   <SkeletonAnimation>k__BackingField: {fileID: 4674233140242320668}
   <GraphicCollider2D>k__BackingField: {fileID: 6213419577085878024}
   <AttackRangeCollider2D>k__BackingField: {fileID: 6613015328776528364}

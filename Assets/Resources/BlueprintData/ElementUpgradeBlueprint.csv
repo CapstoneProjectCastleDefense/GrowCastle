@@ -1,0 +1,12 @@
+﻿Id,BaseCost,LevelIntervalToChangeCost,CostChangePerInterval,BaseAttack,AttackEnhancePerInterval,MaxLevel
+Knight,1000,10,250,10,1.5,-1
+Wizard,1000,10,250,10,1.5,-1
+GreenLeaf,1000,10,250,10,1.5,-1
+GrayMage,1000,10,250,10,1.5,-1
+Xel'Naga,1000,10,250,10,1.5,-1
+Judge,1000,10,250,10,1.5,-1
+Shadow,1000,10,250,10,1.5,-1
+Hassan,1000,10,250,10,1.5,-1
+Arise,1000,10,250,10,1.5,-1
+MoonShadow,1000,10,250,10,1.5,-1
+Storm,1000,10,250,10,1.5,-1

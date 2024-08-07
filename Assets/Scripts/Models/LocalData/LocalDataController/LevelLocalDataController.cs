@@ -2,17 +2,23 @@
 {
     using Models.Blueprints;
     using R3;
+    using Runtime.Signals.Quests;
+    using Runtime.StaticValues;
+    using Zenject;
 
     public class LevelLocalDataController : ILocalDataController
     {
         private readonly LevelLocalData levelLocalData;
         private readonly LevelBlueprint levelBlueprint;
         private readonly WaveBlueprint  waveBlueprint;
-        public LevelLocalDataController(LevelLocalData levelLocalData, LevelBlueprint levelBlueprint, WaveBlueprint waveBlueprint)
+        private readonly SignalBus      signalBus;
+
+        public LevelLocalDataController(LevelLocalData levelLocalData, LevelBlueprint levelBlueprint, WaveBlueprint waveBlueprint, SignalBus signalBus)
         {
             this.levelLocalData = levelLocalData;
             this.levelBlueprint = levelBlueprint;
             this.waveBlueprint  = waveBlueprint;
+            this.signalBus      = signalBus;
         }
         public int CurrentLevelValue => this.levelLocalData.CurrentLevel.Value;
 
@@ -28,17 +34,18 @@
 
         public void PassCurrentWave()
         {
-            
+
         }
 
         public void PassCurrentLevel()
         {
             this.levelLocalData.CurrentLevel.Value++;
             if (this.levelLocalData.CurrentLevel.Value > this.levelBlueprint.Count) this.levelLocalData.CurrentLevel.Value = 1;
+            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.CompleteWave, Value = 1});
         }
         public void InitData()
         {
-            
+
         }
     }
 }

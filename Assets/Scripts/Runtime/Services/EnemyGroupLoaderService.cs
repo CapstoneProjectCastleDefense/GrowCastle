@@ -46,7 +46,7 @@
         public void LoadEnemyFromWave(int waveId)
         {
             var waveRecord = this.waveBlueprint[waveId];
-            foreach (var (_, record) in waveRecord.WaveToEnemy)
+            foreach (var record in waveRecord.WaveToEnemy)
             {
                 this.inQueueWaves.Add(record);
             }
