@@ -65,7 +65,7 @@
         {
             this.UpdateBlockBaseOnCurrentLevel();
             this.CastleUpgradePopUp();
-            this.Model.Stats = this.castleLocalDataController.GetCastleStat();
+            this.Model.BaseStats = this.castleLocalDataController.GetCastleStat();
         }
 
         public void UpdateBlockBaseOnCurrentLevel()
@@ -169,7 +169,7 @@
 
         public void UpdateStat()
         {
-            this.Model.Stats = this.castleLocalDataController.GetCastleStat();
+            this.Model.BaseStats = this.castleLocalDataController.GetCastleStat();
             this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
         }
     }
@@ -178,6 +178,6 @@
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }
-        public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
+        public Dictionary<StatEnum, (Type, object)> BaseStats           { get; set; }
     }
 }

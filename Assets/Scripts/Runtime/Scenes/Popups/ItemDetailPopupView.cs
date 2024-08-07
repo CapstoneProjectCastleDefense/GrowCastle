@@ -9,6 +9,7 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.Utilities.LogService;
+    using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Enums;
     using Runtime.Interfaces.Entities;
@@ -59,13 +60,8 @@
         private readonly IGameAssets                  gameAssets;
         private readonly IScreenManager               screenManager;
         private readonly InventoryLocalDataController inventoryLocalDataController;
-        public ItemDetailPopupPresenter(
-            SignalBus signalBus,
-            ILogService logService,
-            IGameAssets gameAssets,
-            IScreenManager screenManager,
-            InventoryLocalDataController inventoryLocalDataController)
-            : base(signalBus, logService)
+        public ItemDetailPopupPresenter(SignalBus signalBus, ILogService logService, IGameAssets gameAssets, IScreenManager screenManager,
+            InventoryLocalDataController inventoryLocalDataController) : base(signalBus, logService)
         {
             this.gameAssets                   = gameAssets;
             this.screenManager                = screenManager;
@@ -147,9 +143,9 @@
         private void BindVolatileData()
         {
             this.View.Quantity.text = this.Model.ItemModel.Quantity.ToString();
-            this.View.Description.text = this.Model.ItemModel.Stats is { Count: > 0 }
-                ? this.Model.ItemModel.Stats
-                    .Select(stat => $"{stat.Key}: +{Math.Round((float)stat.Value.Item2, 1)} %")
+            this.View.Description.text = this.Model.ItemModel.BaseStats is { Count: > 0 }
+                ? this.Model.ItemModel.BaseStats
+                    .Select(stat => $"{stat.Key}: {this.Model.ItemModel.GetFinalStat(stat.Key, out _):N1}")
                     .Aggregate((current, next) => $"{current}\n{next}")
                 : "";
             var canTierUp = this.Model.ItemModel.Level == (this.Model.ItemModel.Tier + 1) * 10;

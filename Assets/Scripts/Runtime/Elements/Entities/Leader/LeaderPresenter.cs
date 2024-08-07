@@ -159,7 +159,7 @@
         }
 
         public bool                                 IsDead     { get; private set; } = false;
-        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.Stats; }
+        public Dictionary<StatEnum, (Type, object)> GetStats() { return this.Model.BaseStats; }
 
         public GameObject                   GetGameObject() { return this.View.gameObject; }
         public Dictionary<Type, IEffectTag> CurrentEffectTags      { get; set; }

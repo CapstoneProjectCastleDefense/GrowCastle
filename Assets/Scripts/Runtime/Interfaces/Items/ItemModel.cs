@@ -21,7 +21,7 @@
 
         public string InventoryId => this.ItemData.InventoryId;
 
-        public Dictionary<StatEnum, (Type, object)> Stats           { get => this.ItemData.Stats;      set => this.ItemData.Stats = value; }
+        public Dictionary<StatEnum, (Type, object)> BaseStats           { get => this.ItemData.BaseStats;      set => this.ItemData.BaseStats = value; }
         public int                                  Quantity        { get => this.ItemData.Quantity;   protected set => this.ItemData.Quantity = value; }
         public RarityEnum                           Rarity          { get => this.ItemData.Rarity;     protected set => this.ItemData.Rarity = value; }
         public bool                                 IsEquipped      { get => this.ItemData.IsEquipped; protected set => this.ItemData.IsEquipped = value; }

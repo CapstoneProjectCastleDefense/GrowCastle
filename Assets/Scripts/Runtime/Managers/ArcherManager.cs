@@ -54,7 +54,7 @@
                 Level           = archerData.level,
                 AddressableName = this.archerConfigBlueprint.DefaultPrefabName,
                 ParentView      = archerSlot.transform,
-                Stats = new Dictionary<StatEnum, (Type, object)>
+                BaseStats = new Dictionary<StatEnum, (Type, object)>
                 {
                     { StatEnum.Attack, (typeof(float), 2f) },
                     { StatEnum.Health, (typeof(float), 10f) },
@@ -93,7 +93,7 @@
             var baseAttackSpeed = this.archerConfigBlueprint.BaseAttackSpeed;
             this.entities.ForEach(archer =>
             {
-                archer.Model.Stats = new Dictionary<StatEnum, (Type, object)>
+                archer.Model.BaseStats = new Dictionary<StatEnum, (Type, object)>
                 {
                     { StatEnum.Attack, (typeof(float), 2f) },
                     { StatEnum.Health, (typeof(float), 10f) },

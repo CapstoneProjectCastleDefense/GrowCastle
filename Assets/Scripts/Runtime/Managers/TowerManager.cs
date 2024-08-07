@@ -28,7 +28,7 @@
             {
                 Id = id,
                 ParentView = parent,
-                Stats = new()
+                BaseStats = new()
                 {
                     { StatEnum.Attack, (typeof(float), towerRecord.BaseAttack) },
                     { StatEnum.AttackSpeed, (typeof(float), towerRecord.BaseAttackSpeed) },

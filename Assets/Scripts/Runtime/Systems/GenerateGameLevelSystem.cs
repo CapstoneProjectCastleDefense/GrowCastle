@@ -64,7 +64,7 @@ namespace Runtime.Systems
 
         private UniTask GenerateCastle()
         {
-            CastleModel castleModel = new CastleModel() { Stats = this.castleLocalDataController.GetCastleStat(), AddressableName = "Castle" };
+            CastleModel castleModel = new CastleModel() { BaseStats = this.castleLocalDataController.GetCastleStat(), AddressableName = "Castle" };
             return this.castleManager.CreateElement(castleModel).UpdateView();
         }
 

@@ -12,14 +12,14 @@
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }
-        public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
+        public Dictionary<StatEnum, (Type, object)> BaseStats           { get; set; }
         public Vector3                              StartPos        { get; set; }
 
         public LeaderModel(string id, string addressableName, Dictionary<StatEnum, (Type, object)> stats, Vector3 startPos)
         {
             this.Id              = id;
             this.AddressableName = addressableName;
-            this.Stats           = stats;
+            this.BaseStats           = stats;
             this.StartPos        = startPos;
         }
     }

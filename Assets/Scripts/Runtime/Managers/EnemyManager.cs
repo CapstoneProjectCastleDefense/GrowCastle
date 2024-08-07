@@ -58,7 +58,7 @@
                 {
                     Id              = enemyId,
                     AddressableName = enemyRecord.PrefabName,
-                    Stats = new()
+                    BaseStats = new()
                     {
                         { StatEnum.Attack, (typeof(float), enemyRecord.Attack.baseValue) },
                         { StatEnum.MaxAttack, (typeof(float), enemyRecord.Attack.baseValue) },

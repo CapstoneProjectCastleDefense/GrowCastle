@@ -10,7 +10,7 @@
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }
-        public Dictionary<StatEnum, (Type, object)> Stats           { get; set; }
+        public Dictionary<StatEnum, (Type, object)> BaseStats           { get; set; }
         public int                                  Level           { get; set; }
         public int                                  Index           { get; set; }
         public Transform                            ParentView      { get; set; }
