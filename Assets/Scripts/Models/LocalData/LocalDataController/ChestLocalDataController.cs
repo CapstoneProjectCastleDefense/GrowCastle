@@ -63,7 +63,7 @@
             var            chestData = this.chestLocalData.ChestData.First(e => e.ChestType == chestType);
             var            poolItems = chestData.ChestRecord.PoolItems.ToList();
             List<PoolItem> result    = poolItems.RandomGachaWithWeight(poolItems.Select(e => e.Weight).ToList(), chestData.ChestRecord.ItemQuantity, 0);
-            poolItems.ForEach(item =>
+            result.ForEach(item =>
             {
                 if (item.ItemId.IsStringInEnum<ResourceType>())
                 {
@@ -71,8 +71,10 @@
                 }
                 else
                 {
-                    var itemRecord = this.itemBlueprint.GetDataById(item.ItemId);
-                    this.inventoryLocalDataController.AddItem(itemRecord.Id,1,RarityEnum.Common,false,1,1,new ());
+                    var itemId     = item.ItemId.Split("|")[0];
+                    var rarity     = item.ItemId.Split("|")[1].ToEnum<RarityEnum>();
+                    var itemRecord = this.itemBlueprint.GetDataById(itemId);
+                    this.inventoryLocalDataController.AddItem(itemRecord.Id,item.Value,rarity,false,1,1,this.inventoryLocalDataController.GetStatOfItem(rarity));
                 }
             });
             this.chestLocalData.ChestData.Remove(chestData);

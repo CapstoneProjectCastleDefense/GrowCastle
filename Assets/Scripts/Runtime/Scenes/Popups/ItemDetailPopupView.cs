@@ -59,8 +59,13 @@
         private readonly IGameAssets                  gameAssets;
         private readonly IScreenManager               screenManager;
         private readonly InventoryLocalDataController inventoryLocalDataController;
-        public ItemDetailPopupPresenter(SignalBus signalBus, ILogService logService, IGameAssets gameAssets, IScreenManager screenManager,
-            InventoryLocalDataController inventoryLocalDataController) : base(signalBus, logService)
+        public ItemDetailPopupPresenter(
+            SignalBus signalBus,
+            ILogService logService,
+            IGameAssets gameAssets,
+            IScreenManager screenManager,
+            InventoryLocalDataController inventoryLocalDataController)
+            : base(signalBus, logService)
         {
             this.gameAssets                   = gameAssets;
             this.screenManager                = screenManager;
@@ -144,7 +149,7 @@
             this.View.Quantity.text = this.Model.ItemModel.Quantity.ToString();
             this.View.Description.text = this.Model.ItemModel.Stats is { Count: > 0 }
                 ? this.Model.ItemModel.Stats
-                    .Select(stat => $"{stat.Key}: +{stat.Value.Item2}")
+                    .Select(stat => $"{stat.Key}: +{Math.Round((float)stat.Value.Item2, 1)} %")
                     .Aggregate((current, next) => $"{current}\n{next}")
                 : "";
             var canTierUp = this.Model.ItemModel.Level == (this.Model.ItemModel.Tier + 1) * 10;

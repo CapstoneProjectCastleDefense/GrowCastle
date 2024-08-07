@@ -1,0 +1,10 @@
+﻿ItemRarity,ItemStat,StatRangeValue
+Common,Attack,3|8
+,AttackSpeed,10|30
+,ActiveSkillCooldown,10|15
+Rare,Attack,4|9
+,AttackSpeed,20|40
+,ActiveSkillCooldown,13|18
+Legendary,Attack,5|10
+,AttackSpeed,30|50
+,ActiveSkillCooldown,15|20

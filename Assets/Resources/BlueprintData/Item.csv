@@ -1,17 +1,17 @@
 Id,Name,Description,ImageAddress,ItemType,EquipmentType,MaxLevel,MaxTier
-1,Amulet,,Amulet_Image,Equipment,Accessory,100,10
-2,Axe,,Axe_Image,Equipment,Weapon,100,10
-3,Book,,Book_Image,Equipment,Weapon,100,10
-4,Bow,,Bow_Image,Equipment,Weapon,100,10
-5,Owl Charm,,OwlCharm_Image,Equipment,Accessory,100,10
-6,Dagger,,Dagger_Image,Equipment,Weapon,100,10
-7,Frostbite,,Frostbite_Image,Equipment,Weapon,100,10
-8,Locket of Harmory,,LocketOfHarmory_Image,Equipment,Accessory,100,10
-9,Owl Staff,,OwlStaff_Image,Equipment,Weapon,100,10
-10,Ring,,Ring_Image,Equipment,Accessory,100,10
-11,Snow Talisman,,SnowTalisman_Image,Equipment,Accessory,100,10
-12,Spear of Heaven,,SpearOfHeaven_Image,Equipment,Weapon,100,10
-13,Staff of the Damned,,StaffOfTheDamned_Image,Equipment,Weapon,100,10
-14,Staff,,Staff_Image,Equipment,Weapon,100,10
-15,Sword of Kunasagi,,SwordOfKunasagi_Image,Equipment,Weapon,100,10
-16,Fragment,,Test,InventoryResource,Weapon,0,0
+Amulet,Amulet,,Amulet_Image,Equipment,Accessory,100,10
+Axe,Axe,,Axe_Image,Equipment,Weapon,100,10
+Book,Book,,Book_Image,Equipment,Weapon,100,10
+Bow,Bow,,Bow_Image,Equipment,Weapon,100,10
+OwlCharm,Owl Charm,,OwlCharm_Image,Equipment,Accessory,100,10
+Dagger,Dagger,,Dagger_Image,Equipment,Weapon,100,10
+Frostbite,Frostbite,,Frostbite_Image,Equipment,Weapon,100,10
+LocketHarmory,Locket of Harmory,,LocketOfHarmory_Image,Equipment,Accessory,100,10
+OwlStaff,Owl Staff,,OwlStaff_Image,Equipment,Weapon,100,10
+Ring,Ring,,Ring_Image,Equipment,Accessory,100,10
+SnowTalisman,Snow Talisman,,SnowTalisman_Image,Equipment,Accessory,100,10
+SpearHeaven,Spear of Heaven,,SpearOfHeaven_Image,Equipment,Weapon,100,10
+StaffDamned,Staff of the Damned,,StaffOfTheDamned_Image,Equipment,Weapon,100,10
+Staff,Staff,,Staff_Image,Equipment,Weapon,100,10
+SwordKunasagi,Sword of Kunasagi,,SwordOfKunasagi_Image,Equipment,Weapon,100,10
+Fragment,Fragment,,Test,InventoryResource,Weapon,0,0
