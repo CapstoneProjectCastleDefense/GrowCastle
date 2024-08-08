@@ -11,11 +11,11 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
   m_Name: AddressableAssetSettings
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   m_DefaultGroup: 7fb1165b23e0446448dd7c7bc0c95a70
   m_currentHash:
     serializedVersion: 2
-    Hash: 00000000000000000000000000000000
+    Hash: f46d8be3a345cb085d4869e45eb81b36
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_BundleLocalCatalog: 0
@@ -30,17 +30,17 @@ MonoBehaviour:
   m_StripUnityVersionFromBundleBuild: 0
   m_DisableVisibleSubAssetRepresentations: 0
   m_ShaderBundleNaming: 0
-  m_ShaderBundleCustomNaming:
+  m_ShaderBundleCustomNaming: 
   m_MonoScriptBundleNaming: 0
   m_CheckForContentUpdateRestrictionsOption: 0
-  m_MonoScriptBundleCustomNaming:
+  m_MonoScriptBundleCustomNaming: 
   m_RemoteCatalogBuildPath:
-    m_Id:
+    m_Id: 
   m_RemoteCatalogLoadPath:
-    m_Id:
-  m_ContentStateBuildPathProfileVariableName:
-  m_CustomContentStateBuildPath:
-  m_ContentStateBuildPath:
+    m_Id: 
+  m_ContentStateBuildPathProfileVariableName: 
+  m_CustomContentStateBuildPath: 
+  m_ContentStateBuildPath: 
   m_BuildAddressablesWithPlayerBuild: 0
   m_overridePlayerVersion: '[UnityEditor.PlayerSettings.bundleVersion]'
   m_GroupAssets:
@@ -60,6 +60,7 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 9f88c1d348d40fc4ca62eb478407135e, type: 2}
   - {fileID: 11400000, guid: 35b3ab74af6865d4ab4ad2045ed0850c, type: 2}
   - {fileID: 11400000, guid: 50e0ba6e6a8f677499ae34fcf5a3c091, type: 2}
+  - {fileID: 11400000, guid: 36d822aec63c95042822b7790ec22821, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1
@@ -67,7 +68,7 @@ MonoBehaviour:
     m_BundleBuildPath: Temp/com.unity.addressables/AssetBundles
   m_ProfileSettings:
     m_Profiles:
-    - m_InheritedParent:
+    - m_InheritedParent: 
       m_Id: e48e1862d02a9744cbd6702b1cce6579
       m_ProfileName: Default
       m_Values:
@@ -106,8 +107,8 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b26a666a1d1736847b19981bebe7a1fc, type: 2}
   m_InitializationObjects: []
   m_CertificateHandlerType:
-    m_AssemblyName:
-    m_ClassName:
+    m_AssemblyName: 
+    m_ClassName: 
   m_ActivePlayerDataBuilderIndex: 3
   m_DataBuilders:
   - {fileID: 11400000, guid: a530c62d7ee6a0c4195249581fe0f849, type: 2}

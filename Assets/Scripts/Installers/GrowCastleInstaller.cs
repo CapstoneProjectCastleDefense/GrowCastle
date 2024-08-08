@@ -8,6 +8,7 @@
     using Runtime.Managers;
     using Runtime.Services;
     using Runtime.Signals.Quests;
+    using UnityEngine;
     using Zenject;
     using Zenject.Internal;
     using ILocalDataHaveController = Models.LocalData.ILocalDataHaveController;
@@ -21,9 +22,10 @@
             this.BindLocalData();
             this.BindAllController();
             this.Container.BindInterfacesAndSelfTo<InternetService>().AsCached();
+            Application.targetFrameRate = 60;
 
         }
-        
+
         private void BindLocalData()
         {
 
@@ -49,7 +51,7 @@
 
             this.Container.Bind<UserDataManager>().AsCached();
         }
-        
+
         private void BindAllController()
         {
             var listController = ReflectionUtils.GetAllDerivedTypes<ILocalDataController>();
