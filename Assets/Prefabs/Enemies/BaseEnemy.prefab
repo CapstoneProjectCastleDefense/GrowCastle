@@ -128,7 +128,8 @@ MonoBehaviour:
   deathAnimations: []
   moveAnimation: 
   targetTags: []
-  selfTags: []
+  selfTags:
+  - Enemy
   <ProjectileSpawnPoint>k__BackingField: {fileID: 3173760951920275999}
   <AttackProjectileSkillId>k__BackingField: 
   <SkeletonAnimation>k__BackingField: {fileID: 5890850458954612675}
