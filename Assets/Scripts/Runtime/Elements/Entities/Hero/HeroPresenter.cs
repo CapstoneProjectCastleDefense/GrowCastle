@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Codice.Client.BaseCommands.BranchExplorer;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using GameFoundation.Scripts.Utilities.Extension;
@@ -15,10 +14,8 @@
     using Runtime.Enums;
     using Runtime.Extensions;
     using Runtime.Interfaces.Entities;
-    using Runtime.Interfaces.Items;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
-    using Runtime.StaticValues;
     using Runtime.Systems;
     using UnityEngine;
 
@@ -125,7 +122,7 @@
         {
             this.canAttack = attackStatus;
             this.timer     = this.canAttack ? this.Model.GetStat<float>(StatEnum.AttackSpeed) : 0;
-            
+
             if (this.canAttack)
             {
                 var skills = this.heroLocalDataController.GetPassiveSkills(this.Model.Id);

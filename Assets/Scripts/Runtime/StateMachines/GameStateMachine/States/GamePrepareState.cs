@@ -1,9 +1,7 @@
 ﻿namespace Runtime.StateMachines.GameStateMachine.States
 {
-    using Codice.CM.Common;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using Runtime.Managers;
-    using Runtime.Scenes;
     using Runtime.Services;
     using Runtime.Systems;
 

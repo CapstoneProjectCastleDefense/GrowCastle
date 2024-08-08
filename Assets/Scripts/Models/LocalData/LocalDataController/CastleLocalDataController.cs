@@ -3,7 +3,6 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
-    using Codice.Client.BaseCommands.BranchExplorer;
     using GameFoundation.Scripts.Utilities.Extension;
     using Models.Blueprints;
     using R3;

@@ -9,7 +9,6 @@
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Models.LocalData.LocalDataController;
-    using Models.Tags;
     using Runtime.Elements.Base;
     using Runtime.Enums;
     using Runtime.Extensions;
@@ -17,10 +16,8 @@
     using Runtime.Signals;
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.StateMachines.GameStateMachine.States;
-    using TMPro;
     using UnityEngine;
     using Zenject;
-    using static PlasticPipe.Server.MonitorStats;
 
     public class CastlePresenter : BaseCombatantPresenter<CastleModel, CastleView, CastlePresenter>
     {
