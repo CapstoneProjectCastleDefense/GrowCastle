@@ -1,6 +1,5 @@
 ﻿namespace Runtime.Scenes.Commons
 {
-    using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
@@ -15,7 +14,7 @@
 
     public class ElementGenericInfoView : MonoBehaviour
     {
-        private string                  selectedAbilityId;
+        private string                  selectedSkillId;
         private bool                    disableSelectAbility;
         private ElementGenericInfoModel model;
 
@@ -27,23 +26,25 @@
         private EvolutionInfoBlueprint  evolutionInfoBlueprint;
         private DiContainer             diContainer;
         private HeroLocalDataController heroLocalDataController;
-        private AbilityInfoBlueprint    abilityInfoBlueprint;
-        private HeroUpgradeService   heroUpgradeService;
+        private HeroUpgradeService      heroUpgradeService;
+        private SkillBlueprint          skillBlueprint;
 
         [Inject]
-        public void Construct(IGameAssets gameAssetsInject,
-            EvolutionInfoBlueprint evolutionInfoBlueprintInject,
-            DiContainer diContainerInject,
+        public void Construct(
+            IGameAssets             gameAssetsInject,
+            EvolutionInfoBlueprint  evolutionInfoBlueprintInject,
+            DiContainer             diContainerInject,
             HeroLocalDataController heroLocalDataControllerInject,
-            AbilityInfoBlueprint abilityInfoBlueprintInject,
-            HeroUpgradeService heroUpgradeServiceInject)
+            HeroUpgradeService      heroUpgradeServiceInject,
+            SkillBlueprint          skillBlueprint
+        )
         {
             this.gameAssets              = gameAssetsInject;
             this.evolutionInfoBlueprint  = evolutionInfoBlueprintInject;
             this.diContainer             = diContainerInject;
             this.heroLocalDataController = heroLocalDataControllerInject;
-            this.abilityInfoBlueprint    = abilityInfoBlueprintInject;
-            this.heroUpgradeService   = heroUpgradeServiceInject;
+            this.heroUpgradeService      = heroUpgradeServiceInject;
+            this.skillBlueprint          = skillBlueprint;
         }
 
         public void BindData(ElementGenericInfoModel infoModel)
@@ -68,30 +69,18 @@
 
         private async UniTaskVoid InitAdapter(ElementGenericInfoModel elementGenericInfoModel)
         {
-            var abilities      = this.evolutionInfoBlueprint.GetDataById(elementGenericInfoModel.EvolutionId).Abilities;
-            var abilityRecords = abilities.Select(abilityId => this.abilityInfoBlueprint.GetDataById(abilityId)).ToList();
+            var skills      = this.evolutionInfoBlueprint.GetDataById(elementGenericInfoModel.EvolutionId).Abilities;
+            var skillRecords = skills.Select(abilityId => this.skillBlueprint.GetDataById(abilityId)).ToList();
 
-            var firstAbility = abilityRecords.First();
-            this.skillDescription.text = firstAbility.AbilityDescription;
-            this.selectedAbilityId     = firstAbility.AbilityId;
+            var firstSkill = skillRecords.First();
+            this.skillDescription.text = firstSkill.Description;
+            this.selectedSkillId     = firstSkill.Id;
 
-            var modelList = new List<AbilityUIModel>();
-
-            foreach (var record in abilityRecords)
-            {
-                var abilityUIModel = new AbilityUIModel()
-                {
-                    Id         = record.AbilityId,
-                    OnSelected = this.OnAbilityUISelected,
-                    SelectedId = this.selectedAbilityId
-                };
-
-                modelList.Add(abilityUIModel);
-            }
+            var modelList = skillRecords.Select(record => new AbilityUIModel() { Id = record.Id, OnSelected = this.OnAbilityUISelected, SelectedId = this.selectedSkillId }).ToList();
 
             this.disableSelectAbility = true;
             await this.abilityAdapter.InitItemAdapter(modelList, this.diContainer);
-            this.OnAbilityUISelected(this.selectedAbilityId);
+            this.OnAbilityUISelected(this.selectedSkillId);
             this.disableSelectAbility = false;
         }
 
@@ -99,10 +88,10 @@
         {
             if (this.disableSelectAbility) return;
 
-            this.selectedAbilityId = abilityId;
-            var abilities      = this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).Abilities;
-            var abilityRecords = abilities.Select(id => this.abilityInfoBlueprint.GetDataById(id)).ToDictionary(a => a.AbilityId);
-            var description    = abilityRecords[this.selectedAbilityId].AbilityDescription;
+            this.selectedSkillId = abilityId;
+            var skills      = this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).Abilities;
+            var skillRecords = skills.Select(id => this.skillBlueprint.GetDataById(id)).ToDictionary(a => a.Id);
+            var description    = skillRecords[this.selectedSkillId].Description;
             this.skillDescription.text = description;
         }
     }

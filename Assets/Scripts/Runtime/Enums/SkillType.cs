@@ -1,9 +1,10 @@
 ﻿namespace Runtime.Enums
 {
-    public enum EntitySkillType
+    public enum SkillType
     {
         InstantHit,
         Projectile,
         Summon,
+        Passive,
     }
 }

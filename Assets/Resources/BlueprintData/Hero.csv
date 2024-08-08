@@ -2,7 +2,7 @@
 Knight,HeroKnight,Summon,KnightEvol_1,summon_skill|summon,knight hero_SkeletonData,Hero,"FightForeverPassiveSkill,GreatAdmiralPassiveSkill",none|atk
 Wizard,HeroWizard,Attack,WizardEvol_1,wizard_attack_skill|summon,wizard_SkeletonData,Hero,GodApperancePassiveSkill,wizard_normal_attack|atk
 GreenLeaf,GreenLeaf,Attack,WizardEvol_1,green_leaf_attack|attack2,archer_SkeletonData,Hero,"FightForeverPassiveSkill,GreatAdmiralPassiveSkill",arrow_skill|attack
-GrayMage,GrayMage,Attack,WizardEvol_1,gray_mage_attack|skill,gray mage_SkeletonData,Hero,GodLightPassiveSkill,wizard_normal_attack|atk
+GrayMage,GrayMage,Attack,WizardEvol_1,gray_mage_attack|skill,gray mage_SkeletonData,Hero,"GodLightPassiveSkill,GodApperancePassiveSkill",wizard_normal_attack|atk
 Xel'Naga,TowerXelNaga,Attack,XelNaga_Evol,wizard_normal_attack|idle,turret_SkeletonData,Tower,,wizard_normal_attack|atk
 Judge,Judge,Buff,WizardEvol_1,justice_sanction_skill|skill,judge_SkeletonData,Hero,"ControlGravityPassiveSkill,IntimidationPassiveSkill",none|atk
 Shadow,Shadow,Attack,WizardEvol_1,cursed_volley|skill,shadow_SkeletonData,Hero,"TheFearPassiveSkill,DeadlyArrowPassiveSkill",arrow_skill|attack

@@ -1,17 +1,33 @@
-Id,Type,Mana,Cooldown,Description
-archer_normal_attack,Projectile,10,2,
-summon_skill,Summon,25,3,Summon 2 knight
-wizard_normal_attack,Projectile,0,0,
-fire_lighting_ball,InstantHit,10,2,Summon 2 lighting ball
-lightning_rod,Projectile,0,0, Summon lighting rod
-green_leaf_attack,InstantHit,30,3,Create a sword strike in the air that slows enemies
-gray_mage_attack,InstantHit,25,3,Create a spell that causes enemies to bleed
-wizard_attack_skill,InstantHit,30,3,"Create golden lightning that deals damage, slows, and causes enemies to bleed for 1 second"
-justice_sanction_skill,InstantHit,30,3,Stun all ground enemies 2 seconds
-cursed_volley,InstantHit,30,3,Summon death arrow
-rasen_shuriken_skill,InstantHit,10,2,Summon death arrow
-skeleton_army,Summon,25,3,Summon 2 Skeleton
-shuriken_attack,Projectile,0,0,
-death_scythe,InstantHit,20,3,Summon 2 Skeleton
-golden_thunder_skill,InstantHit,20,3,Summon 2 Skeleton
-phantom_attack,Projectile,0,2,
+Id,Type,Mana,Cooldown,Description,Icon
+archer_normal_attack,Projectile,10,2,,
+summon_skill,Summon,25,3,Summon 2 knight,
+wizard_normal_attack,Projectile,0,0,,
+fire_lighting_ball,InstantHit,10,2,Summon 2 lighting ball,
+lightning_rod,Projectile,0,0, Summon lighting rod,
+green_leaf_attack,InstantHit,30,3,Create a sword strike in the air that slows enemies,
+gray_mage_attack,InstantHit,25,3,Create a spell that causes enemies to bleed,
+wizard_attack_skill,InstantHit,30,3,"Create golden lightning that deals damage, slows, and causes enemies to bleed for 1 second",
+justice_sanction_skill,InstantHit,30,3,Stun all ground enemies 2 seconds,
+cursed_volley,InstantHit,30,3,Summon death arrow,
+rasen_shuriken_skill,InstantHit,10,2,Summon death arrow,
+skeleton_army,Summon,25,3,Summon 2 Skeleton,
+shuriken_attack,Projectile,0,0,,
+death_scythe,InstantHit,20,3,Summon 2 Skeleton,
+golden_thunder_skill,InstantHit,20,3,Summon 2 Skeleton,
+phantom_attack,Projectile,0,2,,
+GreatAdmiralPassiveSkill,Passive,0,0,,
+FightForeverPassiveSkill,Passive,0,0,,
+GodApperancePassiveSkill,Passive,0,0,,
+LightFootPassiveSkill,Passive,0,0,,
+DeadlyArrowPassiveSkill,Passive,0,0,,
+GodLightPassiveSkill,Passive,0,0,,
+TheFearPassiveSkill,Passive,0,0,,
+IntimidationPassiveSkill,Passive,0,0,,
+ControlGravityPassiveSkill,Passive,0,0,,
+ShadowLord,Passive,0,0,,
+DarknessArise,Passive,0,0,,
+StealthPassiveSkill,Passive,0,0,,
+PiercingScythe,Passive,0,0,,
+BloodScythe,Passive,0,0,,
+ObscurePassiveSkill,Passive,0,0,,
+ForesightPassiveSkill,Passive,0,0,,

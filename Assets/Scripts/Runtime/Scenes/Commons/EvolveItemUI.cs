@@ -29,13 +29,13 @@
         private HeroUpgradeService                  heroUpgradeService;
 
         [Inject] public void Construct(
-            ScreenManager screenManager,
-            HeroLocalDataController heroLocalDataController,
+            ScreenManager                       screenManager,
+            HeroLocalDataController             heroLocalDataController,
             ElementEvolutionLocalDataController elementEvolutionLocalDataController,
-            EvolutionBlueprint evolutionBlueprint,
-            IGameAssets gameAssets,
-            EvolutionInfoBlueprint evolutionInfoBlueprintInject,
-            HeroUpgradeService heroUpgradeServiceInject
+            EvolutionBlueprint                  evolutionBlueprint,
+            IGameAssets                         gameAssets,
+            EvolutionInfoBlueprint              evolutionInfoBlueprintInject,
+            HeroUpgradeService                  heroUpgradeServiceInject
         )
         {
             this.screenManager                       = screenManager;
@@ -63,7 +63,8 @@
             this.model                 = param;
             this.evolutionDetailRecord = this.evolutionBlueprint.GetEvolutionDetailRecord(this.model.ElementId, this.model.EvolutionId);
             this.priceTxt.text         = this.evolutionInfoBlueprint[this.model.EvolutionId].Price.ToString();
-
+            var isUnlock = this.elementEvolutionLocalDataController.IsEvolutionUnlock(this.model.ElementId, this.model.EvolutionId);
+            this.priceTxt.gameObject.SetActive(!isUnlock);
             this.selectBtn.onClick.RemoveAllListeners();
             this.selectBtn.onClick.AddListener(() => this.OnClickBtnSelect(this.model));
 
@@ -117,7 +118,10 @@
                         .Append(pathFromParent.DOFade(0, .5f))
                         .Append(pathFromParent.DOFade(1, .35f))
                         .SetLoops(-1, LoopType.Restart)
-                        .onKill += () => { pathFromParent.material.color = new Color(1, 1, 1, 1); };
+                        .onKill += () =>
+                    {
+                        pathFromParent.material.color = new Color(1, 1, 1, 1);
+                    };
                 }
             }
 

@@ -8,9 +8,9 @@ green_leaf_evolve_1,,green_leaf_attack,10,0
 green_leaf_evolve_2,,"green_leaf_attack,LightFootPassiveSkill",10,0
 green_leaf_evolve_3,,"green_leaf_attack,LightFootPassiveSkill,DeadlyArrowPassiveSkill",10,0
 green_leaf_evolve_4,,"green_leaf_attack,LightFootPassiveSkill",10,0
-gray_mage_evolve_1,,Grey_SK1,10,0
-gray_mage_evolve_2,,"Grey_SK1,Grey_SK2",10,0
-gray_mage_evolve_3,,"Grey_SK1,Grey_SK2,Grey_SK3",10,0
+gray_mage_evolve_1,,gray_mage_attack,10,0
+gray_mage_evolve_2,,"gray_mage_attack,GodLightPassiveSkill",10,0
+gray_mage_evolve_3,,"gray_mage_attack,GodApperancePassiveSkill",10,0
 shadow_evolve_1,,cursed_volley,10,0
 shadow_evolve_2,,"cursed_volley,DeadlyArrowPassiveSkill",10,0
 shadow_evolve_3,,"cursed_volley,TheFearPassiveSkill",10,0
