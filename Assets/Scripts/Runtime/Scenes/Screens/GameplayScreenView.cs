@@ -8,6 +8,7 @@
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
+    using GameFoundation.Scripts.Utilities;
     using GameFoundation.Scripts.Utilities.Extension;
     using Models.Blueprints;
     using Models.LocalData;
@@ -120,6 +121,7 @@
         {
             base.OnViewReady();
             this.OpenViewAsync().Forget();
+            AudioService.Instance.PlayPlayList("bgm");
             this.signalBus.Subscribe<UpdateCastleStatSignal>(this.OnCastleStatChange);
             this.signalBus.Subscribe<OnStateEnterSignal>(this.OnEnterNewGameState);
             this.signalBus.Subscribe<SpawnedBossInDungeon>(this.OnStartDungeon);
