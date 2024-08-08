@@ -57,6 +57,7 @@
         private EvolveItemUIModel     model;
         private EvolutionDetailRecord evolutionDetailRecord;
         private Sequence              blinkTween;
+        private bool                  isInEvolveLine;
 
         public void BindData(EvolveItemUIModel param)
         {
@@ -101,6 +102,9 @@
 
             var isPredecessor = listPredecessor.Contains(this.model.EvolutionId);
             var isChild       = listChild.Contains(this.model.EvolutionId);
+
+            this.isInEvolveLine = isPredecessor || isChild;
+            
             var pathList      = isPredecessor || isChild ? this.greenPathFromParents : this.pathFromParents;
             var otherPathList = isPredecessor || isChild ? this.pathFromParents : this.greenPathFromParents;
 
@@ -170,6 +174,14 @@
                     ElementId               = param.ElementId,
                     EvolutionId             = this.evolutionDetailRecord.EvolutionId
                 }).Forget();
+            }
+        }
+
+        public void Reorder()
+        {
+            if (this.isInEvolveLine)
+            {
+                this.transform.SetAsLastSibling();
             }
         }
 
