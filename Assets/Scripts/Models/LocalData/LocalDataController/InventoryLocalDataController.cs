@@ -46,6 +46,16 @@
         {
             var id          = Guid.NewGuid().ToString();
             var isEquipment = this.itemBlueprint.GetDataById(blueprintId).ItemType == ItemType.Equipment;
+            if (!isEquipment)
+            {
+                var item = this.inventoryLocalData.Items.FirstOrDefault(x => x.BlueprintId == blueprintId);
+                if (item != null)
+                {
+                    item.Quantity += quantity;
+                    return;
+                }
+            }
+
             var itemData = new ItemData
             {
                 InventoryId = id,
@@ -55,7 +65,7 @@
                 IsEquipped  = isEquipment && isEquipped,
                 Level       = level,
                 Tier        = tier,
-                BaseStats       = stats
+                BaseStats   = stats
             };
 
             this.inventoryLocalData.Items.Add(itemData);
@@ -120,7 +130,7 @@
 
             return new()
             {
-                { StatEnum.Attack, (typeof(float),attackStat ) },
+                { StatEnum.Attack, (typeof(float), attackStat) },
                 { StatEnum.AttackSpeed, (typeof(float), attackSpeedStat) },
                 { StatEnum.ActiveSkillCooldown, (typeof(float), skillCooldownStat) }
             };
