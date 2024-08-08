@@ -62,7 +62,7 @@
         {
             this.UpdateBlockBaseOnCurrentLevel();
             this.CastleUpgradePopUp();
-            this.Model.BaseStats = this.castleLocalDataController.GetCastleStat();
+            this.UpdateStat();
         }
 
         public void UpdateBlockBaseOnCurrentLevel()

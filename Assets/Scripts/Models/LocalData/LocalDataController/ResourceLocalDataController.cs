@@ -1,22 +1,29 @@
 ﻿namespace Models.LocalData.LocalDataController
 {
+    using System;
     using R3;
     using Runtime.Enums;
+    using Runtime.Services;
 
     public class ResourceLocalDataController : ILocalDataController
     {
         private readonly ResourceLocalData       resourceLocalData;
         private readonly UserLocalDataController userLocalDataController;
+        private readonly InternetService         internetService;
 
-        public ResourceLocalDataController(ResourceLocalData resourceLocalData, UserLocalDataController userLocalDataController)
+        public ResourceLocalDataController(ResourceLocalData resourceLocalData, UserLocalDataController userLocalDataController, InternetService internetService)
         {
             this.resourceLocalData       = resourceLocalData;
             this.userLocalDataController = userLocalDataController;
+            this.internetService         = internetService;
         }
 
         public void InitData()
         {
             this.resourceLocalData.Resource[ResourceType.Exp].Subscribe(this.OnUpdateExp);
+            var totalDiffDay = this.internetService.ToTalDiffDay(DateTime.Now, this.resourceLocalData.LastDate);
+            this.ReceiveResource(ResourceType.Ticket,totalDiffDay);
+            this.resourceLocalData.LastDate = DateTime.Now;
         }
 
         public float                   GetCurrentTargetExpToLevelUp()         => this.resourceLocalData.CurrentTargetExpToLevelUp.Value;

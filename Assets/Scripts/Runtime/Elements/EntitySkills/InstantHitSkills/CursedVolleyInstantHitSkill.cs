@@ -52,7 +52,7 @@
             var arrowPrefab = this.gameAssets.LoadAssetAsync<GameObject>(this.VFXName).WaitForCompletion();
             for (var i = 0; i < targets.Count; i++)
             {
-                var arrow       = this.objectPoolManager.Spawn(arrowPrefab, startPos + new Vector3(range * i, 0,0), Quaternion.identity);
+                var arrow = this.objectPoolManager.Spawn(arrowPrefab, startPos + new Vector3(range * i, 0, 0), Quaternion.identity);
                 arrows.Add(arrow);
             }
             for (var i = 0; i < targets.Count; i++)

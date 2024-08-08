@@ -1,7 +1,7 @@
 ﻿Id,Value
 BaseDamage,10
 BaseAttackSpeed,1
-Coefficient,1.5
+Coefficient,0.2
 Recipe,
 BaseGold,100
 DefaultPrefabName,Archer

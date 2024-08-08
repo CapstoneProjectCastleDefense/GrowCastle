@@ -24,12 +24,12 @@
 
         public ArcherManager(
             BaseElementPresenter<ArcherModel, ArcherView, ArcherPresenter>.Factory factory,
-            ArcherLocalDataController archerLocalDataController,
-            ArcherBlueprint archerBlueprint,
-            CastleManager castleManager,
-            ArcherConfigBlueprint archerConfigBlueprint,
-            TalentLocalDataController talentLocalDataController,
-            TalentBlueprint talentBlueprint
+            ArcherLocalDataController                                              archerLocalDataController,
+            ArcherBlueprint                                                        archerBlueprint,
+            CastleManager                                                          castleManager,
+            ArcherConfigBlueprint                                                  archerConfigBlueprint,
+            TalentLocalDataController                                              talentLocalDataController,
+            TalentBlueprint                                                        talentBlueprint
         )
             : base(factory)
         {
@@ -55,15 +55,19 @@
                 Level           = archerData.level,
                 AddressableName = this.archerConfigBlueprint.DefaultPrefabName,
                 ParentView      = archerSlot.transform,
-                BaseStats = new Dictionary<StatEnum, (Type, object)>
+                BaseStats = new()
                 {
-                    { StatEnum.Attack, (typeof(float), 2f) },
+                    { StatEnum.Attack, (typeof(float), this.archerConfigBlueprint.BaseDamage + this.archerConfigBlueprint.Coefficient * archerData.level) },
                     { StatEnum.Health, (typeof(float), 10f) },
                     {
                         StatEnum.AttackSpeed,
                         (typeof(float),
-                            baseAttackSpeed + this.talentBlueprint[TalentType.IncreaseArcherAttack]
-                                .TalentLevelToDataRecords[this.talentLocalDataController.GetTalentLevel(TalentType.IncreaseArcherAttack)].EffectValue / 100 * baseAttackSpeed)
+                            baseAttackSpeed
+                            + this.talentBlueprint[TalentType.IncreaseArcherAttack]
+                                .TalentLevelToDataRecords[this.talentLocalDataController.GetTalentLevel(TalentType.IncreaseArcherAttack)].EffectValue
+                            / 100
+                            * baseAttackSpeed
+                            + this.archerConfigBlueprint.Coefficient * archerData.level)
                     },
                     { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) }
                 }
@@ -80,11 +84,12 @@
             if (newArcher == null)
             {
                 AudioService.Instance.PlaySound("Error");
+
                 return;
             }
-            
+
             AudioService.Instance.PlaySound("Cash");
-            
+
             var hasOldArcher = this.entities.Any(e => e.Model.Index == newArcher.index);
             if (hasOldArcher)
             {
@@ -101,15 +106,19 @@
             var baseAttackSpeed = this.archerConfigBlueprint.BaseAttackSpeed;
             this.entities.ForEach(archer =>
             {
-                archer.Model.BaseStats = new Dictionary<StatEnum, (Type, object)>
+                archer.Model.BaseStats = new()
                 {
-                    { StatEnum.Attack, (typeof(float), 2f) },
+                    { StatEnum.Attack, (typeof(float), this.archerConfigBlueprint.BaseDamage + this.archerConfigBlueprint.Coefficient * archer.Model.Level) },
                     { StatEnum.Health, (typeof(float), 10f) },
                     {
                         StatEnum.AttackSpeed,
                         (typeof(float),
-                            baseAttackSpeed + this.talentBlueprint[TalentType.IncreaseArcherAttack]
-                                .TalentLevelToDataRecords[this.talentLocalDataController.GetTalentLevel(TalentType.IncreaseArcherAttack)].EffectValue / 100 * baseAttackSpeed)
+                            baseAttackSpeed
+                            + this.talentBlueprint[TalentType.IncreaseArcherAttack]
+                                .TalentLevelToDataRecords[this.talentLocalDataController.GetTalentLevel(TalentType.IncreaseArcherAttack)].EffectValue
+                            / 100
+                            * baseAttackSpeed
+                            + this.archerConfigBlueprint.Coefficient * archer.Model.Level)
                     },
                     { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) }
                 };
