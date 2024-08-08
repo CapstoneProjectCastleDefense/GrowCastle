@@ -49,6 +49,7 @@
         public TextMeshProUGUI bonusAttackSlot;
         public TextMeshProUGUI bonusAttackSpeedSlot;
         public TextMeshProUGUI bonusRecudeCooldownSlot;
+        public TextMeshProUGUI heroName;
 
         public Button changeClassBtn;
 
@@ -120,6 +121,7 @@
         {
             this.View.changeClassBtn.gameObject.SetActive(!popupModel.IsInfoOnly);
 
+            this.View.heroName.text                = popupModel.HeroRuntimeData.heroRecord.HeroId;
             this.View.title.text                   = this.slotBlueprint.GetDataById(int.Parse(this.slotManager.GetCurrentSelectedSlotModel().Id)).SlotType.ToString();
             this.View.viewField.transform.position = this.View.startPos.position;
             this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);

@@ -6,8 +6,8 @@
         public static string ShurikenNormalAttack = "shuriken_attack";
         public static string SummonSkill          = "summon_skill";
         public static string InstantHit           = "instant_hit";
-        public static string GreenLeafAttack      = "green_leaf_attack";
-        public static string GrayMageAttack       = "gray_mage_attack";
+        public static string SylvanWrathSkill     = "sylvan_wrath";
+        public static string GodRealmSkill        = "god_realm";
         public static string CursedVolley         = "cursed_volley";
         public static string FireLightingBall     = "wizard_normal_attack";
         public static string WizardAttackSkill    = "wizard_attack_skill";

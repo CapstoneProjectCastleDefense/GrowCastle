@@ -11,7 +11,7 @@ MonoBehaviour:
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
   m_Name: Default Local Group
-  m_EditorClassIdentifier:
+  m_EditorClassIdentifier: 
   m_GroupName: Default Local Group
   m_Data:
     m_SerializedData: []
@@ -352,13 +352,23 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c1e07833f0631cf459542bee400c1042
-    m_Address: talent
+  - m_GUID: 16f393fea92971c4f9d155ff0adab5a5
+    m_Address: LightningStrikeSharpTallBlue
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 364f19a0fd81aa841bbd8fe57a52cd13
-    m_Address: Ticket
+  - m_GUID: e83f0806b4fd75946a05fee2b48cee0d
+    m_Address: ToonRadialFireBlue
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cb8a83b63e008134da9393db9af8915f
+    m_Address: EnergyExplosionGreen
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6c7761bc9a843da409235177477c7db3
+    m_Address: EnergyExplosionPink
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0

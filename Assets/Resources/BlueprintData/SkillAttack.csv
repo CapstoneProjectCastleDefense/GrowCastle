@@ -1,8 +1,8 @@
 Id,Level,PrefabName,Damage
 lighting_skill,1,Lighting,10
-green_leaf_attack,1,vfx-attack,5
-gray_mage_attack,1,vfx-death-shear,10
-wizard_attack_skill,1,vfx-holy-blade,5
+sylvan_wrath,1,vfx-attack,5
+god_realm,1,LightningStrikeSharpTallBlue,10
+wizard_attack_skill,1,ToonRadialFireBlue,5
 cursed_volley,1,DeathArrow,2
 rasen_shuriken_skill,1,Shuriken,10
 death_scythe,1,Scythe,10

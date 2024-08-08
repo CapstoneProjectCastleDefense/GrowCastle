@@ -94,7 +94,7 @@
         public List<ITargetable> GetRandomEnemies(int number)
         {
             var cache = this.getCustomPresenterSystem.GetAllElementPresenters(typeof(EnemyManager));
-            if (cache.Count < number) return null;
+            if (cache.Count < number) return cache.Select(e=>e as ITargetable).ToList();
             Random random = new Random();
             return cache.Where(x =>
                     x is ITargetable { IsDead: false })

@@ -3144,6 +3144,7 @@ MonoBehaviour:
   bonusAttackSlot: {fileID: 1384202967983664071}
   bonusAttackSpeedSlot: {fileID: 6206841215847129725}
   bonusRecudeCooldownSlot: {fileID: 420377078703606340}
+  heroName: {fileID: 1210878747884557952}
   changeClassBtn: {fileID: 5875262608652553794}
   viewField: {fileID: 3351184185057713366}
   startPos: {fileID: 5774318203979131959}

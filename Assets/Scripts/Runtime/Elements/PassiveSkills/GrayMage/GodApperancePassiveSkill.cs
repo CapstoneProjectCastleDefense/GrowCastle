@@ -26,15 +26,15 @@
         }
         public void ActiveSkill()
         {
-            this.entitySkillSystem.CastSkill(EntitySkillName.GreenLeafAttack, new BasicSkillModel()
+            this.entitySkillSystem.CastSkill(EntitySkillName.GodRealmSkill, new BasicSkillModel()
             {
                 Level = 1,
-                Id    = EntitySkillName.GreenLeafAttack
+                Id    = EntitySkillName.GodRealmSkill,
             });
         }
         public void DeActiveSkill()
         {
-            
+
         }
     }
 }

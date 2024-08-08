@@ -2,8 +2,6 @@
 {
     using Models.Blueprints;
     using Models.Tags;
-    using Runtime.Enums;
-    using Runtime.Extensions;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Services;
@@ -33,11 +31,11 @@
         public override string SkillId { get; set; } = EntitySkillName.WizardAttackSkill;
         protected override void InternalActivate()
         {
-            this.vfxService.SpawnVFX(this.VFXName, new Vector3(5f, -1, 0), Quaternion.identity, scale: new Vector3(3, 3, 1));
-            var targets = this.findTargetSystem.GetAllEnemyTarget();
+            this.vfxService?.SpawnVFX(this.VFXName, new Vector3(3f, -2, 0), Quaternion.identity, scale: new Vector3(4, 4, 1));
+            var targets = this.findTargetSystem.GetRandomEnemies(15);
             for (int i = 0; i < targets.Count; i++)
             {
-                this.effectManager.AddEffectToTarget(targets[i], new InstantDamageTag() { Damage = this.Damage });
+                this.effectManager.AddEffectToTarget(targets[i], new InstantDamageTag() { Damage = this.Damage * 3 });
                 this.effectManager.AddEffectToTarget(targets[i], new BleedTag() { Duration       = 2, Timer = 0, TimeDelay = 0.1f });
                 this.effectManager.AddEffectToTarget(targets[i], new SlowTag() { Duration        = 1, Timer = 0 });
             }

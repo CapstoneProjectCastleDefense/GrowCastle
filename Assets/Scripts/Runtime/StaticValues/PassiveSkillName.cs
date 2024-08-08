@@ -4,12 +4,12 @@
     using System.Collections.Generic;
     using Runtime.Elements.PassiveSkills;
     using Runtime.Elements.PassiveSkills.ARise;
+    using Runtime.Elements.PassiveSkills.GreenLeaf;
     using Runtime.Elements.PassiveSkills.Hassan;
     using Runtime.Elements.PassiveSkills.Knight;
     using Runtime.Elements.PassiveSkills.MoonShadow;
     using Runtime.Elements.PassiveSkills.Shadow;
     using Runtime.Elements.PassiveSkills.Storm;
-    using Runtime.Enums;
 
     public static class PassiveSkillName
     {
@@ -31,6 +31,8 @@
             { ObscurePassiveSkill, typeof(ObscurePassiveSkill) },
             { FightForeverPassiveSkill, typeof(FightForeverPassiveSkill) },
             { GreatAdmiralPassiveSkill, typeof(GreatAdmiralPassiveSkill) },
+            { ElvenMarkPassiveSkill, typeof(ElvenMarkPassiveSkill) },
+            { HunterZonePassiveSkill, typeof(HunterZonePassiveSkill) },
         };
 
         public static string GodApperancePassiveSkill   => "GodApperancePassiveSkill";
@@ -49,6 +51,8 @@
         public static string ObscurePassiveSkill        => "ObscurePassiveSkill";
         public static string FightForeverPassiveSkill   => "FightForeverPassiveSkill";
         public static string GreatAdmiralPassiveSkill   => "GreatAdmiralPassiveSkill";
+        public static string ElvenMarkPassiveSkill      => "ElvenMarkPassiveSkill";
+        public static string HunterZonePassiveSkill     => "HunterZonePassiveSkill";
 
     }
 }

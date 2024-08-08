@@ -32,10 +32,10 @@
             this.findTargetSystem = findTargetSystem;
             this.effectManager    = effectManager;
         }
-        public override string SkillId { get; set; } = EntitySkillName.GreenLeafAttack;
+        public override string SkillId { get; set; } = EntitySkillName.SylvanWrathSkill;
         protected override void InternalActivate()
         {
-            this.vfxService.SpawnVFX(this.VFXName, new Vector3(-3, -1, 0), Quaternion.identity, scale: new Vector3(2, 2, 1));
+            this.vfxService?.SpawnVFX(this.VFXName, new Vector3(-3, -1, 0), Quaternion.identity, scale: new Vector3(2, 2, 1));
             var targets = this.findTargetSystem.GetAllEnemyTarget();
             for (int i = 0; i < targets.Count; i++)
             {
