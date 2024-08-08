@@ -76,6 +76,7 @@
         private readonly HeroUpgradeService                  heroUpgradeService;
         private readonly SlotBlueprint                       slotBlueprint;
         private readonly StatEffectBlueprint                 statEffectBlueprint;
+        private readonly ToastController                     toastController;
 
         public CharacterInfoPopupPresenter(
             SignalBus signalBus,
@@ -87,8 +88,9 @@
             ElementEvolutionLocalDataController elementEvolutionLocalDataController,
             HeroUpgradeService heroUpgradeService,
             SlotBlueprint slotBlueprint,
-            StatEffectBlueprint statEffectBlueprint
-            )
+            StatEffectBlueprint statEffectBlueprint,
+            ToastController toastController
+        )
             : base(signalBus, logService)
         {
             this.slotManager                         = slotManager;
@@ -99,6 +101,7 @@
             this.heroUpgradeService                  = heroUpgradeService;
             this.slotBlueprint                       = slotBlueprint;
             this.statEffectBlueprint                 = statEffectBlueprint;
+            this.toastController                     = toastController;
         }
 
         protected override void OnViewReady()
@@ -251,10 +254,18 @@
 
         private void LevelUp()
         {
-            AudioService.Instance.PlaySound("LevelUp");
-            this.heroLocalDataController.UpgradeHero(this.Model.HeroRuntimeData.heroRecord.HeroId);
-            this.View.LevelUpCostTxt.text = $"{this.heroUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
-            this.ReBindData();
+            var isUpgradeSuccess = this.heroLocalDataController.UpgradeHero(this.Model.HeroRuntimeData.heroRecord.HeroId,
+                (int)this.heroUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId));
+            if (isUpgradeSuccess)
+            {
+                AudioService.Instance.PlaySound("LevelUp");
+                this.View.LevelUpCostTxt.text = $"{this.heroUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
+                this.ReBindData();
+                return;
+            }
+
+            AudioService.Instance.PlaySound("Error");
+            this.toastController.ShowToast("Don't have enough coin to upgrade !!!");
         }
 
         public override void CloseView() { this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.Linear).onComplete += () => { base.CloseView(); }; }

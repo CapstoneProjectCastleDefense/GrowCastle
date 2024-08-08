@@ -5,6 +5,7 @@
     using System.Linq;
     using Models.Blueprints;
     using Runtime.Enums;
+    using Runtime.Services;
     using Runtime.Signals.Quests;
     using Runtime.StaticValues;
     using Sirenix.Utilities;
@@ -17,7 +18,6 @@
         private readonly HeroConfigBlueprint                 heroConfigBlueprint;
         private readonly ResourceLocalDataController         resourceLocalDataController;
         private readonly SignalBus                           signalBus;
-        private readonly EvolutionBlueprint                  evolutionBlueprint;
         private readonly EvolutionInfoBlueprint              evolutionInfoBlueprint;
         private readonly ElementEvolutionLocalDataController elementEvolutionLocalDataController;
 
@@ -27,7 +27,6 @@
             HeroConfigBlueprint heroConfigBlueprint,
             ResourceLocalDataController resourceLocalDataController,
             SignalBus signalBus,
-            EvolutionBlueprint evolutionBlueprint,
             EvolutionInfoBlueprint evolutionInfoBlueprint,
             ElementEvolutionLocalDataController elementEvolutionLocalDataController
         )
@@ -37,7 +36,6 @@
             this.heroConfigBlueprint                 = heroConfigBlueprint;
             this.resourceLocalDataController         = resourceLocalDataController;
             this.signalBus                           = signalBus;
-            this.evolutionBlueprint                  = evolutionBlueprint;
             this.evolutionInfoBlueprint              = evolutionInfoBlueprint;
             this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
         }
@@ -124,16 +122,20 @@
             return this.evolutionInfoBlueprint.GetDataById(evolutionData.EvolutionId).Abilities.Skip(1).ToList();
         }
 
-        public void UpgradeHero(string heroId, int levelUpgradeAmount = 1)
+        public bool UpgradeHero(string heroId,  int price, int levelUpgradeAmount = 1)
         {
             if (!this.heroLocalData.IdToHeroData.TryGetValue(heroId, out var elementUpgradeData))
             {
                 throw new Exception($"Not found element upgrade data of element: {heroId}");
             }
 
+            if (!this.resourceLocalDataController.SpendResource(ResourceType.Gold, price)) return false;
+
             elementUpgradeData.Level += levelUpgradeAmount;
             this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = QuestTriggerSignalId.UpgradeHero, Value = elementUpgradeData.Level, isReset = true });
             this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = $"Upgrade{heroId}", Value               = elementUpgradeData.Level, isReset = true });
+
+            return true;
         }
     }
 

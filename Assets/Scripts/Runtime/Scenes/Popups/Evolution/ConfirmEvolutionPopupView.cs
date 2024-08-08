@@ -92,8 +92,9 @@
 
             if (this.elementEvolutionLocalDataController.UpdateEvolutionId(this.Model.ElementId, this.Model.EvolutionId))
             {
-                this.toastController.ShowToast("change class success");
+                this.toastController.ShowToast("Change class success");
                 this.SignalBus.Fire<ChangeHeroClassSignal>();
+                this.CloseView();
             }
             else
             {

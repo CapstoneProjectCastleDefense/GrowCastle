@@ -132,6 +132,15 @@
             otherPathList.ForEach(p => p.gameObject.SetActive(false));
         }
 
+        private void ResetPathImg()
+        {
+            this.blinkTween?.Kill();
+            foreach (var greenPath in this.greenPathFromParents)
+            {
+                greenPath.color = new Color(1, 1, 1, 1);
+            }
+        }
+
         private void SetUnlockConditions()
         {
             var isUnlock = this.elementEvolutionLocalDataController.IsEvolutionUnlock(this.model.ElementId, this.model.EvolutionId);
@@ -188,7 +197,7 @@
         public void Dispose()
         {
             this.Recycle();
-            this.blinkTween.Kill();
+            this.ResetPathImg();
         }
     }
 

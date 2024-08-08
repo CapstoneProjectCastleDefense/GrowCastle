@@ -58,7 +58,7 @@
 
         private void OnHeroClassChange(ChangeHeroClassSignal signal)
         {
-            this.BindData(this.Model);
+            this.Rebind();
         }
 
         public override UniTask BindData(ElementEvolvePopupModel popupModel)
@@ -85,10 +85,20 @@
             {
                 evolveItemUI.Reorder();
             }
-
             return UniTask.CompletedTask;
         }
 
+        public void Rebind()
+        {
+            foreach (var evolveItemUI in this.evolveItemUIs)
+            {
+                evolveItemUI.Dispose();
+            }
+
+            this.evolveItemUIs.Clear();
+            this.BindData(this.Model);
+        }
+        
         public override void Dispose()
         {
             base.Dispose();

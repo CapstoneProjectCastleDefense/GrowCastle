@@ -17,11 +17,6 @@ MonoBehaviour:
     m_SerializedData: []
   m_GUID: 4484e7ac86108e04b82c551b34bc974b
   m_SerializeEntries:
-  - m_GUID: 174ddcf2d1de0a14b8a17bf5e8e4221e
-    m_Address: SwordOfKunasagi_Image
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 587c76a6a8c783d478157b32cd560389
     m_Address: StaffOfTheDamned_Image
     m_ReadOnly: 0

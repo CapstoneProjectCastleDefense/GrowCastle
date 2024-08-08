@@ -76,7 +76,6 @@
                 return true;
             }
 
-            Debug.Log($"Use evolution {evolutionId}");
             return false;
         }
 
