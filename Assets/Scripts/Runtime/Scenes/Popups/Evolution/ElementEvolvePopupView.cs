@@ -80,6 +80,11 @@
                     this.evolveItemUIs.Add(evolveItemUI);
                 }
             }
+            
+            foreach (var evolveItemUI in this.evolveItemUIs)
+            {
+                evolveItemUI.Reorder();
+            }
 
             return UniTask.CompletedTask;
         }
