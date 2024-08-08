@@ -106,6 +106,31 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
+      propertyPath: selfTags.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: targetTags.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: selfTags.Array.data[1]
+      value: Ground
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: targetTags.Array.data[0]
+      value: Ally
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: targetTags.Array.data[1]
+      value: Building
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
       propertyPath: deathAnimations.Array.size
       value: 1
       objectReference: {fileID: 0}

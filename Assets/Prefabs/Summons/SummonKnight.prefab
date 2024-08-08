@@ -528,10 +528,14 @@ MonoBehaviour:
   attackAnimations: []
   deathAnimations: []
   moveAnimation: 
-  tags:
+  targetTags:
+  - Building
   - Ground
   - Boss
-  - Building
+  selfTags:
+  - Ally
+  - Ground
+  <ProjectileSpawnPoint>k__BackingField: {fileID: 0}
   <SkeletonAnimation>k__BackingField: {fileID: 4674233140242320668}
   <GraphicCollider2D>k__BackingField: {fileID: 6213419577085878024}
   <AttackRangeCollider2D>k__BackingField: {fileID: 6613015328776528364}

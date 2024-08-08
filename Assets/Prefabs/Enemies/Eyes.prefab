@@ -31,7 +31,7 @@ PrefabInstance:
     - target: {fileID: 3701615186086625936, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_SortingLayer
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3701615186086625936, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
@@ -98,6 +98,26 @@ PrefabInstance:
         type: 3}
       propertyPath: moveAnimation
       value: run
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: selfTags.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: targetTags.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: selfTags.Array.data[1]
+      value: Fly
+      objectReference: {fileID: 0}
+    - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: targetTags.Array.data[0]
+      value: Building
       objectReference: {fileID: 0}
     - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
