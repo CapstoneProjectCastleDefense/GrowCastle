@@ -15,10 +15,30 @@ MonoBehaviour:
   m_GroupName: Enemies
   m_Data:
     m_SerializedData: []
-  m_GUID: f95ef3c593fd5044b84f6e4078875d9c
+  m_GUID: 6ceadda861e19304a9e66d1ae759225b
   m_SerializeEntries:
-  - m_GUID: fd8131040f5ae944997cf2352d9ee89a
-    m_Address: Goblin
+  - m_GUID: fd0e0ab50ec7b2f42840e88fb936ffef
+    m_Address: Death
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5405bad56eeed86438599a563fcbc3fa
+    m_Address: Slime_0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9622e39ab6157a4c8bf61093336e0a3
+    m_Address: Skeleton_1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 653482ffecf4adf47a13035830c66c93
+    m_Address: Skeleton_0
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: df9c5846ae8683b4cbe4e5b9aa8b3380
+    m_Address: Phantom_1
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -27,8 +47,13 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 5405bad56eeed86438599a563fcbc3fa
-    m_Address: Slime_0
+  - m_GUID: fd8131040f5ae944997cf2352d9ee89a
+    m_Address: Goblin
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f53ac47f0c114674293079e81cd5540a
+    m_Address: Eyes
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -57,38 +82,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 653482ffecf4adf47a13035830c66c93
-    m_Address: Skeleton_0
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c9622e39ab6157a4c8bf61093336e0a3
-    m_Address: Skeleton_1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: f53ac47f0c114674293079e81cd5540a
-    m_Address: Eyes
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: fd0e0ab50ec7b2f42840e88fb936ffef
-    m_Address: Death
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: df9c5846ae8683b4cbe4e5b9aa8b3380
-    m_Address: Phantom_1
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 07a24f5b51f69fa429d7084a56c25494
     m_Address: RedDragon
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 93b6a08ce1e1a504991d510c8c88ce3b
-    m_Address: BlueDragon
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -97,9 +92,19 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4c376b9c7481ead4b866ba11242d35d9
+    m_Address: Dragon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93b6a08ce1e1a504991d510c8c88ce3b
+    m_Address: BlueDragon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 530450d8e51987e4ba8e45421bf9785a, type: 2}
-    - {fileID: 11400000, guid: ece91630bf712e940a18e6a91dd0247d, type: 2}
+    - {fileID: 11400000, guid: 474f5199f0f78324a8d9c0611ac51382, type: 2}
+    - {fileID: 11400000, guid: 0cc2ddc4564431145b21bba9aaa4aa10, type: 2}

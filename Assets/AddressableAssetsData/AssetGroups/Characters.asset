@@ -10,25 +10,50 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
-  m_Name: Heros
+  m_Name: Characters
   m_EditorClassIdentifier: 
-  m_GroupName: Heros
+  m_GroupName: Characters
   m_Data:
     m_SerializedData: []
-  m_GUID: 6c0744a8337208a469f53cb4f4d0fd45
+  m_GUID: 69d91bf618ccbe54dba55d4c322b2d37
   m_SerializeEntries:
-  - m_GUID: 7b47ff0e622bc3b43bbd4772d3fca7df
-    m_Address: HeroKnight
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 767df05985f4b5541a7187ffa7d929c9
     m_Address: Archer
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c6fffbb677601f84ebcc1d6800a521d9
-    m_Address: SummonKnight
+  - m_GUID: 68cf4b2f42eb5c640ad0a63fe5a3546c
+    m_Address: Shadow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: be198269317af934e84db799e485e20f
+    m_Address: MoonShadow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8fbbbd9b415b5ec468b4390582433150
+    m_Address: Judge
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3f652504d8933dc429c7f5f626e81256
+    m_Address: HeroWizard
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a4b8f8feff7545f4dbf6f42145685f3c
+    m_Address: HeroStorm
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7b47ff0e622bc3b43bbd4772d3fca7df
+    m_Address: HeroKnight
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8dfe9a8012865c64c9e6345298e8eb61
+    m_Address: Hassan
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -42,43 +67,18 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8fbbbd9b415b5ec468b4390582433150
-    m_Address: Judge
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 68cf4b2f42eb5c640ad0a63fe5a3546c
-    m_Address: Shadow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 8dfe9a8012865c64c9e6345298e8eb61
-    m_Address: Hassan
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: be198269317af934e84db799e485e20f
-    m_Address: MoonShadow
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: c28f38496053d30429c45bf151b67179
     m_Address: Arise
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 29536b5a8667ccb4b9d296286f716322
-    m_Address: storm_SkeletonData
+  - m_GUID: 6d89ed9e5110c5940ae0005a083a2959
+    m_Address: SummonSkeleton
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a4b8f8feff7545f4dbf6f42145685f3c
-    m_Address: HeroStorm
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: a4b8f8feff7545f4dbf6f42145685f3c
-    m_Address: HeroStorm
+  - m_GUID: c6fffbb677601f84ebcc1d6800a521d9
+    m_Address: SummonKnight
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -86,5 +86,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: e1151fea15b5b154e9b630d5dd981139, type: 2}
-    - {fileID: 11400000, guid: 6fbbd4ece2b03044fb5c930711c604cf, type: 2}
+    - {fileID: 11400000, guid: 41f04c09a5634f947a145089f10dc893, type: 2}
+    - {fileID: 11400000, guid: 83e2f104c3ce29e48bb927aaccfde4c7, type: 2}

@@ -19,7 +19,7 @@ namespace NiobiumStudios
         public List<Reward> rewards;        // Rewards list 
         public DateTime lastRewardTime;     // The last time the user clicked in a reward
         public int availableReward;         // The available reward position the player claim
-        public int lastReward;              // the last reward the player claimed
+        public int lastReward;              // the last reward the player completedText
         public bool keepOpen = true;        // Keep open even when there are no Rewards available?
 
         // Delegates
@@ -86,7 +86,7 @@ namespace NiobiumStudios
             string lastClaimedTimeStr = PlayerPrefs.GetString(GetLastRewardTimeKey());
             lastReward = PlayerPrefs.GetInt(GetLastRewardKey());
 
-            // It is not the first time the user claimed.
+            // It is not the first time the user completedText.
             // We need to know if he can claim another reward or not
             if (!string.IsNullOrEmpty(lastClaimedTimeStr))
             {

@@ -15,10 +15,25 @@ MonoBehaviour:
   m_GroupName: UIs
   m_Data:
     m_SerializedData: []
-  m_GUID: 75999017d5e28b349894bae466a8b6e1
+  m_GUID: 9da93768d5855394c9c45af255b85ffd
   m_SerializeEntries:
-  - m_GUID: 9b25a7fe58f2cfd4b9c3d7f02b7b5507
-    m_Address: ElementEvolvePopupView
+  - m_GUID: 1e889ebda6cd7b24e8eaf39e9e864053
+    m_Address: ToastController
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 99916e128a8286949a4edd9045ae37d1
+    m_Address: DungeonEndPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1e87a3a815cf108418b4cad583536a9b
+    m_Address: DailyRewardPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e6f207b6537d6954190f7ed8e25faadb
+    m_Address: ConfirmOpenChestPopupView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -27,33 +42,8 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c152af8ea049ffe4398599b19a6a3a94
-    m_Address: TierUpPopupView
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 7627cca5389a0154baf30c7dfaf3032a
-    m_Address: ItemInventoryPopupView
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 262945eae3e34594294360af07355273
-    m_Address: ItemDetailPopupView
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6263bb89ef3646b439ee573fc6c7c879
-    m_Address: LevelUpPopupView
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 6bd68deb02971bb4f87c4b4715def2be
-    m_Address: LoadingScreenView
-    m_ReadOnly: 0
-    m_SerializedLabels: []
-    FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: c8112c9b15139e1498ff62752510dc09
-    m_Address: GameplayScreenView
+  - m_GUID: 34d433501a9cfa24f950a2da974850b6
+    m_Address: ChestPopupView
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -67,23 +57,33 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: eeffbb23555403d4a85b27ca8a3a0aa0
-    m_Address: QuestPopupView
+  - m_GUID: e540d57d4014d004c8ea4b2d98e5590f
+    m_Address: Rarity
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 656736a113a6f5745b74a65dd7d67b54
-    m_Address: EndGamePopupView
+  - m_GUID: 1f9cd41fb3f498741b7bb5cc3a586064
+    m_Address: InventoryItemAdapter
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 50ffdd0e375c50b4392855bd131f6d1f
-    m_Address: ItemInventoryForTierUpPopupView
+  - m_GUID: 7feb57b18417dfe4a80d10e48602c7f3
+    m_Address: EvolveItemUI
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
-  - m_GUID: 99916e128a8286949a4edd9045ae37d1
-    m_Address: DungeonEndPopupView
+  - m_GUID: 9b0106ea5bd8d52498a3777299c08584
+    m_Address: EquipmentSlot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cdca29ed90a570a4bb52a997c750e15d
+    m_Address: ElementGenericInfoView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab3703cde55bb924cb1fe45bd3250ea8
+    m_Address: CategoryItem
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -92,7 +92,79 @@ MonoBehaviour:
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9b25a7fe58f2cfd4b9c3d7f02b7b5507
+    m_Address: ElementEvolvePopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 656736a113a6f5745b74a65dd7d67b54
+    m_Address: EndGamePopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 262945eae3e34594294360af07355273
+    m_Address: ItemDetailPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 50ffdd0e375c50b4392855bd131f6d1f
+    m_Address: ItemInventoryForTierUpPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 7627cca5389a0154baf30c7dfaf3032a
+    m_Address: ItemInventoryPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6263bb89ef3646b439ee573fc6c7c879
+    m_Address: LevelUpPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5bc145f9dc94589479556c567a0c65d2
+    m_Address: OpenChestPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eeffbb23555403d4a85b27ca8a3a0aa0
+    m_Address: QuestPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d3842ccb9691bc941ac56272ffac579d
+    m_Address: TalentPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c152af8ea049ffe4398599b19a6a3a94
+    m_Address: TierUpPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6bd68deb02971bb4f87c4b4715def2be
+    m_Address: LoadingScreenView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c8112c9b15139e1498ff62752510dc09
+    m_Address: GameplayScreenView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 93cba26be9f51e245b3d446263556bb8
+    m_Address: WaveBar
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1f9c19491776d83479cff1c9fa0602e9
+    m_Address: DungeonConfirmPopupView
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   m_ReadOnly: 0
   m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
   m_SchemaSet:
-    m_Schemas: []
+    m_Schemas:
+    - {fileID: 11400000, guid: 65c5e27fe8b5e8a448776ec16fa56e83, type: 2}
+    - {fileID: 11400000, guid: c0fa94cd554ae624ca53a51758fae76c, type: 2}

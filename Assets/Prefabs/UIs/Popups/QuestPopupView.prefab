@@ -575,7 +575,7 @@ MonoBehaviour:
   targetValue: {fileID: 8931922995746749013}
   claimButton: {fileID: 647181107853722108}
   inprogress: {fileID: 8955757469602043761}
-  claimed: {fileID: 8411283200169555897}
+  completedText: {fileID: 8411283200169555897}
   progressField: {fileID: 3453136732520701003}
   progressBar: {fileID: 9191008471494132156}
 --- !u!1 &1980203989014362398
@@ -3103,7 +3103,7 @@ GameObject:
   - component: {fileID: 8521080904185473121}
   - component: {fileID: 8090180242060745452}
   m_Layer: 5
-  m_Name: Claimed
+  m_Name: CompletedText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

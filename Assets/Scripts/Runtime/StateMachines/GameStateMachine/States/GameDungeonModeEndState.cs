@@ -28,11 +28,11 @@
         }
         public override async void Enter()
         {
+            this.waveSystem.ClearDungeon();
             this.dungeonLocalDataController.CompleteCurrentDungeon();
             this.enemyManager.DisposeAllElement();
             this.summonerManager.DisposeAllElement();
             this.projectileManager.DisposeAllElement();
-            this.waveSystem.ClearDungeon();
             await this.screenManager.OpenScreen<DungeonEndPopupPresenter>();
         }
 

@@ -29,7 +29,6 @@
             this.enemyManager.DisposeAllElement();
             this.summonerManager.DisposeAllElement();
             this.projectileManager.DisposeAllElement();
-            this.waveSystem.ClearWave();
             await this.screenManager.OpenScreen<EndGamePopupPresenter, EndGamePopupModel>(new EndGamePopupModel() { IsWin = this.userLocalDataController.IsWinCurrentLevel });
         }
 

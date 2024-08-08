@@ -1,0 +1,110 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: CastleSlot
+  m_EditorClassIdentifier: 
+  m_GroupName: CastleSlot
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 3bb6ccb939add2744b08645724e043c5
+  m_SerializeEntries:
+  - m_GUID: d6b4d8a02fd5b414d8f7f2e6ebc64b7a
+    m_Address: Castle
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5d584c3055e199d4f8a2abb551d1a181
+    m_Address: BaseSlot
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 24e407dc17bded24389055e67e914e83
+    m_Address: wall 4 upgrade
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b33c7fae0502ed4c87dc7b2628d064a
+    m_Address: wall 3 upgrade
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3602320e0aed88b43bad1c3f0b233c9e
+    m_Address: tower update
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 716b894af3b391d48aa6b11a33ff71c0
+    m_Address: castle up 8
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8fadbd16911a95a4d8d6c3cf9aace89d
+    m_Address: castle up 4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: da16c0bccfeea9b4392588c911ac5120
+    m_Address: 'castle front 1 '
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0e1978cd9aac04743a076c9806cae243
+    m_Address: SlotImage
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 49af51860c79cc046821af496df58012
+    m_Address: wall 4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c9408dc054229ac4692dc251cbcd270e
+    m_Address: castle 4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 219407c84a9779e43a30ed592a7d719c
+    m_Address: castle 8
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 363dff191cc6e99449aaeec1b71f98a4
+    m_Address: wall 1
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 723d49b90cd5b54469d5d63af4df834a
+    m_Address: wall 3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 55414fcdb32d6a94a88323b00c237446
+    m_Address: castle 6
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d9ee63fad97d0e04d802e3ac3c76ed5a
+    m_Address: castle 3
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a73c00efd95d5b94eb530a42bb886456
+    m_Address: wall 2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d8e61cefa5fcced40a7874f275178a70, type: 2}
+    - {fileID: 11400000, guid: 3c4804c5deffe6d488aa6a3ce96b7785, type: 2}

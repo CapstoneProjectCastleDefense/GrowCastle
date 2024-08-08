@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 468a46d0ae32c3544b7d98094e6448a9, type: 3}
   m_Name: AddressableAssetSettings
   m_EditorClassIdentifier: 
-  m_DefaultGroup: 7cfac8fdc5a55f8448e6ccda2e52d719
+  m_DefaultGroup: 7fb1165b23e0446448dd7c7bc0c95a70
   m_currentHash:
     serializedVersion: 2
     Hash: 00000000000000000000000000000000
@@ -46,12 +46,20 @@ MonoBehaviour:
   m_GroupAssets:
   - {fileID: 11400000, guid: ce75c515f595aab4eb2c13e6c4f6e779, type: 2}
   - {fileID: 11400000, guid: 02a055505fe3a0e41ac3d82c454617dd, type: 2}
-  - {fileID: 11400000, guid: 7be2b19c31cf21040abdd517c6e9796d, type: 2}
-  - {fileID: 11400000, guid: c39a4c370b038834b92884c757476205, type: 2}
-  - {fileID: 11400000, guid: 2ceaee72a01336641a890e8eecfe03d9, type: 2}
-  - {fileID: 11400000, guid: 03900836995cbe643a9642c1e0a854e2, type: 2}
-  - {fileID: 11400000, guid: 7c41d99741a284548a6e2d08326c74b3, type: 2}
-  - {fileID: 11400000, guid: 48e10572ff4a0364abae23c95cab2c2a, type: 2}
+  - {fileID: 11400000, guid: 74d2f171ad146144ab1ab13ee5bc4393, type: 2}
+  - {fileID: 11400000, guid: 023dba882c44fbc4eb05c9c2d5a3d7b9, type: 2}
+  - {fileID: 11400000, guid: bdaa594fc5b7604459fab0a077d2a1ba, type: 2}
+  - {fileID: 11400000, guid: 28244f55afa31084a8c146c2a2da45fd, type: 2}
+  - {fileID: 11400000, guid: 7f76f6b8789a3d84293257894c117c8d, type: 2}
+  - {fileID: 11400000, guid: 7cbebffafb1ea8a4a9ee938a7a6ec52a, type: 2}
+  - {fileID: 11400000, guid: bd69235e844499e4189ee608431dcfd5, type: 2}
+  - {fileID: 11400000, guid: 0c94b16b2a083c84ab488cbdfd1ed34e, type: 2}
+  - {fileID: 11400000, guid: 9e9d84a1c85a3274abb0846b54f536bb, type: 2}
+  - {fileID: 11400000, guid: 50352845049923e4d9e783a0089d8482, type: 2}
+  - {fileID: 11400000, guid: d0e7cc7fca6380b4eb8dac8b59c3632d, type: 2}
+  - {fileID: 11400000, guid: 9f88c1d348d40fc4ca62eb478407135e, type: 2}
+  - {fileID: 11400000, guid: 35b3ab74af6865d4ab4ad2045ed0850c, type: 2}
+  - {fileID: 11400000, guid: 50e0ba6e6a8f677499ae34fcf5a3c091, type: 2}
   m_BuildSettings:
     m_CompileScriptsInVirtualMode: 0
     m_CleanupStreamingAssetsAfterBuilds: 1

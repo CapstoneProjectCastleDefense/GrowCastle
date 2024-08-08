@@ -1,0 +1,80 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: HeroSkeleton
+  m_EditorClassIdentifier: 
+  m_GroupName: HeroSkeleton
+  m_Data:
+    m_SerializedData: []
+  m_GUID: 50014bfe8f4e4b240bb8ad6fcfd57e91
+  m_SerializeEntries:
+  - m_GUID: 1524861275ae10341b709c013ddbad97
+    m_Address: rise_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 223523dd06bc3f14698eaece920af6b8
+    m_Address: gray mage_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 0281eae19229a8e47b612cb637f9db51
+    m_Address: archer_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 42fecb74d64b6614eb6c50ce9fa18306
+    m_Address: ninja_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b6d8ffc3f6910f64892e68b723c802e5
+    m_Address: judge_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1884aaf0ce3704e4faeca233dfdd6ab8
+    m_Address: moon and night_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2783c3cbfdb0372408434cb33eddaa6e
+    m_Address: shadow_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 29536b5a8667ccb4b9d296286f716322
+    m_Address: storm_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 3e2252a486cd29e4f93e375142f9c487
+    m_Address: wizard_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 78b0f23727a6731499ee7c8eee3733b2
+    m_Address: turret_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2ddf1a6994406ae47ab0b229dd1f8059
+    m_Address: knight hero_SkeletonData
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: 02a5058e011b2a043a159ea465247332, type: 2}
+    - {fileID: 11400000, guid: 6aeadd6cf59962d449dfa328f7ad6855, type: 2}

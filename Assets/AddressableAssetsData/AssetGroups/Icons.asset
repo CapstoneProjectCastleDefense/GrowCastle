@@ -1,0 +1,165 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Icons
+  m_EditorClassIdentifier: 
+  m_GroupName: Icons
+  m_Data:
+    m_SerializedData: []
+  m_GUID: a807d962173a6bc4aa321c8b72bf438c
+  m_SerializeEntries:
+  - m_GUID: 4339ad4a5f3b6ca41bfe7b63637ebbe7
+    m_Address: copperchest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eeca61a04731d8a49aca2b25a9c0431f
+    m_Address: goldchest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a1a06b143edf84458abf7fea3660106
+    m_Address: ironchest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a0a726989592fd4084e88173063f2da
+    m_Address: diamondchest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5dccfbfcca2b7814883beea8d6e53420
+    m_Address: silverchest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b2df8f969e35b542b458bb86c30e35c
+    m_Address: tuikc
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2bdd2e16e920a4e48aa40114f89d6583
+    m_Address: heart
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e0ebc1e808430d0469018f86c9d3185e
+    m_Address: coin2
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 364f19a0fd81aa841bbd8fe57a52cd13
+    m_Address: Ticket
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 76790f27ef3c66340bf1ceb17e86ac8e
+    m_Address: chest
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: a9c65e9b2d3f3fc428c650146db5b7fa
+    m_Address: tuivang
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: cd87977eed55d7444941a35e40881a8b
+    m_Address: GoldIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: eff27f7cdde56c9468e973ee98ca1b4d
+    m_Address: Artboard 35
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bcc918e916058514c8afb6ed86562bc6
+    m_Address: DiamondIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 32afb489c02773b468e037461d7c2b59
+    m_Address: KillEnemyIcon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: f9e47ae2ed4cd6c48a55d612c46a418d
+    m_Address: Artboard 4
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 035c280b474d6cc41accb1b0f1bbf0d2
+    m_Address: tower update
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 17916c53d720da640acae947a31cb2dd
+    m_Address: archer
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: b59569cf2a907e84494425d213d124f6
+    m_Address: Legendary
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 39b6dc9c52762004483b14a7c8feb0c6
+    m_Address: Rare
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: fd1c0eed4915e94419f4fab5311027cb
+    m_Address: Common
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ac1b404e2dcdf35449cd60e18aa3d768
+    m_Address: xp
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 49e8d6a2a99b41b45861075d24e24b0f
+    m_Address: shield
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5eba0d869094c4e4e99496016399825c
+    m_Address: sand clock
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8a96a5f24973d9b42aa3108178fe889a
+    m_Address: def
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bcff024f93a215f44b132722aeeb0f3b
+    m_Address: coinup
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9665eb6a8c0138549948bc038642a414
+    m_Address: arrow
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c1e07833f0631cf459542bee400c1042
+    m_Address: talent
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: d64d695e9a1220e46a66bc2633bd24cb, type: 2}
+    - {fileID: 11400000, guid: 27990b5af1910f54eb8bf71313c51fe0, type: 2}

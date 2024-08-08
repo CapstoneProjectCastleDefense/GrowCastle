@@ -5,6 +5,7 @@
     using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
     using Models.LocalData.LocalDataController;
     using Runtime.Scenes.Adapters.Quests;
@@ -90,6 +91,7 @@
         private async void InitQuestWithType(QuestType questType)
         {
             var listData = this.questLocalDataController.GetAllQuestWithType(questType).Select(e => new QuestItemModel() { QuestId = e.QuestId }).ToList();
+            if(this.View.questAdapter.IsInitialized) this.View.questAdapter.Refresh();
             await this.View.questAdapter.InitItemAdapter(listData, this.diContainer);
         }
         public override void CloseView() { this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () => { base.CloseView(); }; }

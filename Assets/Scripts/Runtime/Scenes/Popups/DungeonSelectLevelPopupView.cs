@@ -4,6 +4,7 @@
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using Models.LocalData.LocalDataController;
     using Runtime.Enums;
     using Runtime.Services;
@@ -28,13 +29,17 @@
         private readonly GameStateMachine            gameStateMachine;
         private readonly ResourceLocalDataController resourceLocalDataController;
         private readonly ToastController             toastController;
+        private readonly LevelLocalDataController    levelLocalDataController;
+        private readonly ScreenManager               screenManager;
 
-        public DungeonSelectLevelPopupPresenter(SignalBus signalBus, DungeonLocalDataController dungeonLocalDataController, GameStateMachine gameStateMachine, ResourceLocalDataController resourceLocalDataController, ToastController toastController) : base(signalBus)
+        public DungeonSelectLevelPopupPresenter(SignalBus signalBus, DungeonLocalDataController dungeonLocalDataController, GameStateMachine gameStateMachine, ResourceLocalDataController resourceLocalDataController, ToastController toastController, LevelLocalDataController levelLocalDataController, ScreenManager screenManager) : base(signalBus)
         {
             this.dungeonLocalDataController  = dungeonLocalDataController;
             this.gameStateMachine            = gameStateMachine;
             this.resourceLocalDataController = resourceLocalDataController;
             this.toastController             = toastController;
+            this.levelLocalDataController    = levelLocalDataController;
+            this.screenManager               = screenManager;
         }
 
         protected override void OnViewReady()
@@ -51,7 +56,7 @@
             {
                 item.dungeonIdText.text      =  item.dungeonId;
                 item.onDungeonSelectBtnClick =  null;
-                item.onDungeonSelectBtnClick += this.EnterDungeon;
+                item.onDungeonSelectBtnClick += this.ShowPopupConfirm;
                 item.gameObject.SetActive(this.dungeonLocalDataController.CheckDungeonIsUnlock(item.dungeonId));
             });
             this.View.ticketValue.text = $"{this.resourceLocalDataController.GetResource(ResourceType.Ticket).Value}";
@@ -65,19 +70,15 @@
             this.View.ticketValue.text = $"{value}";
         }
 
-        private void EnterDungeon(string dungeonId)
+        private void ShowPopupConfirm(string dungeonId)
         {
-            var dungeonRecord = this.dungeonLocalDataController.GetDungeonRecord(dungeonId);
-            if (this.resourceLocalDataController.SpendResource(ResourceType.Ticket, dungeonRecord.Ticket))
+            var requireLevel = this.dungeonLocalDataController.GetDungeonRecord(dungeonId).RequireLevel;
+            if (requireLevel > this.levelLocalDataController.CurrentLevel.Value)
             {
-                this.dungeonLocalDataController.currentSelectedDungeon = dungeonId;
-                this.gameStateMachine.TransitionTo<GameDungeonModeState>();
-                this.CloseView();
+                this.toastController.ShowToast($"Reach level {requireLevel} in endless mode to unlock dungeon");
+                return;
             }
-            else
-            {
-                this.toastController.ShowToast("Not enough ticket");
-            }
+            this.screenManager.OpenScreen<DungeonConfirmPopupPresenter, DungeonConfirmPopupModel>(new() { onConfirmAction = this.CloseView, dungeonId = dungeonId }).Forget();
         }
     }
 }

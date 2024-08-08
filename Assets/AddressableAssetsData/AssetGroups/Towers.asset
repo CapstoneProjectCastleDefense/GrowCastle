@@ -15,10 +15,15 @@ MonoBehaviour:
   m_GroupName: Towers
   m_Data:
     m_SerializedData: []
-  m_GUID: 79b5291d640734a4ba3ea533bb69c195
+  m_GUID: bf16d3ccb1e866848877a2571aa6c6d1
   m_SerializeEntries:
   - m_GUID: 95555756f56ff8e4f9950fd63f8e919a
     m_Address: TowerXelNaga
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 947e3151f1fb04749895eee3d7ecbc27
+    m_Address: TowerWorm
     m_ReadOnly: 0
     m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
@@ -26,5 +31,5 @@ MonoBehaviour:
   m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
   m_SchemaSet:
     m_Schemas:
-    - {fileID: 11400000, guid: 7ab2edbbe4821fd4f9bca2004735aca2, type: 2}
-    - {fileID: 11400000, guid: 27dd0602014658948909148b33de3ee5, type: 2}
+    - {fileID: 11400000, guid: 00fea7a152c547347972e5f0eaeaa423, type: 2}
+    - {fileID: 11400000, guid: f3b46fe5569628d46ab8fc9fc3c38c89, type: 2}

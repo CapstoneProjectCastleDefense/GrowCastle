@@ -43,6 +43,15 @@
             this.onCounterComplete       = onCounterCompleteAction;
             this.isStartCounter          = true;
         }
+
+        public void StopCounterDeathEnemy()
+        {
+            this.counterDeathEnemy       = 0;
+            this.targetCounterDeathEnemy = 0;
+            this.onCounterComplete       = null;
+            this.isStartCounter          = false;
+        }
+
         public void UpdateEnemyDeathCounter()
         {
             if (!this.isStartCounter) return;
