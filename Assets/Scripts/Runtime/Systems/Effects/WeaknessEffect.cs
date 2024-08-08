@@ -14,7 +14,7 @@
             for (var index = 0; index < this.AffectedElements.Count; index++)
             {
                 var target = this.AffectedElements[index];
-                if (((SlowTag)target.CurrentEffectTags[this.EffectTagType]).Duration <= 0)
+                if (((WeaknessTag)target.CurrentEffectTags[this.EffectTagType]).Duration <= 0)
                 {
                     this.RemoveEffectOnTarget(target);
                 }
