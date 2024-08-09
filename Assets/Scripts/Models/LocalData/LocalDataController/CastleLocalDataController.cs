@@ -105,9 +105,7 @@
             var result     = new Dictionary<StatEnum, (Type, Object)>();
             var configData = this.castleConfigBlueprint;
             var health = configData.BaseHP
-                + this.castleLocalData.Level * configData.BaseHP * 0.3f
-                + this.talentBlueprint[TalentType.IncreaseCastleHp].TalentLevelToDataRecords[this.talentLocalDataController.GetTalentLevel(TalentType.IncreaseCastleHp)]
-                    .EffectValue;
+                + this.castleLocalData.Level * configData.BaseHP * 0.3f;
 
             result.Add(StatEnum.MaxHealth, (configData.BaseHP.GetType(),health));
             result.Add(StatEnum.Health, (configData.BaseHP.GetType(), health)); //TODO: *10000 for testing, change to local data later

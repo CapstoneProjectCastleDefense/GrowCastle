@@ -8,13 +8,16 @@
         public Dictionary<TalentType, int> TalentData { get; set; } = new();
         public void Init()
         {
-            
+
         }
     }
 
     public enum TalentType
     {
+        IncreaseArcherAttackSpeed,
+        IncreaseDropCoin,
+        IncreaseDropExp,
+        IncreaseHeroAttack,
         IncreaseArcherAttack,
-        IncreaseCastleHp,
     }
 }

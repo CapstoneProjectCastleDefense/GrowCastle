@@ -34,22 +34,26 @@
         private readonly SignalBus                   signalBus;
         private readonly EnemyBlueprint              enemyBlueprint;
         private readonly EntitySkillSystem           entitySkillSystem;
+        private readonly TalentLocalDataController   talentLocalDataController;
 
-        public virtual Type[]   GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
-        public virtual string[] GetTags()         { return new[] { "Ally", "Building" }; }
+        public virtual Type[] GetManagerTypes() { return new[] { typeof(EnemyManager), typeof(CastleManager), typeof(LeaderManager) }; }
+
+        public virtual string[] GetTags() { return new[] { "Ally", "Building" }; }
 
         public Action<float> onUpdateHpStat;
 
         public Action<EnemyPresenter> onAttackComplete;
 
         protected EnemyPresenter(
-            EnemyModel model,
-            ObjectPoolManager objectPoolManager,
-            FindTargetSystem findTargetSystem,
+            EnemyModel                  model,
+            ObjectPoolManager           objectPoolManager,
+            FindTargetSystem            findTargetSystem,
             ResourceLocalDataController resourceLocalDataController,
-            SignalBus signalBus,
-            EnemyBlueprint enemyBlueprint,
-            EntitySkillSystem entitySkillSystem)
+            SignalBus                   signalBus,
+            EnemyBlueprint              enemyBlueprint,
+            EntitySkillSystem           entitySkillSystem,
+            TalentLocalDataController   talentLocalDataController
+        )
             : base(model, objectPoolManager)
         {
             this.findTargetSystem            = findTargetSystem;
@@ -57,7 +61,9 @@
             this.signalBus                   = signalBus;
             this.enemyBlueprint              = enemyBlueprint;
             this.entitySkillSystem           = entitySkillSystem;
+            this.talentLocalDataController   = talentLocalDataController;
         }
+
         public override async UniTask UpdateView()
         {
             await base.UpdateView();
@@ -70,12 +76,12 @@
             this.Tags                                                             = this.enemyBlueprint.GetDataById(this.Model.Id).Tags;
         }
 
-
         private void DoMove(float range, float distance)
         {
             if (distance <= range)
             {
                 this.View.Rigidbody2D.velocity = Vector2.zero;
+
                 return;
             }
 
@@ -84,9 +90,7 @@
 
         public void Attack(ITargetable target) //TODO : Replace with a skill called attack
         {
-            if (!this.AttackAnimName.IsNullOrEmpty() &&
-                this.View.SkeletonAnimation &&
-                Time.time >= this.AttackCooldownTime)
+            if (!this.AttackAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation && Time.time >= this.AttackCooldownTime)
             {
                 this.View.Rigidbody2D.velocity = Vector2.zero;
                 this.View.transform.DOKill();
@@ -162,8 +166,6 @@
             if (this.IsDead) return;
             ((EnemyManager)this.ElementManager).UpdateEnemyDeathCounter();
             this.View.Rigidbody2D.constraints = RigidbodyConstraints2D.FreezePosition;
-            float goldDrop = this.Model.GetStat<float>(StatEnum.Gold);
-            this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
 
             this.TargetThatImLookingAt = null;
             this.IsDead                = true;
@@ -174,10 +176,9 @@
             this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = QuestTriggerSignalId.KillEnemy, Value = 1 });
 
             var wait = 0f;
-            if (!DeathAnimName.IsNullOrEmpty() &&
-                this.View.SkeletonAnimation != null)
+            if (!this.DeathAnimName.IsNullOrEmpty() && this.View.SkeletonAnimation != null)
             {
-                this.View.SkeletonAnimation.SetAnimation(DeathAnimName, false);
+                this.View.SkeletonAnimation.SetAnimation(this.DeathAnimName, false);
                 wait = this.View.SkeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
             }
 
@@ -188,10 +189,14 @@
 
         private void DropCoin()
         {
-            var goldDrop = this.Model.GetStat<float>(StatEnum.Gold);
-            var expDrop  = this.Model.GetStat<float>(StatEnum.Exp);
+            var baseGoldDrop = this.Model.GetStat<float>(StatEnum.Gold);
+            var goldDrop     = baseGoldDrop + baseGoldDrop * this.talentLocalDataController.GetTalentEffect(TalentType.IncreaseDropCoin);
             this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
+
+            var baseExpDrop = this.Model.GetStat<float>(StatEnum.Exp);
+            var expDrop     = baseExpDrop + baseExpDrop * this.talentLocalDataController.GetTalentEffect(TalentType.IncreaseDropExp);
             this.resourceLocalDataController.ReceiveResource(ResourceType.Exp, expDrop);
+
             this.CoinPopUp(goldDrop);
         }
 
@@ -202,7 +207,10 @@
             this.View.CoinPopup.GetComponentInChildren<TextMeshProUGUI>().SetText("+ " + goldDrop);
             this.View.CoinPopup.SetActive(true);
             this.View.CoinPopup.GetComponent<RectTransform>().DOAnchorPosY(6.55f, 0.3f);
-            this.View.CoinPopupCanvas.DOFade(1f, 0.3f).OnComplete(() => { this.View.CoinPopupCanvas.DOFade(0f, 0.3f); });
+            this.View.CoinPopupCanvas.DOFade(1f, 0.3f).OnComplete(() =>
+            {
+                this.View.CoinPopupCanvas.DOFade(0f, 0.3f);
+            });
         }
 
         public override ITargetable TargetThatImAttacking
@@ -238,6 +246,7 @@
         protected override UniTask<GameObject> CreateView()
         {
             var res = this.ObjectPoolManager.Spawn(this.Model.AddressableName);
+
             return res;
         }
 
@@ -251,10 +260,12 @@
         public override void Tick()
         {
             base.Tick();
+
             if (!this.IsViewInit) return;
             if (this.IsDead)
             {
                 this.View.Rigidbody2D.velocity = Vector2.zero;
+
                 return;
             }
 

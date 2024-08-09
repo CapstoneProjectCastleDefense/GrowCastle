@@ -16,12 +16,14 @@
     using Zenject;
     using R3;
     using Runtime.Enums;
+    using Runtime.Services;
 
     public class TalentPopupView : BaseView
     {
         public GameObject      descriptionField;
         public TextMeshProUGUI description;
         public TextMeshProUGUI talentPointValue;
+        public TextMeshProUGUI talentPointNeed;
         public Button          levelupBtn;
         public Button          exitBtn;
         public Image           iconTalent;
@@ -39,15 +41,19 @@
         private readonly DiContainer                 diContainer;
         private readonly IGameAssets                 gameAssets;
         private readonly ResourceLocalDataController resourceLocalDataController;
+        private readonly ToastController             toastController;
 
         private TalentType currentSelectedTalent;
+
         public TalentPopupPresenter(
-            SignalBus signalBus,
-            TalentLocalDataController talentLocalDataController,
-            TalentBlueprint talentBlueprint,
-            DiContainer diContainer,
-            IGameAssets gameAssets,
-            ResourceLocalDataController resourceLocalDataController)
+            SignalBus                   signalBus,
+            TalentLocalDataController   talentLocalDataController,
+            TalentBlueprint             talentBlueprint,
+            DiContainer                 diContainer,
+            IGameAssets                 gameAssets,
+            ResourceLocalDataController resourceLocalDataController,
+            ToastController             toastController
+        )
             : base(signalBus)
         {
             this.talentLocalDataController   = talentLocalDataController;
@@ -55,7 +61,9 @@
             this.diContainer                 = diContainer;
             this.gameAssets                  = gameAssets;
             this.resourceLocalDataController = resourceLocalDataController;
+            this.toastController             = toastController;
         }
+
         protected override void OnViewReady()
         {
             base.OnViewReady();
@@ -63,6 +71,7 @@
             this.View.exitBtn.onClick.AddListener(this.CloseView);
             this.resourceLocalDataController.GetResource(ResourceType.TalentPoint).Subscribe(this.OnTalentPointChange);
         }
+
         public override async UniTask BindData()
         {
             this.View.viewField.transform.position = this.View.startPos.position;
@@ -84,32 +93,32 @@
 
         private void OnUpgradeTalentClick()
         {
-            if (!this.talentLocalDataController.LevelupTalent(this.currentSelectedTalent)) return;
             if (this.talentLocalDataController.CheckTalentIsMaxLevel(this.currentSelectedTalent))
             {
-                this.View.talentAdapter.Refresh();
-                return;
+                this.toastController.ShowToast("This talent has reached the max level");
+            }
+            else
+            {
+                this.toastController.ShowToast(!this.talentLocalDataController.LevelUpTalent(this.currentSelectedTalent) ? "Not enough talent point" : "upgrade completed");
             }
 
             var level = this.talentLocalDataController.GetTalentLevel(this.currentSelectedTalent);
             this.View.description.text
-                = $"{this.talentBlueprint.GetDataById(this.currentSelectedTalent).Description} {this.talentBlueprint.GetDataById(this.currentSelectedTalent).TalentLevelToDataRecords[level + 1].EffectValue}";
+                = $"{this.talentBlueprint.GetDataById(this.currentSelectedTalent).Description} {this.talentBlueprint.GetDataById(this.currentSelectedTalent).TalentLevelToDataRecords[level + 1].EffectValue}%";
             this.View.talentAdapter.Refresh();
         }
 
         private void OnItemClick(TalentType talentType, int level)
         {
             this.View.descriptionField.SetActive(true);
-            if (!this.talentLocalDataController.CheckTalentIsMaxLevel(talentType))
-            {
-                this.View.description.text
-                    = $"{this.talentBlueprint.GetDataById(talentType).Description} {this.talentBlueprint.GetDataById(talentType).TalentLevelToDataRecords[level + 1].EffectValue}";
-            }
+            this.View.description.text
+                = $"{this.talentBlueprint.GetDataById(talentType).Description} {this.talentBlueprint.GetDataById(talentType).TalentLevelToDataRecords[level + 1].EffectValue}%";
 
-            this.View.iconTalent.sprite = this.gameAssets.LoadAssetAsync<Sprite>(this.talentBlueprint.GetDataById(talentType).Icon).WaitForCompletion();
-            this.currentSelectedTalent  = talentType;
+            this.View.iconTalent.sprite    = this.gameAssets.LoadAssetAsync<Sprite>(this.talentBlueprint.GetDataById(talentType).Icon).WaitForCompletion();
+            this.currentSelectedTalent     = talentType;
+            this.View.talentPointNeed.text = $"{this.talentBlueprint.GetDataById(talentType).TalentLevelToDataRecords[level + 1].TalentPointNeed}";
         }
-        
+
         public override void CloseView()
         {
             this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>

@@ -1,7 +1,31 @@
 TalentType,Icon,Description,Level,EffectValue,TalentPointNeed
-IncreaseArcherAttack,arrow,Increase Archer Attack to,0,0,0
-,,,1,30,1
-,,,2,50,1
-IncreaseCastleHp,shield,Increase Castle HP more,0,0,0
-,,,1,25,2
-,,,2,30,2
+IncreaseArcherAttack,arrow,Increase Archer Attack more,0,0,0
+,,,1,1,1
+,,,2,3,2
+,,,3,6,3
+,,,4,10,4
+,,,5,15,5
+IncreaseArcherAttackSpeed,sand clock,Increase archer attack speed more,0,0,0
+,,,1,1,1
+,,,2,3,2
+,,,3,6,3
+,,,4,10,4
+,,,5,15,5
+IncreaseDropCoin,coinup,Increase drop coin more,0,0,0
+,,,1,2.5,1
+,,,2,5,2
+,,,3,8.5,3
+,,,4,12,4
+,,,5,15,5
+IncreaseDropExp,xp,Increase drop Exp more,0,0,0
+,,,1,2.5,1
+,,,2,5,2
+,,,3,8.5,3
+,,,4,12,4
+,,,5,15,5
+IncreaseHeroAttack,knight,Increase hero attack more,0,0,0
+,,,1,1,1
+,,,2,3,2
+,,,3,6,3
+,,,4,10,4
+,,,5,15,5
