@@ -216,6 +216,11 @@
 
                     break;
                 case SlotType.Tower:
+                    var towerId = this.Model.HeroRuntimeData.heroRecord.HeroId;
+                    if (this.heroLocalDataController.UnLockHero(towerId))
+                    {
+                        this.ReBindData();
+                    }
                     break;
                 case SlotType.Leader:
                     break;

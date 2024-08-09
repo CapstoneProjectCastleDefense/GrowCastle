@@ -16,6 +16,7 @@
     using Runtime.Signals;
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.StateMachines.GameStateMachine.States;
+    using Runtime.Systems.Waves;
     using UnityEngine;
     using Zenject;
 
@@ -27,16 +28,19 @@
         private readonly SignalBus                 signalBus;
         private readonly EnemyManager              enemyManager;
         private readonly UserLocalDataController   userLocalDataController;
+        private readonly WaveSystem                waveSystem;
 
         public CastlePresenter(
-            CastleModel model,
-            ObjectPoolManager objectPoolManager,
+            CastleModel               model,
+            ObjectPoolManager         objectPoolManager,
             CastleLocalDataController castleLocalDataController,
-            IGameAssets gameAssets,
-            BlockBlueprint blueprint,
-            SignalBus signalBus,
-            EnemyManager enemyManager,
-            UserLocalDataController userLocalDataController)
+            IGameAssets               gameAssets,
+            BlockBlueprint            blueprint,
+            SignalBus                 signalBus,
+            EnemyManager              enemyManager,
+            UserLocalDataController   userLocalDataController,
+            WaveSystem                waveSystem
+        )
             : base(model, objectPoolManager)
         {
             this.castleLocalDataController = castleLocalDataController;
@@ -45,9 +49,11 @@
             this.signalBus                 = signalBus;
             this.enemyManager              = enemyManager;
             this.userLocalDataController   = userLocalDataController;
+            this.waveSystem                = waveSystem;
         }
 
-        public             CastleView          CastleView   => this.View;
+        public CastleView CastleView => this.View;
+
         protected override UniTask<GameObject> CreateView() { return this.ObjectPoolManager.Spawn(this.Model.AddressableName); }
 
         public override async UniTask UpdateView()
@@ -75,6 +81,7 @@
                 blockView.blockImage.sprite = this.gameAssets.LoadAssetAsync<Sprite>(blockDataRecord.BlockToLevelRecords[blockData.BlockLevel].Image).WaitForCompletion();
             });
         }
+
         public override void Dispose() { }
 
         public bool UseManaForSkill(float manaValue)
@@ -86,6 +93,7 @@
                 this.Model.SetStat(StatEnum.Mana, currentMana);
                 this.castleLocalDataController.UpdateStats(this.Model.GetStat<float>(StatEnum.Health), currentMana);
                 this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
+
                 return true;
             }
 
@@ -120,9 +128,11 @@
 
             this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
         }
+
         public override void OnGetHit(float damage)
         {
             var hp = this.Model.GetStat<float>(StatEnum.Health);
+
             if (this.IsDead) return;
             hp -= damage;
             Debug.Log($"Castle get hit {damage} hp left {hp}");
@@ -132,6 +142,7 @@
                 hp = 0;
                 this.Model.SetStat(StatEnum.Health, hp);
                 this.OnDeath();
+
                 return;
             }
 
@@ -140,14 +151,16 @@
 
             this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
         }
+
         public override void OnDeath()
         {
             Debug.Log("Lose");
             this.userLocalDataController.IsWinCurrentLevel = false;
+            this.waveSystem.ClearWave();
             this.GetCurrentContainer().Resolve<GameStateMachine>().TransitionTo<GameEndWaveState>();
         }
 
-        public void CastleUpgradePopUp() { UpgradePopUp(this.View.castleUpPopUp, Vector2.zero); }
+        public void CastleUpgradePopUp() { this.UpgradePopUp(this.View.castleUpPopUp, Vector2.zero); }
 
         public void ArcherUpgradePopUp()
         {
@@ -161,7 +174,13 @@
             popUp.gameObject.GetComponent<CanvasGroup>().alpha = 1;
             popUp.anchoredPosition                             = startPosition;
             popUp.gameObject.SetActive(true);
-            popUp.DOAnchorPosY(2f, 0.3f).OnComplete(() => { popUp.gameObject.GetComponent<CanvasGroup>().DOFade(0f, 0.3f).OnComplete(() => { popUp.gameObject.SetActive(false); }); });
+            popUp.DOAnchorPosY(2f, 0.3f).OnComplete(() =>
+            {
+                popUp.gameObject.GetComponent<CanvasGroup>().DOFade(0f, 0.3f).OnComplete(() =>
+                {
+                    popUp.gameObject.SetActive(false);
+                });
+            });
         }
 
         public void UpdateStat()
@@ -175,6 +194,6 @@
     {
         public string                               Id              { get; set; }
         public string                               AddressableName { get; set; }
-        public Dictionary<StatEnum, (Type, object)> BaseStats           { get; set; }
+        public Dictionary<StatEnum, (Type, object)> BaseStats       { get; set; }
     }
 }

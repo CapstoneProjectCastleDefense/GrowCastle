@@ -56,7 +56,10 @@
         {
             if (!this.isStartCounter) return;
             this.counterDeathEnemy++;
-            if (this.counterDeathEnemy >= this.targetCounterDeathEnemy) this.onCounterComplete?.Invoke();
+            if (this.counterDeathEnemy >= this.targetCounterDeathEnemy)
+            {
+                this.onCounterComplete?.Invoke();
+            }
         }
 
         public EnemyPresenter SpawnEnemy(string enemyId)

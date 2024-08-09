@@ -92,9 +92,7 @@
 
         public void ClearDungeon()
         {
-            this.waveWithDelayTimeQueue.Clear();
-            this.isActiveWave                                   = false;
-            this.enemyGroupLoaderService.UnloadEnemyFromWave();
+            this.ClearWave();
         }
 
         #endregion
@@ -124,21 +122,19 @@
             }
         }
 
-        private void ClearWave()
+        public void ClearWave()
         {
             this.waveWithDelayTimeQueue.Clear();
             this.isActiveWave = false;
             this.enemyGroupLoaderService.UnloadEnemyFromWave();
+            this.enemyManager.StopCounterDeathEnemy();
         }
 
 
         private void CompleteCurrentWave()
         {
-            this.waveWithDelayTimeQueue.Clear();
-            this.isActiveWave                              = false;
             this.userLocalDataController.IsWinCurrentLevel = true;
             this.levelLocalDataController.PassCurrentLevel();
-            this.enemyManager.StopCounterDeathEnemy();
             this.ClearWave();
             this.GetCurrentContainer().Resolve<GameStateMachine>().TransitionTo<GameEndWaveState>();
         }
