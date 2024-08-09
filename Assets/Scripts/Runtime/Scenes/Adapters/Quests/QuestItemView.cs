@@ -28,19 +28,23 @@
         public GameObject      completedText;
         public GameObject      progressField;
         public Image           progressBar;
+        public Image           rewardImage;
+        public TextMeshProUGUI rewardValue;
     }
 
     public class QuestItemPresenter : BaseUIItemPresenter<QuestItemView, QuestItemModel>
     {
         private readonly QuestBlueprint           questBlueprint;
         private readonly QuestLocalDataController questLocalDataController;
+        private readonly ResourceBlueprint        resourceBlueprint;
         private          QuestItemModel           model;
 
-        public QuestItemPresenter(IGameAssets gameAssets, QuestBlueprint questBlueprint, QuestLocalDataController questLocalDataController)
+        public QuestItemPresenter(IGameAssets gameAssets, QuestBlueprint questBlueprint, QuestLocalDataController questLocalDataController, ResourceBlueprint resourceBlueprint)
             : base(gameAssets)
         {
             this.questBlueprint           = questBlueprint;
             this.questLocalDataController = questLocalDataController;
+            this.resourceBlueprint        = resourceBlueprint;
         }
 
         public override void BindData(QuestItemModel param)
@@ -54,6 +58,9 @@
             this.View.currentValue.text     = $"{questData.CurrentValue}";
             this.View.claimButton.onClick.RemoveAllListeners();
             this.View.claimButton.onClick.AddListener(this.OnClaimButtonClick);
+
+            this.View.rewardImage.sprite = this.GameAssets.LoadAssetAsync<Sprite>(this.resourceBlueprint.GetDataById(questRecord.RewardType).Image).WaitForCompletion();
+            this.View.rewardValue.text   = $"{questRecord.RewardValue}";
 
             questData.CurrentValue.Subscribe(this.OnCurrentValueChange);
             this.View.progressBar.fillAmount = questData.CurrentValue.Value / questRecord.TargetValue;
@@ -74,7 +81,9 @@
                     this.View.completedText.SetActive(false);
                     break;
                 case QuestStatus.Inprogress:
-                    //this.View.inprogress.SetActive(true);
+                    this.View.progressField.SetActive(true);
+                    this.View.claimButton.gameObject.SetActive(false);
+                    this.View.completedText.SetActive(false);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();

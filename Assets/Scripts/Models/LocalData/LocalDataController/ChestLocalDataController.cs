@@ -55,7 +55,7 @@
 
         public ChestData GetChestData(ResourceType chestType) => this.chestLocalData.ChestData.First(e => e.ChestType == chestType);
 
-        public void ReceiveChest(ResourceType chestType) { this.chestLocalData.ChestData.Add(new ChestData() { ChestType = chestType }); }
+        public void ReceiveChest(ResourceType chestType) { this.chestLocalData.ChestData.Add(new ChestData() { ChestType = chestType, ChestRecord = this.chestBlueprint.GetDataById(chestType)}); }
 
         public List<PoolItem> OpenChest(ResourceType chestType)
         {

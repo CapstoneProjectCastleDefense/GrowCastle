@@ -48,6 +48,7 @@
                 var data = allChestData.Where(e => e.ChestType == chestView.chestType).ToList();
                 if (data.Count != 0)
                 {
+                    chestView.gameObject.SetActive(true);
                     this.BindDataToChest(data, chestView);
                 }
                 else

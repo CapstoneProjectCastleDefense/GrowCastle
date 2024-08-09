@@ -57,7 +57,7 @@
                 item.dungeonIdText.text      =  item.dungeonId;
                 item.onDungeonSelectBtnClick =  null;
                 item.onDungeonSelectBtnClick += this.ShowPopupConfirm;
-                item.gameObject.SetActive(this.dungeonLocalDataController.CheckDungeonIsUnlock(item.dungeonId));
+                //item.gameObject.SetActive(this.dungeonLocalDataController.CheckDungeonIsUnlock(item.dungeonId));
             });
             this.View.ticketValue.text = $"{this.resourceLocalDataController.GetResource(ResourceType.Ticket).Value}";
 
