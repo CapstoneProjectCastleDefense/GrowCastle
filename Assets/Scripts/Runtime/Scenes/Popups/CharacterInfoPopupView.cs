@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
@@ -77,6 +78,7 @@
         private readonly SlotBlueprint                       slotBlueprint;
         private readonly StatEffectBlueprint                 statEffectBlueprint;
         private readonly ToastController                     toastController;
+        private readonly ElementSkinBlueprint                elementSkinBlueprint;
 
         public CharacterInfoPopupPresenter(
             SignalBus signalBus,
@@ -89,7 +91,8 @@
             HeroUpgradeService heroUpgradeService,
             SlotBlueprint slotBlueprint,
             StatEffectBlueprint statEffectBlueprint,
-            ToastController toastController
+            ToastController toastController,
+            ElementSkinBlueprint elementSkinBlueprint
         )
             : base(signalBus, logService)
         {
@@ -102,6 +105,7 @@
             this.slotBlueprint                       = slotBlueprint;
             this.statEffectBlueprint                 = statEffectBlueprint;
             this.toastController                     = toastController;
+            this.elementSkinBlueprint                = elementSkinBlueprint;
         }
 
         protected override void OnViewReady()
@@ -261,6 +265,7 @@
         {
             var isUpgradeSuccess = this.heroLocalDataController.UpgradeHero(this.Model.HeroRuntimeData.heroRecord.HeroId,
                 (int)this.heroUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId));
+            
             if (isUpgradeSuccess)
             {
                 AudioService.Instance.PlaySound("LevelUp");

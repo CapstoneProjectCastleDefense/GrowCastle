@@ -27,7 +27,7 @@
         private readonly SkillBlueprint          skillBlueprint;
         private readonly CastleManager           castleManager;
         private readonly HeroLocalDataController heroLocalDataController;
-        private readonly EffectManager           effectManager;
+        private readonly ElementSkinBlueprint    elementSkinBlueprint;
 
         private HeroManager                  heroManager;
         private bool                         canAttack;
@@ -47,7 +47,7 @@
             SkillBlueprint skillBlueprint,
             CastleManager castleManager,
             HeroLocalDataController heroLocalDataController,
-            EffectManager effectManager)
+            ElementSkinBlueprint elementSkinBlueprint)
             : base(model, objectPoolManager)
         {
             this.entitySkillSystem       = entitySkillSystem;
@@ -56,7 +56,7 @@
             this.skillBlueprint          = skillBlueprint;
             this.castleManager           = castleManager;
             this.heroLocalDataController = heroLocalDataController;
-            this.effectManager           = effectManager;
+            this.elementSkinBlueprint    = elementSkinBlueprint;
         }
 
         public void SetManager(HeroManager heroManager) => this.heroManager = heroManager;
@@ -171,6 +171,16 @@
 
         public float AttackCooldownTime { get; }
 
+        private void SetSkin()
+        {
+            var id            = this.Model.Id;
+            var heroLocalData = this.heroLocalDataController.GetHeroLocalData(id);
+            var selectSkin    = this.elementSkinBlueprint.GetSkinByLevel(id, heroLocalData.Level);
+            this.View.skeletonAnimation.Skeleton.SetSkin(selectSkin);
+            this.View.skeletonAnimation.Skeleton.SetSlotsToSetupPose();
+            this.View.skeletonAnimation.LateUpdate();
+        }
+
         #region Implement IEquipable
 
         public void Equip(string equipmentId) { this.heroLocalDataController.EquipEquipment(this.Model.Id, equipmentId); }
@@ -191,6 +201,7 @@
             transform.localPosition = Vector3.zero;
             var activeSkill = this.heroBlueprint.GetDataById(this.Model.Id).ActiveSkill;
             this.View.OnClickAction = () => this.CastSkill(activeSkill.skillName, activeSkill.animationName, null);
+            this.SetSkin();
         }
 
         public override void Dispose()
