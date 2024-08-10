@@ -1,0 +1,20 @@
+
+golden chalice.png
+size: 2031,1403
+format: RGBA8888
+filter: Linear,Linear
+repeat: none
+as
+  rotate: true
+  xy: 2, 2
+  size: 1399, 1456
+  orig: 1399, 1456
+  offset: 0, 0
+  index: -1
+chen
+  rotate: false
+  xy: 1460, 404
+  size: 569, 997
+  orig: 569, 997
+  offset: 0, 0
+  index: -1

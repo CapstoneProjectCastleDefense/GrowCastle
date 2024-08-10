@@ -28,6 +28,7 @@
         }
         public override async void Enter()
         {
+            this.enemyManager.InCreaseGoldDropPercent.Clear();
             this.waveSystem.ClearDungeon();
             this.dungeonLocalDataController.CompleteCurrentDungeon();
             this.enemyManager.DisposeAllElement();

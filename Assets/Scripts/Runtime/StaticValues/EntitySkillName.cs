@@ -17,6 +17,7 @@
         public static string GoldenThunderSkill   = "golden_thunder_skill";
         public static string PhantomAttack        = "phantom_attack";
         public static string WormNormalAttack     = "WormNormalAttack";
+        public static string GoldenStatueSkill    = "GoldenStatueSkill";
 
         #region Buff
 

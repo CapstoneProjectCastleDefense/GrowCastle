@@ -26,6 +26,7 @@
         }
         public override async void Enter()
         {
+            this.enemyManager.InCreaseGoldDropPercent.Clear();
             this.enemyManager.DisposeAllElement();
             this.summonerManager.DisposeAllElement();
             this.projectileManager.DisposeAllElement();

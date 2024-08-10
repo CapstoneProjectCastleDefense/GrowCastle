@@ -1,5 +1,6 @@
 ﻿namespace Runtime.Scenes.Commons
 {
+    using System;
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
@@ -52,7 +53,7 @@
             this.model = infoModel;
             var heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(this.model.ElementId);
             this.levelTxt.text           = $"{this.heroUpgradeService.GetHeroLevel(this.model.ElementId)}";
-            this.attackInfoTxt.text      = $"{(int)this.heroUpgradeService.GetCurrentAttack(this.model.ElementId)}";
+            this.attackInfoTxt.text      = $"{Math.Round(this.heroUpgradeService.GetCurrentAttack(this.model.ElementId),1)}";
             this.attackInfoSpeedTxt.text = $"{heroRuntimeData.attackSpeed}";
 
             var skeletonDataAsset = this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(heroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion();

@@ -1,4 +1,4 @@
-﻿namespace Runtime.Elements.EntitySkills.InstantHitSkills
+﻿namespace Runtime.Elements.EntitySkills.ProjectileSkills
 {
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.Utilities.ObjectPool;
@@ -8,7 +8,6 @@
     using Runtime.Elements.Entities.Enemy;
     using Runtime.Elements.Entities.Projectile;
     using Runtime.Interfaces.Entities;
-    using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.StaticValues;
     using UnityEngine;

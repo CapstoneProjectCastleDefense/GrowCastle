@@ -22,9 +22,10 @@
         private Action onCounterComplete;
         private bool   isStartCounter;
 
-        private readonly EnemyBlueprint          enemyBlueprint;
-        public readonly  ReactiveProperty<float> CurrentBossHealth = new(0);
-        public           float                   MaxBossHealth;
+        private readonly EnemyBlueprint            enemyBlueprint;
+        public readonly  ReactiveProperty<float>   CurrentBossHealth = new(0);
+        public           float                     MaxBossHealth;
+        public           Dictionary<string, float> InCreaseGoldDropPercent = new();
         public EnemyManager(
             BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>.Factory factory,
             EnemyBlueprint enemyBlueprint
@@ -43,6 +44,8 @@
             this.onCounterComplete       = onCounterCompleteAction;
             this.isStartCounter          = true;
         }
+
+        public float GetAllIncreaseGoldDrop() => this.InCreaseGoldDropPercent.Sum(e => e.Value) / 100;
 
         public void StopCounterDeathEnemy()
         {
@@ -96,18 +99,12 @@
         public EnemyPresenter SpawnBossEnemy(string bossId)
         {
             var boss = this.SpawnEnemy(bossId);
-            boss.onUpdateHpStat = (value) =>
-            {
-                this.CurrentBossHealth.Value = value;
-            };
+            boss.onUpdateHpStat          = (value) => { this.CurrentBossHealth.Value = value; };
             this.MaxBossHealth           = boss.Model.GetStat<float>(StatEnum.MaxHealth);
             this.CurrentBossHealth.Value = boss.Model.GetStat<float>(StatEnum.Health);
             return boss;
         }
 
-        public List<EnemyPresenter> GetAllBossEnemies()
-        {
-            return this.entities.Where(e => e.Tags.Contains(ElementTag.Boss)).ToList();
-        }
+        public List<EnemyPresenter> GetAllBossEnemies() { return this.entities.Where(e => e.Tags.Contains(ElementTag.Boss)).ToList(); }
     }
 }

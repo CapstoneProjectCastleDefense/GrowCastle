@@ -45,14 +45,14 @@
         public Action<EnemyPresenter> onAttackComplete;
 
         protected EnemyPresenter(
-            EnemyModel                  model,
-            ObjectPoolManager           objectPoolManager,
-            FindTargetSystem            findTargetSystem,
+            EnemyModel model,
+            ObjectPoolManager objectPoolManager,
+            FindTargetSystem findTargetSystem,
             ResourceLocalDataController resourceLocalDataController,
-            SignalBus                   signalBus,
-            EnemyBlueprint              enemyBlueprint,
-            EntitySkillSystem           entitySkillSystem,
-            TalentLocalDataController   talentLocalDataController
+            SignalBus signalBus,
+            EnemyBlueprint enemyBlueprint,
+            EntitySkillSystem entitySkillSystem,
+            TalentLocalDataController talentLocalDataController
         )
             : base(model, objectPoolManager)
         {
@@ -190,7 +190,8 @@
         private void DropCoin()
         {
             var baseGoldDrop = this.Model.GetStat<float>(StatEnum.Gold);
-            var goldDrop     = baseGoldDrop + baseGoldDrop * this.talentLocalDataController.GetTalentEffect(TalentType.IncreaseDropCoin);
+            var goldDrop = baseGoldDrop + baseGoldDrop * this.talentLocalDataController.GetTalentEffect(TalentType.IncreaseDropCoin) +
+                           baseGoldDrop * ((EnemyManager)this.ElementManager).GetAllIncreaseGoldDrop();
             this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
 
             var baseExpDrop = this.Model.GetStat<float>(StatEnum.Exp);
@@ -207,10 +208,7 @@
             this.View.CoinPopup.GetComponentInChildren<TextMeshProUGUI>().SetText("+ " + goldDrop);
             this.View.CoinPopup.SetActive(true);
             this.View.CoinPopup.GetComponent<RectTransform>().DOAnchorPosY(6.55f, 0.3f);
-            this.View.CoinPopupCanvas.DOFade(1f, 0.3f).OnComplete(() =>
-            {
-                this.View.CoinPopupCanvas.DOFade(0f, 0.3f);
-            });
+            this.View.CoinPopupCanvas.DOFade(1f, 0.3f).OnComplete(() => { this.View.CoinPopupCanvas.DOFade(0f, 0.3f); });
         }
 
         public override ITargetable TargetThatImAttacking

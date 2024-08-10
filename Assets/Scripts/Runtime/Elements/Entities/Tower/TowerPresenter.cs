@@ -66,6 +66,7 @@
                 EndPoint   = target.GetGameObject().transform.position,
                 Target     = target,
                 Damage     = this.Model.GetStat<float>(StatEnum.Attack),
+                Caster     = this,
             });
         }
         public ITargetable FindTarget()
