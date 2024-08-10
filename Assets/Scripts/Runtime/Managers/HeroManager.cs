@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.Extension;
     using Models.Blueprints;
@@ -45,6 +46,13 @@
             heroPresenter.SetManager(this);
 
             return heroPresenter;
+        }
+
+        public void UpgradeHero(string heroId)
+        {
+            if(!this.entities.Any(e=>e.Model.Id.Equals(heroId))) return;
+            var heroPresenter = this.entities.First(e => e.Model.Id.Equals(heroId));
+            heroPresenter.OnHeroUpgrade();
         }
 
         private Dictionary<StatEnum, (Type, object)> GetCurrentStatOfHero(string id)

@@ -79,6 +79,7 @@
         private readonly StatEffectBlueprint                 statEffectBlueprint;
         private readonly ToastController                     toastController;
         private readonly ElementSkinBlueprint                elementSkinBlueprint;
+        private readonly HeroManager                         heroManager;
 
         public CharacterInfoPopupPresenter(
             SignalBus signalBus,
@@ -92,7 +93,8 @@
             SlotBlueprint slotBlueprint,
             StatEffectBlueprint statEffectBlueprint,
             ToastController toastController,
-            ElementSkinBlueprint elementSkinBlueprint
+            ElementSkinBlueprint elementSkinBlueprint,
+            HeroManager heroManager
         )
             : base(signalBus, logService)
         {
@@ -106,6 +108,7 @@
             this.statEffectBlueprint                 = statEffectBlueprint;
             this.toastController                     = toastController;
             this.elementSkinBlueprint                = elementSkinBlueprint;
+            this.heroManager                         = heroManager;
         }
 
         protected override void OnViewReady()
@@ -225,6 +228,7 @@
                     {
                         this.ReBindData();
                     }
+
                     break;
                 case SlotType.Leader:
                     break;
@@ -265,12 +269,13 @@
         {
             var isUpgradeSuccess = this.heroLocalDataController.UpgradeHero(this.Model.HeroRuntimeData.heroRecord.HeroId,
                 (int)this.heroUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId));
-            
+
             if (isUpgradeSuccess)
             {
                 AudioService.Instance.PlaySound("LevelUp");
                 this.View.LevelUpCostTxt.text = $"{this.heroUpgradeService.GetUpgradeCost(this.Model.HeroRuntimeData.heroRecord.HeroId)}";
                 this.ReBindData();
+                this.heroManager.UpgradeHero(this.Model.HeroRuntimeData.heroRecord.HeroId);
                 return;
             }
 

@@ -105,6 +105,7 @@
             var level = this.talentLocalDataController.GetTalentLevel(this.currentSelectedTalent);
             this.View.description.text
                 = $"{this.talentBlueprint.GetDataById(this.currentSelectedTalent).Description} {this.talentBlueprint.GetDataById(this.currentSelectedTalent).TalentLevelToDataRecords[level + 1].EffectValue}%";
+            this.RefreshTalentInfo();
             this.View.talentAdapter.Refresh();
         }
 
@@ -117,6 +118,14 @@
             this.View.iconTalent.sprite    = this.gameAssets.LoadAssetAsync<Sprite>(this.talentBlueprint.GetDataById(talentType).Icon).WaitForCompletion();
             this.currentSelectedTalent     = talentType;
             this.View.talentPointNeed.text = $"{this.talentBlueprint.GetDataById(talentType).TalentLevelToDataRecords[level + 1].TalentPointNeed}";
+        }
+
+        private void RefreshTalentInfo()
+        {
+            var level = this.talentLocalDataController.GetTalentLevel(this.currentSelectedTalent);
+            this.View.description.text
+                = $"{this.talentBlueprint.GetDataById(this.currentSelectedTalent).Description} {this.talentBlueprint.GetDataById(this.currentSelectedTalent).TalentLevelToDataRecords[level + 1].EffectValue}%";
+            this.View.talentPointNeed.text = $"{this.talentBlueprint.GetDataById(this.currentSelectedTalent).TalentLevelToDataRecords[level + 1].TalentPointNeed}";
         }
 
         public override void CloseView()

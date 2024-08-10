@@ -38,6 +38,8 @@ public static class SkeletonExtensions
             var skeletonData = skeleton.Skeleton.Data;
             if(!skeletonData.Skins.Any(e=>e.Name.Equals(skinName))) return;
             skeleton.skeleton.SetSkin(skinName);
+            skeleton.skeleton.SetSlotsToSetupPose();
+            skeleton.LateUpdate();
         }
 
         public static void ChangeSkeletonDataAsset(this SkeletonAnimation skeleton, SkeletonDataAsset skeletonDataAsset, string animationName = null)

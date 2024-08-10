@@ -135,7 +135,12 @@
             }
         }
 
-        public void OnHeroUpgrade() { }
+        public void OnHeroUpgrade()
+        {
+            var heroLocalData = this.heroLocalDataController.GetHeroLocalData(this.Model.Id);
+            var selectSkin    = this.elementSkinBlueprint.GetSkinByLevel(this.Model.Id, heroLocalData.Level);
+            this.View.skeletonAnimation.ChaneSkeletonSkin(selectSkin);
+        }
 
         public void Attack(ITargetable target)
         {
