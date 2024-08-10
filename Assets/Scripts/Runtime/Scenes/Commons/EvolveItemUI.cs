@@ -27,15 +27,18 @@
         private IGameAssets                         gameAssets;
         private EvolutionInfoBlueprint              evolutionInfoBlueprint;
         private HeroUpgradeService                  heroUpgradeService;
+        private ElementSkinBlueprint                elementSkinBlueprint;
 
-        [Inject] public void Construct(
-            ScreenManager                       screenManager,
-            HeroLocalDataController             heroLocalDataController,
+        [Inject]
+        public void Construct(
+            ScreenManager screenManager,
+            HeroLocalDataController heroLocalDataController,
             ElementEvolutionLocalDataController elementEvolutionLocalDataController,
-            EvolutionBlueprint                  evolutionBlueprint,
-            IGameAssets                         gameAssets,
-            EvolutionInfoBlueprint              evolutionInfoBlueprintInject,
-            HeroUpgradeService                  heroUpgradeServiceInject
+            EvolutionBlueprint evolutionBlueprint,
+            IGameAssets gameAssets,
+            EvolutionInfoBlueprint evolutionInfoBlueprintInject,
+            HeroUpgradeService heroUpgradeServiceInject,
+            ElementSkinBlueprint elementSkinBlueprint
         )
         {
             this.screenManager                       = screenManager;
@@ -45,6 +48,7 @@
             this.gameAssets                          = gameAssets;
             this.evolutionInfoBlueprint              = evolutionInfoBlueprintInject;
             this.heroUpgradeService                  = heroUpgradeServiceInject;
+            this.elementSkinBlueprint                = elementSkinBlueprint;
         }
 
         [SerializeField] private TMP_Text        priceTxt, levelUnlockTxt;
@@ -64,8 +68,6 @@
             this.model                 = param;
             this.evolutionDetailRecord = this.evolutionBlueprint.GetEvolutionDetailRecord(this.model.ElementId, this.model.EvolutionId);
             this.priceTxt.text         = this.evolutionInfoBlueprint[this.model.EvolutionId].Price.ToString();
-            var isUnlock = this.elementEvolutionLocalDataController.IsEvolutionUnlock(this.model.ElementId, this.model.EvolutionId);
-            this.priceTxt.gameObject.SetActive(!isUnlock);
             this.selectBtn.onClick.RemoveAllListeners();
             this.selectBtn.onClick.AddListener(() => this.OnClickBtnSelect(this.model));
 
@@ -75,6 +77,7 @@
             this.SetPosition();
             this.SetParentPath();
             this.SetUnlockConditions();
+            this.SetSkin();
         }
 
         private void SetSkeleton()
@@ -104,7 +107,7 @@
             var isChild       = listChild.Contains(this.model.EvolutionId);
 
             this.isInEvolveLine = isPredecessor || isChild;
-            
+
             var pathList      = isPredecessor || isChild ? this.greenPathFromParents : this.pathFromParents;
             var otherPathList = isPredecessor || isChild ? this.pathFromParents : this.greenPathFromParents;
 
@@ -122,10 +125,7 @@
                         .Append(pathFromParent.DOFade(0, .5f))
                         .Append(pathFromParent.DOFade(1, .35f))
                         .SetLoops(-1, LoopType.Restart)
-                        .onKill += () =>
-                    {
-                        pathFromParent.material.color = new Color(1, 1, 1, 1);
-                    };
+                        .onKill += () => { pathFromParent.material.color = new Color(1, 1, 1, 1); };
                 }
             }
 
@@ -160,6 +160,16 @@
             {
                 this.priceTxt.text = $"{this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).Price}";
             }
+        }
+
+        private void SetSkin()
+        {
+            var id            = this.model.ElementId;
+            var heroLocalData = this.heroLocalDataController.GetHeroLocalData(id);
+            var selectSkin    = this.elementSkinBlueprint.GetSkinByLevel(id, heroLocalData.Level);
+            this.elementSkeleton.Skeleton.SetSkin(selectSkin);
+            this.elementSkeleton.Skeleton.SetSlotsToSetupPose();
+            this.elementSkeleton.LateUpdate();
         }
 
         private void OnClickBtnSelect(EvolveItemUIModel param)

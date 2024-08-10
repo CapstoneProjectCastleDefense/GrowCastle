@@ -29,15 +29,17 @@
         private HeroLocalDataController heroLocalDataController;
         private HeroUpgradeService      heroUpgradeService;
         private SkillBlueprint          skillBlueprint;
+        private ElementSkinBlueprint    elementSkinBlueprint;
 
         [Inject]
         public void Construct(
-            IGameAssets             gameAssetsInject,
-            EvolutionInfoBlueprint  evolutionInfoBlueprintInject,
-            DiContainer             diContainerInject,
+            IGameAssets gameAssetsInject,
+            EvolutionInfoBlueprint evolutionInfoBlueprintInject,
+            DiContainer diContainerInject,
             HeroLocalDataController heroLocalDataControllerInject,
-            HeroUpgradeService      heroUpgradeServiceInject,
-            SkillBlueprint          skillBlueprint
+            HeroUpgradeService heroUpgradeServiceInject,
+            SkillBlueprint skillBlueprintInject,
+            ElementSkinBlueprint elementSkinBlueprintInject
         )
         {
             this.gameAssets              = gameAssetsInject;
@@ -45,10 +47,11 @@
             this.diContainer             = diContainerInject;
             this.heroLocalDataController = heroLocalDataControllerInject;
             this.heroUpgradeService      = heroUpgradeServiceInject;
-            this.skillBlueprint          = skillBlueprint;
+            this.skillBlueprint          = skillBlueprintInject;
+            this.elementSkinBlueprint    = elementSkinBlueprintInject;
         }
 
-        public void BindData(ElementGenericInfoModel infoModel)
+        public async void BindData(ElementGenericInfoModel infoModel)
         {
             this.model = infoModel;
             var heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(this.model.ElementId);
@@ -56,8 +59,10 @@
             this.attackInfoTxt.text      = $"{Math.Round(this.heroUpgradeService.GetCurrentAttack(this.model.ElementId),1)}";
             this.attackInfoSpeedTxt.text = $"{heroRuntimeData.attackSpeed}";
 
-            var skeletonDataAsset = this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(heroRuntimeData.heroRecord.SkeletonDataAsset).WaitForCompletion();
+
+            var skeletonDataAsset = await this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(heroRuntimeData.heroRecord.SkeletonDataAsset);
             this.avatarAnim.ChangeSkeletonDataAsset(skeletonDataAsset, "idle");
+            this.SetSkin();
 
             this.InitAdapter(infoModel).Forget();
         }
@@ -66,16 +71,17 @@
         {
             this.levelTxt.text      = $"{this.heroUpgradeService.GetHeroLevel(this.model.ElementId)}";
             this.attackInfoTxt.text = $"{(int)this.heroUpgradeService.GetCurrentAttack(this.model.ElementId)}";
+            this.SetSkin();
         }
 
         private async UniTaskVoid InitAdapter(ElementGenericInfoModel elementGenericInfoModel)
         {
-            var skills      = this.evolutionInfoBlueprint.GetDataById(elementGenericInfoModel.EvolutionId).Abilities;
+            var skills       = this.evolutionInfoBlueprint.GetDataById(elementGenericInfoModel.EvolutionId).Abilities;
             var skillRecords = skills.Select(abilityId => this.skillBlueprint.GetDataById(abilityId)).ToList();
 
             var firstSkill = skillRecords.First();
             this.skillDescription.text = firstSkill.Description;
-            this.selectedSkillId     = firstSkill.Id;
+            this.selectedSkillId       = firstSkill.Id;
 
             var modelList = skillRecords.Select(record => new AbilityUIModel() { Id = record.Id, OnSelected = this.OnAbilityUISelected, SelectedId = this.selectedSkillId }).ToList();
 
@@ -90,10 +96,20 @@
             if (this.disableSelectAbility) return;
 
             this.selectedSkillId = abilityId;
-            var skills      = this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).Abilities;
+            var skills       = this.evolutionInfoBlueprint.GetDataById(this.model.EvolutionId).Abilities;
             var skillRecords = skills.Select(id => this.skillBlueprint.GetDataById(id)).ToDictionary(a => a.Id);
-            var description    = skillRecords[this.selectedSkillId].Description;
+            var description  = skillRecords[this.selectedSkillId].Description;
             this.skillDescription.text = description;
+        }
+
+        private void SetSkin()
+        {
+            var id               = this.model.ElementId;
+            var heroLocalData    = this.heroLocalDataController.GetHeroLocalData(id);
+            var selectSkin = this.elementSkinBlueprint.GetSkinByLevel(id, heroLocalData.Level);
+            this.avatarAnim.Skeleton.SetSkin(selectSkin);
+            this.avatarAnim.Skeleton.SetSlotsToSetupPose();
+            this.avatarAnim.LateUpdate();
         }
     }
 

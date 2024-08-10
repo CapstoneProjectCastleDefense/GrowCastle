@@ -14,7 +14,7 @@
         [OdinSerialize] public DateTime                                          LastDate { get; set; }
         public void Init()
         {
-            this.Resource.Add(ResourceType.Gold,new(1000));
+            this.Resource.Add(ResourceType.Gold,new(10000000));
             this.Resource.Add(ResourceType.Diamond,new(100));
             this.Resource.Add(ResourceType.TalentPoint,new(3));
             this.Resource.Add(ResourceType.Exp,new(0));
