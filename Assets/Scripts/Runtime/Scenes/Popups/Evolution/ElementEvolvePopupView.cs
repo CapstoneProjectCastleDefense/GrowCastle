@@ -9,6 +9,7 @@
     using Models;
     using Runtime.Scenes.Commons;
     using Runtime.Signals;
+    using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
@@ -20,12 +21,14 @@
         [SerializeField] private List<GameObject> linePos;
         [SerializeField] private Button           closeButton;
         [SerializeField] private GameObject       evolveItemUIContainer;
+        [SerializeField] private TMP_Text         headerTxt;
 
         public EvolveItemUI     EvolveItemUI          => this.evolveItemUI;
         public List<GameObject> LevelPos              => this.levelPos;
         public List<GameObject> LinePos               => this.linePos;
         public Button           CloseButton           => this.closeButton;
         public GameObject       EvolveItemUIContainer => this.evolveItemUIContainer;
+        public TMP_Text         HeaderTxt             => this.headerTxt;
     }
 
     [PopupInfo(nameof(ElementEvolvePopupView), isOverlay: true)]
@@ -63,7 +66,9 @@
 
         public override UniTask BindData(ElementEvolvePopupModel popupModel)
         {
-            var evolutionRecord = this.evolutionBlueprint[popupModel.CharacterId];
+            this.View.HeaderTxt.text = $"{popupModel.ElementId}";
+            
+            var evolutionRecord = this.evolutionBlueprint[popupModel.ElementId];
             foreach (var (level, record) in evolutionRecord.LevelToEvolutionDetailRecords)
             {
                 foreach (var (evolutionId, _) in record.EvolutionDetailRecords)
@@ -72,7 +77,7 @@
                     this.diContainer.InjectGameObject(evolveItemUI.gameObject);
                     evolveItemUI.BindData(new EvolveItemUIModel
                     {
-                        ElementId   = this.Model.CharacterId,
+                        ElementId   = this.Model.ElementId,
                         EvolutionId = evolutionId,
                         LevelPos    = this.View.LevelPos[level - 1].transform.position,
                         LinePos     = this.View.LinePos
@@ -109,6 +114,6 @@
 
     public class ElementEvolvePopupModel
     {
-        public string CharacterId;
+        public string ElementId;
     }
 }

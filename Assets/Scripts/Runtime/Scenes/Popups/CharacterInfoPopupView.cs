@@ -260,7 +260,7 @@
             AudioService.Instance.PlaySound("button_sfx");
             this.screenManager.OpenScreen<ElementEvolvePopupPresenter, ElementEvolvePopupModel>(new ElementEvolvePopupModel()
                 {
-                    CharacterId = this.Model.HeroRuntimeData.heroRecord.HeroId
+                    ElementId = this.Model.HeroRuntimeData.heroRecord.HeroId
                 })
                 .Forget();
         }
