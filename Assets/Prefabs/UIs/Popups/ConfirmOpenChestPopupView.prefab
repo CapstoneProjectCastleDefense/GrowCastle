@@ -933,6 +933,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8805900292278789173}
+    - targetCorrespondingSourceObject: {fileID: 2164503498026093104, guid: 3b408a90a7a8cfd42afa7d58181be28a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3748575220503641139}
     - targetCorrespondingSourceObject: {fileID: 984305939547078168, guid: 3b408a90a7a8cfd42afa7d58181be28a,
         type: 3}
       insertIndex: -1
@@ -1027,6 +1031,18 @@ MonoBehaviour:
   chestIcon: {fileID: 3000906894655277819}
   cancelBtn: {fileID: 3091671239342268310}
   openBtn: {fileID: 8579784543724583475}
+--- !u!114 &3748575220503641139
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2238874507170903830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6a39671ede4edfabccd62af4e55e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &7240081200872841578 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 7305445011312909388, guid: 3b408a90a7a8cfd42afa7d58181be28a,

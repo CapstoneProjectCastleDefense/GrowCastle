@@ -1437,6 +1437,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 3561533624809059192}
+    - targetCorrespondingSourceObject: {fileID: 2164503498026093104, guid: 3b408a90a7a8cfd42afa7d58181be28a,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8565804320198120725}
   m_SourcePrefab: {fileID: 100100000, guid: 3b408a90a7a8cfd42afa7d58181be28a, type: 3}
 --- !u!1 &2419535250877078553 stripped
 GameObject:
@@ -1477,6 +1481,18 @@ MonoBehaviour:
   continueBtn: {fileID: 9094459851082477283}
   rewardField: {fileID: 6562806497280286820}
   chestRewardItemAdapter: {fileID: 8594361094697965933}
+--- !u!114 &8565804320198120725
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2419535250877078553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f6a39671ede4edfabccd62af4e55e1d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &4407623726871170386 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 193989474190007163, guid: 3b408a90a7a8cfd42afa7d58181be28a,
