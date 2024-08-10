@@ -10,3 +10,4 @@ Hassan,Hassan,Attack,WizardEvol_1,rasen_shuriken_skill|skill,ninja_SkeletonData,
 Arise,Arise,Summon,KnightEvol_1,skeleton_army|atk,rise_SkeletonData,Hero,"ShadowLord,DarknessArise",none|atk
 MoonShadow,MoonShadow,Attack,WizardEvol_1,death_scythe|skill,moon and night_SkeletonData,Hero,"PiercingScythe,BloodScythe",wizard_normal_attack|skill
 Storm,HeroStorm,Attack,WizardEvol_1,golden_thunder_skill|skill,storm_SkeletonData,Hero,"ForesightPassiveSkill,ObscurePassiveSkill",wizard_normal_attack|skill
+Worm,TowerWorm,Attack,XelNaga_Evol,wizard_normal_attack|idle,worm_SkeletonData,Tower,,WormNormalAttack|atk
