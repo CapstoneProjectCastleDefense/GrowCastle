@@ -31,8 +31,7 @@
         private SkillBlueprint          skillBlueprint;
         private ElementSkinBlueprint    elementSkinBlueprint;
 
-        [Inject]
-        public void Construct(
+        [Inject] public void Construct(
             IGameAssets gameAssetsInject,
             EvolutionInfoBlueprint evolutionInfoBlueprintInject,
             DiContainer diContainerInject,
@@ -56,7 +55,7 @@
             this.model = infoModel;
             var heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(this.model.ElementId);
             this.levelTxt.text           = $"{this.heroUpgradeService.GetHeroLevel(this.model.ElementId)}";
-            this.attackInfoTxt.text      = $"{Math.Round(this.heroUpgradeService.GetCurrentAttack(this.model.ElementId),1)}";
+            this.attackInfoTxt.text      = $"{Math.Round(this.heroUpgradeService.GetCurrentAttack(this.model.ElementId), 1)}";
             this.attackInfoSpeedTxt.text = $"{heroRuntimeData.attackSpeed}";
 
 
@@ -104,9 +103,9 @@
 
         private void SetSkin()
         {
-            var id               = this.model.ElementId;
-            var heroLocalData    = this.heroLocalDataController.GetHeroLocalData(id);
-            var selectSkin = this.elementSkinBlueprint.GetSkinByLevel(id, heroLocalData.Level);
+            var id            = this.model.ElementId;
+            var heroLocalData = this.heroLocalDataController.GetHeroLocalData(id);
+            var selectSkin    = this.elementSkinBlueprint.GetSkinByLevel(id, heroLocalData.Level);
             this.avatarAnim.Skeleton.SetSkin(selectSkin);
             this.avatarAnim.Skeleton.SetSlotsToSetupPose();
             this.avatarAnim.LateUpdate();

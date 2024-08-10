@@ -15,6 +15,7 @@
         public int                      ItemQuantity { get; set; }
         public BlueprintByRow<PoolItem> PoolItems    { get; set; }
         public string                   ChestIcon    { get; set; }
+        public string                   ChestName    { get; set; }
     }
 
     public class PoolItem
