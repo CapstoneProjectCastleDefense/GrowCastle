@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.Utilities.LogService;
@@ -34,6 +35,9 @@
         public Button               ConfirmBtn;
         public Button               CancelBtn;
         public ItemInventoryAdapter Adapter;
+        public Transform            startPos;
+        public Transform            endPos;
+        public GameObject           viewField;
     }
 
     [PopupInfo(nameof(LevelUpPopupView), isOverlay: true)]
@@ -70,6 +74,8 @@
         }
         public override async UniTask BindData(LevelUpPopupModel popupModel)
         {
+            this.View.viewField.transform.position = this.View.startPos.position;
+            this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
             var list       = new List<ItemInventoryItemModel>();
             var localData  = this.inventoryLocalDataController.GetItems(ItemType.InventoryResource);
             var canLevelUp = true;
@@ -91,6 +97,13 @@
 
             this.View.ConfirmBtn.interactable = canLevelUp;
             await this.View.Adapter.InitItemAdapter(list, this.diContainer);
+        }
+        public override void CloseView()
+        {
+            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
+            {
+                base.CloseView();
+            };
         }
     }
 }

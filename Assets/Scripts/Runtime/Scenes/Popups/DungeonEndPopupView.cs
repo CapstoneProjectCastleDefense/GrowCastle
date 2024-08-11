@@ -82,7 +82,9 @@ namespace Runtime.Scenes.Popups
 
         private async void ShowItemReward()
         {
+            this.View.rewardField.transform.localScale = Vector3.zero;
             this.View.rewardField.gameObject.SetActive(true);
+            this.View.rewardField.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InOutQuint);
             var dungeonDataRecord = this.dungeonLocalDataController.GetDungeonRecord(this.dungeonLocalDataController.currentSelectedDungeon);
             var rewardData        = new List<ChestRewardItemModel>();
             dungeonDataRecord.DungeonRewardRecord.ForEach(reward =>

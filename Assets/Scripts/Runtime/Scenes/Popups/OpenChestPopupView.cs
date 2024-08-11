@@ -3,11 +3,13 @@
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.Utilities.LogService;
     using Models.Blueprints;
     using Runtime.Scenes.Adapters.Chest;
+    using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
 
@@ -20,6 +22,7 @@
     {
         public ChestRewardItemAdapter chestRewardItemAdapter;
         public Button                 exitBtn;
+        public Transform              viewField;
     }
 
     [PopupInfo(nameof(OpenChestPopupView), isOverlay: true)]
@@ -39,6 +42,8 @@
         }
         public override async UniTask BindData(OpenChestPopupModel popupModel)
         {
+            this.View.viewField.localScale = Vector3.zero;
+            this.View.viewField.DOScale(Vector3.one, 0.5f).SetEase(Ease.InOutQuint);
             await this.View.chestRewardItemAdapter.InitItemAdapter(popupModel.ListItemData.Select(e => new ChestRewardItemModel()
             {
                 PoolItem = e

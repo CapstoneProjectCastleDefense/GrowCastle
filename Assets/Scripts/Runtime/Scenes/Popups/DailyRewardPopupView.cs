@@ -45,7 +45,7 @@
         public override async UniTask BindData()
         {
             this.View.rewardField.transform.position = this.View.startPos.position;
-            this.View.rewardField.transform.DOMove(this.View.endPos.position, 1f).SetEase(Ease.OutElastic);
+            this.View.rewardField.transform.DOMove(this.View.endPos.position, 0.7f).SetEase(Ease.OutElastic);
             await this.dailyRewardLocalDataController.CheckRewardStatus();
             this.View.claimBtn.interactable = true;
             if (!this.dailyRewardLocalDataController.CheckCanClaim()) this.View.claimBtn.interactable = false;
@@ -57,7 +57,7 @@
 
         public override void CloseView()
         {
-            this.View.rewardField.transform.DOMove(this.View.startPos.position, 1f).SetEase(Ease.InOutQuint).onComplete += () =>
+            this.View.rewardField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
             {
                 base.CloseView();
             };

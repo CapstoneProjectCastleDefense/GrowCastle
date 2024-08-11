@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
@@ -14,12 +15,16 @@
     using UnityEngine.UI;
     using Zenject;
     using R3;
+    using UnityEngine;
 
     public class DungeonSelectLevelPopupView : BaseView
     {
         public Button                 exitButton;
         public List<DungeonLevelItem> dungeonLevelItems;
         public TextMeshProUGUI        ticketValue;
+        public Transform              startPos;
+        public Transform              endPos;
+        public GameObject             viewField;
     }
 
     [PopupInfo(nameof(DungeonSelectLevelPopupView), isOverlay: true)]
@@ -51,6 +56,8 @@
 
         public override UniTask BindData()
         {
+            this.View.viewField.transform.position = this.View.startPos.position;
+            this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
             this.dungeonLocalDataController.CheckStatusOfAllDungeon();
             this.View.dungeonLevelItems.ForEach(item =>
             {
@@ -79,6 +86,13 @@
                 return;
             }
             this.screenManager.OpenScreen<DungeonConfirmPopupPresenter, DungeonConfirmPopupModel>(new() { onConfirmAction = this.CloseView, dungeonId = dungeonId }).Forget();
+        }
+        public override void CloseView()
+        {
+            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
+            {
+                base.CloseView();
+            };
         }
     }
 }

@@ -3,6 +3,7 @@
     using System.Collections.Generic;
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
@@ -20,6 +21,9 @@
     {
         public List<ChestView> chestViews;
         public Button          exitBtn;
+        public Transform       startPos;
+        public Transform       endPos;
+        public GameObject      viewField;
     }
 
     [PopupInfo(nameof(ChestPopupView))] public class ChestPopupPresenter : BasePopupPresenter<ChestPopupView>
@@ -42,6 +46,8 @@
         }
         public override UniTask BindData()
         {
+            this.View.viewField.transform.position = this.View.startPos.position;
+            this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
             var allChestData = this.chestLocalDataController.GetAllChestLocalData();
             this.View.chestViews.ForEach(chestView =>
             {
@@ -82,6 +88,13 @@
         private async void OpenChest(ResourceType chestType)
         {
             await this.screenManager.OpenScreen<ConfirmOpenChestPopupPresenter, ConfirmOpenChestPopupModel>(new ConfirmOpenChestPopupModel() { ChestType = chestType });
+        }
+        public override void CloseView()
+        {
+            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
+            {
+                base.CloseView();
+            };
         }
     }
 }

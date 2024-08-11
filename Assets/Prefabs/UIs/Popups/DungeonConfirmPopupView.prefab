@@ -1242,6 +1242,7 @@ MonoBehaviour:
   ticketValue: {fileID: 3395154012134371280}
   cancelBtn: {fileID: 7609331660892313242}
   confirmBtn: {fileID: 1079244835398559963}
+  viewField: {fileID: 4975029030276159653}
 --- !u!114 &6745271599681849724
 MonoBehaviour:
   m_ObjectHideFlags: 0

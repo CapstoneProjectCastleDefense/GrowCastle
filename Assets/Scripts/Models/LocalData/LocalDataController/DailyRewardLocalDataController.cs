@@ -18,6 +18,7 @@
         private readonly DailyRewardBlueprint        dailyRewardBlueprint;
         private readonly IInternetService            internetService;
         private readonly ResourceLocalDataController resourceLocalDataController;
+        private          DateTime                    currentDate;
 
         private SemaphoreSlim mySemaphoreSlim = new(1, 1);
         public DailyRewardLocalDataController(
@@ -31,7 +32,11 @@
             this.internetService             = internetService;
             this.resourceLocalDataController = resourceLocalDataController;
         }
-        public void InitData() { this.InitRewardForAllDay(); }
+        public async void InitData()
+        {
+            this.InitRewardForAllDay();
+            this.currentDate = await this.internetService.GetCurrentTimeAsync();
+        }
 
         public List<RewardData> GetAllRewardLocalData => this.dailyRewardLocalData.RewardData;
 
@@ -54,12 +59,10 @@
         public async UniTask CheckRewardStatus()
         {
             await this.mySemaphoreSlim.WaitAsync();
-
             try
             {
-                var currentTime = await this.internetService.GetCurrentTimeAsync();
                 //var currentTime = DateTime.Now; // Because the internet service getting time doesn't work stable I use this instead, btw, we allow hyper casual players cheat the game.
-                var issDiffDay = this.internetService.IsDifferentDay(this.dailyRewardLocalData.LastRewardedDate, currentTime);
+                var issDiffDay = this.internetService.IsDifferentDay(this.dailyRewardLocalData.LastRewardedDate, this.currentDate);
 
                 if (!issDiffDay) return;
 
@@ -77,7 +80,7 @@
                     if (firstLockedDayIndex / TotalDayInWeek == (firstLockedDayIndex) / TotalDayInWeek)
                     {
                         this.dailyRewardLocalData.RewardData[firstLockedDayIndex].RewardStatus = RewardStatus.UnClaimed;
-                        this.dailyRewardLocalData.LastRewardedDate                             = currentTime;
+                        this.dailyRewardLocalData.LastRewardedDate                             = this.currentDate;
                     }
                 }
             }

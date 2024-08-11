@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.AssetLibrary;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
@@ -30,6 +31,10 @@
         public TextMeshProUGUI        chestType;
         public ChestRewardItemAdapter chestRewardItemAdapter;
         public TextMeshProUGUI        totalItemCanGet;
+        
+        public Transform  startPos;
+        public Transform  endPos;
+        public GameObject viewField;
     }
 
     [PopupInfo(nameof(ConfirmOpenChestPopupView), isOverlay: true)]
@@ -58,6 +63,8 @@
         }
         public override UniTask BindData(ConfirmOpenChestPopupModel popupModel)
         {
+            this.View.viewField.transform.position = this.View.startPos.position;
+            this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
             var chestData = this.chestLocalDataController.GetChestData(popupModel.ChestType);
             this.View.chestIcon.sprite = this.gameAssets.LoadAssetAsync<Sprite>(chestData.ChestRecord.ChestIcon).WaitForCompletion();
             this.View.chestType.text   = this.chestBlueprint.GetDataById(chestData.ChestType).ChestName;
@@ -75,6 +82,14 @@
                 new OpenChestPopupModel() { ListItemData = this.chestLocalDataController.OpenChest(this.Model.ChestType) });
             this.SignalBus.Fire<OpenChestSignal>();
             this.CloseView();
+        }
+        
+        public override void CloseView()
+        {
+            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
+            {
+                base.CloseView();
+            };
         }
     }
 }

@@ -2,6 +2,7 @@
 {
     using System.Linq;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.Utilities.LogService;
@@ -24,6 +25,10 @@
         public ElementGenericInfoView ElementGenericInfoView => this.elementGenericInfoView;
         public Button                 ChangeClassBtn         => this.changeClassBtn;
         public Button                 CloseBtn               => this.closeBtn;
+        
+        public Transform  startPos;
+        public Transform  endPos;
+        public GameObject viewField;
     }
 
     [PopupInfo(nameof(ConfirmEvolutionPopupView), isOverlay: true)]
@@ -65,6 +70,8 @@
 
         public override UniTask BindData(ConfirmEvolutionPopupModel popupModel)
         {
+            this.View.viewField.transform.position = this.View.startPos.position;
+            this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
             this.View.ElementGenericInfoView.BindData(new ElementGenericInfoModel()
             {
                 ElementId   = popupModel.ElementId,
@@ -100,6 +107,14 @@
             {
                 this.toastController.ShowToast("Not enough diamond");
             }
+        }
+        
+        public override void CloseView()
+        {
+            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
+            {
+                base.CloseView();
+            };
         }
     }
 

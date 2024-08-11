@@ -30,10 +30,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 7433887694168984830}
   - {fileID: 3326919997123839819}
   - {fileID: 5455503581861488662}
   - {fileID: 1144392530621102621}
-  - {fileID: 7433887694168984830}
   m_Father: {fileID: 3662191947097277530}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
@@ -1439,6 +1439,7 @@ MonoBehaviour:
   screenTransition: {fileID: 6125370216767652717}
   chestRewardItemAdapter: {fileID: 8475988136762299551}
   exitBtn: {fileID: 2084175895948163432}
+  viewField: {fileID: 908865909132890901}
 --- !u!114 &7016293347241961384
 MonoBehaviour:
   m_ObjectHideFlags: 0

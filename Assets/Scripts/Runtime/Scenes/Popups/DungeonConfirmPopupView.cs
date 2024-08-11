@@ -2,6 +2,7 @@
 {
     using System;
     using Cysharp.Threading.Tasks;
+    using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
     using GameFoundation.Scripts.Utilities.LogService;
@@ -11,6 +12,7 @@
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.StateMachines.GameStateMachine.States;
     using TMPro;
+    using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
 
@@ -25,6 +27,7 @@
         public TextMeshProUGUI ticketValue;
         public Button          cancelBtn;
         public Button          confirmBtn;
+        public Transform       viewField;
     }
 
     [PopupInfo(nameof(DungeonConfirmPopupView), isOverlay: true)]
@@ -52,8 +55,10 @@
 
         public override async UniTask BindData(DungeonConfirmPopupModel popupModel)
         {
-            this.Model                 = popupModel;
-            this.View.ticketValue.text = $"{this.dungeonLocalDataController.GetDungeonRecord(popupModel.dungeonId).Ticket}";
+            this.View.viewField.transform.localScale = Vector3.zero;
+            this.View.viewField.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.InOutQuint);
+            this.Model                               = popupModel;
+            this.View.ticketValue.text               = $"{this.dungeonLocalDataController.GetDungeonRecord(popupModel.dungeonId).Ticket}";
         }
 
         private void OnConfirmBtnClick()
