@@ -58,15 +58,15 @@
             }
 
             this.View.gameObject.SetActive(true);
-            this.View.image.sprite = await this.GameAssets.LoadAssetAsync<Sprite>(this.model.Model.AddressableName);
+            this.View.image.sprite = this.GameAssets.LoadAssetAsync<Sprite>(this.model.Model.AddressableName).WaitForCompletion();
             this.View.quantity.gameObject.SetActive(this.model.Model.ItemType != ItemType.Equipment);
             this.View.button.onClick.AddListener(this.OnSelect);
-            this.BindVolatileData();
+            this.BindVolatileData().Forget();
         }
 
-        private async void BindVolatileData()
+        private async UniTaskVoid BindVolatileData()
         {
-            this.View.rarityImage.sprite = await this.GameAssets.LoadAssetAsync<Sprite>(this.model.Model.Rarity.ToString());
+            this.View.rarityImage.sprite = this.GameAssets.LoadAssetAsync<Sprite>(this.model.Model.Rarity.ToString()).WaitForCompletion();
             this.View.quantity.text      = this.model.Quantity.ToString();
         }
 
