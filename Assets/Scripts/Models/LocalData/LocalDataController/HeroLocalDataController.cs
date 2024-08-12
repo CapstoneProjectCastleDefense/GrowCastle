@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.Linq;
     using Models.Blueprints;
     using Runtime.Enums;
@@ -149,7 +150,7 @@
             {
                 var itemData = this.inventoryLocalDataController.GetItem(equipmentId);
                 if (itemData == null) continue;
-                equipmentStatValue += stat * itemData.BaseStats.GetStat<float>(statEnum) / 100;
+                equipmentStatValue += stat * float.Parse(itemData.BaseStats[statEnum].Item2.ToString()) / 100;
             }
 
             return stat + equipmentStatValue;

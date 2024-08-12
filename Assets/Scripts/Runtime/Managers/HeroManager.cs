@@ -23,15 +23,23 @@
         private readonly HeroBlueprint             heroBlueprint;
         private readonly HeroUpgradeService        heroUpgradeService;
         private readonly TalentLocalDataController talentLocalDataController;
+        private readonly HeroLocalDataController   heroLocalDataController;
         private          GameStateMachine          gameStateMachine;
 
-        public HeroManager(BaseElementPresenter<HeroModel, HeroView, HeroPresenter>.Factory factory, SkillBlueprint skillBlueprint, HeroBlueprint heroBlueprint, HeroUpgradeService heroUpgradeService, TalentLocalDataController talentLocalDataController)
+        public HeroManager(
+            BaseElementPresenter<HeroModel, HeroView, HeroPresenter>.Factory factory,
+            SkillBlueprint skillBlueprint,
+            HeroBlueprint heroBlueprint,
+            HeroUpgradeService heroUpgradeService,
+            TalentLocalDataController talentLocalDataController,
+            HeroLocalDataController heroLocalDataController)
             : base(factory)
         {
             this.skillBlueprint            = skillBlueprint;
             this.heroBlueprint             = heroBlueprint;
             this.heroUpgradeService        = heroUpgradeService;
             this.talentLocalDataController = talentLocalDataController;
+            this.heroLocalDataController   = heroLocalDataController;
         }
 
         public HeroPresenter CreateSingleHero(string id, Transform parent)
@@ -50,18 +58,20 @@
 
         public void UpgradeHero(string heroId)
         {
-            if(!this.entities.Any(e=>e.Model.Id.Equals(heroId))) return;
+            if (!this.entities.Any(e => e.Model.Id.Equals(heroId))) return;
             var heroPresenter = this.entities.First(e => e.Model.Id.Equals(heroId));
             heroPresenter.OnHeroUpgrade();
         }
 
         private Dictionary<StatEnum, (Type, object)> GetCurrentStatOfHero(string id)
         {
+            var attackStat      = this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.Attack, this.heroUpgradeService.GetCurrentAttack(id), id);
+            var attackSpeedStat = this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.AttackSpeed, 1, id);
             return new()
             {
-                { StatEnum.Attack, (typeof(float), this.heroUpgradeService.GetCurrentAttack(id) + this.talentLocalDataController.GetTalentEffect(TalentType.IncreaseHeroAttack) * this.heroUpgradeService.GetCurrentAttack(id)) },
+                { StatEnum.Attack, (typeof(float), attackStat + this.talentLocalDataController.GetTalentEffect(TalentType.IncreaseHeroAttack) * attackStat) },
                 { StatEnum.Health, (typeof(float), 10f) },
-                { StatEnum.AttackSpeed, (typeof(float), 1f) },
+                { StatEnum.AttackSpeed, (typeof(float), attackSpeedStat) },
                 { StatEnum.BonusReduceMana, (typeof(float), 0f) },
                 { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) },
                 { StatEnum.ActiveSkillCooldown, (typeof(float), this.skillBlueprint[this.heroBlueprint[id].ActiveSkill.skillName].Cooldown) },
@@ -73,17 +83,12 @@
             base.Tick();
             if (this.gameStateMachine.CurrentState is GamePrepareState)
             {
-                this.entities.ForEach(e =>
-                {
-                    e.SetRaycastActive(false);
-                });
+                this.entities.ForEach(e => { e.SetRaycastActive(false); });
 
                 return;
             }
-            this.entities.ForEach(e =>
-            {
-                e.SetRaycastActive(true);
-            });
+
+            this.entities.ForEach(e => { e.SetRaycastActive(true); });
         }
 
         public void ChangeAttackStatusOfAllHero(bool canAttack)
@@ -95,14 +100,12 @@
                 {
                     e.Model.BaseStats = this.GetCurrentStatOfHero(e.Model.Id);
                 }
+
                 e.SetAttackStatus(canAttack);
                 e.SetRaycastActive(canAttack);
             });
         }
 
-        public override void Initialize()
-        {
-            this.gameStateMachine = this.GetCurrentContainer().Resolve<GameStateMachine>();
-        }
+        public override void Initialize() { this.gameStateMachine = this.GetCurrentContainer().Resolve<GameStateMachine>(); }
     }
 }
