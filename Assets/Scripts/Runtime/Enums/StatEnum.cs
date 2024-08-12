@@ -48,6 +48,21 @@
         TargetThatAttackingMe,
         None
     }
+    
+    public enum TemporaryStatEnum
+    {
+        Attack,
+        Defense,
+        AttackSpeed,
+        AttackRange,
+        MoveSpeed,
+        CastSpeed,
+        CritChance,
+        CritDamage,
+        ManaCost,
+        ExistTime,
+        None
+    }
 
     public enum StatType
     {

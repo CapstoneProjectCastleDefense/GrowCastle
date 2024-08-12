@@ -6,6 +6,7 @@
     using GameFoundation.Scripts.AssetLibrary;
     using Models.Blueprints;
     using Models.LocalData.LocalDataController;
+    using Runtime.Enums;
     using Runtime.Scenes.Adapters.Evolution;
     using Runtime.Services;
     using Spine.Unity;
@@ -56,7 +57,7 @@
             var heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(this.model.ElementId);
             this.levelTxt.text           = $"{this.heroUpgradeService.GetHeroLevel(this.model.ElementId)}";
             this.attackInfoTxt.text      = $"{Math.Round(this.heroUpgradeService.GetCurrentAttack(this.model.ElementId), 1)}";
-            this.attackInfoSpeedTxt.text = $"{heroRuntimeData.attackSpeed}";
+            this.attackInfoSpeedTxt.text = $"{this.heroLocalDataController.GetFinalStat(this.model.ElementId, StatEnum.AttackSpeed)}";
 
 
             var skeletonDataAsset = await this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(heroRuntimeData.heroRecord.SkeletonDataAsset);

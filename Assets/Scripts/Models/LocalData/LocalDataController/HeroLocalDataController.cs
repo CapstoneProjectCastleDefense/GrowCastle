@@ -9,6 +9,7 @@
     using Runtime.Signals.Quests;
     using Runtime.StaticValues;
     using Sirenix.Utilities;
+    using UnityEngine;
     using Zenject;
 
     public class HeroLocalDataController : ILocalDataController
@@ -20,6 +21,7 @@
         private readonly SignalBus                           signalBus;
         private readonly EvolutionInfoBlueprint              evolutionInfoBlueprint;
         private readonly ElementEvolutionLocalDataController elementEvolutionLocalDataController;
+        private readonly InventoryLocalDataController        inventoryLocalDataController;
 
         public HeroLocalDataController(
             HeroLocalData heroLocalData,
@@ -28,7 +30,8 @@
             ResourceLocalDataController resourceLocalDataController,
             SignalBus signalBus,
             EvolutionInfoBlueprint evolutionInfoBlueprint,
-            ElementEvolutionLocalDataController elementEvolutionLocalDataController
+            ElementEvolutionLocalDataController elementEvolutionLocalDataController,
+            InventoryLocalDataController inventoryLocalDataController
         )
         {
             this.heroLocalData                       = heroLocalData;
@@ -38,6 +41,7 @@
             this.signalBus                           = signalBus;
             this.evolutionInfoBlueprint              = evolutionInfoBlueprint;
             this.elementEvolutionLocalDataController = elementEvolutionLocalDataController;
+            this.inventoryLocalDataController        = inventoryLocalDataController;
         }
 
         public void InitData()
@@ -56,8 +60,6 @@
             var heroRuntimeData = new HeroRuntimeData()
             {
                 heroRecord    = this.heroBlueprint.GetDataById(heroId),
-                attack        = heroConfigRecord.BaseAttack,
-                attackSpeed   = heroConfigRecord.BaseAttackSpeed,
                 avatar        = heroConfigRecord.LevelToConfigRecords[1].Avatar,
                 resourceValue = heroConfigRecord.BaseResource,
                 resourceType  = heroConfigRecord.ResourceType,
@@ -118,11 +120,11 @@
 
         public List<string> GetPassiveSkills(string heroId)
         {
-            var evolutionData         = this.elementEvolutionLocalDataController.GetEvolutionElementData(heroId);
+            var evolutionData = this.elementEvolutionLocalDataController.GetEvolutionElementData(heroId);
             return this.evolutionInfoBlueprint.GetDataById(evolutionData.EvolutionId).Abilities.Skip(1).ToList();
         }
 
-        public bool UpgradeHero(string heroId,  int price, int levelUpgradeAmount = 1)
+        public bool UpgradeHero(string heroId, int price, int levelUpgradeAmount = 1)
         {
             if (!this.heroLocalData.IdToHeroData.TryGetValue(heroId, out var elementUpgradeData))
             {
@@ -137,13 +139,40 @@
 
             return true;
         }
+
+        public float? GetFinalSingleStat(string heroId, StatEnum statEnum)
+        {
+            var heroData         = this.GetHeroLocalData(heroId);
+            var heroConfigRecord = this.heroConfigBlueprint.GetDataById(heroId);
+            if (heroConfigRecord.BaseStats.TryGetValue(statEnum, out var stat))
+            {
+                var res = stat * Mathf.Pow(1.1f, heroData.Level - 1);
+                var equipmentStatValue = 0f;
+                foreach (var equipmentId in heroData.ListEquipmentId)
+                {
+                    var itemData = this.inventoryLocalDataController.GetItem(equipmentId);
+                    if (itemData == null) continue;
+                    equipmentStatValue += itemData.GetFinalStat(statEnum, out _);
+                }
+                return res + equipmentStatValue;
+            }
+
+            return null;
+        }
+
+        public float? GetFinalStat(string heroId, StatEnum statEnum)
+        {
+            var singleStat = this.GetFinalSingleStat(heroId, statEnum);
+            if (singleStat == null) return null;
+            var bonus = this.GetFinalSingleStat(heroId, statEnum.GetBonusStat());
+            if (bonus == null) return singleStat;
+            return singleStat * (1 + bonus.Value);
+        }
     }
 
     public class HeroRuntimeData
     {
         public HeroRecord   heroRecord;
-        public float        attack;
-        public float        attackSpeed;
         public float        resourceValue;
         public ResourceType resourceType;
         public string       avatar;
