@@ -222,7 +222,8 @@
         private void OnEnterNewGameState(OnStateEnterSignal signal)
         {
             this.View.bossHealth.SetActive(false);
-            Time.timeScale = 1;
+            Time.timeScale                = 1;
+            this.View.timeSpeedValue.text = "x1 speed";
             this.View.speedRunX2.gameObject.SetActive(false);
             switch (signal.State)
             {
