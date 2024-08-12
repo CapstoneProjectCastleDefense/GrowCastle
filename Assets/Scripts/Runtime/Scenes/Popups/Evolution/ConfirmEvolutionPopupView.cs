@@ -13,6 +13,7 @@
     using Runtime.Scenes.Commons;
     using Runtime.Services;
     using Runtime.Signals;
+    using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
@@ -21,10 +22,13 @@
     {
         [SerializeField] private ElementGenericInfoView elementGenericInfoView;
         [SerializeField] private Button                 changeClassBtn, closeBtn;
+        [SerializeField] private TMP_Text               evolveDescriptionTxt, headerTxt;
 
         public ElementGenericInfoView ElementGenericInfoView => this.elementGenericInfoView;
         public Button                 ChangeClassBtn         => this.changeClassBtn;
         public Button                 CloseBtn               => this.closeBtn;
+        public TMP_Text               EvolveDescriptionTxt   => this.evolveDescriptionTxt;
+        public TMP_Text               HeaderTxt              => this.headerTxt;
         
         public Transform  startPos;
         public Transform  endPos;
@@ -70,8 +74,12 @@
 
         public override UniTask BindData(ConfirmEvolutionPopupModel popupModel)
         {
+            this.View.HeaderTxt.text = popupModel.ElementId;
+            
             this.View.viewField.transform.position = this.View.startPos.position;
             this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
+
+            this.View.EvolveDescriptionTxt.text = this.evolutionInfoBlueprint.GetDataById(popupModel.EvolutionId).EvolutionDescription;
             this.View.ElementGenericInfoView.BindData(new ElementGenericInfoModel()
             {
                 ElementId   = popupModel.ElementId,
