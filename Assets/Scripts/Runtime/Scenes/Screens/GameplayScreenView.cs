@@ -3,6 +3,7 @@
     using System;
     using System.Globalization;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using Cysharp.Threading.Tasks;
     using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
@@ -40,7 +41,9 @@
         public Button inventoryButton;
         public Button chestButton;
         public Button dungeonModeBtn;
-        
+        public Button speedRunX2;
+        public Button settingBtn;
+
         public Image castleHealthBar;
         public Image castleManaBar;
         public Image waveBar;
@@ -62,6 +65,7 @@
         public TextMeshProUGUI manaCurrentValue;
         public TextMeshProUGUI userLevelValue;
         public TextMeshProUGUI bossHealthValue;
+        public TextMeshProUGUI timeSpeedValue;
 
         public GameObject topObject;
         public GameObject midObject;
@@ -70,7 +74,6 @@
         public Transform  endPosBottom;
         public Transform  startPosMid;
         public Transform  endPosMid;
-
     }
 
     [ScreenInfo(nameof(GameplayScreenView))]
@@ -135,6 +138,8 @@
             this.View.inventoryButton.onClick.AddListener(this.OnInventoryBtnClick);
             this.View.chestButton.onClick.AddListener(this.OnChestBtnClick);
             this.View.dungeonModeBtn.onClick.AddListener(this.OnDungeonBtnClick);
+            this.View.speedRunX2.onClick.AddListener(this.OnSpeedupClick);
+            this.View.settingBtn.onClick.AddListener(this.OnSettingBtnClick);
 
             this.resourceLocalDataController.GetResource(ResourceType.Gold).Subscribe(this.OnGoldValueChange);
             this.resourceLocalDataController.GetResource(ResourceType.Diamond).Subscribe(this.OnDiamondValueChange);
@@ -152,6 +157,13 @@
 
             this.resourceLocalDataController.GetResource(ResourceType.Exp).Subscribe(this.OnUserExpUpdate);
             this.userLocalDataController.GetCurrentUserLevel.Subscribe(this.OnUserLevelUpdate);
+        }
+
+        private void OnSpeedupClick()
+        {
+            var currentTimeSpeed = Time.timeScale;
+            Time.timeScale                = 3 - currentTimeSpeed;
+            this.View.timeSpeedValue.text = $"x{3 - currentTimeSpeed} speed";
         }
 
         #region Feature
@@ -174,8 +186,9 @@
 
         #endregion
 
-        private async void OnDungeonBtnClick()            { await this.screenManager.OpenScreen<DungeonSelectLevelPopupPresenter>();}
-        private async void OnChestBtnClick()              { await this.screenManager.OpenScreen<ChestPopupPresenter>();}
+        private async void OnSettingBtnClick()            { await this.screenManager.OpenScreen<SettingScreenPresenter>(); }
+        private async void OnDungeonBtnClick()            { await this.screenManager.OpenScreen<DungeonSelectLevelPopupPresenter>(); }
+        private async void OnChestBtnClick()              { await this.screenManager.OpenScreen<ChestPopupPresenter>(); }
         private async void OnQuestBtnClick()              { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
         private       void OnInventoryBtnClick()          { this.screenManager.OpenScreen<ItemInventoryPopupPresenter, ItemInventoryPopupModel>(new(null, null, null)).Forget(); }
         private async void OnTalentBtnClick()             { await this.screenManager.OpenScreen<TalentPopupPresenter>(); }
@@ -209,6 +222,8 @@
         private void OnEnterNewGameState(OnStateEnterSignal signal)
         {
             this.View.bossHealth.SetActive(false);
+            Time.timeScale = 1;
+            this.View.speedRunX2.gameObject.SetActive(false);
             switch (signal.State)
             {
                 case GamePrepareState:
@@ -216,10 +231,12 @@
                     return;
                 case GameStartWaveState:
                     this.DoStartWaveAnim(1f);
+                    this.View.speedRunX2.gameObject.SetActive(true);
                     break;
                 case GameDungeonModeState:
                     this.DoStartWaveAnim(1f);
                     this.View.waveIndicator.SetActive(false);
+                    this.View.speedRunX2.gameObject.SetActive(true);
                     break;
             }
         }
@@ -229,7 +246,7 @@
             this.View.bossHealth.SetActive(true);
             this.enemyManager.CurrentBossHealth.Subscribe(this.OnUpdateBossHealth);
         }
-        
+
         private void OnUpdateBossHealth(float bossHealth)
         {
             if (bossHealth <= 0)
@@ -237,22 +254,23 @@
                 bossHealth = 0;
                 this.gameStateMachine.TransitionTo<GameDungeonModeEndState>();
             }
+
             this.View.bossHealthBar.DOFillAmount(bossHealth / this.enemyManager.MaxBossHealth, 0.01f);
             this.View.bossHealthValue.text = $"{bossHealth} / {this.enemyManager.MaxBossHealth}";
         }
-        
+
 
         private void DoPrepareStateAnim(float fadeTime)
         {
-            this.View.midObject.transform.DOMove(this.View.startPosMid.position,fadeTime).SetEase(Ease.InOutQuint);
-            this.View.bottomObject.transform.DOMove(this.View.startPosBottom.position,fadeTime).SetEase(Ease.InOutQuint);
+            this.View.midObject.transform.DOMove(this.View.startPosMid.position, fadeTime).SetEase(Ease.InOutQuint);
+            this.View.bottomObject.transform.DOMove(this.View.startPosBottom.position, fadeTime).SetEase(Ease.InOutQuint);
             this.View.waveIndicator.SetActive(false);
         }
 
         private void DoStartWaveAnim(float fadeTime)
         {
-            this.View.midObject.transform.DOMove(this.View.endPosMid.position,fadeTime).SetEase(Ease.InOutQuint);
-            this.View.bottomObject.transform.DOMove(this.View.endPosBottom.position,fadeTime).SetEase(Ease.InOutQuint);
+            this.View.midObject.transform.DOMove(this.View.endPosMid.position, fadeTime).SetEase(Ease.InOutQuint);
+            this.View.bottomObject.transform.DOMove(this.View.endPosBottom.position, fadeTime).SetEase(Ease.InOutQuint);
             this.View.waveIndicator.SetActive(true);
         }
 
@@ -266,6 +284,7 @@
             this.View.diamondValue.text           = $"{this.resourceLocalDataController.GetResource(ResourceType.Diamond).Value}";
             this.View.castleCoinUpgradeValue.text = this.castleLocalDataController.GetGoldToUpgrade().ToString(CultureInfo.InvariantCulture);
             this.View.archerCoinUpgradeValue.text = this.archerLocalDataController.GetGoldNeedToUpgrade().ToString(CultureInfo.InvariantCulture);
+            this.View.timeSpeedValue.text         = "x1 speed";
             this.InitFeatureStatus();
             UniTask.Delay(TimeSpan.FromSeconds(1)).ContinueWith(() => { this.View.backGround.DOFade(0, 3).SetEase(Ease.OutQuad); });
             return UniTask.CompletedTask;

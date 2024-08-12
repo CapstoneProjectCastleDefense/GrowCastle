@@ -1,5 +1,6 @@
 ﻿namespace Models.LocalData.LocalDataController
 {
+    using DigitalRuby.SoundManagerNamespace;
     using R3;
     using Runtime.Signals.Quests;
     using Runtime.StaticValues;
@@ -25,9 +26,24 @@
 
         }
 
+        public ReactiveProperty<float> GetSound => this.userLocalData.Sound;
+        public ReactiveProperty<float> GetMusic => this.userLocalData.Music;
+
         public void InitData()
         {
-
+            this.userLocalData.Music.Subscribe(this.OnMusicValueChange);
+            this.userLocalData.Sound.Subscribe(this.OnSoundValueChange);
         }
+
+        private void OnSoundValueChange(float value)
+        {
+            SoundManager.SoundVolume = value;
+        }
+
+        private void OnMusicValueChange(float value)
+        {
+            SoundManager.MusicVolume = value;
+        }
+        
     }
 }

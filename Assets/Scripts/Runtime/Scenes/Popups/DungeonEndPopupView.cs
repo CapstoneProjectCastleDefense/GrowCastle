@@ -27,6 +27,7 @@ namespace Runtime.Scenes.Popups
         public Button                 continueBtn;
         public GameObject             rewardField;
         public ChestRewardItemAdapter chestRewardItemAdapter;
+        public GameObject             vfx;
     }
 
     [PopupInfo(nameof(DungeonEndPopupView), isOverlay: true)]
@@ -60,6 +61,8 @@ namespace Runtime.Scenes.Popups
 
         public override UniTask BindData()
         {
+            this.View.vfx.SetActive(false);
+            this.View.vfx.SetActive(this.dungeonLocalDataController.isWinCurrentDungeon);
             var position = this.View.startPos.position;
             this.View.loseGameObject.transform.position = position;
             this.View.winGameObject.transform.position  = position;
