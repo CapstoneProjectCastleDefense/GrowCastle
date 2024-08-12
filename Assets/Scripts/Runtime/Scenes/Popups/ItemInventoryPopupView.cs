@@ -88,12 +88,8 @@
             if (items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup != 0)
                 items.AddRange(Enumerable.Repeat<ItemModel>(new(new() { InventoryId = null }, this.itemBlueprint),
                     this.View.Adapter.Parameters.Grid.MaxCellsPerGroup - items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup));
-
-            await this.View.Adapter.InitItemAdapter(items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, this.OnRecycle, x.Quantity, null, this.Model.CharacterInfoRefresh)).ToList(),
-                this.diContainer);
-            if (this.Model.SelectedItemInventoryId.IsNullOrEmpty()) return;
-            var index = items.FindIndex(x => x.Id == this.Model.SelectedItemInventoryId);
-            this.View.Adapter.SmoothScrollTo(index, 0.5f);
+            var models = items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, this.OnRecycle, x.Quantity, null, this.Model.CharacterInfoRefresh)).ToList();
+            await this.View.Adapter.InitItemAdapter(models, this.diContainer);
         }
 
         private void OnRecycle() { this.BindItems().Forget(); }
