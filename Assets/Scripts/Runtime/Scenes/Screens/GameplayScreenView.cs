@@ -186,7 +186,11 @@
 
         #endregion
 
-        private async void OnSettingBtnClick()            { await this.screenManager.OpenScreen<SettingScreenPresenter>(); }
+        private async void OnSettingBtnClick()
+        {
+            Debug.Log("settings_btn_clicked");
+            await this.screenManager.OpenScreen<SettingScreenPresenter>();
+        }
         private async void OnDungeonBtnClick()            { await this.screenManager.OpenScreen<DungeonSelectLevelPopupPresenter>(); }
         private async void OnChestBtnClick()              { await this.screenManager.OpenScreen<ChestPopupPresenter>(); }
         private async void OnQuestBtnClick()              { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
@@ -217,7 +221,11 @@
         }
         private async void OnDailyRewardClick() { await this.screenManager.OpenScreen<DailyRewardPopupPresenter>(); }
 
-        private void OnStartWaveButtonClick() { this.gameStateMachine.TransitionTo<GameStartWaveState>(); }
+        private void OnStartWaveButtonClick()
+        {
+            Debug.Log("start_wave_btn_clicked");
+            this.gameStateMachine.TransitionTo<GameStartWaveState>();
+        }
 
         private void OnEnterNewGameState(OnStateEnterSignal signal)
         {
