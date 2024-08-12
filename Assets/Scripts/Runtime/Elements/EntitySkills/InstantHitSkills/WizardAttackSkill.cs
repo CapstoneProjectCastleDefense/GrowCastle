@@ -2,6 +2,7 @@
 {
     using Models.Blueprints;
     using Models.Tags;
+    using Runtime.Enums;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Services;
@@ -32,7 +33,7 @@
         protected override void InternalActivate()
         {
             this.vfxService?.SpawnVFX(this.VFXName, new Vector3(3f, -2, 0), Quaternion.identity, scale: new Vector3(4, 4, 1));
-            var targets = this.findTargetSystem.GetRandomEnemies(15);
+            var targets = this.findTargetSystem.GetEnemiesInRange(this.Model.Caster, AttackPriorityEnum.Ground, new Vector3(3f, -2, 0), 7);
             for (int i = 0; i < targets.Count; i++)
             {
                 this.effectManager.AddEffectToTarget(targets[i], new InstantDamageTag() { Damage = this.Damage * 3 });

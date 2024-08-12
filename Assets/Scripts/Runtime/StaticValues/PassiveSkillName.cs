@@ -11,6 +11,7 @@
     using Runtime.Elements.PassiveSkills.MoonShadow;
     using Runtime.Elements.PassiveSkills.Shadow;
     using Runtime.Elements.PassiveSkills.Storm;
+    using Runtime.Elements.PassiveSkills.Wizard;
 
     public static class PassiveSkillName
     {
@@ -34,6 +35,8 @@
             { GreatAdmiralPassiveSkill, typeof(GreatAdmiralPassiveSkill) },
             { ElvenMarkPassiveSkill, typeof(ElvenMarkPassiveSkill) },
             { HunterZonePassiveSkill, typeof(HunterZonePassiveSkill) },
+            { HealingHealthPassiveSkill, typeof(HealingHealthPassiveSkill) },
+            { HealingManaPassiveSkill, typeof(HealingManaPassiveSkill) },
         };
 
         public static string GodApperancePassiveSkill   => "GodApperancePassiveSkill";
@@ -54,6 +57,7 @@
         public static string GreatAdmiralPassiveSkill   => "GreatAdmiralPassiveSkill";
         public static string ElvenMarkPassiveSkill      => "ElvenMarkPassiveSkill";
         public static string HunterZonePassiveSkill     => "HunterZonePassiveSkill";
-
+        public static string HealingHealthPassiveSkill  => "HealingHealthPassiveSkill";
+        public static string HealingManaPassiveSkill    => "HealingManaPassiveSkill";
     }
 }

@@ -1,6 +1,6 @@
 ﻿HeroId,PrefabName,Class,EvolutionId,ActiveSkill,SkeletonDataAsset,HeroType,PassiveSkill,AttackSkill
 Knight,HeroKnight,Summon,KnightEvol_1,summon_skill|summon,knight hero_SkeletonData,Hero,"FightForeverPassiveSkill,GreatAdmiralPassiveSkill",none|atk
-Wizard,HeroWizard,Attack,WizardEvol_1,wizard_attack_skill|summon,wizard_SkeletonData,Hero,GodApperancePassiveSkill,wizard_normal_attack|atk
+Wizard,HeroWizard,Attack,WizardEvol_1,wizard_attack_skill|summon,wizard_SkeletonData,Hero,"HealingManaPassiveSkill,HealingHealthPassiveSkill",wizard_normal_attack|atk
 GreenLeaf,GreenLeaf,Attack,WizardEvol_1,sylvan_wrath|attack2,archer_SkeletonData,Hero,"ElvenMarkPassiveSkill,HunterZonePassiveSkill",arrow_skill|attack
 GrayMage,GrayMage,Attack,WizardEvol_1,god_realm|skill,gray mage_SkeletonData,Hero,"GodLightPassiveSkill,GodApperancePassiveSkill",wizard_normal_attack|atk
 Xel'Naga,TowerXelNaga,Attack,XelNaga_Evol,wizard_normal_attack|idle,turret_SkeletonData,Tower,,wizard_normal_attack|atk
