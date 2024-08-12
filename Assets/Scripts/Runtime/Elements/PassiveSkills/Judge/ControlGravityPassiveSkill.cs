@@ -1,11 +1,9 @@
-﻿namespace Runtime.Elements.PassiveSkills
+﻿namespace Runtime.Elements.PassiveSkills.Judge
 {
     using System;
     using Cysharp.Threading.Tasks;
     using Models.Tags;
     using Runtime.Elements.Entities.Hero;
-    using Runtime.Enums;
-    using Runtime.Extensions;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.Systems;

@@ -11,32 +11,27 @@ PrefabInstance:
     - target: {fileID: 1360695526884187459, guid: c7de1cace7edac644ac30b76588f8475,
         type: 3}
       propertyPath: m_Name
-      value: GoldenStatue
+      value: LifeTree
       objectReference: {fileID: 0}
     - target: {fileID: 1529865905526758291, guid: c7de1cace7edac644ac30b76588f8475,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 2c1ae54878f4dfa4ab55f6a727c31cea, type: 2}
+      objectReference: {fileID: 2100000, guid: f36a97a2baee3d849be0b947a6eb1df0, type: 2}
     - target: {fileID: 1906559044008609931, guid: c7de1cace7edac644ac30b76588f8475,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1906559044008609931, guid: c7de1cace7edac644ac30b76588f8475,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.4
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1906559044008609931, guid: c7de1cace7edac644ac30b76588f8475,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.4
-      objectReference: {fileID: 0}
-    - target: {fileID: 1906559044008609931, guid: c7de1cace7edac644ac30b76588f8475,
-        type: 3}
-      propertyPath: m_ConstrainProportionsScale
-      value: 1
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 3554123830223255441, guid: c7de1cace7edac644ac30b76588f8475,
         type: 3}
@@ -112,7 +107,7 @@ PrefabInstance:
         type: 3}
       propertyPath: skeletonDataAsset
       value: 
-      objectReference: {fileID: 11400000, guid: 6c75f87f2fd96ea4bad4be0434f5d315,
+      objectReference: {fileID: 11400000, guid: 303d8e2677164444ca764503c0f1a494,
         type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

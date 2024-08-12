@@ -25,7 +25,8 @@
         private readonly EnemyBlueprint            enemyBlueprint;
         public readonly  ReactiveProperty<float>   CurrentBossHealth = new(0);
         public           float                     MaxBossHealth;
-        public           Dictionary<string, float> InCreaseGoldDropPercent = new();
+        public readonly  Dictionary<string, float> InCreaseGoldDropPercent = new();
+        public           Dictionary<string, float> IncreaseExpDropPercent  = new();
         public EnemyManager(
             BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>.Factory factory,
             EnemyBlueprint enemyBlueprint
@@ -46,6 +47,8 @@
         }
 
         public float GetAllIncreaseGoldDrop() => this.InCreaseGoldDropPercent.Sum(e => e.Value) / 100;
+
+        public float GetAllIncreaseExpDrop() => this.IncreaseExpDropPercent.Sum(e => e.Value) / 100;
 
         public void StopCounterDeathEnemy()
         {

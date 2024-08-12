@@ -6,6 +6,7 @@
     using Runtime.Elements.PassiveSkills.ARise;
     using Runtime.Elements.PassiveSkills.GreenLeaf;
     using Runtime.Elements.PassiveSkills.Hassan;
+    using Runtime.Elements.PassiveSkills.Judge;
     using Runtime.Elements.PassiveSkills.Knight;
     using Runtime.Elements.PassiveSkills.MoonShadow;
     using Runtime.Elements.PassiveSkills.Shadow;

@@ -195,7 +195,8 @@
             this.resourceLocalDataController.ReceiveResource(ResourceType.Gold, goldDrop);
 
             var baseExpDrop = this.Model.GetStat<float>(StatEnum.Exp);
-            var expDrop     = baseExpDrop + baseExpDrop * this.talentLocalDataController.GetTalentEffect(TalentType.IncreaseDropExp);
+            var expDrop = baseExpDrop + baseExpDrop * this.talentLocalDataController.GetTalentEffect(TalentType.IncreaseDropExp) +
+                          baseExpDrop * ((EnemyManager)this.ElementManager).GetAllIncreaseExpDrop();
             this.resourceLocalDataController.ReceiveResource(ResourceType.Exp, expDrop);
 
             this.CoinPopUp(goldDrop);
