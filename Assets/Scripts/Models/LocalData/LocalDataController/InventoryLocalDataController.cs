@@ -36,13 +36,17 @@
             }
         }
 
-        public List<ItemData> GetItems(ItemType itemType)
-        {
-            return this.inventoryLocalData.Items.Where(x => this.itemBlueprint.GetDataById(x.BlueprintId).ItemType == itemType).ToList();
-        }
-        public List<ItemData> GetAllItems()      { return this.inventoryLocalData.Items; }
-        public ItemData       GetItem(string id) { return this.inventoryLocalData.Items.FirstOrDefault(x => x.InventoryId == id); }
-        public void AddItem(string blueprintId, int quantity, RarityEnum rarity, bool isEquipped, int level, int tier, Dictionary<StatEnum, (Type, object)> stats)
+        public List<ItemData> GetItems(ItemType itemType) { return this.inventoryLocalData.Items.Where(x => this.itemBlueprint.GetDataById(x.BlueprintId).ItemType == itemType).ToList(); }
+        public List<ItemData> GetAllItems()               { return this.inventoryLocalData.Items; }
+        public ItemData       GetItem(string id)          { return this.inventoryLocalData.Items.FirstOrDefault(x => x.InventoryId == id); }
+        public void AddItem(
+            string blueprintId,
+            int quantity,
+            RarityEnum rarity,
+            bool isEquipped,
+            int level,
+            int tier,
+            Dictionary<StatEnum, (Type, object)> stats)
         {
             var id          = Guid.NewGuid().ToString();
             var isEquipment = this.itemBlueprint.GetDataById(blueprintId).ItemType == ItemType.Equipment;
@@ -126,7 +130,7 @@
 
             var attackStat        = Random.Range(attackRange.StatRangeValue.minValue, attackRange.StatRangeValue.maxValue);
             var attackSpeedStat   = Random.Range(attackSpeedRange.StatRangeValue.minValue, attackSpeedRange.StatRangeValue.maxValue);
-            var skillCooldownStat = Random.Range(skillCooldownRange.StatRangeValue.minValue, skillCooldownRange.StatRangeValue.maxValue);
+            var skillCooldownStat = Random.Range(skillCooldownRange.StatRangeValue.minValue, skillCooldownRange.StatRangeValue.maxValue) * -1;
 
             return new()
             {

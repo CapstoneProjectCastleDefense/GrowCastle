@@ -65,8 +65,9 @@
 
         private Dictionary<StatEnum, (Type, object)> GetCurrentStatOfHero(string id)
         {
-            var attackStat      = this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.Attack, this.heroUpgradeService.GetCurrentAttack(id), id);
-            var attackSpeedStat = this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.AttackSpeed, 1, id);
+            var attackStat          = this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.Attack, this.heroUpgradeService.GetCurrentAttack(id), id);
+            var attackSpeedStat     = this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.AttackSpeed, 1, id);
+            var activeSkillCooldown = this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.ActiveSkillCooldown, this.skillBlueprint[this.heroBlueprint[id].ActiveSkill.skillName].Cooldown, id);
             return new()
             {
                 { StatEnum.Attack, (typeof(float), attackStat + this.talentLocalDataController.GetTalentEffect(TalentType.IncreaseHeroAttack) * attackStat) },
@@ -74,7 +75,7 @@
                 { StatEnum.AttackSpeed, (typeof(float), attackSpeedStat) },
                 { StatEnum.BonusReduceMana, (typeof(float), 0f) },
                 { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) },
-                { StatEnum.ActiveSkillCooldown, (typeof(float), this.skillBlueprint[this.heroBlueprint[id].ActiveSkill.skillName].Cooldown) },
+                { StatEnum.ActiveSkillCooldown, (typeof(float), activeSkillCooldown) },
             };
         }
 
