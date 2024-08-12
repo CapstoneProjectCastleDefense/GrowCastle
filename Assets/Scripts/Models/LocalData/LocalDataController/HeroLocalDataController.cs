@@ -5,6 +5,7 @@
     using System.Linq;
     using Models.Blueprints;
     using Runtime.Enums;
+    using Runtime.Extensions;
     using Runtime.Services;
     using Runtime.Signals.Quests;
     using Runtime.StaticValues;
@@ -140,34 +141,20 @@
             return true;
         }
 
-        public float? GetFinalSingleStat(string heroId, StatEnum statEnum)
+        public float GetStatAfterEquipItem(StatEnum statEnum, float stat, string heroId)
         {
-            var heroData         = this.GetHeroLocalData(heroId);
-            var heroConfigRecord = this.heroConfigBlueprint.GetDataById(heroId);
-            if (heroConfigRecord.BaseStats.TryGetValue(statEnum, out var stat))
+            var heroData           = this.GetHeroLocalData(heroId);
+            var equipmentStatValue = 0f;
+            foreach (var equipmentId in heroData.ListEquipmentId)
             {
-                var res = stat * Mathf.Pow(1.1f, heroData.Level - 1);
-                var equipmentStatValue = 0f;
-                foreach (var equipmentId in heroData.ListEquipmentId)
-                {
-                    var itemData = this.inventoryLocalDataController.GetItem(equipmentId);
-                    if (itemData == null) continue;
-                    equipmentStatValue += itemData.GetFinalStat(statEnum, out _);
-                }
-                return res + equipmentStatValue;
+                var itemData = this.inventoryLocalDataController.GetItem(equipmentId);
+                if (itemData == null) continue;
+                equipmentStatValue += stat * itemData.BaseStats.GetStat<float>(statEnum) / 100;
             }
 
-            return null;
+            return stat + equipmentStatValue;
         }
 
-        public float? GetFinalStat(string heroId, StatEnum statEnum)
-        {
-            var singleStat = this.GetFinalSingleStat(heroId, statEnum);
-            if (singleStat == null) return null;
-            var bonus = this.GetFinalSingleStat(heroId, statEnum.GetBonusStat());
-            if (bonus == null) return singleStat;
-            return singleStat * (1 + bonus.Value);
-        }
     }
 
     public class HeroRuntimeData

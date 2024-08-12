@@ -85,42 +85,6 @@
                 items = this.inventoryLocalDataController.GetItems(ItemType.Equipment).Select(x => x.ToModel(this.itemBlueprint)).ToList();
             }
 
-#if UNITY_EDITOR || CREATIVE
-            // if (items.Count(x => x.ItemType == ItemType.Equipment) == 0)
-            // {
-            //     var enums      = Enum.GetValues(typeof(RarityEnum));
-            //     var equipments = this.itemBlueprint.Values.Where(x => x.ItemType == ItemType.Equipment).ToList();
-            //     for (var _ = 0; _ < 10; _++)
-            //     {
-            //         foreach (var itemBlueprintValue in equipments)
-            //         {
-            //             this.inventoryLocalDataController.AddItem(
-            //                 itemBlueprintValue.Id,
-            //                 1,
-            //                 (RarityEnum)enums.GetValue(Random.Range(0, enums.Length)),
-            //                 false,
-            //                 1,
-            //                 0,
-            //                 new()
-            //                 {
-            //                     { StatEnum.Attack, (typeof(float), Random.Range(1, 10)) },
-            //                     { StatEnum.Defense, (typeof(float), Random.Range(1, 10)) },
-            //                     { StatEnum.Health, (typeof(float), Random.Range(1, 10)) }
-            //                 });
-            //         }
-            //     }
-            //
-            //     if (this.Model.Equippable == null)
-            //     {
-            //         items = this.inventoryLocalDataController.GetAllItems().Select(x => x.ToModel(this.itemBlueprint)).ToList();
-            //     }
-            //     else
-            //     {
-            //         items = this.inventoryLocalDataController.GetItems(ItemType.Equipment).Select(x => x.ToModel(this.itemBlueprint)).ToList();
-            //     }
-            // }
-#endif
-
             if (items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup != 0)
                 items.AddRange(Enumerable.Repeat<ItemModel>(new(new() { InventoryId = null }, this.itemBlueprint),
                     this.View.Adapter.Parameters.Grid.MaxCellsPerGroup - items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup));

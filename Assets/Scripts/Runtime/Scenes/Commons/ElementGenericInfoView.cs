@@ -55,9 +55,10 @@
         {
             this.model = infoModel;
             var heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(this.model.ElementId);
-            this.levelTxt.text           = $"{this.heroUpgradeService.GetHeroLevel(this.model.ElementId)}";
-            this.attackInfoTxt.text      = $"{Math.Round(this.heroUpgradeService.GetCurrentAttack(this.model.ElementId), 1)}";
-            this.attackInfoSpeedTxt.text = $"{this.heroLocalDataController.GetFinalStat(this.model.ElementId, StatEnum.AttackSpeed)}";
+            this.levelTxt.text = $"{this.heroUpgradeService.GetHeroLevel(this.model.ElementId)}";
+            this.attackInfoTxt.text
+                = $"{Math.Round(this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.Attack, this.heroUpgradeService.GetCurrentAttack(this.model.ElementId), this.model.ElementId), 1)}";
+            this.attackInfoSpeedTxt.text = $"{Math.Round(this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.AttackSpeed, 1f, this.model.ElementId), 1)}";
 
 
             var skeletonDataAsset = await this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(heroRuntimeData.heroRecord.SkeletonDataAsset);
@@ -69,8 +70,10 @@
 
         public void Rebind()
         {
-            this.levelTxt.text      = $"{this.heroUpgradeService.GetHeroLevel(this.model.ElementId)}";
-            this.attackInfoTxt.text = $"{(int)this.heroUpgradeService.GetCurrentAttack(this.model.ElementId)}";
+            this.levelTxt.text = $"{this.heroUpgradeService.GetHeroLevel(this.model.ElementId)}";
+            this.attackInfoTxt.text
+                = $"{Math.Round(this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.Attack, this.heroUpgradeService.GetCurrentAttack(this.model.ElementId), this.model.ElementId), 1)}";
+            this.attackInfoSpeedTxt.text = $"{Math.Round(this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.AttackSpeed, 1f, this.model.ElementId), 1)}";
             this.SetSkin();
         }
 

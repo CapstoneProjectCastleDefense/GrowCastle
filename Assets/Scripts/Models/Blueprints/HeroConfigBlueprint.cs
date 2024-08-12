@@ -14,9 +14,10 @@
     public class HeroConfigRecord
     {
         public string                                   HeroId               { get; set; }
+        public float                                    BaseAttack           { get; set; }
+        public float                                    BaseAttackSpeed      { get; set; }
         public float                                    BaseResource         { get; set; }
         public ResourceType                             ResourceType         { get; set; }
-        public Dictionary<StatEnum, float>              BaseStats            { get; set; }
         public BlueprintByRow<int, LevelToConfigRecord> LevelToConfigRecords { get; set; }
     }
 
