@@ -150,7 +150,7 @@
             {
                 var itemData = this.inventoryLocalDataController.GetItem(equipmentId);
                 if (itemData == null) continue;
-                equipmentStatValue += stat * float.Parse(itemData.BaseStats[statEnum].Item2.ToString()) / 100;
+                equipmentStatValue += stat * itemData.GetFinalStat(statEnum,out var a) / 100;
             }
 
             return stat + equipmentStatValue;
