@@ -106,9 +106,16 @@
 
         public List<string> GetEquipments(string heroId) { return this.GetHeroLocalData(heroId).ListEquipmentId; }
 
-        public void EquipEquipment(string heroId, string equipmentId) { this.GetHeroLocalData(heroId).ListEquipmentId.Add(equipmentId); }
+        public void EquipEquipment(string heroId, string equipmentId)
+        {
+            if (this.GetEquipments(heroId).Count >= MiscValue.MaxEquipment) return;
+            this.GetHeroLocalData(heroId).ListEquipmentId.Add(equipmentId);
+        }
 
         public void UnEquipEquipment(string heroId, string equipmentId) { this.GetHeroLocalData(heroId).ListEquipmentId.Remove(equipmentId); }
+
+        public bool CanEquip(string heroId) { return this.GetEquipments(heroId).Count < MiscValue.MaxEquipment; }
+
 
         public HeroData GetHeroLocalData(string heroId)
         {
@@ -150,12 +157,11 @@
             {
                 var itemData = this.inventoryLocalDataController.GetItem(equipmentId);
                 if (itemData == null) continue;
-                equipmentStatValue += stat * itemData.GetFinalStat(statEnum,out var a) / 100;
+                equipmentStatValue += stat * itemData.GetFinalStat(statEnum, out var a) / 100;
             }
 
             return stat + equipmentStatValue;
         }
-
     }
 
     public class HeroRuntimeData

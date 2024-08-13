@@ -4,5 +4,6 @@
     {
         public const string ItemFragment     = "Fragment";
         public const string TransparentImage = "TransparentImage";
+        public const int    MaxEquipment     = 2;
     }
 }

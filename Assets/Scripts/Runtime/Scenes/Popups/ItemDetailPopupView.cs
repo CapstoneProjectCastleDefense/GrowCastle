@@ -103,18 +103,14 @@
         {
             this.Model.Equippable.UnEquip(this.Model.InventoryId);
             this.inventoryLocalDataController.UnEquipItem(this.Model.InventoryId);
-            this.View.RecycleButton.gameObject.SetActive(true);
-            this.View.EquipButton.gameObject.SetActive(true);
-            this.View.UnequipButton.gameObject.SetActive(false);
+            this.BindVolatileData();
             this.Model.CharacterInfoRefresh?.Invoke();
         }
         private void OnEquip()
         {
             this.Model.Equippable.Equip(this.Model.InventoryId);
             this.inventoryLocalDataController.EquipItem(this.Model.InventoryId);
-            this.View.RecycleButton.gameObject.SetActive(false);
-            this.View.EquipButton.gameObject.SetActive(false);
-            this.View.UnequipButton.gameObject.SetActive(true);
+            this.BindVolatileData();
             this.Model.CharacterInfoRefresh?.Invoke();
         }
 
@@ -158,7 +154,8 @@
             this.View.EquipButton.gameObject.SetActive(
                 this.Model.ItemModel.ItemType == ItemType.Equipment
                 && this.Model.Equippable != null
-                && !this.Model.ItemModel.IsEquipped);
+                && !this.Model.ItemModel.IsEquipped
+                && this.Model.Equippable.CanEquip());
             this.View.UnequipButton.gameObject.SetActive(
                 this.Model.ItemModel.ItemType == ItemType.Equipment
                 && this.Model.Equippable != null

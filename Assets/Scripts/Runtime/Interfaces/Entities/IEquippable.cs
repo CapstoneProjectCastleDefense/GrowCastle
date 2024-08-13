@@ -8,5 +8,6 @@
     {
         void Equip(string equipmentId);
         void UnEquip(string equipmentId);
+        bool CanEquip();
     }
 }

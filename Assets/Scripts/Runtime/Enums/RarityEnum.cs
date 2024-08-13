@@ -25,8 +25,8 @@
             return rarity switch
             {
                 RarityEnum.Common => 1,
-                RarityEnum.Rare => 1.5f,
-                RarityEnum.Legendary => 2,
+                RarityEnum.Rare => 1f,
+                RarityEnum.Legendary => 1f,
                 _ => 0
             };
         }
