@@ -21,7 +21,7 @@
         private ElementGenericInfoModel model;
 
         [SerializeField] private SkeletonGraphic avatarAnim;
-        [SerializeField] private TMP_Text        skillDescription, levelTxt, attackInfoTxt, attackInfoSpeedTxt;
+        [SerializeField] public  TMP_Text        skillDescription, levelTxt, attackInfoTxt, attackInfoSpeedTxt;
         [SerializeField] private AbilityAdapter  abilityAdapter;
 
         private IGameAssets             gameAssets;
@@ -33,13 +33,13 @@
         private ElementSkinBlueprint    elementSkinBlueprint;
 
         [Inject] public void Construct(
-            IGameAssets gameAssetsInject,
-            EvolutionInfoBlueprint evolutionInfoBlueprintInject,
-            DiContainer diContainerInject,
+            IGameAssets             gameAssetsInject,
+            EvolutionInfoBlueprint  evolutionInfoBlueprintInject,
+            DiContainer             diContainerInject,
             HeroLocalDataController heroLocalDataControllerInject,
-            HeroUpgradeService heroUpgradeServiceInject,
-            SkillBlueprint skillBlueprintInject,
-            ElementSkinBlueprint elementSkinBlueprintInject
+            HeroUpgradeService      heroUpgradeServiceInject,
+            SkillBlueprint          skillBlueprintInject,
+            ElementSkinBlueprint    elementSkinBlueprintInject
         )
         {
             this.gameAssets              = gameAssetsInject;
@@ -59,7 +59,6 @@
             this.attackInfoTxt.text
                 = $"{Math.Round(this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.Attack, this.heroUpgradeService.GetCurrentAttack(this.model.ElementId), this.model.ElementId), 1)}";
             this.attackInfoSpeedTxt.text = $"{Math.Round(this.heroLocalDataController.GetStatAfterEquipItem(StatEnum.AttackSpeed, 1f, this.model.ElementId), 1)}";
-
 
             var skeletonDataAsset = await this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(heroRuntimeData.heroRecord.SkeletonDataAsset);
             this.avatarAnim.ChangeSkeletonDataAsset(skeletonDataAsset, "idle");

@@ -5,6 +5,7 @@
     using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using GameFoundation.Scripts.Utilities.Extension;
     using GameFoundation.Scripts.Utilities.LogService;
     using global::Extensions;
     using Models;
@@ -21,7 +22,7 @@
     public class ConfirmEvolutionPopupView : BaseView
     {
         [SerializeField] private ElementGenericInfoView elementGenericInfoView;
-        [SerializeField] private Button                 changeClassBtn, closeBtn;
+        [SerializeField] private Button                 changeClassBtn,       closeBtn;
         [SerializeField] private TMP_Text               evolveDescriptionTxt, headerTxt;
 
         public ElementGenericInfoView ElementGenericInfoView => this.elementGenericInfoView;
@@ -29,7 +30,7 @@
         public Button                 CloseBtn               => this.closeBtn;
         public TMP_Text               EvolveDescriptionTxt   => this.evolveDescriptionTxt;
         public TMP_Text               HeaderTxt              => this.headerTxt;
-        
+
         public Transform  startPos;
         public Transform  endPos;
         public GameObject viewField;
@@ -46,14 +47,15 @@
         private readonly EvolutionInfoBlueprint              evolutionInfoBlueprint;
 
         public ConfirmEvolutionPopupPresenter(
-            SignalBus signalBus,
-            ILogService logService,
-            DiContainer diContainer,
-            HeroUpgradeService heroUpgradeService,
-            ToastController toastController,
+            SignalBus                           signalBus,
+            ILogService                         logService,
+            DiContainer                         diContainer,
+            HeroUpgradeService                  heroUpgradeService,
+            ToastController                     toastController,
             ElementEvolutionLocalDataController elementEvolutionLocalDataController,
-            EvolutionBlueprint evolutionBlueprint,
-            EvolutionInfoBlueprint evolutionInfoBlueprint)
+            EvolutionBlueprint                  evolutionBlueprint,
+            EvolutionInfoBlueprint              evolutionInfoBlueprint
+        )
             : base(signalBus, logService)
         {
             this.diContainer                         = diContainer;
@@ -75,17 +77,20 @@
         public override UniTask BindData(ConfirmEvolutionPopupModel popupModel)
         {
             this.View.HeaderTxt.text = popupModel.ElementId;
-            
+
             this.View.viewField.transform.position = this.View.startPos.position;
             this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
 
-            this.View.EvolveDescriptionTxt.text = this.evolutionInfoBlueprint.GetDataById(popupModel.EvolutionId).EvolutionDescription;
-            this.View.ElementGenericInfoView.BindData(new ElementGenericInfoModel()
+            var evolutionDes     = this.evolutionInfoBlueprint.GetDataById(popupModel.EvolutionId).EvolutionDescription;
+            var passiveSkillName = evolutionDes.Split("|")[0];
+            var passiveSkillDes  = evolutionDes.Split("|")[1];
+            this.View.EvolveDescriptionTxt.text = passiveSkillName;
+            this.View.ElementGenericInfoView.BindData(new()
             {
                 ElementId   = popupModel.ElementId,
-                EvolutionId = popupModel.EvolutionId
+                EvolutionId = popupModel.EvolutionId,
             });
-
+            this.View.ElementGenericInfoView.skillDescription.text = passiveSkillDes;
             var evolutionLocalData    = this.elementEvolutionLocalDataController.GetEvolutionElementData(popupModel.ElementId);
             var evolutionDetailRecord = this.evolutionBlueprint.GetEvolutionDetailRecord(popupModel.ElementId, popupModel.EvolutionId);
             var parentId              = evolutionDetailRecord.ParentId;
@@ -102,6 +107,7 @@
             if (!isReachRequireLevel)
             {
                 this.toastController.ShowToast("Level is too low");
+
                 return;
             }
 
@@ -116,7 +122,7 @@
                 this.toastController.ShowToast("Not enough diamond");
             }
         }
-        
+
         public override void CloseView()
         {
             this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>

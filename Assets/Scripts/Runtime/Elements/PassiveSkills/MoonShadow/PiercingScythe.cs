@@ -14,7 +14,7 @@
         public void Tick()
         {
             if (this.HeroPresenter.AttackCount <= 5) return;
-            this.HeroPresenter.Model.SetStat(StatEnum.Attack, this.baseHeroAtk * 1.2f);
+            this.HeroPresenter.Model.SetStat(StatEnum.Attack, this.baseHeroAtk * 1.5f);
             this.HeroPresenter.AttackCount = 0;
         }
         public void ActiveSkill()
