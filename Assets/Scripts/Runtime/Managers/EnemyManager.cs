@@ -95,7 +95,7 @@
                         { StatEnum.Gold, (typeof(float), enemyRecord.Gold.baseValue) },
                         { StatEnum.Exp, (typeof(float), enemyRecord.Exp.baseValue) }
                     },
-                    StartPos = new(Random.Range(15f, 20f), Random.Range(-2.5f, -1.5f), 0),
+                    StartPos = new(Random.Range(12f, 15f), Random.Range(-2.5f, -1.5f), 0),
                 });
                 enemyPresenter.UpdateView().Forget();
                 enemyPresenter.SetManager(this);

@@ -31,4 +31,7 @@ moon_shadow_evolve_3,"Unlock Blood Scythe|When the castle has less than 20% HP, 
 storm_evolve_1,"Unlock Golden Thunder|Summon 2 golden lightning strikes to the ground, each golden lighting will create an area that deals AOE damage for the enemies",golden_thunder_skill,10,0
 storm_evolve_2,Unlock Obscure|Basic attacks will spread damage to other enemies in range but its damage will be reduced by 20%,"golden_thunder_skill,ObscurePassiveSkill",10,0
 storm_evolve_3,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,"golden_thunder_skill,ForesightPassiveSkill",10,0
-xelNaga_evolve_1,,summon_skill,10,0
+xelNaga_evolve_1,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,NagaAttack,10,0
+Worm_evolve_1,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,WormNormalAttack,10,0
+GoldenStatue_evolve_1,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,GoldenStatueSkill,10,0
+LifeTreeSkill_evolve_1,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,LifeTreeSkill,10,0
