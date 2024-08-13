@@ -91,6 +91,9 @@
         private readonly FeatureLocalDataController  featureLocalDataController;
         private readonly EnemyManager                enemyManager;
         private readonly SignalBus                   signalBus;
+
+        private Vector3 bottomPos;
+        private Vector3 midPos;
         public GameplayScreenPresenter(
             SignalBus signalBus,
             GameStateMachine gameStateMachine,
@@ -125,6 +128,8 @@
             base.OnViewReady();
             this.OpenViewAsync().Forget();
             AudioService.Instance.PlayPlayList("bgm");
+            this.bottomPos = this.View.bottomObject.transform.position;
+            this.midPos    = this.View.midObject.transform.position;
             this.signalBus.Subscribe<UpdateCastleStatSignal>(this.OnCastleStatChange);
             this.signalBus.Subscribe<OnStateEnterSignal>(this.OnEnterNewGameState);
             this.signalBus.Subscribe<SpawnedBossInDungeon>(this.OnStartDungeon);
@@ -275,8 +280,8 @@
 
         private void DoPrepareStateAnim(float fadeTime)
         {
-            this.View.midObject.transform.DOMove(this.View.startPosMid.position, fadeTime).SetEase(Ease.InOutQuint);
-            this.View.bottomObject.transform.DOMove(this.View.startPosBottom.position, fadeTime).SetEase(Ease.InOutQuint);
+            this.View.midObject.transform.DOMove(this.midPos, fadeTime).SetEase(Ease.InOutQuint);
+            this.View.bottomObject.transform.DOMove(this.bottomPos, fadeTime).SetEase(Ease.InOutQuint);
             this.View.waveIndicator.SetActive(false);
         }
 
