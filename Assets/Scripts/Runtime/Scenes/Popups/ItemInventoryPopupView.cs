@@ -57,9 +57,7 @@
             this.diContainer                  = diContainer;
             this.itemBlueprint                = itemBlueprint;
         }
-
-        private float ViewFieldWidth => this.View.ViewField.rect.width + this.View.CategoryContainer.rect.width;
-        private float ViewWidth      => this.View.ViewField.parent.GetComponent<RectTransform>().rect.width;
+        private float ViewHeight      => this.View.ViewField.parent.GetComponent<RectTransform>().rect.height;
 
         protected override void OnViewReady()
         {
@@ -68,8 +66,8 @@
         }
         public override async UniTask BindData(ItemInventoryPopupModel model)
         {
-            this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0);
-            this.View.ViewField.DOLocalMoveX(this.ViewWidth - this.ViewFieldWidth * 1.5f, 0.5f).SetEase(Ease.InQuad);
+            this.View.ViewField.DOLocalMoveY(- this.ViewHeight, 0);
+            this.View.ViewField.DOLocalMoveY(0, 0.5f).SetEase(Ease.InQuad);
             this.BindItems().Forget();
         }
 
@@ -88,12 +86,13 @@
             if (items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup != 0)
                 items.AddRange(Enumerable.Repeat<ItemModel>(new(new() { InventoryId = null }, this.itemBlueprint),
                     this.View.Adapter.Parameters.Grid.MaxCellsPerGroup - items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup));
-            var models = items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, this.OnRecycle, x.Quantity, null, this.Model.CharacterInfoRefresh)).ToList();
+            var models = items.Select(x => new ItemInventoryItemModel(x, this.Model.Equippable, this.OnRecycle, x.Quantity, null, this.Model.CharacterInfoRefresh))
+                .ToList();
             await this.View.Adapter.InitItemAdapter(models, this.diContainer);
         }
 
         private void OnRecycle() { this.BindItems().Forget(); }
 
-        public override void CloseView() { this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0.5f).SetEase(Ease.InQuad).onComplete += () => { base.CloseView(); }; }
+        public override void CloseView() { this.View.ViewField.DOLocalMoveY(- this.ViewHeight, 0.5f).SetEase(Ease.InQuad).onComplete += () => { base.CloseView(); }; }
     }
 }
