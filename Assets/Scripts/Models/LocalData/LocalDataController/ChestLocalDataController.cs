@@ -74,7 +74,7 @@
                     var itemId     = item.ItemId.Split("|")[0];
                     var rarity     = item.ItemId.Split("|")[1].ToEnum<RarityEnum>();
                     var itemRecord = this.itemBlueprint.GetDataById(itemId);
-                    this.inventoryLocalDataController.AddItem(itemRecord.Id,item.Value,rarity,false,1,1,this.inventoryLocalDataController.GetStatOfItem(rarity));
+                    this.inventoryLocalDataController.AddItem(itemRecord.Id,item.Value,rarity,false,1,0,this.inventoryLocalDataController.GetStatOfItem(rarity));
                 }
             });
             this.chestLocalData.ChestData.Remove(chestData);
