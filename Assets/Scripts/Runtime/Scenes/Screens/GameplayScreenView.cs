@@ -145,7 +145,7 @@
             this.resourceLocalDataController.GetResource(ResourceType.Diamond).Subscribe(this.OnDiamondValueChange);
             this.View.waveIndicator.SetActive(false);
 
-            this.levelLocalDataController.CurrentLevel.SubscribeToText(this.View.waveValue);
+            this.levelLocalDataController.CurrentLevel.Subscribe(this.UpdateTextValue);
             this.levelLocalDataController.CurrentLevel.Subscribe(this.OnQuestFeatureUnlock);
             this.levelLocalDataController.CurrentLevel.Subscribe(this.OnTalentFeatureUnlock);
 
@@ -168,6 +168,10 @@
 
         #region Feature
 
+        private void UpdateTextValue(int value)
+        {
+            this.View.waveValue.text = $"Level {value}";
+        }
         private void OnQuestFeatureUnlock(int value)
         {
             if (this.featureLocalDataController.CheckFeatureIsUnlock(FeatureName.Quest, value))
