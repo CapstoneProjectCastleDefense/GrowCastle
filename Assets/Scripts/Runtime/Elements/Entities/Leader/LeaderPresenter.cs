@@ -88,6 +88,7 @@
         public void Equip(string equipmentId)                                           { throw new NotImplementedException(); }
 
         public void UnEquip(string equipmentId) { throw new NotImplementedException(); }
+        public bool CanEquip()     { throw new NotImplementedException(); }
 
         private void UpdateHealthView()
         {
