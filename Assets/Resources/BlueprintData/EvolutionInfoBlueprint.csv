@@ -3,7 +3,8 @@ knight_evolve_1,Unlock Undead Army,summon_skill,10,0
 knight_evolve_2,Unlock Fight Forever,"summon_skill,FightForeverPassiveSkill",10,11
 knight_evolve_3,Unlock Great Admiral,"summon_skill,GreatAdmiralPassiveSkill",10,31
 wizard_evolve_1,,wizard_attack_skill,10,0
-wizard_evolve_2,,"wizard_attack_skill,GodApperancePassiveSkill",10,0
+wizard_evolve_2,,"wizard_attack_skill,HealingManaPassiveSkill",10,0
+wizard_evolve_3,,"wizard_attack_skill,HealingHealthPassiveSkill",10,0
 green_leaf_evolve_1,Unlock Sylvan Wrath,sylvan_wrath,10,0
 green_leaf_evolve_2,Unlock Elven Mark,"sylvan_wrath,HunterZonePassiveSkill",10,0
 green_leaf_evolve_3,Unlock Hunter Zone,"sylvan_wrath,ElvenMarkPassiveSkill",10,0
