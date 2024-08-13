@@ -22,6 +22,8 @@
         }
         public int CurrentLevelValue => this.levelLocalData.CurrentLevel.Value;
 
+        public int EnemyStrange => this.levelLocalData.EnemyLevel;
+
         public ReactiveProperty<int> CurrentLevel => this.levelLocalData.CurrentLevel;
 
         public int CurrentWaveValue => this.levelLocalData.CurrentWave.Value;
@@ -40,7 +42,11 @@
         public void PassCurrentLevel()
         {
             this.levelLocalData.CurrentLevel.Value++;
-            if (this.levelLocalData.CurrentLevel.Value > this.levelBlueprint.Count) this.levelLocalData.CurrentLevel.Value = 1;
+            if (this.levelLocalData.CurrentLevel.Value > this.levelBlueprint.Count)
+            {
+                this.levelLocalData.CurrentLevel.Value = 1;
+                this.levelLocalData.EnemyLevel++;
+            }
             this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.CompleteWave, Value = 1});
         }
         public void InitData()

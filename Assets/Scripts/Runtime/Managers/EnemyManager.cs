@@ -5,6 +5,7 @@
     using System.Linq;
     using Cysharp.Threading.Tasks;
     using Models.Blueprints;
+    using Models.LocalData.LocalDataController;
     using Models.Tags;
     using R3;
     using Runtime.Elements.Base;
@@ -23,17 +24,21 @@
         private bool   isStartCounter;
 
         private readonly EnemyBlueprint            enemyBlueprint;
+        private readonly LevelLocalDataController  levelLocalDataController;
         public readonly  ReactiveProperty<float>   CurrentBossHealth = new(0);
         public           float                     MaxBossHealth;
         public readonly  Dictionary<string, float> InCreaseGoldDropPercent = new();
         public           Dictionary<string, float> IncreaseExpDropPercent  = new();
+
         public EnemyManager(
             BaseElementPresenter<EnemyModel, EnemyView, EnemyPresenter>.Factory factory,
-            EnemyBlueprint enemyBlueprint
+            EnemyBlueprint                                                      enemyBlueprint,
+            LevelLocalDataController                                            levelLocalDataController
         )
             : base(factory)
         {
-            this.enemyBlueprint = enemyBlueprint;
+            this.enemyBlueprint           = enemyBlueprint;
+            this.levelLocalDataController = levelLocalDataController;
         }
 
         public override void Initialize() { }
@@ -78,10 +83,10 @@
                     AddressableName = enemyRecord.PrefabName,
                     BaseStats = new()
                     {
-                        { StatEnum.Attack, (typeof(float), enemyRecord.Attack.baseValue) },
-                        { StatEnum.MaxAttack, (typeof(float), enemyRecord.Attack.baseValue) },
-                        { StatEnum.Health, (typeof(float), enemyRecord.HP.baseValue) },
-                        { StatEnum.MaxHealth, (typeof(float), enemyRecord.HP.baseValue) },
+                        { StatEnum.Attack, (typeof(float), enemyRecord.Attack.baseValue * this.levelLocalDataController.EnemyStrange) },
+                        { StatEnum.MaxAttack, (typeof(float), enemyRecord.Attack.baseValue * this.levelLocalDataController.EnemyStrange) },
+                        { StatEnum.Health, (typeof(float), enemyRecord.HP.baseValue * this.levelLocalDataController.EnemyStrange) },
+                        { StatEnum.MaxHealth, (typeof(float), enemyRecord.HP.baseValue * this.levelLocalDataController.EnemyStrange) },
                         { StatEnum.MoveSpeed, (typeof(float), enemyRecord.Speed.baseValue) },
                         { StatEnum.MaxSpeed, (typeof(float), enemyRecord.Speed.baseValue) },
                         { StatEnum.AttackRange, (typeof(float), enemyRecord.AttackRange) },
@@ -95,6 +100,7 @@
                 enemyPresenter.UpdateView().Forget();
                 enemyPresenter.SetManager(this);
                 Debug.Log("Spawn enemy");
+
                 return enemyPresenter;
             }
         }
@@ -102,9 +108,13 @@
         public EnemyPresenter SpawnBossEnemy(string bossId)
         {
             var boss = this.SpawnEnemy(bossId);
-            boss.onUpdateHpStat          = (value) => { this.CurrentBossHealth.Value = value; };
+            boss.onUpdateHpStat = (value) =>
+            {
+                this.CurrentBossHealth.Value = value;
+            };
             this.MaxBossHealth           = boss.Model.GetStat<float>(StatEnum.MaxHealth);
             this.CurrentBossHealth.Value = boss.Model.GetStat<float>(StatEnum.Health);
+
             return boss;
         }
 
