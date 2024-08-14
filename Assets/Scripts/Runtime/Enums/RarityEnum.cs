@@ -5,6 +5,7 @@
         Common,
         Rare,
         Legendary,
+        None,
     }
 
     public static class RarityExtension
