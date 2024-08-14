@@ -62,13 +62,12 @@
         }
         public override async UniTask BindData(ItemInventoryForTierUpPopupModel model)
         {
-            this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0);
-            this.View.ViewField.DOLocalMoveX(this.ViewWidth - this.ViewFieldWidth * 1.5f, 0.5f).SetEase(Ease.InQuad);
+            this.View.ViewField.DOLocalMoveY(- this.ViewHeight, 0);
+            this.View.ViewField.DOLocalMoveY(0, 0.5f).SetEase(Ease.InQuad);
             this.BindItems().Forget();
         }
         
-        private float ViewFieldWidth => this.View.ViewField.rect.width + this.View.CategoryContainer.rect.width;
-        private float ViewWidth      => this.View.ViewField.parent.GetComponent<RectTransform>().rect.width;
+        private float ViewHeight      => this.View.ViewField.parent.GetComponent<RectTransform>().rect.height;
 
         private async UniTaskVoid BindItems()
         {
@@ -96,7 +95,7 @@
         
         public override void CloseView()
         {
-            this.View.ViewField.DOLocalMoveX(this.ViewWidth, 0.5f).SetEase(Ease.InQuad).OnComplete(() => base.CloseView());
+            this.View.ViewField.DOLocalMoveY(- this.ViewHeight, 0.5f).SetEase(Ease.InQuad).onComplete += () => { base.CloseView(); };
         }
     }
 }

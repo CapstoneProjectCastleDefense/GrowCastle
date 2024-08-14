@@ -16,6 +16,7 @@
     using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Items;
     using Runtime.Scenes.Adapters.ItemInventory;
+    using TMPro;
     using UnityEngine;
     using UnityEngine.UI;
     using Zenject;
@@ -37,11 +38,11 @@
 
     public class ItemInventoryPopupView : BaseView
     {
-        [field: SerializeField] public ItemInventoryAdapter Adapter              { get; private set; }
-        [field: SerializeField] public Button               CloseButton          { get; private set; }
-        [field: SerializeField] public Button               CategoryButtonPrefab { get; private set; }
-        [field: SerializeField] public RectTransform        CategoryContainer    { get; private set; }
-        [field: SerializeField] public RectTransform        ViewField            { get; private set; }
+        [field: SerializeField] public ItemInventoryAdapter Adapter               { get; private set; }
+        [field: SerializeField] public Button               CloseButton           { get; private set; }
+        [field: SerializeField] public RectTransform        ViewField             { get; private set; }
+        [field: SerializeField] public List<Button>         CategoryButtons       { get; private set; }
+        [field: SerializeField] public List<Button>         CategoryButtonsHolder { get; private set; }
     }
 
     [PopupInfo(nameof(ItemInventoryPopupView), isCloseWhenTapOutside: false, isOverlay: true)]
@@ -57,21 +58,46 @@
             this.diContainer                  = diContainer;
             this.itemBlueprint                = itemBlueprint;
         }
-        private float ViewHeight      => this.View.ViewField.parent.GetComponent<RectTransform>().rect.height;
+        private float ViewHeight => this.View.ViewField.parent.GetComponent<RectTransform>().rect.height;
 
         protected override void OnViewReady()
         {
             base.OnViewReady();
             this.View.CloseButton.onClick.AddListener(this.CloseView);
+            this.View.CategoryButtons.ForEach(x => x.onClick.AddListener(() => this.OnCategorySelected(x.name)));
+        }
+        private void OnCategorySelected(string objName)
+        {
+            foreach (var button in this.View.CategoryButtonsHolder)
+            {
+                button.targetGraphic.enabled = button.name == objName;
+                button.GetComponentInChildren<TMP_Text>(includeInactive:true).gameObject.SetActive(button.name == objName);
+            }
+
+            switch (objName)
+            {
+                case "CategoryButtonAll":
+                    this.BindItems().Forget();
+                    break;
+                case "CategoryButtonC":
+                    this.BindItems(RarityEnum.Common).Forget();
+                    break;
+                case "CategoryButtonR":
+                    this.BindItems(RarityEnum.Rare).Forget();
+                    break;
+                case "CategoryButtonL":
+                    this.BindItems(RarityEnum.Legendary).Forget();
+                    break;
+            }
         }
         public override async UniTask BindData(ItemInventoryPopupModel model)
         {
-            this.View.ViewField.DOLocalMoveY(- this.ViewHeight, 0);
+            this.View.ViewField.DOLocalMoveY(-this.ViewHeight, 0);
             this.View.ViewField.DOLocalMoveY(0, 0.5f).SetEase(Ease.InQuad);
-            this.BindItems().Forget();
+            this.OnCategorySelected("CategoryButtonAll");
         }
 
-        private async UniTaskVoid BindItems()
+        private async UniTaskVoid BindItems(RarityEnum rarityEnum = RarityEnum.None)
         {
             List<ItemModel> items = new();
             if (this.Model.Equippable == null)
@@ -81,6 +107,11 @@
             else
             {
                 items = this.inventoryLocalDataController.GetItems(ItemType.Equipment).Select(x => x.ToModel(this.itemBlueprint)).ToList();
+            }
+
+            if (rarityEnum != RarityEnum.None)
+            {
+                items = items.Where(x => x.Rarity == rarityEnum).ToList();
             }
 
             if (items.Count % this.View.Adapter.Parameters.Grid.MaxCellsPerGroup != 0)
@@ -93,6 +124,6 @@
 
         private void OnRecycle() { this.BindItems().Forget(); }
 
-        public override void CloseView() { this.View.ViewField.DOLocalMoveY(- this.ViewHeight, 0.5f).SetEase(Ease.InQuad).onComplete += () => { base.CloseView(); }; }
+        public override void CloseView() { this.View.ViewField.DOLocalMoveY(-this.ViewHeight, 0.5f).SetEase(Ease.InQuad).onComplete += () => { base.CloseView(); }; }
     }
 }
