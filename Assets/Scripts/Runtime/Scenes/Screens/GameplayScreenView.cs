@@ -1,6 +1,7 @@
 ﻿namespace Runtime.Scenes.Screens
 {
     using System;
+    using System.Collections.Generic;
     using System.Globalization;
     using System.Linq;
     using System.Runtime.CompilerServices;
@@ -19,6 +20,7 @@
     using Runtime.Extensions;
     using Runtime.Managers;
     using Runtime.Scenes.Popups;
+    using Runtime.Services;
     using Runtime.Signals;
     using Runtime.StateMachines.GameStateMachine;
     using Runtime.StateMachines.GameStateMachine.States;
@@ -32,17 +34,18 @@
     {
         public Image backGround;
 
-        public Button startWaveButton;
-        public Button upgradeCastle;
-        public Button upgradeArcher;
-        public Button dailyRewardButton;
-        public Button talentButton;
-        public Button questButton;
-        public Button inventoryButton;
-        public Button chestButton;
-        public Button dungeonModeBtn;
-        public Button speedRunX2;
-        public Button settingBtn;
+        public Button       startWaveButton;
+        public Button       upgradeCastle;
+        public Button       upgradeArcher;
+        public Button       dailyRewardButton;
+        public Button       talentButton;
+        public Button       questButton;
+        public Button       inventoryButton;
+        public Button       chestButton;
+        public Button       dungeonModeBtn;
+        public Button       speedRunX2;
+        public Button       settingBtn;
+        public List<Button> comingSoonBtn;
 
         public Image castleHealthBar;
         public Image castleManaBar;
@@ -90,6 +93,7 @@
         private readonly UserLocalDataController     userLocalDataController;
         private readonly FeatureLocalDataController  featureLocalDataController;
         private readonly EnemyManager                enemyManager;
+        private readonly ToastController             toastController;
         private readonly SignalBus                   signalBus;
 
         private Vector3 bottomPos;
@@ -106,7 +110,8 @@
             ArcherLocalDataController archerLocalDataController,
             UserLocalDataController userLocalDataController,
             FeatureLocalDataController featureLocalDataController,
-            EnemyManager enemyManager)
+            EnemyManager enemyManager,
+            ToastController toastController)
             : base(signalBus)
         {
             this.gameStateMachine            = gameStateMachine;
@@ -120,6 +125,7 @@
             this.userLocalDataController     = userLocalDataController;
             this.featureLocalDataController  = featureLocalDataController;
             this.enemyManager                = enemyManager;
+            this.toastController             = toastController;
             this.signalBus                   = signalBus;
         }
 
@@ -145,6 +151,7 @@
             this.View.dungeonModeBtn.onClick.AddListener(this.OnDungeonBtnClick);
             this.View.speedRunX2.onClick.AddListener(this.OnSpeedupClick);
             this.View.settingBtn.onClick.AddListener(this.OnSettingBtnClick);
+            this.View.comingSoonBtn.ForEach(button => button.onClick.AddListener(this.ShowComingSoon));
 
             this.resourceLocalDataController.GetResource(ResourceType.Gold).Subscribe(this.OnGoldValueChange);
             this.resourceLocalDataController.GetResource(ResourceType.Diamond).Subscribe(this.OnDiamondValueChange);
@@ -164,6 +171,7 @@
             this.userLocalDataController.GetCurrentUserLevel.Subscribe(this.OnUserLevelUpdate);
         }
 
+        private void ShowComingSoon() { this.toastController.ShowToast("Feature is coming soon"); }
         private void OnSpeedupClick()
         {
             var currentTimeSpeed = Time.timeScale;
@@ -173,10 +181,7 @@
 
         #region Feature
 
-        private void UpdateTextValue(int value)
-        {
-            this.View.waveValue.text = $"Level {value}";
-        }
+        private void UpdateTextValue(int value) { this.View.waveValue.text = $"Level {value}"; }
         private void OnQuestFeatureUnlock(int value)
         {
             if (this.featureLocalDataController.CheckFeatureIsUnlock(FeatureName.Quest, value))
