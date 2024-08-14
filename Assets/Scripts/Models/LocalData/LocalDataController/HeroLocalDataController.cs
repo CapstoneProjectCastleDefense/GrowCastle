@@ -108,7 +108,8 @@
 
         public void EquipEquipment(string heroId, string equipmentId)
         {
-            if (this.GetEquipments(heroId).Count >= MiscValue.MaxEquipment) return;
+            if (!this.CanEquip(heroId)) 
+                this.UnEquipEquipment(heroId, this.GetEquipments(heroId).First());
             this.GetHeroLocalData(heroId).ListEquipmentId.Add(equipmentId);
         }
 
