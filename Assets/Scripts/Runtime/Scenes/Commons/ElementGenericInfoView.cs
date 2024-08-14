@@ -21,7 +21,7 @@
         private ElementGenericInfoModel model;
 
         [SerializeField] private SkeletonGraphic avatarAnim;
-        [SerializeField] public  TMP_Text        skillDescription, levelTxt, attackInfoTxt, attackInfoSpeedTxt;
+        [SerializeField] private  TMP_Text        skillDescription, levelTxt, attackInfoTxt, attackInfoSpeedTxt;
         [SerializeField] private AbilityAdapter  abilityAdapter;
 
         private IGameAssets             gameAssets;

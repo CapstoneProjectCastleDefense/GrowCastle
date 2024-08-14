@@ -47,14 +47,14 @@
         private readonly EvolutionInfoBlueprint              evolutionInfoBlueprint;
 
         public ConfirmEvolutionPopupPresenter(
-            SignalBus                           signalBus,
-            ILogService                         logService,
-            DiContainer                         diContainer,
-            HeroUpgradeService                  heroUpgradeService,
-            ToastController                     toastController,
+            SignalBus signalBus,
+            ILogService logService,
+            DiContainer diContainer,
+            HeroUpgradeService heroUpgradeService,
+            ToastController toastController,
             ElementEvolutionLocalDataController elementEvolutionLocalDataController,
-            EvolutionBlueprint                  evolutionBlueprint,
-            EvolutionInfoBlueprint              evolutionInfoBlueprint
+            EvolutionBlueprint evolutionBlueprint,
+            EvolutionInfoBlueprint evolutionInfoBlueprint
         )
             : base(signalBus, logService)
         {
@@ -81,16 +81,13 @@
             this.View.viewField.transform.position = this.View.startPos.position;
             this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
 
-            var evolutionDes     = this.evolutionInfoBlueprint.GetDataById(popupModel.EvolutionId).EvolutionDescription;
-            var passiveSkillName = evolutionDes.Split("|")[0];
-            var passiveSkillDes  = evolutionDes.Split("|")[1];
-            this.View.EvolveDescriptionTxt.text = passiveSkillName;
+            var evolutionDes = this.evolutionInfoBlueprint.GetDataById(popupModel.EvolutionId).EvolutionDescription;
+            this.View.EvolveDescriptionTxt.text = evolutionDes;
             this.View.ElementGenericInfoView.BindData(new()
             {
                 ElementId   = popupModel.ElementId,
                 EvolutionId = popupModel.EvolutionId,
             });
-            this.View.ElementGenericInfoView.skillDescription.text = passiveSkillDes;
             var evolutionLocalData    = this.elementEvolutionLocalDataController.GetEvolutionElementData(popupModel.ElementId);
             var evolutionDetailRecord = this.evolutionBlueprint.GetEvolutionDetailRecord(popupModel.ElementId, popupModel.EvolutionId);
             var parentId              = evolutionDetailRecord.ParentId;
@@ -123,13 +120,7 @@
             }
         }
 
-        public override void CloseView()
-        {
-            this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
-            {
-                base.CloseView();
-            };
-        }
+        public override void CloseView() { this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () => { base.CloseView(); }; }
     }
 
     public class ConfirmEvolutionPopupModel

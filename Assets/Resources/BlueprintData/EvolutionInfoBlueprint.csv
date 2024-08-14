@@ -1,36 +1,36 @@
 ﻿EvolutionId,EvolutionDescription,Abilities,Price,RequireLevel
-knight_evolve_1,"Unlock Undead Army|Summon 2 clone last for 8 secs
+knight_evolve_1,"Unlock Undead Army
 ",summon_skill,10,0
-knight_evolve_2,Unlock Fight Forever|Increase ATK for all Summoned troop appear on the ground currently,"summon_skill,FightForeverPassiveSkill",10,11
-knight_evolve_3,Unlock Great Admiral|Increase ATK for summoner of himself,"summon_skill,GreatAdmiralPassiveSkill",10,31
-wizard_evolve_1,Unlock Wizard Attack Skill|Summon a magic fire cause 300% basic damage and cause bleed and slow effect exits 1s,wizard_attack_skill,10,0
-wizard_evolve_2,Unlock Healing Mana|After use active skill wizard will health 10% mana for castle,"wizard_attack_skill,HealingManaPassiveSkill",10,0
-wizard_evolve_3,Unlock Healing Health|After use active skill wizard will health 10% health for castle,"wizard_attack_skill,HealingHealthPassiveSkill",10,0
-green_leaf_evolve_1,Unlock Sylvan Wrath|Create a sword strike in the air that slows enemies,sylvan_wrath,10,0
-green_leaf_evolve_2,Unlock Elven Mark|Increase normal attack to 30%,"sylvan_wrath,HunterZonePassiveSkill",10,0
-green_leaf_evolve_3,Unlock Hunter Zone|Increase normal attack 10% and each basic attack slows for 0.5s ,"sylvan_wrath,ElvenMarkPassiveSkill",10,0
-gray_mage_evolve_1,"Unlock God Realm|Call divine light from the sky, dealing direct damage to 10 random enemies",god_realm,10,0
-gray_mage_evolve_2,Unlock God Light|Reduce Mana needed for skill for 10 points,"god_realm,GodLightPassiveSkill",10,0
-gray_mage_evolve_3,"Unlock God Appearance|For every 7 normal attack, inflict God Realm skill
+knight_evolve_2,Unlock Fight Forever,"summon_skill,FightForeverPassiveSkill",10,11
+knight_evolve_3,Unlock Great Admiral,"summon_skill,GreatAdmiralPassiveSkill",10,31
+wizard_evolve_1,Unlock Wizard Attack Skill,wizard_attack_skill,10,0
+wizard_evolve_2,Unlock Healing Mana,"wizard_attack_skill,HealingManaPassiveSkill",10,0
+wizard_evolve_3,Unlock Healing Health,"wizard_attack_skill,HealingHealthPassiveSkill",10,0
+green_leaf_evolve_1,Unlock Sylvan Wrath,sylvan_wrath,10,0
+green_leaf_evolve_2,Unlock Elven Mark,"sylvan_wrath,HunterZonePassiveSkill",10,0
+green_leaf_evolve_3,Unlock Hunter Zone,"sylvan_wrath,ElvenMarkPassiveSkill",10,0
+gray_mage_evolve_1,Unlock God Realm,god_realm,10,0
+gray_mage_evolve_2,Unlock God Light,"god_realm,GodLightPassiveSkill",10,0
+gray_mage_evolve_3,"Unlock God Appearance
                       ","god_realm,GodApperancePassiveSkill",10,0
-shadow_evolve_1,"Unlock Cursed Volley|Summon 3 black magic ball from the sky and shoot down on 3 random enemies, causing a fear effect. If the enemy has less than 20% health, it will cause instant death",cursed_volley,10,0
-shadow_evolve_2,"Unlock Deadly arrow|After 3 normal attacks, the 4th attack has a 80% kill the enemy instantly. If the enemy is Boss, it’s HP will drop 10% ","cursed_volley,DeadlyArrowPassiveSkill",10,0
-shadow_evolve_3,"Unlock The Fear|When the castle has less than 30% HP,  Shadow fletcher basic attacks have a 30% chance to cause Fear","cursed_volley,TheFearPassiveSkill",10,0
-judge_evolve_1,Unlock Intimidation|Freeze all current enemies on the ground for 2s,justice_sanction_skill,10,0
-judge_evolve_2,"Unlock Control Gravity|After being Freeze, Ground Monster will be slow for 10% in 1s","justice_sanction_skill,IntimidationPassiveSkill",10,0
-judge_evolve_3,"Unlock Justice Sanction|After being Freeze, Flying Monster will be slow for 10% in 1s","justice_sanction_skill,ControlGravityPassiveSkill",10,0
-arise_evolve_1,Unlock Skeleton Army|Summons 2 skeletons that last 3 seconds to attack enemies,skeleton_army,10,0
-arise_evolve_2,Unlock Shadow Lord|After each skeleton army death they will recovery 10 mana for castle,"skeleton_army,ShadowLord",10,0
-arise_evolve_3,Unlock Darkness Arise|Bosses who attack the castle directly will have 15% of the damage dealt reflected back,"skeleton_army,DarknessArise",10,0
-hassan_evolve_1,"Unlock Rasen Shuriken|throw a Wind Shuriken into the current enemy, dealing damage to all the enemies in range",rasen_shuriken_skill,10,0
-hassan_evolve_2,Unlock Stealth|Increase 50% attack speed,"rasen_shuriken_skill,LightFootPassiveSkill",10,0
-hassan_evolve_3,Unlock Lightfoot|Increase 20% attack and each basic attack cause bleed for 1s ,"rasen_shuriken_skill,StealthPassiveSkill",10,0
-moon_shadow_evolve_1,"Unlock Death Scythe|Throwing the spinning scythe in front of the castle, enemies that touch it will take damage and have a bleeding effect for 3 seconds",death_scythe,10,0
-moon_shadow_evolve_2,"Unlock Piercing Scythe|After 5 normal attacks, the 6th attack will increase 150% damage","death_scythe,PiercingScythe",10,0
-moon_shadow_evolve_3,"Unlock Blood Scythe|When the castle has less than 20% HP, all basic attacks will cause bleeding effects","death_scythe,BloodScythe",10,0
-storm_evolve_1,"Unlock Golden Thunder|Summon 2 golden lightning strikes to the ground, each golden lighting will create an area that deals AOE damage for the enemies",golden_thunder_skill,10,0
-storm_evolve_2,Unlock Obscure|Basic attacks will spread damage to other enemies in range but its damage will be reduced by 20%,"golden_thunder_skill,ObscurePassiveSkill",10,0
-storm_evolve_3,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,"golden_thunder_skill,ForesightPassiveSkill",10,0
+shadow_evolve_1,Unlock Cursed Volley,cursed_volley,10,0
+shadow_evolve_2,Unlock Deadly arrow,"cursed_volley,DeadlyArrowPassiveSkill",10,0
+shadow_evolve_3,Unlock The Fear,"cursed_volley,TheFearPassiveSkill",10,0
+judge_evolve_1,Unlock Intimidation,justice_sanction_skill,10,0
+judge_evolve_2,Unlock Control Gravity,"justice_sanction_skill,IntimidationPassiveSkill",10,0
+judge_evolve_3,Unlock Justice Sanction,"justice_sanction_skill,ControlGravityPassiveSkill",10,0
+arise_evolve_1,Unlock Skeleton Army,skeleton_army,10,0
+arise_evolve_2,Unlock Shadow Lord,"skeleton_army,ShadowLord",10,0
+arise_evolve_3,Unlock Darkness Arise,"skeleton_army,DarknessArise",10,0
+hassan_evolve_1,Unlock Rasen Shuriken,rasen_shuriken_skill,10,0
+hassan_evolve_2,Unlock Stealth,"rasen_shuriken_skill,StealthPassiveSkill",10,0
+hassan_evolve_3,Unlock Lightfoot,"rasen_shuriken_skill,LightFootPassiveSkill",10,0
+moon_shadow_evolve_1,Unlock Death Scythe,death_scythe,10,0
+moon_shadow_evolve_2,Unlock Piercing Scythe,"death_scythe,PiercingScythe",10,0
+moon_shadow_evolve_3,Unlock Blood Scythe,"death_scythe,BloodScythe",10,0
+storm_evolve_1,Unlock Golden Thunder,golden_thunder_skill,10,0
+storm_evolve_2,Unlock Obscure,"golden_thunder_skill,ObscurePassiveSkill",10,0
+storm_evolve_3,Unlock Foresight,"golden_thunder_skill,ForesightPassiveSkill",10,0
 xelNaga_evolve_1,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,NagaAttack,10,0
 Worm_evolve_1,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,WormNormalAttack,10,0
 GoldenStatue_evolve_1,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,GoldenStatueSkill,10,0
