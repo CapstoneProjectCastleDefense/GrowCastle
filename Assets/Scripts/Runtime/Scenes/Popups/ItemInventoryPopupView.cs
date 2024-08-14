@@ -70,8 +70,10 @@
         {
             foreach (var button in this.View.CategoryButtonsHolder)
             {
-                button.targetGraphic.enabled = button.name == objName;
+                button.targetGraphic.color = button.name == objName ? Color.white : Color.clear;
+                button.targetGraphic.raycastTarget = false;
                 button.GetComponentInChildren<TMP_Text>(includeInactive:true).gameObject.SetActive(button.name == objName);
+                button.GetComponentInChildren<TMP_Text>(includeInactive:true).raycastTarget = false;
             }
 
             switch (objName)
