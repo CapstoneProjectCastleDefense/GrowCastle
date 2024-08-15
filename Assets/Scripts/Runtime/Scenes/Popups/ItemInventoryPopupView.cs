@@ -70,10 +70,10 @@
         {
             foreach (var button in this.View.CategoryButtonsHolder)
             {
-                button.targetGraphic.color = button.name == objName ? Color.white : Color.clear;
+                button.targetGraphic.color         = button.name == objName ? Color.white : Color.clear;
                 button.targetGraphic.raycastTarget = false;
-                button.GetComponentInChildren<TMP_Text>(includeInactive:true).gameObject.SetActive(button.name == objName);
-                button.GetComponentInChildren<TMP_Text>(includeInactive:true).raycastTarget = false;
+                button.GetComponentInChildren<TMP_Text>(includeInactive: true).gameObject.SetActive(button.name == objName);
+                button.GetComponentInChildren<TMP_Text>(includeInactive: true).raycastTarget = false;
             }
 
             switch (objName)
@@ -108,7 +108,8 @@
             }
             else
             {
-                items = this.inventoryLocalDataController.GetItems(ItemType.Equipment).Select(x => x.ToModel(this.itemBlueprint)).ToList();
+                items = this.inventoryLocalDataController.GetItems(ItemType.Equipment).Where(x => !x.IsEquipped || this.Model.Equippable.IsEquipped(x.InventoryId))
+                    .Select(x => x.ToModel(this.itemBlueprint)).ToList();
             }
 
             if (rarityEnum != RarityEnum.None)

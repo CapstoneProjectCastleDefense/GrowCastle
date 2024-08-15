@@ -87,8 +87,9 @@
         public void CastSkill(string skillId, string animationName, ITargetable target) { throw new NotImplementedException(); }
         public void Equip(string equipmentId)                                           { throw new NotImplementedException(); }
 
-        public void UnEquip(string equipmentId) { throw new NotImplementedException(); }
-        public bool CanEquip()     { throw new NotImplementedException(); }
+        public void UnEquip(string equipmentId)    { throw new NotImplementedException(); }
+        public bool CanEquip()                     { throw new NotImplementedException(); }
+        public bool IsEquipped(string equipmentId) { throw new NotImplementedException(); }
 
         private void UpdateHealthView()
         {
