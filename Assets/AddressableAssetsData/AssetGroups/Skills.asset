@@ -1,0 +1,145 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bbb281ee3bf0b054c82ac2347e9e782c, type: 3}
+  m_Name: Skills
+  m_EditorClassIdentifier: 
+  m_GroupName: Skills
+  m_Data:
+    m_SerializedData: []
+  m_GUID: c512577192dca184c92bc8e256509b78
+  m_SerializeEntries:
+  - m_GUID: 472d81ed700a63645a3843f159ac618a
+    m_Address: darkness_arise_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 97265a3bd8d8cf1489a8ede1ae69e20e
+    m_Address: shadow_lord_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 864a46b3cb1b1144da30f0c1532c35ca
+    m_Address: skeleton_army_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c96ce782cb1aaab42bf33c837aa23bb7
+    m_Address: elven_mark_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 1188d963dc587e545a886308b261cec1
+    m_Address: hunter_zone_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4efa3a7350dbc614997820f354ea2384
+    m_Address: sylvan_wrath_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 21999107623ece64b9240cdcab13d746
+    m_Address: light_foot_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ab67bc00ea0d7a944a35b78588471422
+    m_Address: rasen_shuriken_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 57241982d29b85b45b43a7909fe5b846
+    m_Address: stealth_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 6494a3252658eb74b91e3b1b029f319b
+    m_Address: control_gravity_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 70d897be44a2c6741a81b1314a8338f4
+    m_Address: intimidation_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c0a3613374731db449c16348d744cafe
+    m_Address: justice_sanction_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2d1d09f9acbc5cc41a9d50ef2af3db47
+    m_Address: blood_scythe_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: d71959c41d8befe4cbf3447cf6ac0762
+    m_Address: death_scythe_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ca7b7e99b05362545b482d4efc46edb4
+    m_Address: piercing_scythe_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: abf4d05a06694794f91d08e78abd81e0
+    m_Address: cursed_volley_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4f745608cd73ac741be5a3d1c5f6b4e7
+    m_Address: deadly_arrow_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: ccceb706a7bb56a49aaee0c26b8914d5
+    m_Address: the_fear_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 5b95d37355a61014ca7d973832cacd3f
+    m_Address: foresight_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4a467a0a8f285934582e5a09c3b504f1
+    m_Address: golden_thunder_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: e36568891283c7e4c89d93cd01604ce5
+    m_Address: obscure_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4765e686db916db469856078de39b227
+    m_Address: fight_forever_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 8b3c0b6b50f39a6438bfa20a13b36082
+    m_Address: great_admiral_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: bd6527261b6b15e4a9885ad24919d035
+    m_Address: summon_skill_icon
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  m_ReadOnly: 0
+  m_Settings: {fileID: 11400000, guid: 59add73a8f318144f8832b4a30c156f6, type: 2}
+  m_SchemaSet:
+    m_Schemas:
+    - {fileID: 11400000, guid: e56bc45b6a01ccb4db343daf38b83a77, type: 2}
+    - {fileID: 11400000, guid: fd65ee5368125374e9431dbd0a7c0d75, type: 2}
