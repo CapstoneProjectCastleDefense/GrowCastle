@@ -21,7 +21,7 @@
         private ElementGenericInfoModel model;
 
         [SerializeField] private SkeletonGraphic avatarAnim;
-        [SerializeField] private  TMP_Text        skillDescription, levelTxt, attackInfoTxt, attackInfoSpeedTxt;
+        [SerializeField] private TMP_Text        skillDescription, levelTxt, attackInfoTxt, attackInfoSpeedTxt;
         [SerializeField] private AbilityAdapter  abilityAdapter;
 
         private IGameAssets             gameAssets;
@@ -32,14 +32,15 @@
         private SkillBlueprint          skillBlueprint;
         private ElementSkinBlueprint    elementSkinBlueprint;
 
-        [Inject] public void Construct(
-            IGameAssets             gameAssetsInject,
-            EvolutionInfoBlueprint  evolutionInfoBlueprintInject,
-            DiContainer             diContainerInject,
+        [Inject]
+        public void Construct(
+            IGameAssets gameAssetsInject,
+            EvolutionInfoBlueprint evolutionInfoBlueprintInject,
+            DiContainer diContainerInject,
             HeroLocalDataController heroLocalDataControllerInject,
-            HeroUpgradeService      heroUpgradeServiceInject,
-            SkillBlueprint          skillBlueprintInject,
-            ElementSkinBlueprint    elementSkinBlueprintInject
+            HeroUpgradeService heroUpgradeServiceInject,
+            SkillBlueprint skillBlueprintInject,
+            ElementSkinBlueprint elementSkinBlueprintInject
         )
         {
             this.gameAssets              = gameAssetsInject;
@@ -85,7 +86,14 @@
             this.skillDescription.text = firstSkill.Description;
             this.selectedSkillId       = firstSkill.Id;
 
-            var modelList = skillRecords.Select(record => new AbilityUIModel() { Id = record.Id, OnSelected = this.OnAbilityUISelected, SelectedId = this.selectedSkillId }).ToList();
+            var modelList = skillRecords.Select(record => new AbilityUIModel()
+                {
+                    Id         = record.Id,
+                    Icon       = record.Icon,
+                    OnSelected = this.OnAbilityUISelected,
+                    SelectedId = this.selectedSkillId
+                })
+                .ToList();
 
             this.disableSelectAbility = true;
             await this.abilityAdapter.InitItemAdapter(modelList, this.diContainer);
@@ -102,8 +110,12 @@
             var skillRecords = skills.Select(id => this.skillBlueprint.GetDataById(id)).ToDictionary(a => a.Id);
             var description  = skillRecords[this.selectedSkillId].Description;
             this.skillDescription.text = description;
+            foreach (var abilityUIPresenter in this.abilityAdapter.GetPresenters())
+            {
+                abilityUIPresenter.UpdateSelectedId(abilityId);
+            }
         }
-
+        
         private void SetSkin()
         {
             var id            = this.model.ElementId;
