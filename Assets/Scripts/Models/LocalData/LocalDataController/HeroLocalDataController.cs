@@ -110,13 +110,16 @@
         {
             if (!this.CanEquip(heroId)) 
                 this.UnEquipEquipment(heroId, this.GetEquipments(heroId).First());
+            if(this.heroLocalData.IdToHeroData.FirstOrDefault(x=>x.Value.ListEquipmentId.Contains(equipmentId)).Value != null)
+                this.UnEquipEquipment(this.heroLocalData.IdToHeroData.FirstOrDefault(x=>x.Value.ListEquipmentId.Contains(equipmentId)).Key, equipmentId);
             this.GetHeroLocalData(heroId).ListEquipmentId.Add(equipmentId);
         }
 
         public void UnEquipEquipment(string heroId, string equipmentId) { this.GetHeroLocalData(heroId).ListEquipmentId.Remove(equipmentId); }
 
         public bool CanEquip(string heroId) { return this.GetEquipments(heroId).Count < MiscValue.MaxEquipment; }
-
+        
+        public bool IsEquipping(string heroId, string equipmentId) { return this.GetEquipments(heroId).Contains(equipmentId); }
 
         public HeroData GetHeroLocalData(string heroId)
         {

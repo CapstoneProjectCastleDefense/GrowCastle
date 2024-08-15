@@ -190,8 +190,9 @@
 
         public void Equip(string equipmentId) { this.heroLocalDataController.EquipEquipment(this.Model.Id, equipmentId); }
 
-        public void UnEquip(string equipmentId) { this.heroLocalDataController.UnEquipEquipment(this.Model.Id, equipmentId); }
-        public bool CanEquip()                  { return this.heroLocalDataController.CanEquip(this.Model.Id); }
+        public void UnEquip(string equipmentId)    { this.heroLocalDataController.UnEquipEquipment(this.Model.Id, equipmentId); }
+        public bool CanEquip()                     { return this.heroLocalDataController.CanEquip(this.Model.Id); }
+        public bool IsEquipped(string equipmentId) { return this.heroLocalDataController.IsEquipping(this.Model.Id, equipmentId); }
 
         #endregion
 
