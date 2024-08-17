@@ -96,6 +96,10 @@
             var questRecord = this.questBlueprint.GetDataById(this.model.QuestId);
             this.View.currentValue.text      = $"{value}";
             this.View.progressBar.fillAmount = value / questRecord.TargetValue;
+            if (!(Math.Abs(this.View.progressBar.fillAmount - 1) < 0.0001f)) return;
+            this.View.claimButton.gameObject.SetActive(true);
+            this.View.progressField.SetActive(true);
+            this.View.completedText.SetActive(false);
         }
 
         private void OnClaimButtonClick()

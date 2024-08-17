@@ -5,6 +5,7 @@
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.AssetLibrary;
     using Models.Blueprints;
+    using Models.LocalData;
     using Models.LocalData.LocalDataController;
     using Runtime.Enums;
     using Runtime.Scenes.Adapters.Evolution;
@@ -64,7 +65,12 @@
             var skeletonDataAsset = await this.gameAssets.LoadAssetAsync<SkeletonDataAsset>(heroRuntimeData.heroRecord.SkeletonDataAsset);
             this.avatarAnim.ChangeSkeletonDataAsset(skeletonDataAsset, "idle");
             this.SetSkin();
-
+            if (heroRuntimeData.heroRecord.HeroType == SlotType.Tower)
+            {
+                this.abilityAdapter.gameObject.SetActive(false);
+                return;
+            }
+            this.abilityAdapter.gameObject.SetActive(true);
             this.InitAdapter(infoModel).Forget();
         }
 

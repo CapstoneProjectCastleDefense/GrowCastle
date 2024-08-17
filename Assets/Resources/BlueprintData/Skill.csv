@@ -5,8 +5,8 @@ wizard_normal_attack,Projectile,0,0,,
 fire_lighting_ball,InstantHit,10,2,Summon 2 lighting ball,
 lightning_rod,Projectile,0,0, Summon lighting rod,
 sylvan_wrath,InstantHit,30,3,Create a sword strike in the air that slows enemies,sylvan_wrath_skill_icon
-god_realm,InstantHit,25,3,"Call divine light from the sky, dealing direct damage to 10 random enemies",
-wizard_attack_skill,InstantHit,30,3,Summon a magic fire cause 300% basic damage and cause bleed and slow effect exits 1s,wizard_attack_skill_icon
+god_realm,InstantHit,25,3,"Call divine light from the sky, dealing direct damage to 10 random enemies",Veil of Shadows
+wizard_attack_skill,InstantHit,30,3,Summon a magic fire cause 300% basic damage and cause bleed and slow effect exits 1s,Blinding
 justice_sanction_skill,InstantHit,30,3,"After being Freeze, Flying Monster will be slow for 10% in 1s",justice_sanction_skill_icon
 cursed_volley,InstantHit,30,3,"Summon 3 black magic ball from the sky and shoot down on 3 random enemies, causing a fear effect. If the enemy has less than 20% health, it will cause instant death",cursed_volley_skill_icon
 rasen_shuriken_skill,InstantHit,10,2,"Throw a Wind Shuriken into the current enemy, dealing damage to all the enemies in range",rasen_shuriken_skill_icon

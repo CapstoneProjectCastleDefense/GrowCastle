@@ -5,6 +5,8 @@
     using Models.Blueprints;
     using Runtime.Elements.Base;
     using Runtime.Elements.Entities.Summoner;
+    using Runtime.Elements.EntitySkills;
+    using Runtime.Elements.EntitySkills.SummonSkills;
     using Runtime.Enums;
     using Runtime.Managers.Base;
     using UnityEngine;
@@ -19,7 +21,7 @@
         }
         public Action<SummonerPresenter> OnCreateSummonerComplete;
 
-        public void CreateSingleSummoner(string summonerId, Vector3 startPos, int sortingIndex)
+        public void CreateSingleSummoner(string summonerId, Vector3 startPos, int sortingIndex, float timeExist, float attack ,float attackSpeed)
         {
             var summonerRecord = this.summonerBlueprint.GetDataById(summonerId);
             var presenter = this.CreateElement(new()
@@ -30,13 +32,13 @@
                 SortingIndex    = sortingIndex,
                 BaseStats = new() //TODO : Replace with data from blueprint
                 {
-                    { StatEnum.Attack, (typeof(float), 5f) },
-                    { StatEnum.AttackSpeed, (typeof(float), 1f) },
+                    { StatEnum.Attack, (typeof(float), attack) },
+                    { StatEnum.AttackSpeed, (typeof(float), attackSpeed) },
                     { StatEnum.Health, (typeof(float), 2000f) },
                     { StatEnum.MoveSpeed, (typeof(float), 2f) },
                     { StatEnum.AttackRange, (typeof(float), 1f) },
-                    { StatEnum.ExistTime, (typeof(float), 3f) },
-                    { StatEnum.MaxExistTime, (typeof(float), 3f) }
+                    { StatEnum.ExistTime, (typeof(float), timeExist) },
+                    { StatEnum.MaxExistTime, (typeof(float), timeExist) }
                 }
             });
             this.OnCreateSummonerComplete?.Invoke(presenter);

@@ -87,7 +87,14 @@
                 if (slotHoldHero != null)
                 {
                     this.slotLocalDataController.UnEquipCharacter(slotHoldHero.SlotId);
-                    this.heroManager.entities.First(hero => hero.Model.Id.Equals(heroId)).Dispose();
+                    if (this.currentSelectedSlot.Model.SlotRecord.SlotType == SlotType.Hero)
+                    {
+                        this.heroManager.entities.First(hero => hero.Model.Id.Equals(heroId)).Dispose();
+                    }
+                    else
+                    {
+                        this.towerManager.entities.First(tower => tower.Model.Id.Equals(heroId)).Dispose();
+                    }
                     this.heroLocalDataController.UnEquipHero(heroId);
                 }
             }
@@ -106,7 +113,11 @@
 
                     break;
                 case SlotType.Tower:
-                    this.towerManager.CreateSingleTower(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
+                    var tower = this.towerManager.CreateSingleTower(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
+                    if (!this.GetCurrentSelectedSlotModel().SlotRecord.EffectId.IsNullOrEmpty())
+                    {
+                        this.effectManager.AddEffectToTarget(tower, new ChangeStatTag(){EffectStatId = this.GetCurrentSelectedSlotModel().SlotRecord.EffectId});
+                    }
                     break;
             }
         }

@@ -1,4 +1,4 @@
-﻿namespace Runtime.Elements.EntitySkills
+﻿namespace Runtime.Elements.EntitySkills.SummonSkills
 {
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;

@@ -25,7 +25,7 @@
             this.heroUpgradeService      = heroUpgradeService;
         }
 
-        public void CreateSingleTower(string id, Transform parent)
+        public TowerPresenter CreateSingleTower(string id, Transform parent)
         {
             var towerRecord = this.heroConfigBlueprint.GetDataById(id);
             var towerPresenter = this.CreateElement(new()
@@ -38,8 +38,9 @@
                     { StatEnum.AttackSpeed, (typeof(float), towerRecord.BaseAttackSpeed) },
                     { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) }
                 },
-            }).UpdateView();
-            towerPresenter.Forget();
+            });
+            towerPresenter.UpdateView().Forget();
+            return towerPresenter;
         }
 
         public void ChangeAttackStatusOfAllTower(bool canAttack) { this.entities.ForEach(e => e.SetAttackStatus(canAttack)); }

@@ -1,8 +1,11 @@
-﻿namespace Runtime.Elements.EntitySkills
+﻿namespace Runtime.Elements.EntitySkills.SummonSkills
 {
     using Cysharp.Threading.Tasks;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models.Blueprints;
+    using Runtime.Enums;
+    using Runtime.Extensions;
+    using Runtime.Interfaces.Entities;
     using Runtime.Interfaces.Skills;
     using Runtime.Managers;
     using Runtime.StaticValues;
@@ -30,9 +33,10 @@
         {
             var skillSummonRecord = this.skillSummonBlueprint.GetDataById(this.Model.Id).SkillToLevelRecords[this.Model.Level];
             var startPos          = skillSummonRecord.StartPos;
+            var casterStat        = ((ITargetable)this.Model.Caster).GetStats();
             for (var i = 0; i < skillSummonRecord.NumberSpawn; i++)
             {
-                this.summonerManager. CreateSingleSummoner(skillSummonRecord.SummonerId,startPos,i+1);
+                this.summonerManager. CreateSingleSummoner(skillSummonRecord.SummonerId,startPos,i+1,skillSummonRecord.TimeExist,casterStat.GetStat<float>(StatEnum.Attack),casterStat.GetStat<float>(StatEnum.AttackSpeed));
                 startPos.y                                                -= skillSummonRecord.DistanceRange;
             }
         }
