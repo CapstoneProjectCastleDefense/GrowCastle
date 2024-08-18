@@ -36,7 +36,7 @@
                 {
                     { StatEnum.Attack, (typeof(float), this.heroUpgradeService.GetCurrentAttack(id)) },
                     { StatEnum.AttackSpeed, (typeof(float), towerRecord.BaseAttackSpeed) },
-                    { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) }
+                    { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Boss) }
                 },
             });
             towerPresenter.UpdateView().Forget();
