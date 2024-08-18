@@ -74,7 +74,7 @@
                 { StatEnum.Health, (typeof(float), 10f) },
                 { StatEnum.AttackSpeed, (typeof(float), attackSpeedStat) },
                 { StatEnum.BonusReduceMana, (typeof(float), 0f) },
-                { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) },
+                { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Boss) },
                 { StatEnum.ActiveSkillCooldown, (typeof(float), activeSkillCooldown) },
             };
         }

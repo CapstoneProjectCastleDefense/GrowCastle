@@ -69,7 +69,7 @@
                             * baseAttackSpeed
                             + this.archerConfigBlueprint.Coefficient * archerData.level)
                     },
-                    { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) }
+                    { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Boss) }
                 }
             });
             archerPresenter.UpdateView().Forget();
