@@ -3,6 +3,7 @@
     public static class EntitySkillName
     {
         public static string Arrow                = "arrow_skill";
+        public static string ArrowEnemy           = "arrow_enemy_skill";
         public static string ShurikenNormalAttack = "shuriken_attack";
         public static string SummonSkill          = "summon_skill";
         public static string InstantHit           = "instant_hit";

@@ -39,3 +39,4 @@ WormNormalAttack,Projectile,0,0,"Creates a spike every 10 seconds, lasting 5 sec
 NagaAttack,Projectile,0,0,a machine that fires many bullets to attack enemies,
 LifeTreeSkill,Projectile,0,0,Increase EXP drop from the enemies,
 GoldenStatueSkill,Projectile,0,0,Increase Gold drop from the enemies,
+arrow_enemy_skill,Projectile,0,2,,

@@ -11,7 +11,7 @@ PrefabInstance:
     - target: {fileID: 814328206612611133, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_Name
-      value: Phantom 1
+      value: Phantom_1
       objectReference: {fileID: 0}
     - target: {fileID: 814328206612611133, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
@@ -21,18 +21,33 @@ PrefabInstance:
     - target: {fileID: 2801570387741010771, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2.31
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 2801570387741010771, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 4.94
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3173760951920275999, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: -1.19
+      objectReference: {fileID: 0}
+    - target: {fileID: 3173760951920275999, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 3.12
+      objectReference: {fileID: 0}
+    - target: {fileID: 3701615186086625936, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
+      propertyPath: m_SortingOrder
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 3701615186086625936, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
       value: 
-      objectReference: {fileID: 2100000, guid: 69b9c8bce4342a74abc5768ee4fcf65f, type: 2}
+      objectReference: {fileID: 2100000, guid: 6b9cefc57ab5c2c4fa2f1e2adcc586e5, type: 2}
     - target: {fileID: 4834788081406469895, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_TagString
@@ -62,22 +77,27 @@ PrefabInstance:
         type: 3}
       propertyPath: skeletonDataAsset
       value: 
-      objectReference: {fileID: 11400000, guid: d45908928965a364bb2a05288710e5d7,
+      objectReference: {fileID: 11400000, guid: 0d8c365c084140044a6031c80297e29b,
         type: 2}
     - target: {fileID: 7612229669187565593, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
+      propertyPath: m_Size.y
+      value: 3.68
+      objectReference: {fileID: 0}
+    - target: {fileID: 7612229669187565593, guid: 64f87621eefc0fc439272b7e70ebfdfc,
+        type: 3}
       propertyPath: m_Offset.x
-      value: 2.36
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7612229669187565593, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: m_Offset.y
-      value: -2.54
+      value: 1.5
       objectReference: {fileID: 0}
     - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: moveAnimation
-      value: Walking
+      value: run
       objectReference: {fileID: 0}
     - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
@@ -92,17 +112,17 @@ PrefabInstance:
     - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: deathAnimations.Array.data[0]
-      value: Dead
+      value: dead
       objectReference: {fileID: 0}
     - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: attackAnimations.Array.data[0]
-      value: Attack
+      value: atk
       objectReference: {fileID: 0}
     - target: {fileID: 8545812533721910782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}
       propertyPath: <AttackProjectileSkillId>k__BackingField
-      value: phantom_attack
+      value: arrow_enemy_skill
       objectReference: {fileID: 0}
     - target: {fileID: 8823434734986036782, guid: 64f87621eefc0fc439272b7e70ebfdfc,
         type: 3}

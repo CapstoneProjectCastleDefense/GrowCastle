@@ -122,7 +122,7 @@
                             + this.talentLocalDataController.GetTalentEffect(TalentType.IncreaseArcherAttackSpeed)
                             * baseArcherAttackSpeed)
                     },
-                    { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Ground) }
+                    { StatEnum.AttackPriority, (typeof(AttackPriorityEnum), AttackPriorityEnum.Boss) }
                 };
             });
         }
