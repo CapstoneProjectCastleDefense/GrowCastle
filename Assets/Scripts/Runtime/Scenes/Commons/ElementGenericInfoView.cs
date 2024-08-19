@@ -68,6 +68,11 @@
             if (heroRuntimeData.heroRecord.HeroType == SlotType.Tower)
             {
                 this.abilityAdapter.gameObject.SetActive(false);
+                var skills       = this.evolutionInfoBlueprint.GetDataById(infoModel.EvolutionId).Abilities;
+                var skillRecords = skills.Select(abilityId => this.skillBlueprint.GetDataById(abilityId)).ToList();
+
+                var firstSkill = skillRecords.First();
+                this.skillDescription.text = firstSkill.Description;
                 return;
             }
             this.abilityAdapter.gameObject.SetActive(true);
@@ -121,7 +126,7 @@
                 abilityUIPresenter.UpdateSelectedId(abilityId);
             }
         }
-        
+
         private void SetSkin()
         {
             var id            = this.model.ElementId;

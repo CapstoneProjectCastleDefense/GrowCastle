@@ -10,6 +10,6 @@ Hassan,Hassan,Attack,WizardEvol_1,rasen_shuriken_skill|skill,ninja_SkeletonData,
 Arise,Arise,Summon,KnightEvol_1,skeleton_army|atk,rise_SkeletonData,Hero,"ShadowLord,DarknessArise",none|atk
 MoonShadow,MoonShadow,Attack,WizardEvol_1,death_scythe|skill,moon and night_SkeletonData,Hero,"PiercingScythe,BloodScythe",wizard_normal_attack|skill
 Storm,HeroStorm,Attack,WizardEvol_1,golden_thunder_skill|skill,storm_SkeletonData,Hero,"ForesightPassiveSkill,ObscurePassiveSkill",wizard_normal_attack|skill
-Worm,TowerWorm,Attack,XelNaga_Evol,WormNormalAttack|atk,worm_SkeletonData,Tower,,WormNormalAttack|atk
-GoldenStatue,GoldenStatue,Attack,XelNaga_Evol,GoldenStatueSkill|idle,golden chalice_SkeletonData,Tower,,GoldenStatueSkill|idle
-LifeTree,LifeTree,Attack,XelNaga_Evol,LifeTreeSkill|idle,tree_SkeletonData,Tower,,LifeTreeSkill|idle
+Worm,TowerWorm,Attack,Worm_evolve_1,WormNormalAttack|atk,worm_SkeletonData,Tower,,WormNormalAttack|atk
+GoldenStatue,GoldenStatue,Attack,GoldenStatue_evolve_1,GoldenStatueSkill|idle,golden chalice_SkeletonData,Tower,,GoldenStatueSkill|idle
+LifeTree,LifeTree,Attack,LifeTreeSkill_evolve_1,LifeTreeSkill|idle,tree_SkeletonData,Tower,,LifeTreeSkill|idle

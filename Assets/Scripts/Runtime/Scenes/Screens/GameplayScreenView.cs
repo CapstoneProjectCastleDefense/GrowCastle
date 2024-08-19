@@ -98,20 +98,22 @@
 
         private Vector3 bottomPos;
         private Vector3 midPos;
+
         public GameplayScreenPresenter(
-            SignalBus signalBus,
-            GameStateMachine gameStateMachine,
-            CastleManager castleManager,
-            ArcherManager archerManager,
+            SignalBus                   signalBus,
+            GameStateMachine            gameStateMachine,
+            CastleManager               castleManager,
+            ArcherManager               archerManager,
             ResourceLocalDataController resourceLocalDataController,
-            ScreenManager screenManager,
-            LevelLocalDataController levelLocalDataController,
-            CastleLocalDataController castleLocalDataController,
-            ArcherLocalDataController archerLocalDataController,
-            UserLocalDataController userLocalDataController,
-            FeatureLocalDataController featureLocalDataController,
-            EnemyManager enemyManager,
-            ToastController toastController)
+            ScreenManager               screenManager,
+            LevelLocalDataController    levelLocalDataController,
+            CastleLocalDataController   castleLocalDataController,
+            ArcherLocalDataController   archerLocalDataController,
+            UserLocalDataController     userLocalDataController,
+            FeatureLocalDataController  featureLocalDataController,
+            EnemyManager                enemyManager,
+            ToastController             toastController
+        )
             : base(signalBus)
         {
             this.gameStateMachine            = gameStateMachine;
@@ -172,6 +174,7 @@
         }
 
         private void ShowComingSoon() { this.toastController.ShowToast("Feature is coming soon"); }
+
         private void OnSpeedupClick()
         {
             var currentTimeSpeed = Time.timeScale;
@@ -182,6 +185,7 @@
         #region Feature
 
         private void UpdateTextValue(int value) { this.View.waveValue.text = $"Level {value}"; }
+
         private void OnQuestFeatureUnlock(int value)
         {
             if (this.featureLocalDataController.CheckFeatureIsUnlock(FeatureName.Quest, value))
@@ -205,13 +209,20 @@
             Debug.Log("settings_btn_clicked");
             await this.screenManager.OpenScreen<SettingScreenPresenter>();
         }
-        private async void OnDungeonBtnClick()            { await this.screenManager.OpenScreen<DungeonSelectLevelPopupPresenter>(); }
-        private async void OnChestBtnClick()              { await this.screenManager.OpenScreen<ChestPopupPresenter>(); }
-        private async void OnQuestBtnClick()              { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
-        private       void OnInventoryBtnClick()          { this.screenManager.OpenScreen<ItemInventoryPopupPresenter, ItemInventoryPopupModel>(new(null, null, null)).Forget(); }
-        private async void OnTalentBtnClick()             { await this.screenManager.OpenScreen<TalentPopupPresenter>(); }
-        private       void OnUserExpUpdate(float value)   { this.View.userExpBar.DOFillAmount(value / this.resourceLocalDataController.GetCurrentTargetExpToLevelUp(), 0.1f); }
-        private       void OnUserLevelUpdate(float value) { this.View.userLevelValue.text = $"Level {value}"; }
+
+        private async void OnDungeonBtnClick() { await this.screenManager.OpenScreen<DungeonSelectLevelPopupPresenter>(); }
+
+        private async void OnChestBtnClick() { await this.screenManager.OpenScreen<ChestPopupPresenter>(); }
+
+        private async void OnQuestBtnClick() { await this.screenManager.OpenScreen<QuestPopupPresenter>(); }
+
+        private void OnInventoryBtnClick() { this.screenManager.OpenScreen<ItemInventoryPopupPresenter, ItemInventoryPopupModel>(new(null, null, null)).Forget(); }
+
+        private async void OnTalentBtnClick() { await this.screenManager.OpenScreen<TalentPopupPresenter>(); }
+
+        private void OnUserExpUpdate(float value) { this.View.userExpBar.DOFillAmount(value / this.resourceLocalDataController.GetCurrentTargetExpToLevelUp(), 0.1f); }
+
+        private void OnUserLevelUpdate(float value) { this.View.userLevelValue.text = $"Level {value}"; }
 
         private void OnCastleStatChange(UpdateCastleStatSignal signal)
         {
@@ -233,6 +244,7 @@
             this.View.archerCoinUpgradeValue.text = this.archerLocalDataController.GetGoldNeedToUpgrade().ToString(CultureInfo.InvariantCulture);
             this.View.archerCurrentLevel.text     = this.archerLocalDataController.GetCurrentUpgradeLevel().ToString();
         }
+
         private async void OnDailyRewardClick() { await this.screenManager.OpenScreen<DailyRewardPopupPresenter>(); }
 
         private void OnStartWaveButtonClick()
@@ -251,15 +263,18 @@
             {
                 case GamePrepareState:
                     this.DoPrepareStateAnim(1f);
+
                     return;
                 case GameStartWaveState:
                     this.DoStartWaveAnim(1f);
                     this.View.speedRunX2.gameObject.SetActive(true);
+
                     break;
                 case GameDungeonModeState:
                     this.DoStartWaveAnim(1f);
                     this.View.waveIndicator.SetActive(false);
                     this.View.speedRunX2.gameObject.SetActive(true);
+
                     break;
             }
         }
@@ -278,10 +293,9 @@
                 this.gameStateMachine.TransitionTo<GameDungeonModeEndState>();
             }
 
-            this.View.bossHealthBar.DOFillAmount(bossHealth / this.enemyManager.MaxBossHealth, 0.01f);
-            this.View.bossHealthValue.text = $"{bossHealth} / {this.enemyManager.MaxBossHealth}";
+            this.View.bossHealthBar.DOFillAmount(bossHealth * 1.0f / this.enemyManager.MaxBossHealth, 0.01f);
+            this.View.bossHealthValue.text = $"{Math.Round(bossHealth, 0)} / {this.enemyManager.MaxBossHealth}";
         }
-
 
         private void DoPrepareStateAnim(float fadeTime)
         {
@@ -297,10 +311,14 @@
             this.View.waveIndicator.SetActive(true);
         }
 
-        private void OnGoldValueChange(float value)    => this.View.goldValue.text = $"{value:F0}";
+        private void OnGoldValueChange(float value) => this.View.goldValue.text = $"{value:F0}";
+
         private void OnDiamondValueChange(float value) => this.View.diamondValue.text = $"{value:F0}";
-        private void OnCastleManaChange(float value)   => this.View.manaCurrentValue.text = $"{value:F0}";
+
+        private void OnCastleManaChange(float value) => this.View.manaCurrentValue.text = $"{value:F0}";
+
         private void OnCastleHealthChange(float value) => this.View.healthCurrentValue.text = $"{value:F0}";
+
         public override UniTask BindData()
         {
             this.View.goldValue.text              = $"{this.resourceLocalDataController.GetResource(ResourceType.Gold).Value}";
@@ -309,7 +327,11 @@
             this.View.archerCoinUpgradeValue.text = this.archerLocalDataController.GetGoldNeedToUpgrade().ToString(CultureInfo.InvariantCulture);
             this.View.timeSpeedValue.text         = "x1 speed";
             this.InitFeatureStatus();
-            UniTask.Delay(TimeSpan.FromSeconds(1)).ContinueWith(() => { this.View.backGround.DOFade(0, 3).SetEase(Ease.OutQuad); });
+            UniTask.Delay(TimeSpan.FromSeconds(1)).ContinueWith(() =>
+            {
+                this.View.backGround.DOFade(0, 3).SetEase(Ease.OutQuad);
+            });
+
             return UniTask.CompletedTask;
         }
 

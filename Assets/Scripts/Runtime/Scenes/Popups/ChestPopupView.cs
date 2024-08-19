@@ -26,11 +26,12 @@
         public GameObject      viewField;
     }
 
-    [PopupInfo(nameof(ChestPopupView))] public class ChestPopupPresenter : BasePopupPresenter<ChestPopupView>
+    [PopupInfo(nameof(ChestPopupView), isOverlay: true)] public class ChestPopupPresenter : BasePopupPresenter<ChestPopupView>
     {
         private readonly ChestLocalDataController chestLocalDataController;
         private readonly IGameAssets              gameAssets;
         private readonly ScreenManager            screenManager;
+
         public ChestPopupPresenter(SignalBus signalBus, ChestLocalDataController chestLocalDataController, IGameAssets gameAssets, ScreenManager screenManager)
             : base(signalBus)
         {
@@ -38,12 +39,14 @@
             this.gameAssets               = gameAssets;
             this.screenManager            = screenManager;
         }
+
         protected override void OnViewReady()
         {
             base.OnViewReady();
             this.View.exitBtn.onClick.AddListener(this.CloseView);
             this.SignalBus.Subscribe<OpenChestSignal>(this.OnChestLocalDataUpdate);
         }
+
         public override UniTask BindData()
         {
             this.View.viewField.transform.position = this.View.startPos.position;
@@ -62,6 +65,7 @@
                     chestView.gameObject.SetActive(false);
                 }
             });
+
             return UniTask.CompletedTask;
         }
 
@@ -75,6 +79,7 @@
             if (chestData == null || chestData.Count == 0)
             {
                 chestView.gameObject.SetActive(false);
+
                 return;
             }
 
@@ -82,13 +87,17 @@
             chestView.chestIcon.sprite = this.gameAssets.LoadAssetAsync<Sprite>(chestDataSample.ChestRecord.ChestIcon).WaitForCompletion();
             chestView.chestNumber.text = $"{chestData.Count}";
             chestView.chestButton.onClick.RemoveAllListeners();
-            chestView.chestButton.onClick.AddListener(() => { this.OpenChest(chestDataSample.ChestType); });
+            chestView.chestButton.onClick.AddListener(() =>
+            {
+                this.OpenChest(chestDataSample.ChestType);
+            });
         }
 
         private async void OpenChest(ResourceType chestType)
         {
             await this.screenManager.OpenScreen<ConfirmOpenChestPopupPresenter, ConfirmOpenChestPopupModel>(new ConfirmOpenChestPopupModel() { ChestType = chestType });
         }
+
         public override void CloseView()
         {
             this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
