@@ -20,7 +20,8 @@
             this.waveBlueprint  = waveBlueprint;
             this.signalBus      = signalBus;
         }
-        public int CurrentLevelValue => this.levelLocalData.CurrentLevel.Value;
+
+        public int CurrentLevelValue => this.levelLocalData.CurrentLevel.Value % this.levelBlueprint.Count == 0?this.levelLocalData.CurrentLevel.Value : this.levelLocalData.CurrentLevel.Value % this.levelBlueprint.Count;
 
         public int EnemyStrange => this.levelLocalData.EnemyLevel;
 
@@ -36,7 +37,6 @@
 
         public void PassCurrentWave()
         {
-
         }
 
         public void PassCurrentLevel()
@@ -44,14 +44,13 @@
             this.levelLocalData.CurrentLevel.Value++;
             if (this.levelLocalData.CurrentLevel.Value > this.levelBlueprint.Count)
             {
-                this.levelLocalData.CurrentLevel.Value = 1;
                 this.levelLocalData.EnemyLevel++;
             }
-            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.CompleteWave, Value = 1});
+            this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = QuestTriggerSignalId.CompleteWave, Value = 1 });
         }
+
         public void InitData()
         {
-
         }
     }
 }

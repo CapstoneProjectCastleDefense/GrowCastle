@@ -106,20 +106,25 @@
             {
                 case SlotType.Hero:
                     var hero = this.heroManager.CreateSingleHero(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
-                    if (!this.GetCurrentSelectedSlotModel().SlotRecord.EffectId.IsNullOrEmpty())
-                    {
-                        this.effectManager.AddEffectToTarget(hero, new ChangeStatTag(){EffectStatId = this.GetCurrentSelectedSlotModel().SlotRecord.EffectId});
-                    }
-
                     break;
                 case SlotType.Tower:
                     var tower = this.towerManager.CreateSingleTower(heroId, this.currentSelectedSlot.GetSlotView.heroPos);
-                    if (!this.GetCurrentSelectedSlotModel().SlotRecord.EffectId.IsNullOrEmpty())
-                    {
-                        this.effectManager.AddEffectToTarget(tower, new ChangeStatTag(){EffectStatId = this.GetCurrentSelectedSlotModel().SlotRecord.EffectId});
-                    }
-                    break;
+                   break;
             }
+        }
+
+        public void UpdateStatEffectForAllHero()
+        {
+            this.entities.ForEach(slot =>
+            {
+                var slotRecord      = slot.Model.SlotRecord;
+                var currentSlotData = this.slotLocalDataController.GetSlotData(slotRecord.Id);
+                if (!currentSlotData.DeployObjectId.IsNullOrEmpty())
+                {
+                    var hero = this.heroManager.entities.First(hero => hero.Model.Id.Equals(currentSlotData.DeployObjectId));
+                    this.effectManager.AddEffectToTarget(hero, new ChangeStatTag(){EffectStatId = slotRecord.EffectId});
+                }
+            });
         }
 
         public void UnEquipHero()

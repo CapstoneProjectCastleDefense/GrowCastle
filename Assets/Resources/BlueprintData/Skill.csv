@@ -1,19 +1,19 @@
 Id,Type,Mana,Cooldown,Description,Icon
 archer_normal_attack,Projectile,10,2,,
-summon_skill,Summon,25,3,Summon 2 clone last for 8 secs,summon_skill_icon
+summon_skill,Summon,30,4,Summon 3 clone last for 8 secs,summon_skill_icon
 wizard_normal_attack,Projectile,0,0,,
 fire_lighting_ball,InstantHit,10,2,Summon 2 lighting ball,
 lightning_rod,Projectile,0,0, Summon lighting rod,
-sylvan_wrath,InstantHit,30,3,Create a sword strike in the air that slows enemies,sylvan_wrath_skill_icon
+sylvan_wrath,InstantHit,35,5,Create a sword strike in the air that slows enemies,sylvan_wrath_skill_icon
 god_realm,InstantHit,25,3,"Call divine light from the sky, dealing direct damage to 10 random enemies",Veil of Shadows
 wizard_attack_skill,InstantHit,30,3,Summon a magic fire cause 300% basic damage and cause bleed and slow effect exits 1s,Blinding
-justice_sanction_skill,InstantHit,30,3,"After being Freeze, Flying Monster will be slow for 10% in 1s",justice_sanction_skill_icon
+justice_sanction_skill,InstantHit,35,5,"After being Freeze, Flying Monster will be slow for 10% in 1s",justice_sanction_skill_icon
 cursed_volley,InstantHit,30,3,"Summon 3 black magic ball from the sky and shoot down on 3 random enemies, causing a fear effect. If the enemy has less than 20% health, it will cause instant death",cursed_volley_skill_icon
-rasen_shuriken_skill,InstantHit,10,2,"Throw a Wind Shuriken into the current enemy, dealing damage to all the enemies in range",rasen_shuriken_skill_icon
-skeleton_army,Summon,25,3,Summons 2 skeletons that last 3 seconds to attack enemies,skeleton_army_icon
+rasen_shuriken_skill,InstantHit,25,2.5,"Throw a Wind Shuriken into the current enemy, dealing damage to all the enemies in range",rasen_shuriken_skill_icon
+skeleton_army,Summon,30,3,Summons 2 skeletons that last 8 seconds to attack enemies,skeleton_army_icon
 shuriken_attack,Projectile,0,0,,
-death_scythe,InstantHit,20,3,"Throwing the spinning scythe in front of the castle, enemies that touch it will take damage and have a bleeding effect for 3 seconds",death_scythe_skill_icon
-golden_thunder_skill,InstantHit,20,3,"Summon 2 golden lightning strikes to the ground, each golden lighting will create an area that deals AOE damage for the enemies",golden_thunder_skill_icon
+death_scythe,InstantHit,25,4,"Throwing the spinning scythe in front of the castle, enemies that touch it will take damage and have a bleeding effect for 3 seconds",death_scythe_skill_icon
+golden_thunder_skill,InstantHit,45,6,"Summon 2 golden lightning strikes to the ground, each golden lighting will create an area that deals AOE damage for the enemies",golden_thunder_skill_icon
 phantom_attack,Projectile,0,2,,
 GreatAdmiralPassiveSkill,Passive,0,0,Increase ATK for summoner of himself,great_admiral_skill_icon
 FightForeverPassiveSkill,Passive,0,0,Increase ATK for all Summoned troop appear on the ground currently,fight_forever_skill_icon

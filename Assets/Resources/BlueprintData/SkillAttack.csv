@@ -1,9 +1,9 @@
 Id,Level,PrefabName,Damage
 lighting_skill,1,Lighting,200
 sylvan_wrath,1,vfx-attack,150
-god_realm,1,LightningStrikeSharpTallBlue,150
-wizard_attack_skill,1,ToonRadialFireBlue,300
-cursed_volley,1,DeathArrow,400
+god_realm,1,LightningStrikeSharpTallBlue,200
+wizard_attack_skill,1,ToonRadialFireBlue,250
+cursed_volley,1,DeathArrow,300
 rasen_shuriken_skill,1,Shuriken,300
-death_scythe,1,Scythe,200
-golden_thunder_skill,1,LightningStrikeSharpPink,450
+death_scythe,1,Scythe,225
+golden_thunder_skill,1,LightningStrikeSharpPink,150

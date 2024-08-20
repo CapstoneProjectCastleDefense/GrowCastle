@@ -47,16 +47,17 @@
             {
                 this.archerLocalData.ListArcher[this.archerLocalData.CurrentUpgradeIndex].isUnlock = true;
             }
-            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.UpgradeArcher,Value = 1});
+            this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = QuestTriggerSignalId.UpgradeArcher, Value = 1 });
 
             return this.archerLocalData.ListArcher[this.archerLocalData.CurrentUpgradeIndex];
         }
 
         private int GetCurrentMaxLevelOfArcher() { return this.archerLocalData.ListArcher.Max(e => e.level); }
 
-        public float GetGoldNeedToUpgrade() { return this.archerConfigBlueprint.BaseGold * this.GetCurrentMaxLevelOfArcher() * this.archerConfigBlueprint.Coefficient; }
+        public float GetGoldNeedToUpgrade() { return this.archerConfigBlueprint.BaseGold + this.archerConfigBlueprint.BaseGold * this.GetCurrentMaxLevelOfArcher() * this.archerConfigBlueprint.Coefficient; }
 
         public int GetCurrentUpgradeLevel() { return this.archerLocalData.CurrentLevel; }
+
         public void InitData()
         {
             if (this.archerLocalData.ListArcher.Count == 0)

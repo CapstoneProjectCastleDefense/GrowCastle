@@ -78,9 +78,15 @@
 
         private void CastSkillInternal(string skillId, string animationName, ITargetable target, IEntitySkillModel skillModel)
         {
+            var duration = this.View.skeletonAnimation.AnimationState.GetCurrent(0).Animation.Duration;
             this.View.skeletonAnimation.SetAnimation(animationName, loop: false);
+            this.View.skeletonAnimation.AnimationState.TimeScale = target.GetStats().GetStat<float>(StatEnum.AttackSpeed);
             this.entitySkillSystem.CastSkill(skillId, skillModel);
-            UniTask.Delay(TimeSpan.FromSeconds(1f)).ContinueWith(() => { this.View.skeletonAnimation.SetAnimation("idle", loop: true); });
+            UniTask.Delay(TimeSpan.FromSeconds(duration)).ContinueWith(() =>
+            {
+                this.View.skeletonAnimation.SetAnimation("idle", loop: true);
+                this.View.skeletonAnimation.AnimationState.TimeScale = 1;
+            });
         }
 
         public void CastSkill(string skillId, string animationName, ITargetable target)

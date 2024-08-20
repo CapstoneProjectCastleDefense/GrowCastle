@@ -1,7 +1,7 @@
 ﻿Id,Value
 BaseMP,100
 BaseHP,500
-BaseGoldNeedToUpgrade,100
+BaseGoldNeedToUpgrade,200
 CoefficientMP,1.1
 CoefficientHP,1.1
-CoefficientGold,1.2
+CoefficientGold,0.2

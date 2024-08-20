@@ -50,6 +50,7 @@
             this.towerManager.ChangeAttackStatusOfAllTower(true);
             this.archerManager.UpdateStatAllArcher();
             this.castleManager.UpdateStatForCurrentCastle();
+            this.slotManager.UpdateStatEffectForAllHero();
         }
 
         public override void Exit() { }
