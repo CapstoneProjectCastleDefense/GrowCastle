@@ -573,6 +573,7 @@ MonoBehaviour:
   questDescription: {fileID: 8781801335788281991}
   currentValue: {fileID: 9095081047888380014}
   targetValue: {fileID: 8931922995746749013}
+  claimText: {fileID: 7610063139910236715}
   claimButton: {fileID: 7484623144858120561}
   inprogress: {fileID: 8955757469602043761}
   completedText: {fileID: 8411283200169555897}
@@ -2700,7 +2701,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2116718521540819124
 RectTransform:
   m_ObjectHideFlags: 0

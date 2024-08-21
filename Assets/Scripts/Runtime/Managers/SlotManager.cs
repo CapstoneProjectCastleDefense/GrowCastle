@@ -185,10 +185,21 @@
             }
         }
 
-        public void UpdateCurrentSelectedSlot(SlotPresenter slotPresenter) { this.currentSelectedSlot = slotPresenter; }
+        public void UpdateCurrentSelectedSlot(SlotPresenter slotPresenter)
+        {
+            this.currentSelectedSlot = slotPresenter;
+            this.entities.ForEach(e=>e.OnSlotUnSelected());
+            this.currentSelectedSlot.OnSlotSelected();
+        }
 
-        public void DeActiveAllSlot() => this.entities.ForEach(e => e.DeActiveView());
-        public void ActiveAllSlot()   => this.entities.ForEach(e => e.ActiveView());
+        public void DeActiveAllSlot() => this.entities.ForEach(e =>
+        {
+            e.DeActiveView();
+        });
+        public void ActiveAllSlot()   => this.entities.ForEach(e =>
+        {
+            e.ActiveView();
+        });
 
         public void SetActiveRayCastAllSlot(bool isActive) => this.entities.ForEach(e => e.SetActiveRayCast(isActive));
 

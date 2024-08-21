@@ -13,6 +13,7 @@
     using Runtime.Managers;
     using Spine;
     using System;
+    using DG.Tweening.Core;
     using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using Runtime.Scenes.CharacterInventory;
     using Runtime.Scenes.Popups;
@@ -36,13 +37,14 @@
         public           SlotManager             slotManager;
 
         public SlotPresenter(
-            SlotModel model,
-            ObjectPoolManager objectPoolManager,
-            IGameAssets gameAssets,
+            SlotModel               model,
+            ObjectPoolManager       objectPoolManager,
+            IGameAssets             gameAssets,
             SlotLocalDataController slotLocalDataController,
-            ScreenManager screenManager,
+            ScreenManager           screenManager,
             HeroLocalDataController heroLocalDataController,
-            HeroManager heroManager)
+            HeroManager             heroManager
+        )
             : base(model, objectPoolManager)
         {
             this.gameAssets              = gameAssets;
@@ -93,6 +95,18 @@
             }
         }
 
+        public void OnSlotSelected()
+        {
+            DOTween.Kill(this.View.image);
+            this.View.image.DOFade(0, 0.3f).SetLoops(-1, LoopType.Yoyo);
+        }
+
+        public void OnSlotUnSelected()
+        {
+            DOTween.Kill(this.View.image);
+            this.View.image.DOFade(1, 0f);
+        }
+
         public void LoadHero(IHeroPresenter heroPresenter)
         {
             //using hero
@@ -100,20 +114,22 @@
 
         public void DeActiveView()
         {
+            this.OnSlotUnSelected();
             this.View.image.DOFade(0, 0.1f);
-            this.View.image.GetComponent<BoxCollider2D>().enabled = false;
+            this.View.image.GetComponent<BoxCollider2D>().enabled =  false;
         }
+
         public void SetActiveRayCast(bool isActive)
         {
-            if(this.View==null) return;
+            if (this.View == null) return;
             this.View.image.GetComponent<BoxCollider2D>().enabled = isActive;
         }
 
         public async void ActiveView()
         {
             await UniTask.WaitUntil(() => this.View != null);
-            this.View.image.DOFade(1, 0.1f);
             this.View.image.GetComponent<BoxCollider2D>().enabled = true;
+            this.View.image.DOFade(1, 0.1f);
         }
 
         public void UnLoadHero() { }

@@ -5,6 +5,7 @@
     using DG.Tweening;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.Presenter;
     using GameFoundation.Scripts.UIModule.ScreenFlow.BaseScreen.View;
+    using GameFoundation.Scripts.UIModule.ScreenFlow.Managers;
     using GameFoundation.Scripts.Utilities.LogService;
     using GameFoundation.Scripts.Utilities.ObjectPool;
     using Models;
@@ -30,7 +31,7 @@
         public Button           CloseButton           => this.closeButton;
         public GameObject       EvolveItemUIContainer => this.evolveItemUIContainer;
         public TMP_Text         HeaderTxt             => this.headerTxt;
-        
+
         public Transform  startPos;
         public Transform  endPos;
         public GameObject viewField;
@@ -42,17 +43,22 @@
         private readonly EvolutionBlueprint evolutionBlueprint;
         private readonly ObjectPoolManager  objectPoolManager;
         private readonly DiContainer        diContainer;
+        private readonly ScreenManager      screenManager;
 
-        public ElementEvolvePopupPresenter(SignalBus signalBus,
-            ILogService logService,
+        public ElementEvolvePopupPresenter(
+            SignalBus          signalBus,
+            ILogService        logService,
             EvolutionBlueprint evolutionBlueprint,
-            ObjectPoolManager objectPoolManager,
-            DiContainer diContainer)
+            ObjectPoolManager  objectPoolManager,
+            DiContainer        diContainer,
+            ScreenManager      screenManager
+        )
             : base(signalBus, logService)
         {
             this.evolutionBlueprint = evolutionBlueprint;
             this.objectPoolManager  = objectPoolManager;
             this.diContainer        = diContainer;
+            this.screenManager      = screenManager;
         }
 
         private List<EvolveItemUI> evolveItemUIs = new();
@@ -74,7 +80,7 @@
             this.View.viewField.transform.position = this.View.startPos.position;
             this.View.viewField.transform.DOMove(this.View.endPos.position, 0.5f).SetEase(Ease.InOutQuint);
             this.View.HeaderTxt.text = $"{popupModel.ElementId}";
-            
+
             var evolutionRecord = this.evolutionBlueprint[popupModel.ElementId];
             foreach (var (level, record) in evolutionRecord.LevelToEvolutionDetailRecords)
             {
@@ -92,11 +98,12 @@
                     this.evolveItemUIs.Add(evolveItemUI);
                 }
             }
-            
+
             foreach (var evolveItemUI in this.evolveItemUIs)
             {
                 evolveItemUI.Reorder();
             }
+
             return UniTask.CompletedTask;
         }
 
@@ -110,14 +117,15 @@
             this.evolveItemUIs.Clear();
             this.BindData(this.Model);
         }
-        
+
         public override void Dispose()
         {
             base.Dispose();
             this.evolveItemUIs.ForEach(item => item.Dispose());
             this.evolveItemUIs.Clear();
         }
-        public override void CloseView()
+
+        public override async void CloseView()
         {
             this.View.viewField.transform.DOMove(this.View.startPos.position, 0.5f).SetEase(Ease.InOutQuint).onComplete += () =>
             {

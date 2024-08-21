@@ -5,7 +5,7 @@ wizard_normal_attack,Projectile,0,0,,
 fire_lighting_ball,InstantHit,10,2,Summon 2 lighting ball,
 lightning_rod,Projectile,0,0, Summon lighting rod,
 sylvan_wrath,InstantHit,35,5,Create a sword strike in the air that slows enemies,sylvan_wrath_skill_icon
-god_realm,InstantHit,25,3,"Call divine light from the sky, dealing direct damage to 10 random enemies",Veil of Shadows
+god_realm,InstantHit,25,3,"Call divine light from the sky, dealing direct damage to 10 random enemies",God Realm
 wizard_attack_skill,InstantHit,30,3,Summon a magic fire cause 300% basic damage and cause bleed and slow effect exits 1s,Blinding
 justice_sanction_skill,InstantHit,35,5,"After being Freeze, Flying Monster will be slow for 10% in 1s",justice_sanction_skill_icon
 cursed_volley,InstantHit,30,3,"Summon 3 black magic ball from the sky and shoot down on 3 random enemies, causing a fear effect. If the enemy has less than 20% health, it will cause instant death",cursed_volley_skill_icon
@@ -17,10 +17,10 @@ golden_thunder_skill,InstantHit,45,6,"Summon 2 golden lightning strikes to the g
 phantom_attack,Projectile,0,2,,
 GreatAdmiralPassiveSkill,Passive,0,0,Increase ATK for summoner of himself,great_admiral_skill_icon
 FightForeverPassiveSkill,Passive,0,0,Increase ATK for all Summoned troop appear on the ground currently,fight_forever_skill_icon
-GodApperancePassiveSkill,Passive,0,0,"For every 7 normal attack, inflict God Realm skill",
+GodApperancePassiveSkill,Passive,0,0,"For every 7 normal attack, inflict God Realm skill",God Appearance
 LightFootPassiveSkill,Passive,0,0,Increase 20% attack and each basic attack cause bleed for 1s ,light_foot_skill_icon
 DeadlyArrowPassiveSkill,Passive,0,0,"After 3 normal attacks, the 4th attack has a 80% kill the enemy instantly. If the enemy is Boss, it’s HP will drop 10%",deadly_arrow_skill_icon
-GodLightPassiveSkill,Passive,0,0,Reduce Mana needed for skill for 10 points,
+GodLightPassiveSkill,Passive,0,0,Reduce Mana needed for skill for 10 points,God Light
 TheFearPassiveSkill,Passive,0,0,"When the castle has less than 30% HP,  Shadow fletcher basic attacks have a 30% chance to cause Fear",the_fear_skill_icon
 IntimidationPassiveSkill,Passive,0,0,Freeze all current enemies on the ground for 2s,intimidation_skill_icon
 ControlGravityPassiveSkill,Passive,0,0,"After being Freeze, Ground Monster will be slow for 10% in 1s",control_gravity_skill_icon

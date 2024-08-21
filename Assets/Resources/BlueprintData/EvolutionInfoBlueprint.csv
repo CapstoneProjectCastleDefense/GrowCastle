@@ -1,36 +1,36 @@
 ﻿EvolutionId,EvolutionDescription,Abilities,Price,RequireLevel
 knight_evolve_1,"Unlock Undead Army
 ",summon_skill,10,0
-knight_evolve_2,Unlock Fight Forever,"summon_skill,FightForeverPassiveSkill",10,11
-knight_evolve_3,Unlock Great Admiral,"summon_skill,GreatAdmiralPassiveSkill",10,31
+knight_evolve_2,Unlock Fight Forever,"summon_skill,FightForeverPassiveSkill",50,11
+knight_evolve_3,Unlock Great Admiral,"summon_skill,GreatAdmiralPassiveSkill",60,21
 wizard_evolve_1,Unlock Wizard Attack Skill,wizard_attack_skill,10,0
-wizard_evolve_2,Unlock Healing Mana,"wizard_attack_skill,HealingManaPassiveSkill",10,0
-wizard_evolve_3,Unlock Healing Health,"wizard_attack_skill,HealingHealthPassiveSkill",10,0
+wizard_evolve_2,Unlock Healing Mana,"wizard_attack_skill,HealingManaPassiveSkill",100,11
+wizard_evolve_3,Unlock Healing Health,"wizard_attack_skill,HealingHealthPassiveSkill",120,21
 green_leaf_evolve_1,Unlock Sylvan Wrath,sylvan_wrath,10,0
-green_leaf_evolve_2,Unlock Elven Mark,"sylvan_wrath,HunterZonePassiveSkill",10,0
-green_leaf_evolve_3,Unlock Hunter Zone,"sylvan_wrath,ElvenMarkPassiveSkill",10,0
+green_leaf_evolve_2,Unlock Elven Mark,"sylvan_wrath,HunterZonePassiveSkill",40,12
+green_leaf_evolve_3,Unlock Hunter Zone,"sylvan_wrath,ElvenMarkPassiveSkill",50,25
 gray_mage_evolve_1,Unlock God Realm,god_realm,10,0
-gray_mage_evolve_2,Unlock God Light,"god_realm,GodLightPassiveSkill",10,0
+gray_mage_evolve_2,Unlock God Light,"god_realm,GodLightPassiveSkill",30,8
 gray_mage_evolve_3,"Unlock God Appearance
-                      ","god_realm,GodApperancePassiveSkill",10,0
+                      ","god_realm,GodApperancePassiveSkill",90,25
 shadow_evolve_1,Unlock Cursed Volley,cursed_volley,10,0
-shadow_evolve_2,Unlock Deadly arrow,"cursed_volley,DeadlyArrowPassiveSkill",10,0
-shadow_evolve_3,Unlock The Fear,"cursed_volley,TheFearPassiveSkill",10,0
+shadow_evolve_2,Unlock Deadly arrow,"cursed_volley,DeadlyArrowPassiveSkill",60,5
+shadow_evolve_3,Unlock The Fear,"cursed_volley,TheFearPassiveSkill",80,21
 judge_evolve_1,Unlock Intimidation,justice_sanction_skill,10,0
-judge_evolve_2,Unlock Control Gravity,"justice_sanction_skill,IntimidationPassiveSkill",10,0
-judge_evolve_3,Unlock Justice Sanction,"justice_sanction_skill,ControlGravityPassiveSkill",10,0
+judge_evolve_2,Unlock Control Gravity,"justice_sanction_skill,IntimidationPassiveSkill",50,10
+judge_evolve_3,Unlock Justice Sanction,"justice_sanction_skill,ControlGravityPassiveSkill",50,20
 arise_evolve_1,Unlock Skeleton Army,skeleton_army,10,0
-arise_evolve_2,Unlock Shadow Lord,"skeleton_army,ShadowLord",10,0
-arise_evolve_3,Unlock Darkness Arise,"skeleton_army,DarknessArise",10,0
+arise_evolve_2,Unlock Shadow Lord,"skeleton_army,ShadowLord",40,11
+arise_evolve_3,Unlock Darkness Arise,"skeleton_army,DarknessArise",10,18
 hassan_evolve_1,Unlock Rasen Shuriken,rasen_shuriken_skill,10,0
-hassan_evolve_2,Unlock Stealth,"rasen_shuriken_skill,StealthPassiveSkill",10,0
-hassan_evolve_3,Unlock Lightfoot,"rasen_shuriken_skill,LightFootPassiveSkill",10,0
+hassan_evolve_2,Unlock Stealth,"rasen_shuriken_skill,StealthPassiveSkill",30,7
+hassan_evolve_3,Unlock Lightfoot,"rasen_shuriken_skill,LightFootPassiveSkill",40,7
 moon_shadow_evolve_1,Unlock Death Scythe,death_scythe,10,0
-moon_shadow_evolve_2,Unlock Piercing Scythe,"death_scythe,PiercingScythe",10,0
-moon_shadow_evolve_3,Unlock Blood Scythe,"death_scythe,BloodScythe",10,0
+moon_shadow_evolve_2,Unlock Piercing Scythe,"death_scythe,PiercingScythe",60,15
+moon_shadow_evolve_3,Unlock Blood Scythe,"death_scythe,BloodScythe",70,15
 storm_evolve_1,Unlock Golden Thunder,golden_thunder_skill,10,0
-storm_evolve_2,Unlock Obscure,"golden_thunder_skill,ObscurePassiveSkill",10,0
-storm_evolve_3,Unlock Foresight,"golden_thunder_skill,ForesightPassiveSkill",10,0
+storm_evolve_2,Unlock Obscure,"golden_thunder_skill,ObscurePassiveSkill",60,10
+storm_evolve_3,Unlock Foresight,"golden_thunder_skill,ForesightPassiveSkill",100,20
 xelNaga_evolve_1,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,NagaAttack,10,0
 Worm_evolve_1,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,WormNormalAttack,10,0
 GoldenStatue_evolve_1,Unlock Foresight|Basic attacks deal 30% more damage to ranged enemies,GoldenStatueSkill,10,0

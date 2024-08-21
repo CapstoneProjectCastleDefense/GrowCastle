@@ -23,6 +23,7 @@
         public TextMeshProUGUI questDescription;
         public TextMeshProUGUI currentValue;
         public TextMeshProUGUI targetValue;
+        public TextMeshProUGUI claimText;
         public Button          claimButton;
         public GameObject      inprogress;
         public GameObject      completedText;
@@ -67,23 +68,26 @@
 
             this.View.completedText.SetActive(false);
             this.View.inprogress.SetActive(false);
-            this.View.claimButton.gameObject.SetActive(false);
+            this.View.claimText.gameObject.SetActive(false);
             switch (questData.QuestStatus)
             {
                 case QuestStatus.Claimed:
                     this.View.completedText.SetActive(true);
                     this.View.progressField.SetActive(false);
-                    this.View.claimButton.gameObject.SetActive(false);
+                    this.View.claimButton.interactable = false;
+                    this.View.claimText.gameObject.SetActive(false);
                     break;
                 case QuestStatus.Complete:
-                    this.View.claimButton.gameObject.SetActive(true);
+                    this.View.claimButton.interactable = true;
                     this.View.progressField.SetActive(true);
                     this.View.completedText.SetActive(false);
+                    this.View.claimText.gameObject.SetActive(true);
                     break;
                 case QuestStatus.Inprogress:
                     this.View.progressField.SetActive(true);
-                    this.View.claimButton.gameObject.SetActive(false);
                     this.View.completedText.SetActive(false);
+                    this.View.claimButton.interactable = false;
+                    this.View.claimText.gameObject.SetActive(false);
                     break;
                 default:
                     throw new ArgumentOutOfRangeException();
@@ -97,9 +101,10 @@
             this.View.currentValue.text      = $"{value}";
             this.View.progressBar.fillAmount = value / questRecord.TargetValue;
             if (!(Math.Abs(this.View.progressBar.fillAmount - 1) < 0.0001f)) return;
-            this.View.claimButton.gameObject.SetActive(true);
+            this.View.claimButton.interactable = true;
             this.View.progressField.SetActive(true);
             this.View.completedText.SetActive(false);
+            this.View.claimText.gameObject.SetActive(true);
         }
 
         private void OnClaimButtonClick()

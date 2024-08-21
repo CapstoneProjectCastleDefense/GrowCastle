@@ -198,10 +198,13 @@
             });
         }
 
-        private void OnEquipButtonClick()
+        private async void OnEquipButtonClick()
         {
             this.slotManager.EquipHero(this.Model.HeroRuntimeData.heroRecord.HeroId);
             this.ReBindData();
+            var screen = await this.screenManager.GetScreen<CharacterInventoryPopupPresenter>();
+            this.CloseView();
+            screen.CloseView();
         }
 
         private void OnUnEquipButtonClick()
