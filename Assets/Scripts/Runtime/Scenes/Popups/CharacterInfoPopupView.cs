@@ -130,6 +130,7 @@
 
         public override async UniTask BindData(CharacterInfoPopupModel popupModel)
         {
+            this.Model = popupModel;
             this.View.changeClassBtn.gameObject.SetActive(!popupModel.IsInfoOnly);
 
             this.View.title.text                   = popupModel.HeroRuntimeData.heroRecord.HeroId;
@@ -159,7 +160,6 @@
 
         private void UpdateView(CharacterInfoPopupModel popupModel)
         {
-            this.Model = popupModel;
 
             this.View.equipBtn.gameObject.SetActive(false);
             this.View.levelUpBtn.gameObject.SetActive(false);

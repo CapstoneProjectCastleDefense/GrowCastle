@@ -58,6 +58,7 @@
 
         private async void OnSelectButtonClick()
         {
+            this.model.heroRuntimeData = this.heroLocalDataController.GetHeroRuntimeData(this.model.heroRuntimeData.heroRecord.HeroId);
             var characterInfoModel = new CharacterInfoPopupModel(SlotType.Hero, this.model.heroRuntimeData, null);
             if (characterInfoModel.HeroRuntimeData.heroStatus == HeroStatus.Equip) characterInfoModel.HeroRuntimeData.heroStatus = HeroStatus.UnLock;
             await this.screenManager.OpenScreen<CharacterInfoPopupPresenter, CharacterInfoPopupModel>(characterInfoModel);

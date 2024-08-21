@@ -85,7 +85,7 @@
         public void UpdateQuestProgress(string questId, float value,bool isReset = false)
         {
             var questData = this.questLocalData.AllQuestData[questId];
-            if (questData.QuestStatus == QuestStatus.Complete) return;
+            if (questData.QuestStatus == QuestStatus.Complete || questData.QuestStatus == QuestStatus.Claimed) return;
             var currentQuestValue = questData.CurrentValue.Value;
             currentQuestValue = isReset ? value : currentQuestValue + value;
             if (currentQuestValue >= this.questBlueprint.GetDataById(questId).TargetValue)
