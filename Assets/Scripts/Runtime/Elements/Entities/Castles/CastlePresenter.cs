@@ -141,8 +141,9 @@
             {
                 hp = 0;
                 this.Model.SetStat(StatEnum.Health, hp);
-                this.OnDeath();
                 this.signalBus.Fire(new UpdateCastleStatSignal() { CastleStats = this.Model });
+                this.IsDead = true;
+                this.OnDeath();
                 return;
             }
 

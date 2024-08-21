@@ -22,6 +22,8 @@
         private readonly   ProjectileBlueprint projectileBlueprint;
         protected readonly EffectManager       effectManager;
 
+        protected virtual string targetLayer { get; set; } = "Enemy";
+
         public BaseProjectileSkill(
             ProjectileManager projectileManager,
             IGameAssets gameAssets,
@@ -61,7 +63,7 @@
         {
             var objHit = collider2D.gameObject;
             //todo: check target layer mask from model instead of static input
-            if (objHit.layer == LayerMask.NameToLayer("Enemy"))
+            if (objHit.layer == LayerMask.NameToLayer(this.targetLayer))
             {
                 var targetableView = objHit.GetComponentInParent<ITargetableView>();
                 if (targetableView != null &&
