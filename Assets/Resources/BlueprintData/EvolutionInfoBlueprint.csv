@@ -21,7 +21,7 @@ judge_evolve_2,Unlock Control Gravity,"justice_sanction_skill,IntimidationPassiv
 judge_evolve_3,Unlock Justice Sanction,"justice_sanction_skill,ControlGravityPassiveSkill",50,20
 arise_evolve_1,Unlock Skeleton Army,skeleton_army,10,0
 arise_evolve_2,Unlock Shadow Lord,"skeleton_army,ShadowLord",40,11
-arise_evolve_3,Unlock Darkness Arise,"skeleton_army,DarknessArise",10,18
+arise_evolve_3,Unlock Darkness Arise,"skeleton_army,DarknessArise",60,18
 hassan_evolve_1,Unlock Rasen Shuriken,rasen_shuriken_skill,10,0
 hassan_evolve_2,Unlock Stealth,"rasen_shuriken_skill,StealthPassiveSkill",30,7
 hassan_evolve_3,Unlock Lightfoot,"rasen_shuriken_skill,LightFootPassiveSkill",40,7

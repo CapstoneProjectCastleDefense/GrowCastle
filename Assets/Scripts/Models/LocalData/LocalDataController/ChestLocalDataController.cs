@@ -31,7 +31,7 @@
 
         public void InitData()
         {
-            if (this.chestLocalData.IsInit)
+            if (this.chestLocalData.ChestData != null)
             {
                 this.chestLocalData.ChestData.ForEach(chest =>
                 {
@@ -42,11 +42,11 @@
             }
 
             this.chestLocalData.ChestData = new();
-            this.chestBlueprint.ForEach(e =>
-            {
-                this.chestLocalData.ChestData.Add(new ChestData() { ChestType = e.Key, ChestRecord = e.Value });
-            });
-            this.chestLocalData.IsInit = true;
+            // this.chestBlueprint.ForEach(e =>
+            // {
+            //     this.chestLocalData.ChestData.Add(new ChestData() { ChestType = e.Key, ChestRecord = e.Value });
+            // });
+            // this.chestLocalData.IsInit = true;
         }
 
         public List<ChestData> GetAllChestLocalData() => this.chestLocalData.ChestData;
@@ -55,7 +55,7 @@
 
         public ChestData GetChestData(ResourceType chestType) => this.chestLocalData.ChestData.First(e => e.ChestType == chestType);
 
-        public void ReceiveChest(ResourceType chestType) { this.chestLocalData.ChestData.Add(new ChestData() { ChestType = chestType, ChestRecord = this.chestBlueprint.GetDataById(chestType)}); }
+        public void ReceiveChest(ResourceType chestType) { this.chestLocalData.ChestData.Add(new ChestData() { ChestType = chestType, ChestRecord = this.chestBlueprint.GetDataById(chestType) }); }
 
         public List<PoolItem> OpenChest(ResourceType chestType)
         {
@@ -74,12 +74,13 @@
                     var itemId     = item.ItemId.Split("|")[0];
                     var rarity     = item.ItemId.Split("|")[1].ToEnum<RarityEnum>();
                     var itemRecord = this.itemBlueprint.GetDataById(itemId);
-                    this.inventoryLocalDataController.AddItem(itemRecord.Id,item.Value,rarity,false,1,0,this.inventoryLocalDataController.GetStatOfItem(rarity));
+                    this.inventoryLocalDataController.AddItem(itemRecord.Id, item.Value, rarity, false, 1, 0, this.inventoryLocalDataController.GetStatOfItem(rarity));
                 }
             });
             this.chestLocalData.ChestData.Remove(chestData);
-            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = QuestTriggerSignalId.OpenChest, Value = 1});
-            this.signalBus.Fire(new QuestTriggerSignal(){TriggerSignalId = $"Open{chestType.ToString()}", Value = 1});
+            this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = QuestTriggerSignalId.OpenChest, Value = 1 });
+            this.signalBus.Fire(new QuestTriggerSignal() { TriggerSignalId = $"Open{chestType.ToString()}", Value  = 1 });
+
             return result;
         }
     }
