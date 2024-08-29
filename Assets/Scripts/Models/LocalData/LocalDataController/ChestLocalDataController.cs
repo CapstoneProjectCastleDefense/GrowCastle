@@ -42,11 +42,11 @@
             }
 
             this.chestLocalData.ChestData = new();
-            // this.chestBlueprint.ForEach(e =>
-            // {
-            //     this.chestLocalData.ChestData.Add(new ChestData() { ChestType = e.Key, ChestRecord = e.Value });
-            // });
-            // this.chestLocalData.IsInit = true;
+            this.chestBlueprint.ForEach(e =>
+            {
+                this.chestLocalData.ChestData.Add(new ChestData() { ChestType = e.Key, ChestRecord = e.Value });
+            });
+            this.chestLocalData.IsInit = true;
         }
 
         public List<ChestData> GetAllChestLocalData() => this.chestLocalData.ChestData;

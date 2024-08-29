@@ -409,6 +409,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 6649640747435076291, guid: 6bd68deb02971bb4f87c4b4715def2be,
+        type: 3}
+      propertyPath: m_Layer
+      value: 5
+      objectReference: {fileID: 0}
     - target: {fileID: 7154513794950581536, guid: 6bd68deb02971bb4f87c4b4715def2be,
         type: 3}
       propertyPath: m_AnchorMax.x
@@ -552,6 +557,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_BackGroundColor.r
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3735499147119449826, guid: 1393711bdff296049973fdd75178b739,
+        type: 3}
+      propertyPath: m_SortingLayerID
+      value: 431636365
       objectReference: {fileID: 0}
     - target: {fileID: 4002435157974185213, guid: 1393711bdff296049973fdd75178b739,
         type: 3}

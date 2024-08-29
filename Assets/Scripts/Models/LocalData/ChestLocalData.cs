@@ -9,7 +9,7 @@
 
     public class ChestLocalData : ILocalDataHaveController<ChestLocalDataController>
     {
-        public List<ChestData> ChestData = new();
+        public List<ChestData> ChestData;
         public bool            IsInit;
 
         public void Init() { }

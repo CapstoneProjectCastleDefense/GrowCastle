@@ -14,11 +14,11 @@
         [OdinSerialize] public DateTime                                          LastDate { get; set; }
         public void Init()
         {
-            this.Resource.Add(ResourceType.Gold,new(1000));
-            this.Resource.Add(ResourceType.Diamond,new(100));
-            this.Resource.Add(ResourceType.TalentPoint,new(0));
+            this.Resource.Add(ResourceType.Gold,new(100000));
+            this.Resource.Add(ResourceType.Diamond,new(10000));
+            this.Resource.Add(ResourceType.TalentPoint,new(10));
             this.Resource.Add(ResourceType.Exp,new(0));
-            this.Resource.Add(ResourceType.Ticket,new(2));
+            this.Resource.Add(ResourceType.Ticket,new(100));
             this.LastDate = DateTime.Now;
         }
     }
